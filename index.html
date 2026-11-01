@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Management Exam Prep - Lectures 2 & 3 Interactive Quiz</title>
+  <title>University Assessment Platform | منصة الاختبارات الجامعية</title>
+
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -12,1017 +13,2315 @@
       theme: {
         extend: {
           colors: {
-            brand: {
-              50: '#eef2ff',
-              100: '#e0e7ff',
-              500: '#6366f1',
-              600: '#4f46e5',
-              700: '#4338ca',
+            parchment: {
+              50: '#FAF8F5',
+              100: '#F5EFEB',
+              200: '#EFE7DE',
+              300: '#E2D5C3',
+              400: '#CBBBA3'
+            },
+            royal: {
+              gold: '#C5A059',
+              goldLight: '#E8CA72',
+              goldDark: '#9E792D',
+              deep: '#1A1815',
+              surface: '#FFFFFF',
+              charcoal: '#22201D'
             }
+          },
+          fontFamily: {
+            arabic: ['Cairo', 'sans-serif'],
+            sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+            code: ['JetBrains Mono', 'Fira Code', 'monospace']
+          },
+          boxShadow: {
+            'academic': '0 4px 20px -2px rgba(28, 25, 23, 0.06), 0 2px 6px -1px rgba(28, 25, 23, 0.04)',
+            'academic-hover': '0 12px 30px -4px rgba(197, 160, 89, 0.18), 0 4px 12px -2px rgba(28, 25, 23, 0.08)',
+            'gold-glow': '0 0 25px rgba(197, 160, 89, 0.25)'
           }
         }
       }
     }
   </script>
-  <!-- Google Fonts: Inter & Cairo -->
+
+  <!-- Google Fonts: Cairo, Plus Jakarta Sans, JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
   <!-- Canvas Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <!-- Tone.js for Web Audio Effects -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
-  
+
   <style>
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Cairo', 'Plus Jakarta Sans', sans-serif;
+      background-color: #FAF7F2;
+      color: #1A1815;
     }
-    .arabic-text {
-      font-family: 'Cairo', sans-serif;
-      direction: rtl;
+    .en-font {
+      font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     }
-    .smooth-transition {
-      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    .code-font {
+      font-family: 'JetBrains Mono', monospace;
     }
-    .custom-scroll::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
-    .custom-scroll::-webkit-scrollbar-thumb {
-      background-color: rgba(148, 163, 184, 0.4);
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F5EFEB;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #C5A059;
       border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #9E792D;
     }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white transition-colors duration-300">
 
-  <!-- Sticky Top Header -->
-  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-40">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
-      <!-- Logo / Title -->
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/20 font-black text-white text-lg">
-          M
+<body class="min-h-screen flex flex-col bg-[#FAF7F2] text-royal-deep selection:bg-royal-gold selection:text-white antialiased">
+
+  <!-- Top Announcement Bar (Live Ticker) -->
+  <div id="announcementBar" class="bg-gradient-to-r from-royal-deep via-[#2D2820] to-royal-deep text-parchment-100 text-xs py-2 px-4 border-b border-royal-gold/30">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2 overflow-hidden">
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-royal-gold text-royal-deep font-bold text-[11px] shrink-0">
+          <i class="fa-solid fa-bullhorn text-[10px]"></i>
+          <span id="txtAnnounceTag">إعلان هام</span>
+        </span>
+        <marquee id="marqueeText" class="text-xs text-parchment-200 font-medium" scrollamount="4">
+          أهلاً بكم في منصة الاختبارات الجامعية التفاعلية - تم تحديث بنك أسئلة مادة إدارة الأعمال وأمن الحاسوب بالكامل. بالتوفيق لجميع الطلاب!
+        </marquee>
+      </div>
+      <div class="flex items-center gap-3 shrink-0 text-parchment-300">
+        <span id="currentDateDisplay" class="hidden md:inline-block font-mono text-[11px]"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200/80 shadow-sm transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-4">
+      
+      <!-- Brand & University Crest (Triple-Click Secret Door) -->
+      <div class="flex items-center gap-3.5 select-none">
+        <div id="secretCrestBtn" title="🏛️ University Crest (Triple-click for Admin Access)"
+             class="w-11 h-11 rounded-2xl bg-gradient-to-br from-royal-gold to-royal-goldDark text-white flex items-center justify-center text-xl shadow-md cursor-pointer transform hover:scale-105 active:scale-95 transition-all border-2 border-white ring-2 ring-royal-gold/30">
+          <i class="fa-solid fa-building-columns"></i>
         </div>
         <div>
-          <h1 class="text-base sm:text-lg font-bold text-white tracking-tight flex items-center gap-2">
-            Management Quiz Bank
-            <span class="text-xs px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-semibold">Lectures 2 & 3</span>
-          </h1>
-          <p class="text-xs text-slate-400 hidden sm:block">61 Total Verbatim Questions • Shuffled • Hints with Arabic Explanations</p>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base sm:text-lg font-black tracking-tight text-royal-deep flex items-center gap-1.5">
+              <span>ACADEMIC</span>
+              <span class="text-royal-gold">PORTAL</span>
+            </h1>
+            <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase bg-stone-100 text-stone-600 border border-stone-200">
+              LMS 2026
+            </span>
+          </div>
+          <p id="subBrandText" class="text-[11px] text-stone-500 font-medium hidden sm:block">
+            منصة الاختبارات والتقييمات الأكاديمية الرسمية
+          </p>
         </div>
       </div>
 
-      <!-- Header Controls: Timer, Shuffle, and Audio -->
-      <div class="flex items-center gap-2 sm:gap-3">
-        <!-- Timer -->
-        <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs sm:text-sm font-mono text-slate-300 shadow-inner">
-          <svg class="w-4 h-4 text-indigo-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          <span id="timerDisplay">00:00</span>
-        </div>
-
-        <!-- Shuffle Button -->
-        <button id="shuffleBtn" class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/80 text-xs sm:text-sm font-medium smooth-transition flex items-center gap-1.5 shadow-sm" title="Reshuffle Questions">
-          <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-          <span>Shuffle 🔀</span>
+      <!-- Navigation & Controls -->
+      <div class="flex items-center gap-2.5 sm:gap-3">
+        <!-- Language Switcher -->
+        <button id="langToggleBtn" onclick="toggleLanguage()"
+                class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-stone-200 bg-parchment-50 hover:bg-parchment-100 text-xs font-bold text-stone-700 transition shadow-sm">
+          <i class="fa-solid fa-globe text-royal-gold"></i>
+          <span id="langText">English</span>
         </button>
 
-        <!-- Sound Toggle -->
-        <button id="soundToggleBtn" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 text-xs smooth-transition" title="Toggle Sound">
-          <svg id="soundIconOn" class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
-          <svg id="soundIconOff" class="w-4 h-4 text-slate-500 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z m12-2l4 4m0-4l-4 4"></path></svg>
+        <!-- Admin Dashboard Button (Visible when logged in) -->
+        <button id="headerAdminBtn" onclick="showView('admin')"
+                class="hidden flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-royal-deep text-royal-gold border border-royal-gold/40 hover:bg-stone-800 text-xs font-bold transition shadow-sm">
+          <i class="fa-solid fa-sliders"></i>
+          <span id="txtAdminBtn">لوحة الإدارة</span>
+        </button>
+
+        <!-- Return Home Button (When inside subject or quiz) -->
+        <button id="headerHomeBtn" onclick="showView('home')"
+                class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-royal-gold text-white hover:bg-royal-goldDark text-xs font-bold transition shadow-sm">
+          <i class="fa-solid fa-house"></i>
+          <span id="txtHomeBtn">الرئيسية</span>
         </button>
       </div>
+
     </div>
   </header>
 
-  <!-- Main Content Layout -->
-  <main class="flex-1 max-w-5xl w-full mx-auto p-4 sm:p-6 flex flex-col justify-between">
+  <!-- ============================================================== -->
+  <!-- VIEW 1: HOME VIEW (Student Portal - All Subjects)               -->
+  <!-- ============================================================== -->
+  <section id="viewHome" class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 transition-opacity duration-300">
     
-    <!-- Top Filter & Mode Dashboard -->
-    <div class="bg-slate-900/90 rounded-2xl p-4 sm:p-5 border border-slate-800 shadow-xl mb-6 space-y-4">
+    <!-- Hero / Welcome Banner -->
+    <div class="bg-gradient-to-br from-white via-parchment-50 to-parchment-100 border border-stone-200/90 rounded-3xl p-6 sm:p-8 mb-8 shadow-academic relative overflow-hidden">
+      <div class="absolute -left-10 -bottom-10 w-60 h-60 bg-royal-gold/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div>
+          <span class="px-3 py-1 rounded-full text-xs font-bold bg-royal-gold/15 text-royal-goldDark border border-royal-gold/30 inline-flex items-center gap-1.5 mb-3">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span id="heroBadge">الفصل الدراسي الأول • بنك التدريبات الذكية</span>
+          </span>
+          <h2 id="heroTitle" class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-royal-deep tracking-tight mb-2">
+            مرحباً بك في بوابة الاختبارات الأكاديمية
+          </h2>
+          <p id="heroDesc" class="text-sm text-stone-600 max-w-2xl leading-relaxed">
+            اختر المادة الدراسية للاطلاع على المحاضرات والبدء في خوض الاختبارات التفاعلية بنظام التصحيح الفوري أو نظام الامتحان المعتمد.
+          </p>
+        </div>
+
+        <!-- Quick Stats Card -->
+        <div class="flex items-center gap-3 bg-white/90 backdrop-blur p-3.5 rounded-2xl border border-stone-200/80 shadow-sm shrink-0">
+          <div class="text-center px-3 border-l border-stone-200 last:border-0">
+            <span id="statSubjectsCount" class="block text-2xl font-black text-royal-deep">0</span>
+            <span id="statSubjectsLabel" class="text-[11px] text-stone-500 font-semibold">المواد المسجلة</span>
+          </div>
+          <div class="text-center px-3 border-l border-stone-200 last:border-0">
+            <span id="statQuizzesCount" class="block text-2xl font-black text-royal-gold">0</span>
+            <span id="statQuizzesLabel" class="text-[11px] text-stone-500 font-semibold">الاختبارات المتاحة</span>
+          </div>
+          <div class="text-center px-3">
+            <span id="statQuestionsCount" class="block text-2xl font-black text-emerald-600">0</span>
+            <span id="statQuestionsLabel" class="text-[11px] text-stone-500 font-semibold">إجمالي الأسئلة</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subjects Grid Header -->
+    <div class="flex items-center justify-between gap-4 mb-6">
+      <div class="flex items-center gap-2.5">
+        <div class="w-2.5 h-6 rounded-full bg-royal-gold"></div>
+        <h3 id="subjectsSectionTitle" class="text-lg sm:text-xl font-bold text-royal-deep">
+          المواد الدراسية المقررة
+        </h3>
+      </div>
+      <div class="text-xs text-stone-500 font-medium">
+        <span id="txtClickToEnter">اضغط على المادة لعرض اختباراتها</span>
+      </div>
+    </div>
+
+    <!-- Subjects Cards Grid -->
+    <div id="subjectsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Injected Dynamically -->
+    </div>
+
+  </section>
+
+  <!-- ============================================================== -->
+  <!-- VIEW 2: SUBJECT VIEW (Shows Quizzes Inside Selected Subject)    -->
+  <!-- ============================================================== -->
+  <section id="viewSubject" class="hidden flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 transition-opacity duration-300">
+    
+    <!-- Subject Header & Breadcrumb -->
+    <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-2 text-xs text-stone-500">
+        <button onclick="showView('home')" class="hover:text-royal-gold font-semibold flex items-center gap-1">
+          <i class="fa-solid fa-house"></i>
+          <span id="bcHome">الرئيسية</span>
+        </button>
+        <span>/</span>
+        <span id="bcSubjectName" class="text-royal-deep font-bold">اسم المادة</span>
+      </div>
+
+      <button onclick="showView('home')" class="px-3.5 py-1.5 rounded-xl border border-stone-200 bg-white hover:bg-stone-50 text-xs font-bold text-stone-700 flex items-center gap-1.5 transition">
+        <i class="fa-solid fa-arrow-right rtl:rotate-0 ltr:rotate-180"></i>
+        <span id="txtBackToSubjects">العودة للمواد</span>
+      </button>
+    </div>
+
+    <!-- Selected Subject Banner -->
+    <div class="bg-white border border-stone-200 rounded-3xl p-6 sm:p-8 mb-8 shadow-academic flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div class="flex items-start sm:items-center gap-5">
+        <div id="subjectPageEmoji" class="w-16 h-16 rounded-3xl bg-parchment-100 border border-royal-gold/40 text-4xl flex items-center justify-center shadow-inner shrink-0">
+          📚
+        </div>
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <h2 id="subjectPageTitle" class="text-2xl sm:text-3xl font-extrabold text-royal-deep">
+              اسم المادة
+            </h2>
+            <span id="subjectPageCode" class="px-2.5 py-0.5 rounded-md text-xs font-mono font-bold bg-parchment-100 text-royal-goldDark border border-stone-200">
+              MGT101
+            </span>
+          </div>
+          <p id="subjectPageDesc" class="text-xs sm:text-sm text-stone-600 max-w-2xl leading-relaxed">
+            وصف تفصيلي للمادة المقررة والمحاضرات التابعة لها.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 self-end md:self-center shrink-0">
+        <span id="subjectPageQuizCountBadge" class="px-4 py-2 rounded-2xl bg-parchment-50 border border-stone-200 text-xs font-bold text-stone-700">
+          2 اختبار متاح
+        </span>
+      </div>
+    </div>
+
+    <!-- Quizzes List inside Subject -->
+    <div class="space-y-4">
+      <div class="flex items-center justify-between gap-4 mb-2">
+        <h3 id="quizzesSectionTitle" class="text-base sm:text-lg font-bold text-royal-deep flex items-center gap-2">
+          <i class="fa-solid fa-list-check text-royal-gold"></i>
+          <span>قائمة الاختبارات المتاحة لهذه المادة</span>
+        </h3>
+      </div>
+
+      <div id="quizzesListContainer" class="space-y-4">
+        <!-- Injected Dynamically -->
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================================== -->
+  <!-- VIEW 3: ACTIVE QUIZ VIEW (Interactive Quiz Engine)              -->
+  <!-- ============================================================== -->
+  <section id="viewQuiz" class="hidden flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-6 flex flex-col justify-between transition-opacity duration-300">
+    
+    <!-- Top Quiz Meta & Controls Bar -->
+    <div class="bg-white rounded-3xl p-5 border border-stone-200 shadow-academic mb-6 space-y-4">
       
-      <!-- Row 1: Category Filter & Quiz Mode -->
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
-        <!-- Category Filter Pills -->
-        <div class="flex flex-wrap items-center gap-1.5 bg-slate-950 p-1.5 rounded-xl border border-slate-800 text-xs font-semibold">
-          <button id="filterAll" class="filter-tab px-3 py-1.5 rounded-lg bg-indigo-600 text-white shadow-sm smooth-transition">
-            All Questions (61)
-          </button>
-          <button id="filterLec2" class="filter-tab px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 smooth-transition">
-            Lecture 2: MCQs (29)
-          </button>
-          <button id="filterLec3" class="filter-tab px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 smooth-transition">
-            Lecture 3: True / False (32)
-          </button>
+      <!-- Row 1: Quiz Title, Mode Switcher & Timer -->
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <span id="quizActiveSubjectBadge" class="text-[11px] font-bold text-royal-gold uppercase tracking-wider block mb-0.5">
+            Principles of Management
+          </span>
+          <h2 id="quizActiveTitle" class="text-lg sm:text-xl font-black text-royal-deep">
+            Lecture 2 - MCQs
+          </h2>
         </div>
 
-        <!-- Mode Toggle (Instant Practice vs Exam) -->
-        <div class="inline-flex p-1 rounded-xl bg-slate-950 border border-slate-800 text-xs font-semibold self-start md:self-auto">
-          <button id="modePractice" class="mode-tab px-3.5 py-1.5 rounded-lg bg-indigo-600 text-white shadow-sm smooth-transition">
-            Practice Mode (Instant Feedback)
-          </button>
-          <button id="modeExam" class="mode-tab px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 smooth-transition">
-            Exam Mode
+        <div class="flex items-center gap-2.5">
+          <!-- Timer -->
+          <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-parchment-50 border border-stone-200 text-xs font-mono font-bold text-stone-700 shadow-inner">
+            <i class="fa-regular fa-clock text-royal-gold animate-pulse"></i>
+            <span id="quizTimer">00:00</span>
+          </div>
+
+          <!-- Mode Toggle -->
+          <div class="inline-flex p-1 rounded-xl bg-parchment-100 border border-stone-200 text-xs font-bold">
+            <button id="btnModePractice" onclick="setQuizMode(false)" class="px-3 py-1 rounded-lg bg-royal-gold text-white shadow-sm transition">
+              تدريب فوري
+            </button>
+            <button id="btnModeExam" onclick="setQuizMode(true)" class="px-3 py-1 rounded-lg text-stone-600 hover:text-stone-900 transition">
+              امتحان
+            </button>
+          </div>
+
+          <!-- Shuffle Button -->
+          <button onclick="reshuffleActiveQuiz()" title="إعادة خلط الأسئلة" class="px-3 py-1.5 rounded-xl bg-parchment-50 hover:bg-parchment-100 border border-stone-200 text-xs font-bold text-stone-700 flex items-center gap-1 transition">
+            <i class="fa-solid fa-shuffle text-royal-gold"></i>
+            <span class="hidden sm:inline" id="txtShuffle">خلط 🔀</span>
           </button>
         </div>
       </div>
 
-      <!-- Row 2: Progress Status & Score Tracker -->
-      <div class="flex items-center justify-between text-xs sm:text-sm font-semibold text-slate-300 pt-2 border-t border-slate-800/80">
-        <div class="flex items-center gap-2">
-          <span>Question <span id="currentIdxText" class="text-indigo-400 text-base font-bold">1</span> of <span id="totalQuestionsText">61</span></span>
-          <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono" id="activeFilterBadge">All</span>
+      <!-- Row 2: Linear Progress & Counters -->
+      <div class="pt-2 border-t border-stone-100 space-y-2">
+        <div class="flex items-center justify-between text-xs font-bold text-stone-600">
+          <span>سؤال <span id="qCurrentNum" class="text-royal-gold font-extrabold text-sm">1</span> من <span id="qTotalNum">29</span></span>
+          <span id="quizScoreTracker" class="text-emerald-700 font-mono">النتيجة الحالية: 0</span>
         </div>
-        <div id="scoreBadge" class="text-emerald-400 font-mono text-sm">
-          Score: 0 / 0
+        <div class="w-full bg-stone-100 h-2 rounded-full overflow-hidden border border-stone-200/60">
+          <div id="quizProgressBar" class="bg-gradient-to-r from-royal-gold to-royal-goldDark h-full w-[5%] transition-all duration-300"></div>
         </div>
       </div>
 
-      <!-- Linear Progress Indicator -->
-      <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
-        <div id="progressBar" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 h-full w-[2%] smooth-transition"></div>
-      </div>
-
-      <!-- Row 3: Question Bubble Navigator -->
+      <!-- Row 3: Question Matrix Jump Badges -->
       <div class="pt-2">
-        <div class="flex items-center justify-between text-xs text-slate-400 mb-2">
-          <span class="font-medium">Quick Question Matrix:</span>
-          <span class="text-[11px] text-slate-500 flex items-center gap-2">
-            <span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span> Correct
-            <span class="inline-block w-2 h-2 rounded-full bg-rose-500"></span> Wrong
-            <span class="inline-block w-2 h-2 rounded-full bg-indigo-500"></span> Answered (Exam)
+        <div class="flex items-center justify-between text-[11px] text-stone-400 mb-2">
+          <span class="font-bold text-stone-600" id="txtMatrixTitle">مصفوفة الأسئلة المباشرة:</span>
+          <span class="flex items-center gap-2">
+            <span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span> صحيح
+            <span class="inline-block w-2 h-2 rounded-full bg-rose-500"></span> غير صحيح
+            <span class="inline-block w-2 h-2 rounded-full bg-royal-gold"></span> تم الحل (امتحان)
           </span>
         </div>
-        <div id="questionGrid" class="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto custom-scroll p-1 bg-slate-950/60 rounded-xl border border-slate-800/60">
-          <!-- Dynamic Pills -->
+        <div id="quizPillsMatrix" class="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto p-1 bg-parchment-50 rounded-2xl border border-stone-200/80">
+          <!-- Dynamically generated badges -->
         </div>
       </div>
 
     </div>
 
-    <!-- Active Question Container -->
-    <div id="quizContainer" class="flex-1 flex flex-col justify-between">
-      <div class="bg-slate-900 rounded-2xl p-5 sm:p-7 border border-slate-800 shadow-2xl relative mb-6">
-        
-        <!-- Header Badges -->
-        <div class="flex items-center justify-between gap-2 mb-4">
-          <div class="flex items-center gap-2">
-            <span id="lectureBadge" class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">
-              Lecture 2 • MCQ
-            </span>
-            <span id="origIdBadge" class="text-xs text-slate-400 font-mono">
-              Orig #1
-            </span>
-          </div>
-
-          <span id="statusBadge" class="text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700 hidden">
-            Answered
-          </span>
-        </div>
-
-        <!-- Question English Text -->
-        <h2 id="questionText" class="text-base sm:text-xl font-bold text-slate-100 leading-relaxed mb-6 min-h-[50px]">
-          Loading question text...
-        </h2>
-
-        <!-- Options Container -->
-        <div id="optionsContainer" class="space-y-3 mb-6">
-          <!-- Rendered dynamically -->
-        </div>
-
-        <!-- Arabic Hint & Feedback Section -->
-        <div class="pt-4 border-t border-slate-800/90 space-y-3">
-          <div class="flex items-center justify-between flex-wrap gap-2">
-            <button id="toggleHintBtn" class="flex items-center gap-2 px-3 py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs sm:text-sm font-semibold smooth-transition">
-              <span>💡 Show Arabic Hint & Translation / إظهار التلميح والترجمة</span>
-              <svg id="hintArrow" class="w-4 h-4 transform smooth-transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-            </button>
-            <div id="immediateFeedbackText" class="text-xs sm:text-sm font-bold"></div>
-          </div>
-
-          <!-- Collapsible Arabic Hint Box -->
-          <div id="hintCard" class="hidden rounded-xl bg-amber-950/25 border border-amber-500/30 p-4 text-amber-100/95 text-sm sm:text-base leading-relaxed arabic-text shadow-inner">
-            <div class="font-bold text-amber-300 mb-1 border-b border-amber-500/20 pb-1 text-sm">💡 الترجمة والشرح التفصيلي:</div>
-            <p id="hintContent" class="whitespace-pre-line"></p>
-          </div>
-        </div>
-
+    <!-- Active Question Card -->
+    <div id="quizCard" class="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200 shadow-academic relative mb-6 transition-all">
+      
+      <!-- Top Question Indicators -->
+      <div class="flex items-center justify-between gap-3 mb-4">
+        <span class="px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-parchment-100 text-royal-goldDark border border-royal-gold/30">
+          Question <span id="cardQNum">1</span>
+        </span>
+        <button onclick="toggleCardHint()" class="text-xs font-bold px-3 py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-800 border border-amber-500/30 flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-lightbulb text-amber-600"></i>
+          <span id="txtToggleHint">💡 إظهار الترجمة والتلميح بالعربي</span>
+        </button>
       </div>
 
-      <!-- Bottom Nav Controls -->
-      <div class="flex items-center justify-between gap-3">
-        <button id="prevBtn" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 text-sm font-semibold disabled:opacity-30 disabled:pointer-events-none smooth-transition flex items-center gap-2">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-          Previous
+      <!-- Question Text (English verbatim) -->
+      <h3 id="cardQText" class="text-base sm:text-xl font-bold text-royal-deep leading-relaxed mb-6 en-font text-left dir-ltr">
+        Question text loading...
+      </h3>
+
+      <!-- Arabic Hint Box (Collapsible) -->
+      <div id="cardHintBox" class="hidden mb-6 p-4 rounded-2xl bg-amber-50/80 border border-amber-200 text-amber-900 text-xs sm:text-sm leading-relaxed shadow-inner">
+        <div class="font-bold text-amber-800 mb-1 flex items-center gap-1.5">
+          <i class="fa-solid fa-language text-base"></i>
+          <span>الترجمة والشرح التوضيحي للسؤال:</span>
+        </div>
+        <p id="cardHintText" class="whitespace-pre-line text-stone-700 font-medium"></p>
+      </div>
+
+      <!-- Options Container -->
+      <div id="cardOptionsBox" class="space-y-3 mb-6">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Instant Feedback Message (Practice Mode) -->
+      <div id="cardFeedbackMsg" class="hidden p-3.5 rounded-2xl text-xs sm:text-sm font-bold border transition-all"></div>
+
+    </div>
+
+    <!-- Quiz Navigation Buttons -->
+    <div class="flex items-center justify-between gap-3">
+      <button id="btnQuizPrev" onclick="navigateQuiz(-1)" class="px-5 py-2.5 rounded-2xl border border-stone-300 bg-white hover:bg-stone-50 text-stone-700 text-xs sm:text-sm font-bold flex items-center gap-2 transition disabled:opacity-30 disabled:pointer-events-none">
+        <i class="fa-solid fa-arrow-right rtl:rotate-0 ltr:rotate-180"></i>
+        <span id="txtBtnPrev">السابق</span>
+      </button>
+
+      <div class="flex items-center gap-2">
+        <button id="btnQuizNext" onclick="navigateQuiz(1)" class="px-6 py-2.5 rounded-2xl bg-royal-gold hover:bg-royal-goldDark text-white text-xs sm:text-sm font-bold flex items-center gap-2 shadow-md transition">
+          <span id="txtBtnNext">التالي</span>
+          <i class="fa-solid fa-arrow-left rtl:rotate-0 ltr:rotate-180"></i>
         </button>
 
-        <div class="flex items-center gap-2">
-          <button id="nextBtn" class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm shadow-lg shadow-indigo-600/30 smooth-transition flex items-center gap-2">
-            Next
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-          </button>
-          
-          <button id="finishBtn" class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm shadow-lg shadow-emerald-600/30 smooth-transition flex items-center gap-2">
-            Submit Exam
-          </button>
-        </div>
+        <button id="btnQuizFinish" onclick="submitActiveQuiz()" class="hidden px-6 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold flex items-center gap-2 shadow-md transition">
+          <i class="fa-solid fa-flag-checkered"></i>
+          <span id="txtBtnFinish">إنهاء الاختبار وتسليم الإجابات</span>
+        </button>
       </div>
     </div>
 
-    <!-- Score & Review Screen -->
-    <div id="resultsScreen" class="hidden bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-800 shadow-2xl">
-      <div class="text-center max-w-lg mx-auto mb-8">
-        <div id="scoreEmoji" class="text-6xl mb-3">🎉</div>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-2">Quiz Completed!</h2>
-        <p class="text-sm text-slate-400">Review your full results and check detailed answers below.</p>
-        
-        <div class="mt-6 p-6 rounded-2xl bg-slate-950 border border-slate-800 shadow-inner">
-          <div class="text-4xl sm:text-5xl font-black text-indigo-400 mb-1" id="finalScoreVal">0 / 61</div>
-          <div class="text-base font-semibold text-slate-300" id="finalPercentage">0% Accuracy</div>
-          <div class="text-xs text-slate-400 mt-3 flex justify-center gap-5">
-            <span>⏱ Duration: <strong id="finalTime" class="text-slate-200">00:00</strong></span>
-            <span>📂 Scope: <strong id="finalScope" class="text-slate-200">All (61)</strong></span>
-          </div>
-        </div>
+    <!-- Quiz Results Screen (Hidden initially) -->
+    <div id="quizResultsScreen" class="hidden bg-white rounded-3xl p-6 sm:p-10 border border-stone-200 shadow-academic my-6 text-center max-w-4xl mx-auto w-full">
+      <div id="resultIcon" class="w-20 h-20 mx-auto rounded-3xl flex items-center justify-center text-4xl mb-4 bg-royal-gold/15 text-royal-goldDark border border-royal-gold/30">
+        🏆
+      </div>
+      <h2 id="resultHeading" class="text-2xl sm:text-3xl font-black text-royal-deep mb-2">اكتمل الاختبار بنجاح!</h2>
+      <p id="resultSubheading" class="text-xs sm:text-sm text-stone-500 mb-6">تقرير التقييم التفصيلي لنتيجتك</p>
 
-        <div class="flex flex-wrap justify-center gap-3 mt-6">
-          <button id="restartBtn" class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold shadow-lg shadow-indigo-600/30 smooth-transition flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-            Retake & Reshuffle
-          </button>
-          <button id="scrollToReviewBtn" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-semibold border border-slate-700 smooth-transition">
-            View All Answers Breakdown
-          </button>
+      <!-- Score Summary Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+        <div class="bg-parchment-50 border border-stone-200 rounded-2xl p-3.5">
+          <span class="text-[11px] text-stone-500 font-bold block" id="txtResScore">الدرجة النهائية</span>
+          <span id="resScoreText" class="text-2xl font-black text-royal-deep mt-1">0 / 0</span>
+        </div>
+        <div class="bg-parchment-50 border border-stone-200 rounded-2xl p-3.5">
+          <span class="text-[11px] text-stone-500 font-bold block" id="txtResPercent">النسبة المئوية</span>
+          <span id="resPercentText" class="text-2xl font-black text-royal-gold mt-1">0%</span>
+        </div>
+        <div class="bg-parchment-50 border border-stone-200 rounded-2xl p-3.5">
+          <span class="text-[11px] text-stone-500 font-bold block" id="txtResCorrect">الإجابات الصحيحة</span>
+          <span id="resCorrectText" class="text-2xl font-black text-emerald-600 mt-1">0</span>
+        </div>
+        <div class="bg-parchment-50 border border-stone-200 rounded-2xl p-3.5">
+          <span class="text-[11px] text-stone-500 font-bold block" id="txtResWrong">الإجابات الخاطئة</span>
+          <span id="resWrongText" class="text-2xl font-black text-rose-600 mt-1">0</span>
         </div>
       </div>
 
-      <!-- Detailed Review Container -->
-      <div id="reviewContainer" class="pt-6 border-t border-slate-800 space-y-4">
-        <h3 class="text-lg font-bold text-white mb-4">Detailed Question Breakdown & Explanations:</h3>
-        <div id="reviewList" class="space-y-4">
+      <!-- Review List -->
+      <div class="text-right mb-8">
+        <h4 class="text-sm font-bold text-royal-deep mb-3 flex items-center justify-between border-b border-stone-200 pb-2">
+          <span id="txtDetailedReviewTitle">مراجعة وتصحيح جميع الأسئلة:</span>
+          <span class="text-xs font-normal text-stone-500" id="resDurationText">⏱ المدة المستغرقة: 00:00</span>
+        </h4>
+        <div id="quizReviewList" class="space-y-4 max-h-96 overflow-y-auto pr-1">
           <!-- Injected dynamically -->
         </div>
       </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-wrap items-center justify-center gap-3">
+        <button onclick="reshuffleActiveQuiz()" class="px-6 py-2.5 rounded-2xl bg-royal-gold hover:bg-royal-goldDark text-white font-bold text-xs sm:text-sm flex items-center gap-2 shadow-md transition">
+          <i class="fa-solid fa-shuffle"></i>
+          <span id="txtRetakeShuffle">إعادة الاختبار مع لغبطة الأسئلة</span>
+        </button>
+        <button onclick="showView('subject', currentSubjectId)" class="px-5 py-2.5 rounded-2xl border border-stone-300 bg-white hover:bg-stone-50 text-stone-700 font-bold text-xs sm:text-sm transition">
+          <span id="txtBackSubjectFromRes">العودة لصفحة المادة</span>
+        </button>
+      </div>
     </div>
 
-  </main>
+  </section>
+
+  <!-- ============================================================== -->
+  <!-- VIEW 4: ADMIN DASHBOARD (Secret Portal - nashy)                -->
+  <!-- ============================================================== -->
+  <section id="viewAdmin" class="hidden flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 transition-opacity duration-300">
+    
+    <!-- Admin Top Banner -->
+    <div class="bg-royal-deep text-parchment-100 rounded-3xl p-6 sm:p-8 mb-8 border border-royal-gold/40 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div>
+        <div class="flex items-center gap-2 mb-2">
+          <span class="px-3 py-0.5 rounded-full bg-royal-gold text-royal-deep text-xs font-black uppercase">
+            Admin Master Console
+          </span>
+          <span class="text-xs text-parchment-300">وضع الإشراف والتحكم الكامل</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
+          لوحة إدارة الاختبارات والمناهج
+        </h2>
+        <p class="text-xs sm:text-sm text-parchment-300 mt-1">
+          يمكنك هنا إضافة أو تعديل أو حذف أي مادة دراسية، ولصق أي كود أسئلة يخرجه الذكاء الاصطناعي مع الاستخراج الذكي التلقائي.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2.5 shrink-0">
+        <button onclick="openAnnouncementModal()" class="px-4 py-2 rounded-2xl bg-stone-800 hover:bg-stone-700 text-royal-gold border border-royal-gold/30 text-xs font-bold transition flex items-center gap-2">
+          <i class="fa-solid fa-bullhorn"></i>
+          <span>تعديل الإشعار العام</span>
+        </button>
+        <button onclick="lockAdmin()" class="px-4 py-2 rounded-2xl bg-rose-900/60 hover:bg-rose-800 text-rose-200 border border-rose-500/40 text-xs font-bold transition flex items-center gap-1.5">
+          <i class="fa-solid fa-lock"></i>
+          <span>قفل اللوحة</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Admin Actions Row -->
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+      <div class="flex items-center gap-3">
+        <button onclick="openSubjectModal()" class="px-4 py-2.5 rounded-2xl bg-royal-gold hover:bg-royal-goldDark text-white text-xs sm:text-sm font-bold flex items-center gap-2 shadow-md transition">
+          <i class="fa-solid fa-folder-plus"></i>
+          <span>+ إضافة مادة دراسية جديدة</span>
+        </button>
+        <button onclick="openQuizModal()" class="px-4 py-2.5 rounded-2xl bg-white hover:bg-stone-50 border border-stone-300 text-stone-800 text-xs sm:text-sm font-bold flex items-center gap-2 shadow-sm transition">
+          <i class="fa-solid fa-file-circle-plus text-royal-gold"></i>
+          <span>+ إضافة اختبار جديد (المحلل الذكي)</span>
+        </button>
+      </div>
+      <div class="text-xs text-stone-500 font-mono">
+        LocalStorage Live Sync Active ⚡
+      </div>
+    </div>
+
+    <!-- Subjects Management Table / Cards -->
+    <div class="bg-white border border-stone-200 rounded-3xl p-6 shadow-academic">
+      <h3 class="text-base font-bold text-royal-deep mb-4 flex items-center gap-2">
+        <i class="fa-solid fa-book-open text-royal-gold"></i>
+        <span>المواد الحالية والاختبارات التابعة لها</span>
+      </h3>
+
+      <div id="adminSubjectsTable" class="space-y-4">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================================== -->
+  <!-- MODAL 1: SECRET PASSWORD ENTRY (Triple Click Trigger)          -->
+  <!-- ============================================================== -->
+  <div id="secretPasswordModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 sm:p-7 border border-stone-200 shadow-2xl text-center transform transition-all animate-scaleUp">
+      <div class="w-14 h-14 rounded-2xl bg-parchment-100 text-royal-goldDark text-2xl mx-auto flex items-center justify-center mb-3 border border-royal-gold/30">
+        <i class="fa-solid fa-key"></i>
+      </div>
+      <h3 class="text-lg font-black text-royal-deep mb-1">بوابة الدخول الإدارية</h3>
+      <p class="text-xs text-stone-500 mb-4">أدخل كلمة المرور الخاصة بالمشرف للوصول للوحة التحكم الكاملة</p>
+      
+      <form onsubmit="handlePasswordSubmit(event)">
+        <div class="relative mb-4">
+          <input type="password" id="adminPasswordInput" placeholder="أدخل كلمة المرور..."
+                 class="w-full px-4 py-3 rounded-2xl border border-stone-300 text-center font-mono text-sm tracking-wider focus:outline-none focus:ring-2 focus:ring-royal-gold/50 focus:border-royal-gold">
+        </div>
+        <p id="passwordError" class="text-xs text-rose-600 font-bold mb-3 hidden">
+          كلمة المرور غير صحيحة! يرجى المحاولة مرة أخرى.
+        </p>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="closePasswordModal()" class="w-1/2 py-2.5 rounded-xl border border-stone-200 text-stone-600 text-xs font-bold hover:bg-stone-50 transition">
+            إلغاء
+          </button>
+          <button type="submit" class="w-1/2 py-2.5 rounded-xl bg-royal-gold hover:bg-royal-goldDark text-white text-xs font-bold transition shadow-md">
+            دخول ⚡
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL 2: ADD / EDIT SUBJECT                                    -->
+  <!-- ============================================================== -->
+  <div id="subjectModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 border border-stone-200 shadow-2xl">
+      <h3 id="subjectModalTitle" class="text-lg font-black text-royal-deep mb-4 flex items-center gap-2">
+        <i class="fa-solid fa-folder-plus text-royal-gold"></i>
+        <span>إضافة مادة دراسية جديدة</span>
+      </h3>
+
+      <form onsubmit="handleSubjectSubmit(event)" class="space-y-4">
+        <input type="hidden" id="subModalEditId" value="">
+        
+        <div>
+          <label class="block text-xs font-bold text-stone-700 mb-1">اسم المادة الدراسية (بالعربية أو الإنجليزية):</label>
+          <input type="text" id="subModalName" oninput="autoAssignEmoji(this.value)" required placeholder="مثال: مبادئ الإدارة / Computer Security"
+                 class="w-full px-4 py-2.5 rounded-2xl border border-stone-300 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-royal-gold">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-stone-700 mb-1">كود المادة:</label>
+            <input type="text" id="subModalCode" required placeholder="مثال: MGT101 / COM207"
+                   class="w-full px-4 py-2.5 rounded-2xl border border-stone-300 text-xs font-mono uppercase focus:outline-none focus:ring-2 focus:ring-royal-gold">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-stone-700 mb-1">الإيموجي المميز للمادة:</label>
+            <input type="text" id="subModalEmoji" required value="📚"
+                   class="w-full px-4 py-2.5 rounded-2xl border border-stone-300 text-center text-lg focus:outline-none focus:ring-2 focus:ring-royal-gold">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-stone-700 mb-1">وصف المادة:</label>
+          <textarea id="subModalDesc" rows="2" placeholder="نبذة مختصرة عن المقرر والمحتوى العلمي..."
+                    class="w-full px-4 py-2.5 rounded-2xl border border-stone-300 text-xs focus:outline-none focus:ring-2 focus:ring-royal-gold"></textarea>
+        </div>
+
+        <div class="flex items-center gap-2 pt-2 border-t border-stone-200">
+          <button type="button" onclick="closeSubjectModal()" class="w-1/2 py-2.5 rounded-2xl border border-stone-200 text-stone-600 text-xs font-bold hover:bg-stone-50 transition">
+            إلغاء
+          </button>
+          <button type="submit" class="w-1/2 py-2.5 rounded-2xl bg-royal-gold hover:bg-royal-goldDark text-white text-xs font-bold transition shadow-md">
+            حفظ المادة فوراً
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL 3: ADD / EDIT QUIZ WITH REVOLUTIONARY CODE PARSER        -->
+  <!-- ============================================================== -->
+  <div id="quizEditorModal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5">
+    <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] flex flex-col border border-stone-200 shadow-2xl overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-4 bg-parchment-50 border-b border-stone-200 flex items-center justify-between gap-4 shrink-0">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-royal-gold text-white flex items-center justify-center text-sm">
+            <i class="fa-solid fa-code"></i>
+          </div>
+          <div>
+            <h3 id="quizEditorModalTitle" class="text-base font-black text-royal-deep">
+              محرر الاختبارات الذكي (Code & Live Preview)
+            </h3>
+            <p class="text-[11px] text-stone-500">الصق أي كود HTML أو JS أو JSON وسيقوم المحلل الذكي باستخراج كل الأسئلة تلقائياً</p>
+          </div>
+        </div>
+
+        <!-- Tab Switcher: الرمز (Code) vs المعاينة (Preview) -->
+        <div class="flex items-center gap-1.5 p-1 rounded-2xl bg-stone-200/80 text-xs font-bold">
+          <button id="tabBtnCode" onclick="switchEditorTab('code')" class="px-3.5 py-1.5 rounded-xl bg-white text-royal-deep shadow-sm transition flex items-center gap-1.5">
+            <i class="fa-solid fa-code text-royal-gold"></i>
+            <span>الرمز (Code)</span>
+          </button>
+          <button id="tabBtnPreview" onclick="switchEditorTab('preview')" class="px-3.5 py-1.5 rounded-xl text-stone-600 hover:text-stone-900 transition flex items-center gap-1.5">
+            <i class="fa-solid fa-eye text-emerald-600"></i>
+            <span>المعاينة (Preview)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal Body (Scrollable) -->
+      <div class="p-6 overflow-y-auto flex-1 space-y-5">
+        
+        <!-- Meta Details: Subject & Quiz Title -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-stone-700 mb-1">المادة التابع لها الاختبار:</label>
+            <select id="modalQuizSubjectSelect" class="w-full px-4 py-2.5 rounded-2xl border border-stone-300 text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-royal-gold">
+              <!-- Injected dynamically -->
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-stone-700 mb-1">عنوان الاختبار:</label>
+            <input type="text" id="modalQuizTitle" required placeholder="مثال: Lecture 2 - MCQs / Chapter 1 Security"
+                   class="w-full px-4 py-2.5 rounded-2xl border border-stone-300 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-royal-gold">
+          </div>
+        </div>
+
+        <!-- TAB 1: CODE EDITOR (VS Code Theme + Auto-Parser Engine) -->
+        <div id="tabContentCode" class="space-y-3">
+          
+          <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-stone-700">محرر الرمز الذكي:</span>
+              <span id="parserStatusBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800 border border-amber-300">
+                ⏳ بانتظار لصق الكود...
+              </span>
+            </div>
+
+            <!-- Helper Buttons -->
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="insertSampleSecurityCode()" class="px-2.5 py-1 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold transition">
+                + إدراج كود تجريبي
+              </button>
+              <button type="button" onclick="formatEditorJSON()" class="px-2.5 py-1 rounded-xl bg-parchment-100 hover:bg-parchment-200 text-royal-goldDark font-bold transition">
+                تنسيق الرمز (Format)
+              </button>
+            </div>
+          </div>
+
+          <!-- Code Input Box (VS Code Dark Theme) -->
+          <div class="rounded-2xl border-2 border-stone-800 bg-[#1E1E2E] overflow-hidden shadow-inner text-left dir-ltr">
+            <div class="px-4 py-2 bg-[#181825] border-b border-stone-800 flex items-center justify-between text-xs text-stone-400">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-rose-500/80 inline-block"></span>
+                <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
+                <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
+                <span class="ml-2 font-mono text-[11px] text-stone-300">raw_ai_code.html / questions.json</span>
+              </div>
+              <span class="font-mono text-[11px] text-royal-gold">Auto-Detector: Active</span>
+            </div>
+
+            <textarea id="modalQuizRawCode" oninput="handleCodeInput(this.value)" rows="12"
+                      placeholder="الصق هنا كود الصفحة الكامل الذي أخرجه لك الذكاء الاصطناعي (أياً كان نوعه أو تصميمه أو مصفوفته)..."
+                      class="w-full p-4 bg-[#1E1E2E] text-parchment-100 font-mono text-xs leading-relaxed focus:outline-none resize-y"></textarea>
+          </div>
+
+          <!-- Auto-Extraction Log Box -->
+          <div id="extractionSummaryCard" class="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs hidden">
+            <div class="flex items-center gap-2 font-bold mb-1">
+              <i class="fa-solid fa-circle-check text-emerald-600"></i>
+              <span id="extractionSummaryHeading">تم استخراج الأسئلة بنجاح!</span>
+            </div>
+            <p id="extractionSummaryDetails" class="text-stone-600"></p>
+          </div>
+
+        </div>
+
+        <!-- TAB 2: LIVE PREVIEW (Renders with Platform's Luxury Gold/Beige Design) -->
+        <div id="tabContentPreview" class="hidden space-y-4">
+          <div class="p-4 rounded-2xl bg-parchment-50 border border-stone-200 flex items-center justify-between">
+            <div class="text-xs">
+              <span class="font-bold text-royal-deep">معاينة واقعية مطابقة لتصميم المنصة:</span>
+              <p class="text-stone-500 mt-0.5">يتم عرض الأسئلة المستخرجة بنفس الهوية الملكية كما سيراها الطالب تماماً.</p>
+            </div>
+            <span id="previewTotalBadge" class="px-3 py-1 rounded-xl bg-royal-gold text-white font-bold text-xs">
+              0 سؤال جاهز
+            </span>
+          </div>
+
+          <div id="previewCardsContainer" class="space-y-4 max-h-[50vh] overflow-y-auto pr-1">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-6 py-4 bg-parchment-50 border-t border-stone-200 flex items-center justify-between gap-3 shrink-0">
+        <button type="button" onclick="closeQuizModal()" class="px-5 py-2.5 rounded-2xl border border-stone-200 text-stone-600 text-xs font-bold hover:bg-stone-50 transition">
+          إلغاء
+        </button>
+        <button type="button" onclick="saveQuizFromEditor()" class="px-6 py-2.5 rounded-2xl bg-royal-gold hover:bg-royal-goldDark text-white text-xs sm:text-sm font-bold shadow-md transition flex items-center gap-2">
+          <i class="fa-solid fa-floppy-disk"></i>
+          <span>حفظ ونشر الاختبار فورياً</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL 4: EDIT ANNOUNCEMENT MODAL                               -->
+  <!-- ============================================================== -->
+  <div id="announcementModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 border border-stone-200 shadow-2xl">
+      <h3 class="text-lg font-black text-royal-deep mb-3 flex items-center gap-2">
+        <i class="fa-solid fa-bullhorn text-royal-gold"></i>
+        <span>تعديل شريط الإعلانات العام</span>
+      </h3>
+      <p class="text-xs text-stone-500 mb-4">النص الذي ستكتبه هنا سيظهر مباشرة في الشريط الذهبي المتحرك أعلى المنصة لكافة الطلاب.</p>
+      
+      <form onsubmit="handleAnnouncementSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-stone-700 mb-1">نص الإعلان:</label>
+          <textarea id="modalAnnounceText" rows="3" required
+                    class="w-full px-4 py-2.5 rounded-2xl border border-stone-300 text-xs focus:outline-none focus:ring-2 focus:ring-royal-gold"></textarea>
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="closeAnnouncementModal()" class="w-1/2 py-2.5 rounded-2xl border border-stone-200 text-stone-600 text-xs font-bold hover:bg-stone-50 transition">
+            إلغاء
+          </button>
+          <button type="submit" class="w-1/2 py-2.5 rounded-2xl bg-royal-gold hover:bg-royal-goldDark text-white text-xs font-bold transition shadow-md">
+            نشر الإعلان الآن
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- Footer -->
-  <footer class="text-center py-4 text-xs text-slate-500 border-t border-slate-900">
-    Management Quiz Application • Complete Lectures 2 & 3 Coursework
+  <footer class="mt-auto py-6 border-t border-stone-200 bg-white text-stone-500 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-right">
+      <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded-lg bg-royal-gold text-white flex items-center justify-center text-xs font-bold">A</div>
+        <span class="font-bold text-royal-deep">University Assessment & Examination Portal • 2026</span>
+      </div>
+      <p class="text-[11px] text-stone-400">
+        نظام الاختبارات الموحد للجامعات • تصميم أكاديمي ملكي وتصحيح ذكي
+      </p>
+    </div>
   </footer>
 
-  <!-- Complete Javascript Application Logic -->
+  <!-- ============================================================== -->
+  <!-- JAVASCRIPT APPLICATION LOGIC & AI SMART CODE EXTRACTOR        -->
+  <!-- ============================================================== -->
   <script>
-    // ----------------------------------------------------
-    // 1. Full 61 Verbatim Questions Database
-    // ----------------------------------------------------
-    const allQuestionsRaw = [
-      // Lecture 2: Questions 1 to 29 (MCQs)
+    // --------------------------------------------------------------
+    // 1. DATA REPOSITORY & INITIAL COURSEWORK (Lectures 2, 3 & COM207)
+    // --------------------------------------------------------------
+    const DEFAULT_SUBJECTS = [
       {
-        lecture: 2,
-        origId: 1,
-        type: "mcq",
-        q: "The field of management is considered one of the most important areas related to:",
-        options: [
-          "Increasing the number of employees only.",
-          "The success of organizations and their ability to achieve their goals.",
-          "Reducing reliance on technology.",
-          "A permanently static work environment."
-        ],
-        answer: 1,
-        hint: "ترجمة السؤال: يُعتبر مجال الإدارة من أهم المجالات المرتبطة بـ:\n(a) زيادة عدد الموظفين فقط.\n(b) نجاح المؤسسات وقدرتها على تحقيق أهدافها.\n(c) تقليل الاعتماد على التكنولوجيا.\n(d) بيئة عمل راكدة وثابتة دائمًا.\n\nالشرح: الإدارة وُجدت أساساً لقيادة المؤسسة للنجاح وتحقيق الأهداف المرجوة بكفاءة."
+        id: "sub-mgmt",
+        name: "Principles of Management (مبادئ الإدارة)",
+        code: "MGT101",
+        emoji: "📊",
+        desc: "الأسس والمفاهيم الإدارية الحديثة، الوظائف الإدارية، المستويات التنظيمية، الكفاءة والفعالية.",
+        quizzes: [
+          {
+            id: "quiz-mgmt-lec2",
+            title: "Lecture 2 - MCQs (29 Questions)",
+            questions: [
+              { id: 1, q: "The field of management is considered one of the most important areas related to:", options: ["Increasing the number of employees only.", "The success of organizations and their ability to achieve their goals.", "Reducing reliance on technology.", "A permanently static work environment."], answer: 1, hint: "الترجمة: يُعتبر مجال الإدارة من أهم المجالات المرتبطة بـ:\n(b) نجاح المؤسسات وقدرتها على تحقيق أهدافها." },
+              { id: 2, q: "The environment in which organizations operate and achieve their goals is characterized by:", options: ["Constant change.", "Complete stability and stagnation.", "Decline and disappearance.", "Simplicity and a lack of complexity."], answer: 0, hint: "الترجمة: تتميز البيئة التي تعمل فيها المؤسسات وتحقق أهدافها بـ:\n(a) التغير المستمر (Constant change)." },
+              { id: 3, q: "The importance of management increases in direct proportion to:", options: ["A decrease in the number of competing companies .", "Continuous developments in the business environment.", "The stability of local laws and regulations.", "A drop in overall productivity."], answer: 1, hint: "الترجمة: تزداد أهمية الإدارة طردياً مع:\n(b) التطورات المستمرة في بيئة الأعمال." },
+              { id: 4, q: "Modern management relies primarily on the following for decision-making:", options: ["Personal experience only", "Intuition and guesswork", "Data, analysis, and information", "Randomness"], answer: 2, hint: "الترجمة: تعتمد الإدارة الحديثة بشكل أساسي في اتخاذ القرارات على:\n(c) البيانات والتحليل والمعلومات (Data, analysis, and information)." },
+              { id: 5, q: "The comprehensive management process includes:", options: ["planning and organization", "Continuous direction and effective control", "Optimal resource utilization and waste reduction", "All of the above"], answer: 3, hint: "الترجمة: تشتمل العملية الإدارية الشاملة على:\n(d) كل ما سبق (All of the above)." },
+              { id: 6, q: "The primary goal of the management process is to ensure:", options: ["Complete reliance on personal experience", "Optimal resource utilization and the achievement of the best results", "Increased waste of resources", "Ceasing prior planning"], answer: 1, hint: "الترجمة: الهدف الأساسي للعملية الإدارية هو ضمان:\n(b) الاستخدام الأمثل للموارد وتحقيق أفضل النتائج." },
+              { id: 7, q: "Among the elements of the management concept is:", options: ["Prior planning", "Neglect and control", "Reliance on intuition", "Random organization"], answer: 0, hint: "الترجمة: من عناصر مفهوم الإدارة:\n(a) التخطيط المسبق (Prior planning)." },
+              { id: 8, q: "Successful management, within the limits of available resources, seeks to:", options: ["Reduce waste", "Achieve the best possible results", "Make data- decisions", "All of the above"], answer: 3, hint: "الترجمة: تسعى الإدارة الناجحة، في حدود مواردها المتاحة، إلى:\n(d) كل ما سبق (All of the above)." },
+              { id: 9, q: "What is the process that ensures a balance between efficiency, effectiveness, and performance monitoring within the organization?", options: ["Making appropriate decisions", "Performance control", "Adapting to changes", "Make data"], answer: 1, hint: "الترجمة: العملية التي تضمن التوازن بين الكفاءة والفعالية والرقابة هي:\n(b) الرقابة على الأداء (Performance control)." },
+              { id: 10, q: "Management contributes to achieving a strategic advantage for the organization over its competitors; this is known as:", options: ["Gaining a competitive advantage only", "Adapting to changes", "Coordinating employee efforts only", "Make data only"], answer: 1, hint: "الترجمة: تساهم الإدارة في تحقيق ميزة استراتيجية على المنافسين؛ وتعرف بنموذج حل المحاضرة بـ:\n(b) التكيف مع التغيرات (Adapting to changes)." },
+              { id: 11, q: "Successful management is that which achieves a balance between the interests of the various parties namely:", options: ["Employees only", "Various stakeholders", "Executive managers only", "Not make data"], answer: 1, hint: "الترجمة: الإدارة الناجحة تحقق التوازن بين مصالح:\n(b) أصحاب المصلحة المتنوعين (Various stakeholders)." },
+              { id: 12, q: "Optimal utilization of available resources means:", options: ["reducing the number of employees", "Make data", "Continuously plan", "Using material and human resources in the best possible way without waste"], answer: 3, hint: "الترجمة: الاستخدام الأمثل للموارد يعني:\n(d) استخدام الموارد المادية والبشرية بأفضل طريقة ممكنة دون هدر." },
+              { id: 13, q: "To ensure that activities do not conflict and that goals are achieved smoothly, management:", options: ["Coordinates employee efforts", "Makes random and sudden decisions", "internal work environment", "Make data"], answer: 0, hint: "الترجمة: لضمان عدم تعارض الأنشطة وتحقيق الأهداف بسلاسة تقوم الإدارة بـ:\n(a) تنسيق جهود الموظفين (Coordinates employee efforts)." },
+              { id: 14, q: "The fundamental goal of management, around which all activities revolve, is:", options: ["Increasing the number of daily working hours", "Achieving Organizational goals", "Continuously hiring new employees", "Make data"], answer: 1, hint: "الترجمة: الهدف الأساسي للإدارة هو:\n(b) تحقيق أهداف المنظمة (Achieving Organizational goals)." },
+              { id: 15, q: "Management aims to protect the organization ensure its continuity in the market by:", options: ["Ensuring stability and continuity", "Focusing solely on achieving quick, short-term profits", "Randomly changing the company's core business activity", "Make data"], answer: 0, hint: "الترجمة: تهدف الإدارة إلى حماية المنظمة وضمان استمرارها عبر:\n(a) ضمان الاستقرار والاستمرارية (Ensuring stability and continuity)." },
+              { id: 16, q: "The English phrase that accurately expresses the term \"achieving efficiency and effectiveness\" in management is:", options: ["Achieving efficiency and effectiveness", "Making suitable decisions", "Motivating and developing", "Make data"], answer: 0, hint: "الترجمة: التعبير الإنجليزي المعبر عن 'تحقيق الكفاءة والفعالية' هو:\n(a) Achieving efficiency and effectiveness." },
+              { id: 17, q: "Focusing on improving work quality while reducing the time, effort, and cost involved reflects the concept of:", options: ["Enhancing performance efficiency", "Adapting", "decisions", "Make data"], answer: 0, hint: "الترجمة: تحسين جودة العمل مع خفض الوقت والتكلفة والجهد يعكس:\n(a) تعزيز كفاءة الأداء (Enhancing performance efficiency)." },
+              { id: 18, q: "Management is responsible for encouraging employees and developing their technical and behavioral skills; this is known as:", options: ["Gaining a sustainable", "Motivating and developing human resources", "performance", "Make data"], answer: 1, hint: "الترجمة: تشجيع الموظفين وتطوير مهاراتهم يُعرف بـ:\n(b) تحفيز وتطوير الموارد البشرية (Motivating and developing human resources)." },
+              { id: 19, q: "To address daily problems and strategic challenges based on scientific principles, management must... By:", options: ["Making suitable decisions", "Postponing", "without planning", "Not Make data"], answer: 0, hint: "الترجمة: لمواجهة المشكلات اليومية والتحديات الاستراتيجية يجب على الإدارة:\n(a) اتخاذ القرارات المناسبة (Making suitable decisions)." },
+              { id: 20, q: "An organization's ability to flexibly handle economic, technological, and political fluctuations means:", options: ["Resources", "Adapting to changes in the business environment", "plans", "Not Make data"], answer: 1, hint: "الترجمة: قدرة المنظمة على التعامل بمرونة مع التقلبات تعني:\n(b) التكيف مع التغيرات في بيئة الأعمال (Adapting to changes in the business environment)." },
+              { id: 21, q: "Which of the following management levels sits at the top of the management hierarchy and bears full responsibility for the organization?", options: ["Middle Management", "Top Management", "Lower/Operational Management", "None of the above"], answer: 0, hint: "ملاحظة: محددة بنموذج حل المحاضرة بـ (a) Middle Management على الرغم من أن الإدارة العليا هي المقصودة نظرياً." },
+              { id: 22, q: "The level of management that acts as a link between top management and executive/operational management is:", options: ["Middle Management", "Lower Management", "Operational Management", "Board of Directors"], answer: 0, hint: "الترجمة: المستوى الذي يمثل حلقة الوصل بين الإدارة العليا والتنفيذية هو:\n(a) الإدارة الوسطى (Middle Management)." },
+              { id: 23, q: "The focus of lower or operational management is primarily on:", options: ["strategic", "Directly supervising workers and directing daily operations", "Formulating", "decisions"], answer: 1, hint: "الترجمة: تركيز الإدارة الدنيا أو التشغيلية ينصب على:\n(b) الإشراف المباشر على العمال وتوجيه العمليات اليومية." },
+              { id: 24, q: "Which of the following falls under the \"human skills\" of a successful manager?", options: ["Planning", "Empathy, relationship building, and motivation", "Using technology", "Decision-making"], answer: 1, hint: "الترجمة: من المهارات الإنسانية للمدير الناجح:\n(b) التعاطف وبناء العلاقات والتحفيز (Empathy, relationship building, and motivation)." },
+              { id: 25, q: "The communication skills of an effective manager include four key elements: active listening, clear communication, feedback, and:", options: ["Commitment", "Coordination", "Presentation skills", "Flexibility"], answer: 2, hint: "الترجمة: عناصر مهارات الاتصال تشمل: الاستماع النشط، التواصل الواضح، التغذية الراجعة، و:\n(c) مهارات العرض والتقديم (Presentation skills)." },
+              { id: 26, q: "Planning, organizing, coordinating, and controlling are the fundamental pillars of:", options: ["technical skills", "Personal", "skills", "Managerial skills"], answer: 3, hint: "الترجمة: التخطيط والتنظيم والتنسيق والرقابة هي الركائز لـ:\n(d) المهارات الإدارية (Managerial skills)." },
+              { id: 27, q: "Which skill ensures a manager's ability to handle organizational transitions, solve problems, and innovate?", options: ["Change Management Skills", "Technical Skills", "Human Skills", "Administrative Skills"], answer: 0, hint: "الترجمة: المهارة التي تضمن قيادة التحولات التنظيمية هي:\n(a) مهارات إدارة التغيير (Change Management Skills)." },
+              { id: 28, q: "Adaptability, flexibility, and fairness represent key dimensions of:", options: ["Technical Skills", "Personal & Professional Skills", "Communication Skills", "Administrative Skills"], answer: 1, hint: "الترجمة: التكيف والمرونة والعدالة تمثل:\n(b) المهارات الشخصية والمهنية (Personal & Professional Skills)." },
+              { id: 29, q: "When an organization requires a manager to use digital skills and data analysis, it is assessing their proficiency in:", options: ["Technical Skills", "Administrative Skills", "Human Skills", "Communication Skills"], answer: 0, hint: "الترجمة: المهارات الرقمية وتحليل البيانات تندرج تحت:\n(a) المهارات الفنية والتقنية (Technical Skills)." }
+            ]
+          },
+          {
+            id: "quiz-mgmt-lec3",
+            title: "Lecture 3 - True / False (32 Questions)",
+            questions: [
+              { id: 1, q: "Management is considered a field that does not influence an organization's ability to achieve its goals.", options: ["True", "False"], answer: 1, hint: "الحكم: False (خطأ) - الإدارة هي العامل الرئيسي والمؤثر في قدرة المنظمة على تحقيق أهدافها." },
+              { id: 2, q: "The importance of management increases with the continuous developments occurring in the business environment .", options: ["True", "False"], answer: 0, hint: "الحكم: True (صح) - تزداد أهمية الإدارة طردياً مع زيادة التغيرات والتطورات." },
+              { id: 3, q: "Organizational goals are achieved within a work environment characterized by stability and a lack of change.", options: ["True", "False"], answer: 1, hint: "الحكم: False (خطأ) - بيئة العمل تتميز بالتغير الدائم والتنافسية وليس بالثبات والركود." },
+              { id: 4, q: "Modern management relies entirely on personal experience and intuition without the need... ...on data.", options: ["True", "False"], answer: 1, hint: "الحكم: False (خطأ) - تعتمد الإدارة الحديثة بشكل أساسي على البيانات والمعلومات والتحليل." },
+              { id: 5, q: "Management involves an integrated process comprising advance planning, precise organization, continuous direction, and effective control.", options: ["True", "False"], answer: 0, hint: "الحكم: True (صح) - الإدارة عملية متكاملة تشمل التخطيط والتنظيم والتوجيه والرقابة." },
+              { id: 6, q: "The concept of management aims to minimize waste and ensure the optimal utilization of resources.", options: ["True", "False"], answer: 0, hint: "الحكم: True (صح) - الإدارة تهدف لمنع الهدر واستثمار الموارد بأفضل وجه." },
+              { id: 7, q: "Modern management disregards analysis and information when making decisions.", options: ["True", "False"], answer: 1, hint: "الحكم: False (خطأ) - الإدارة الحديثة لا تتجاهل التحليل بل تبني قراراتها عليه." },
+              { id: 8, q: "Achieving the best possible results within the limits of available capabilities is accomplished through the management process.", options: ["True", "False"], answer: 0, hint: "الحكم: True (صح) - الوصول لأفضل النتائج في حدود المتاح يتم عبر الإدارة." },
+              { id: 9, q: "The \"Controlling\" function is considered the first step in the management process.", options: ["True", "False"], answer: 1, hint: "الحكم: False (خطأ) - الخطوة الأولى هي التخطيط (Planning)، والرقابة هي وظيفة المتابعة النهائية." },
+              { id: 10, q: "The \"Directing\" function involves communicating with employees and guiding them while they work.", options: ["True", "False"], answer: 0, hint: "الحكم: True (صح) - وظيفة التوجيه تتضمن التواصل المستمر مع الموظفين وإرشادهم أثناء العمل." },
+              { id: 11, q: "The primary goal of the \"Controlling\" function is to ensure that work proceeds according to established plans.", options: ["True", "False"], answer: 0, hint: "الحكم: True (صح) - هدف الرقابة هو ضمان مطابقة التنفيذ الفعلي للخطط الموضوعة." },
+              { id: 12, q: "Performance control helps measure actual results and correct deviations promptly.", options: ["True", "False"], answer: 0, hint: "الحكم: True (صح) - الرقابة تساعد في قياس النتائج ومعالجة الانحرافات أولاً بأول." },
+              { id: 13, q: "Gaining a competitive advantage means a decline in the organization's standing and lagging behind other companies in the market.", options: ["True", "False"], answer: 1, hint: "الحكم: False (خطأ) - الميزة التنافسية تعني التفوق والتقدم على الشركات المنافسة." },
+              { id: 14, q: "Modern, successful management focuses solely on serving the interests of the company's primary owner while completely ignoring the interests of other stakeholders.", options: ["True", "False"], answer: 1, hint: "الحكم: False (خطأ) - الإدارة الحديثة تحقق التوازن بين مصالح جميع أصحاب المصلحة." },
+              { id: 15, q: "Optimal utilization of available resources contributes directly to minimizing waste and reducing operational costs.", options: ["True", "False"], answer: 0, hint: "الحكم: True (صح) - الاستخدام الأمثل يخفض التكاليف التشغيلية ويمنع الهدر." },
+              { id: 16, q: "In contemporary work environments, every employee in the organization works completely independently and in isolation, with no need to coordinate employee efforts.", options: ["True", "False"], answer: 1, hint: "الحكم: False (خطأ) - تنسيق جهود الموظفين ضروري للغاية لمنع التعارض." },
+              { id: 17, q: "Achieving organizational goals of all types is the primary purpose and justification for the existence of any management.", options: ["True", "False"], answer: 0, hint: "الحكم: True (صح) - تحقيق الأهداف هو الغاية الأساسية والمبرر لوجود الإدارة." },
+              { id: 18, q: "Ensuring stability and continuity helps the organization withstand and face economic crises in the long term.", options: ["True", "False"], answer: 0, hint: "الحكم: True (صح) - الاستقرار والاستمرارية يمكنان المنظمة من الصمود أمام الأزمات." },
+              { id: 19, q: "Efficiency and effectiveness are identical terms carrying the exact same meaning in management theory.", options: ["True", "False"], answer: 1, hint: "الحكم: False (خطأ) - الكفاءة تعني أداء العمل بشكل صحيح بأقل تكلفة، بينما الفعالية تعني تحقيق الهدف المنشود." },
+              { id: 20, q: "Enhancing performance efficiency necessarily leads to higher productivity and the highest possible quality.", options: ["True", "False"], answer: 0, hint: "الحكم: True (صح) - رفع الكفاءة يقود لزيادة الإنتاجية وجودة المخرجات." },
+              { id: 21, q: "The function of executive management is limited to issuing strict orders and instructions, without the need to motivate and develop human resources.", options: ["True", "False"], answer: 1, hint: "الحكم: False (خطأ) - تحفيز وتطوير الموارد البشرية جزء أساسي من نجاح الإدارة التنفيذية." },
+              { id: 22, q: "Making suitable decisions relies primarily on gathering accurate data and conducting a logical, objective analysis of situations.", options: ["True", "False"], answer: 0, hint: "الحكم: True (صح) - القرارات السليمة تبنى على جمع البيانات الدقيقة والتحليل الموضوعي." },
+              { id: 23, q: "Sustainable and successful organizations are those that resist environmental changes and firmly refuse to adapt to changes in the business environment.", options: ["True", "False"], answer: 1, hint: "الحكم: False (خطأ) - المنظمات الناجحة هي التي تتكيف بمرونة مع التغيرات البيئية." },
+              { id: 24, q: "Management levels consist of three main tiers: top management, middle management, and executive or operational management.", options: ["True", "False"], answer: 0, hint: "الحكم: True (صح) - الهرم الإداري يتكون من ثلاثة مستويات رئيسية: عليا، وسطى، وتنفيذية." },
+              { id: 25, q: "Middle management is located at the bottom of the management hierarchy, directly below operational management.", options: ["True", "False"], answer: 1, hint: "الحكم: False (خطأ) - الإدارة الوسطى تقع في منتصف الهرم فوق الإدارة التشغيلية وأسفل العليا." },
+              { id: 26, q: "Operational or executive management (lower or operational management) represents the lowest level of management in the management hierarchy.", options: ["True", "False"], answer: 0, hint: "الحكم: True (صح) - الإدارة التشغيلية تمثل قاعدة الهرم الإداري وتشرف مباشرة على العمال." },
+              { id: 27, q: "The human skills of a successful manager include teamwork, empathy, motivation, and relationship building.", options: ["True", "False"], answer: 0, hint: "الحكم: True (صح) - المهارات الإنسانية تشمل التعاطف، التحفيز، وبناء العلاقات والعمل الجماعي." },
+              { id: 28, q: "A manager's communication skills are limited to active listening and providing feedback, without the need for presentation skills.", options: ["True", "False"], answer: 1, hint: "الحكم: False (خطأ) - مهارات العرض والتقديم (Presentation skills) عنصر أساسي من مهارات الاتصال." },
+              { id: 29, q: "Planning, organizing, coordinating, and controlling are integral parts of a manager's administrative skills.", options: ["True", "False"], answer: 0, hint: "الحكم: True (صح) - التخطيط والتنظيم والتنسيق والرقابة تمثل صلب المهارات الإدارية." },
+              { id: 30, q: "Change management skills focus solely on commitment and fairness within the organizational work environment.", options: ["True", "False"], answer: 1, hint: "الحكم: False (خطأ) - إدارة التغيير تركز على قيادة التحولات ومواجهة مقاومة التغيير وحل المشكلات." },
+              { id: 31, q: "such as adaptability, flexibility, precision, commitment, and fairness fall under the umbrella of a manager's personal and professional skills.", options: ["True", "False"], answer: 0, hint: "الحكم: True (صح) - المرونة والتكيف والعدالة تنبع من المهارات الشخصية والمهنية للمدير." },
+              { id: 32, q: "Professional knowledge, digital skills, data analysis, and the use of technology are considered technical skills essential for a successful manager.", options: ["True", "False"], answer: 0, hint: "الحكم: True (صح) - المهارات الرقمية والتقنية واستخدام التكنولوجيا تصنف كمهارات فنية." }
+            ]
+          }
+        ]
       },
       {
-        lecture: 2,
-        origId: 2,
-        type: "mcq",
-        q: "The environment in which organizations operate and achieve their goals is characterized by:",
-        options: [
-          "Constant change.",
-          "Complete stability and stagnation.",
-          "Decline and disappearance.",
-          "Simplicity and a lack of complexity."
-        ],
-        answer: 0,
-        hint: "ترجمة السؤال: تتميز البيئة التي تعمل فيها المؤسسات وتحقق أهدافها بـ:\n(a) التغير المستمر.\n(b) الاستقرار التام والركود.\n(c) التراجع والاندثار.\n(d) البساطة وغياب التعقيد.\n\nالشرح: بيئة الأعمال سريعة التغير في الأسعار، التكنولوجيا، والمنافسين."
-      },
-      {
-        lecture: 2,
-        origId: 3,
-        type: "mcq",
-        q: "The importance of management increases in direct proportion to:",
-        options: [
-          "A decrease in the number of competing companies .",
-          "Continuous developments in the business environment.",
-          "The stability of local laws and regulations.",
-          "A drop in overall productivity."
-        ],
-        answer: 1,
-        hint: "ترجمة السؤال: تزداد أهمية الإدارة طردياً مع:\n(a) انخفاض عدد الشركات المنافسة.\n(b) التطورات المستمرة في بيئة الأعمال.\n(c) ثبات القوانين واللوائح.\n(d) هبوط الإنتاجية.\n\nالشرح: كلما زادت التغيرات والتطورات السريعة، زادت الحاجة إلى إدارة واعية تقود المؤسسة."
-      },
-      {
-        lecture: 2,
-        origId: 4,
-        type: "mcq",
-        q: "Modern management relies primarily on the following for decision-making:",
-        options: [
-          "Personal experience only",
-          "Intuition and guesswork",
-          "Data, analysis, and information",
-          "Randomness"
-        ],
-        answer: 2,
-        hint: "ترجمة السؤال: تعتمد الإدارة الحديثة بشكل أساسي في اتخاذ القرارات على:\n(a) الخبرة الشخصية فقط\n(b) الحدس والتخمين\n(c) البيانات والتحليل والمعلومات\n(d) العشوائية\n\nالشرح: القرار الرشيد يُبنى على الحقائق والأرقام والتحليل وليس على التخمين."
-      },
-      {
-        lecture: 2,
-        origId: 5,
-        type: "mcq",
-        q: "The comprehensive management process includes:",
-        options: [
-          "planning and organization",
-          "Continuous direction and effective control",
-          "Optimal resource utilization and waste reduction",
-          "All of the above"
-        ],
-        answer: 3,
-        hint: "ترجمة السؤال: تشتمل العملية الإدارية الشاملة على:\n(a) التخطيط والتنظيم\n(b) التوجيه المستمر والرقابة الفعالة\n(c) الاستخدام الأمثل للموارد وتقليل الهدر\n(d) كل ما سبق\n\nالشرح: الإدارة عملية متكاملة تشمل التخطيط والتنظيم والتوجيه والرقابة وتقليل الهدر."
-      },
-      {
-        lecture: 2,
-        origId: 6,
-        type: "mcq",
-        q: "The primary goal of the management process is to ensure:",
-        options: [
-          "Complete reliance on personal experience",
-          "Optimal resource utilization and the achievement of the best results",
-          "Increased waste of resources",
-          "Ceasing prior planning"
-        ],
-        answer: 1,
-        hint: "ترجمة السؤال: الهدف الأساسي للعملية الإدارية هو ضمان:\n(a) الاعتماد الكامل على الخبرة الشخصية\n(b) الاستخدام الأمثل للموارد وتحقيق أفضل النتائج\n(c) زيادة هدر الموارد\n(d) التوقف عن التخطيط المسبق\n\nالشرح: استثمار كل مورد متاح للحصول على أعلى نتيجة بأقل فاقد."
-      },
-      {
-        lecture: 2,
-        origId: 7,
-        type: "mcq",
-        q: "Among the elements of the management concept is:",
-        options: [
-          "Prior planning",
-          "Neglect and control",
-          "Reliance on intuition",
-          "Random organization"
-        ],
-        answer: 0,
-        hint: "ترجمة السؤال: من عناصر مفهوم الإدارة:\n(a) التخطيط المسبق (Prior planning)\n(b) الإهمال والرقابة\n(c) الاعتماد على الحدس\n(d) التنظيم العشوائي\n\nالشرح: التخطيط المسبق هو أول وظيفة من وظائف الإدارة وركيزتها الأولى."
-      },
-      {
-        lecture: 2,
-        origId: 8,
-        type: "mcq",
-        q: "Successful management, within the limits of available resources, seeks to:",
-        options: [
-          "Reduce waste",
-          "Achieve the best possible results",
-          "Make data- decisions",
-          "All of the above"
-        ],
-        answer: 3,
-        hint: "ترجمة السؤال: تسعى الإدارة الناجحة، في حدود مواردها المتاحة، إلى:\n(a) تقليل الهدر\n(b) تحقيق أفضل النتائج الممكنة\n(c) اتخاذ قرارات مبنية على البيانات\n(d) كل ما سبق"
-      },
-      {
-        lecture: 2,
-        origId: 9,
-        type: "mcq",
-        q: "What is the process that ensures a balance between efficiency, effectiveness, and performance monitoring within the organization?",
-        options: [
-          "Making appropriate decisions",
-          "Performance control",
-          "Adapting to changes",
-          "Make data"
-        ],
-        answer: 1,
-        hint: "ترجمة السؤال: ما هي العملية التي تضمن التوازن بين الكفاءة والفعالية ومتابعة الأداء؟\n(b) الرقابة على الأداء (Performance control).\n\nالشرح: الرقابة تتابع التنفيذ الفعلي وتقارنه بالخطة لتصحيح الانحرافات."
-      },
-      {
-        lecture: 2,
-        origId: 10,
-        type: "mcq",
-        q: "Management contributes to achieving a strategic advantage for the organization over its competitors; this is known as:",
-        options: [
-          "Gaining a competitive advantage only",
-          "Adapting to changes",
-          "Coordinating employee efforts only",
-          "Make data only"
-        ],
-        answer: 1,
-        hint: "ترجمة السؤال: تساهم الإدارة في تحقيق ميزة استراتيجية للمؤسسة على منافسيها، ويُعرف هذا بحسب مفتاح حل المحاضرة بـ:\n(b) التكيف مع التغيرات (Adapting to changes)."
-      },
-      {
-        lecture: 2,
-        origId: 11,
-        type: "mcq",
-        q: "Successful management is that which achieves a balance between the interests of the various parties namely:",
-        options: [
-          "Employees only",
-          "Various stakeholders",
-          "Executive managers only",
-          "Not make data"
-        ],
-        answer: 1,
-        hint: "ترجمة السؤال: الإدارة الناجحة تحقق التوازن بين مصالح الأطراف المختلفة، وهم:\n(b) أصحاب المصلحة المتنوعون (Various stakeholders).\n\nالشرح: تشمل الملاك، الموظفين، الزبائن، والمجتمع ككل."
-      },
-      {
-        lecture: 2,
-        origId: 12,
-        type: "mcq",
-        q: "Optimal utilization of available resources means:",
-        options: [
-          "reducing the number of employees",
-          "Make data",
-          "Continuously plan",
-          "Using material and human resources in the best possible way without waste"
-        ],
-        answer: 3,
-        hint: "ترجمة السؤال: الاستخدام الأمثل للموارد المتاحة يعني:\n(d) استخدام الموارد المادية والبشرية بأفضل طريقة ممكنة دون هدر."
-      },
-      {
-        lecture: 2,
-        origId: 13,
-        type: "mcq",
-        q: "To ensure that activities do not conflict and that goals are achieved smoothly, management:",
-        options: [
-          "Coordinates employee efforts",
-          "Makes random and sudden decisions",
-          "internal work environment",
-          "Make data"
-        ],
-        answer: 0,
-        hint: "ترجمة السؤال: لضمان عدم تعارض الأنشطة وتحقيق الأهداف بسلاسة، تقوم الإدارة بـ:\n(a) تنسيق جهود الموظفين (Coordinates employee efforts)."
-      },
-      {
-        lecture: 2,
-        origId: 14,
-        type: "mcq",
-        q: "The fundamental goal of management, around which all activities revolve, is:",
-        options: [
-          "Increasing the number of daily working hours",
-          "Achieving Organizational goals",
-          "Continuously hiring new employees",
-          "Make data"
-        ],
-        answer: 1,
-        hint: "ترجمة السؤال: الهدف الأساسي للإدارة، والذي تدور حوله كافة الأنشطة، هو:\n(b) تحقيق أهداف المنظمة (Achieving Organizational goals)."
-      },
-      {
-        lecture: 2,
-        origId: 15,
-        type: "mcq",
-        q: "Management aims to protect the organization ensure its continuity in the market by:",
-        options: [
-          "Ensuring stability and continuity",
-          "Focusing solely on achieving quick, short-term profits",
-          "Randomly changing the company's core business activity",
-          "Make data"
-        ],
-        answer: 0,
-        hint: "ترجمة السؤال: تهدف الإدارة إلى حماية المؤسسة وضمان استمرارها في السوق من خلال:\n(a) ضمان الاستقرار والاستمرارية (Ensuring stability and continuity)."
-      },
-      {
-        lecture: 2,
-        origId: 16,
-        type: "mcq",
-        q: "The English phrase that accurately expresses the term \"achieving efficiency and effectiveness\" in management is:",
-        options: [
-          "Achieving efficiency and effectiveness",
-          "Making suitable decisions",
-          "Motivating and developing",
-          "Make data"
-        ],
-        answer: 0,
-        hint: "ترجمة السؤال: التعبير الإنجليزي المعبر بدقة عن مصطلح 'تحقيق الكفاءة والفعالية' هو:\n(a) Achieving efficiency and effectiveness."
-      },
-      {
-        lecture: 2,
-        origId: 17,
-        type: "mcq",
-        q: "Focusing on improving work quality while reducing the time, effort, and cost involved reflects the concept of:",
-        options: [
-          "Enhancing performance efficiency",
-          "Adapting",
-          "decisions",
-          "Make data"
-        ],
-        answer: 0,
-        hint: "ترجمة السؤال: التركيز على تحسين جودة العمل مع تقليل الوقت والجهد والتكلفة يعكس مفهوم:\n(a) تعزيز كفاءة الأداء (Enhancing performance efficiency)."
-      },
-      {
-        lecture: 2,
-        origId: 18,
-        type: "mcq",
-        q: "Management is responsible for encouraging employees and developing their technical and behavioral skills; this is known as:",
-        options: [
-          "Gaining a sustainable",
-          "Motivating and developing human resources",
-          "performance",
-          "Make data"
-        ],
-        answer: 1,
-        hint: "ترجمة السؤال: الإدارة مسؤولة عن تشجيع الموظفين وتطوير مهاراتهم، ويُعرف هذا بـ:\n(b) تحفيز وتطوير الموارد البشرية (Motivating and developing human resources)."
-      },
-      {
-        lecture: 2,
-        origId: 19,
-        type: "mcq",
-        q: "To address daily problems and strategic challenges based on scientific principles, management must... By:",
-        options: [
-          "Making suitable decisions",
-          "Postponing",
-          "without planning",
-          "Not Make data"
-        ],
-        answer: 0,
-        hint: "ترجمة السؤال: لمواجهة المشاكل اليومية والتحديات الاستراتيجية وفق أسس علمية، يجب على الإدارة التدخل من خلال:\n(a) اتخاذ القرارات المناسبة (Making suitable decisions)."
-      },
-      {
-        lecture: 2,
-        origId: 20,
-        type: "mcq",
-        q: "An organization's ability to flexibly handle economic, technological, and political fluctuations means:",
-        options: [
-          "Resources",
-          "Adapting to changes in the business environment",
-          "plans",
-          "Not Make data"
-        ],
-        answer: 1,
-        hint: "ترجمة السؤال: قدرة المؤسسة على التعامل بمرونة مع التقلبات الاقتصادية والسياسية تعني:\n(b) التكيف مع التغيرات في بيئة الأعمال (Adapting to changes in the business environment)."
-      },
-      {
-        lecture: 2,
-        origId: 21,
-        type: "mcq",
-        q: "Which of the following management levels sits at the top of the management hierarchy and bears full responsibility for the organization?",
-        options: [
-          "Middle Management",
-          "Top Management",
-          "Lower/Operational Management",
-          "None of the above"
-        ],
-        answer: 0,
-        hint: "ترجمة السؤال: أي المستويات الإدارية يجلس في قمة الهرم ويتحمل المسؤولية الكاملة؟\nملاحظة: مُحددة في مفتاح الإجابة الأصلي بالمحاضرة كـ (a) Middle Management على الرغم من أن الإدارة العليا هي المقصودة نظرياً."
-      },
-      {
-        lecture: 2,
-        origId: 22,
-        type: "mcq",
-        q: "The level of management that acts as a link between top management and executive/operational management is:",
-        options: [
-          "Middle Management",
-          "Lower Management",
-          "Operational Management",
-          "Board of Directors"
-        ],
-        answer: 0,
-        hint: "ترجمة السؤال: المستوى الإداري الذي يمثل حلقة الوصل بين الإدارة العليا والإدارة التنفيذية هو:\n(a) الإدارة الوسطى (Middle Management)."
-      },
-      {
-        lecture: 2,
-        origId: 23,
-        type: "mcq",
-        q: "The focus of lower or operational management is primarily on:",
-        options: [
-          "strategic",
-          "Directly supervising workers and directing daily operations",
-          "Formulating",
-          "decisions"
-        ],
-        answer: 1,
-        hint: "ترجمة السؤال: ينصب تركيز الإدارة الدنيا أو التشغيلية بشكل أساسي على:\n(b) الإشراف المباشر على العمال وتوجيه العمليات اليومية (Directly supervising workers and directing daily operations)."
-      },
-      {
-        lecture: 2,
-        origId: 24,
-        type: "mcq",
-        q: "Which of the following falls under the \"human skills\" of a successful manager?",
-        options: [
-          "Planning",
-          "Empathy, relationship building, and motivation",
-          "Using technology",
-          "Decision-making"
-        ],
-        answer: 1,
-        hint: "ترجمة السؤال: أي مما يلي يندرج تحت المهارات الإنسانية للمدير الناجح؟\n(b) التعاطف، بناء العلاقات، والتحفيز (Empathy, relationship building, and motivation)."
-      },
-      {
-        lecture: 2,
-        origId: 25,
-        type: "mcq",
-        q: "The communication skills of an effective manager include four key elements: active listening, clear communication, feedback, and:",
-        options: [
-          "Commitment",
-          "Coordination",
-          "Presentation skills",
-          "Flexibility"
-        ],
-        answer: 2,
-        hint: "ترجمة السؤال: تشمل مهارات الاتصال: الاستماع النشط، التواصل الواضح، التغذية الراجعة، و:\n(c) مهارات العرض والتقديم (Presentation skills)."
-      },
-      {
-        lecture: 2,
-        origId: 26,
-        type: "mcq",
-        q: "Planning, organizing, coordinating, and controlling are the fundamental pillars of:",
-        options: [
-          "technical skills",
-          "Personal",
-          "skills",
-          "Managerial skills"
-        ],
-        answer: 3,
-        hint: "ترجمة السؤال: التخطيط والتنظيم والتنسيق والرقابة هي الركائز الأساسية لـ:\n(d) المهارات الإدارية (Managerial skills)."
-      },
-      {
-        lecture: 2,
-        origId: 27,
-        type: "mcq",
-        q: "Which skill ensures a manager's ability to handle organizational transitions, solve problems, and innovate?",
-        options: [
-          "Change Management Skills",
-          "Technical Skills",
-          "Human Skills",
-          "Administrative Skills"
-        ],
-        answer: 0,
-        hint: "ترجمة السؤال: أي مهارة تضمن قدرة المدير على إدارة التحولات التنظيمية وحل المشكلات والابتكار؟\n(a) مهارات إدارة التغيير (Change Management Skills)."
-      },
-      {
-        lecture: 2,
-        origId: 28,
-        type: "mcq",
-        q: "Adaptability, flexibility, and fairness represent key dimensions of:",
-        options: [
-          "Technical Skills",
-          "Personal & Professional Skills",
-          "Communication Skills",
-          "Administrative Skills"
-        ],
-        answer: 1,
-        hint: "ترجمة السؤال: تمثل القدرة على التكيف، المرونة، والعدالة أبعاداً لـ:\n(b) المهارات الشخصية والمهنية (Personal & Professional Skills)."
-      },
-      {
-        lecture: 2,
-        origId: 29,
-        type: "mcq",
-        q: "When an organization requires a manager to use digital skills and data analysis, it is assessing their proficiency in:",
-        options: [
-          "Technical Skills",
-          "Administrative Skills",
-          "Human Skills",
-          "Communication Skills"
-        ],
-        answer: 0,
-        hint: "ترجمة السؤال: عندما تطلب المؤسسة من المدير مهارات رقمية وتحليل بيانات، فإنها تقيم:\n(a) المهارات الفنية والتقنية (Technical Skills)."
-      },
-
-      // Lecture 3: Questions 1 to 32 (True / False MCQs)
-      {
-        lecture: 3,
-        origId: 1,
-        type: "tf",
-        q: "Management is considered a field that does not influence an organization's ability to achieve its goals.",
-        options: ["True", "False"],
-        answer: 1, // False
-        hint: "ترجمة العبارة: تُعتبر الإدارة مجالاً لا يؤثر على قدرة المنظمة على تحقيق أهدافها.\nالحكم: خطأ (False) - بل هي العامل الحاسم في قدرة المنظمة على تحقيق أهدافها."
-      },
-      {
-        lecture: 3,
-        origId: 2,
-        type: "tf",
-        q: "The importance of management increases with the continuous developments occurring in the business environment .",
-        options: ["True", "False"],
-        answer: 0, // True
-        hint: "ترجمة العبارة: تزداد أهمية الإدارة مع التطورات المستمرة الحادثة في بيئة الأعمال.\nالحكم: صح (True) - التطورات المتسارعة تتطلب إدارة قوية للتعامل معها."
-      },
-      {
-        lecture: 3,
-        origId: 3,
-        type: "tf",
-        q: "Organizational goals are achieved within a work environment characterized by stability and a lack of change.",
-        options: ["True", "False"],
-        answer: 1, // False
-        hint: "ترجمة العبارة: تتحقق أهداف المنظمة داخل بيئة عمل تتسم بالثبات وعدم التغير.\nالحكم: خطأ (False) - بيئة العمل تتميز بالتغير الدائم والمستمر وليس الثبات."
-      },
-      {
-        lecture: 3,
-        origId: 4,
-        type: "tf",
-        q: "Modern management relies entirely on personal experience and intuition without the need... ...on data.",
-        options: ["True", "False"],
-        answer: 1, // False
-        hint: "ترجمة العبارة: تعتمد الإدارة الحديثة كلياً على الخبرة الشخصية والحدس دون الحاجة للبيانات.\nالحكم: خطأ (False) - الإدارة الحديثة تعتمد بالأساس على تحليل البيانات والمعلومات."
-      },
-      {
-        lecture: 3,
-        origId: 5,
-        type: "tf",
-        q: "Management involves an integrated process comprising advance planning, precise organization, continuous direction, and effective control.",
-        options: ["True", "False"],
-        answer: 0, // True
-        hint: "ترجمة العبارة: تتضمن الإدارة عملية متكاملة تشمل التخطيط المسبق، التنظيم الدقيق، التوجيه المستمر، والرقابة الفعالة.\nالحكم: صح (True)."
-      },
-      {
-        lecture: 3,
-        origId: 6,
-        type: "tf",
-        q: "The concept of management aims to minimize waste and ensure the optimal utilization of resources.",
-        options: ["True", "False"],
-        answer: 0, // True
-        hint: "ترجمة العبارة: يهدف مفهوم الإدارة إلى تقليل الهدر وضمان الاستخدام الأمثل للموارد.\nالحكم: صح (True)."
-      },
-      {
-        lecture: 3,
-        origId: 7,
-        type: "tf",
-        q: "Modern management disregards analysis and information when making decisions.",
-        options: ["True", "False"],
-        answer: 1, // False
-        hint: "ترجمة العبارة: تتجاهل الإدارة الحديثة التحليل والمعلومات عند اتخاذ القرارات.\nالحكم: خطأ (False) - الإدارة الحديثة تضع التحليل والمعلومات كأساس لصنع القرار."
-      },
-      {
-        lecture: 3,
-        origId: 8,
-        type: "tf",
-        q: "Achieving the best possible results within the limits of available capabilities is accomplished through the management process.",
-        options: ["True", "False"],
-        answer: 0, // True
-        hint: "ترجمة العبارة: تحقيق أفضل نتائج ممكنة في حدود الإمكانيات المتاحة يتم إنجازه عبر العملية الإدارية.\nالحكم: صح (True)."
-      },
-      {
-        lecture: 3,
-        origId: 9,
-        type: "tf",
-        q: "The \"Controlling\" function is considered the first step in the management process.",
-        options: ["True", "False"],
-        answer: 1, // False
-        hint: "ترجمة العبارة: تُعتبر وظيفة 'الرقابة' هي الخطوة الأولى في العملية الإدارية.\nالحكم: خطأ (False) - الخطوة الأولى هي التخطيط (Planning)، والرقابة هي الخطوة الأخيرة لمقارنة النتائج بالخطة."
-      },
-      {
-        lecture: 3,
-        origId: 10,
-        type: "tf",
-        q: "The \"Directing\" function involves communicating with employees and guiding them while they work.",
-        options: ["True", "False"],
-        answer: 0, // True
-        hint: "ترجمة العبارة: تشمل وظيفة 'التوجيه' التواصل مع الموظفين وإرشادهم أثناء العمل.\nالحكم: صح (True)."
-      },
-      {
-        lecture: 3,
-        origId: 11,
-        type: "tf",
-        q: "The primary goal of the \"Controlling\" function is to ensure that work proceeds according to established plans.",
-        options: ["True", "False"],
-        answer: 0, // True
-        hint: "ترجمة العبارة: الهدف الأساسي لوظيفة 'الرقابة' هو ضمان سير العمل وفقاً للخطط الموضوعة.\nالحكم: صح (True)."
-      },
-      {
-        lecture: 3,
-        origId: 12,
-        type: "tf",
-        q: "Performance control helps measure actual results and correct deviations promptly.",
-        options: ["True", "False"],
-        answer: 0, // True
-        hint: "ترجمة العبارة: الرقابة على الأداء تساعد في قياس النتائج الفعلية وتصحيح الانحرافات أولاً بأول.\nالحكم: صح (True)."
-      },
-      {
-        lecture: 3,
-        origId: 13,
-        type: "tf",
-        q: "Gaining a competitive advantage means a decline in the organization's standing and lagging behind other companies in the market.",
-        options: ["True", "False"],
-        answer: 1, // False
-        hint: "ترجمة العبارة: اكتساب الميزة التنافسية يعني تراجع مكانة الشركة وتأخرها عن منافسيها.\nالحكم: خطأ (False) - الميزة التنافسية تعني التفوق والتقدم على المنافسين في السوق."
-      },
-      {
-        lecture: 3,
-        origId: 14,
-        type: "tf",
-        q: "Modern, successful management focuses solely on serving the interests of the company's primary owner while completely ignoring the interests of other stakeholders.",
-        options: ["True", "False"],
-        answer: 1, // False
-        hint: "ترجمة العبارة: تركز الإدارة الحديثة فقط على خدمة مصالح صاحب الشركة وتتجاهل مصالح باقي أصحاب المصلحة.\nالحكم: خطأ (False) - الإدارة الحديثة توازن بين مصالح جميع الأطراف ذات الصلة (الموظفين، العملاء، المجتمع، والملاك)."
-      },
-      {
-        lecture: 3,
-        origId: 15,
-        type: "tf",
-        q: "Optimal utilization of available resources contributes directly to minimizing waste and reducing operational costs.",
-        options: ["True", "False"],
-        answer: 0, // True
-        hint: "ترجمة العبارة: الاستخدام الأمثل للموارد يساهم مباشرة في تقليل الهدر وخفض التكاليف التشغيلية.\nالحكم: صح (True)."
-      },
-      {
-        lecture: 3,
-        origId: 16,
-        type: "tf",
-        q: "In contemporary work environments, every employee in the organization works completely independently and in isolation, with no need to coordinate employee efforts.",
-        options: ["True", "False"],
-        answer: 1, // False
-        hint: "ترجمة العبارة: في بيئات العمل المعاصرة يعمل كل موظف في عزلة تامة دون حاجة لتنسيق الجهود.\nالحكم: خطأ (False) - التنسيق والعمل الجماعي ضروري لمنع التضارب وتحقيق الهدف المشترك."
-      },
-      {
-        lecture: 3,
-        origId: 17,
-        type: "tf",
-        q: "Achieving organizational goals of all types is the primary purpose and justification for the existence of any management.",
-        options: ["True", "False"],
-        answer: 0, // True
-        hint: "ترجمة العبارة: تحقيق أهداف المنظمة هو الغاية الأساسية والمبرر لوجود أي إدارة.\nالحكم: صح (True)."
-      },
-      {
-        lecture: 3,
-        origId: 18,
-        type: "tf",
-        q: "Ensuring stability and continuity helps the organization withstand and face economic crises in the long term.",
-        options: ["True", "False"],
-        answer: 0, // True
-        hint: "ترجمة العبارة: ضمان الاستقرار والاستمرارية يساعد المنظمة على الصمود في مواجهة الأزمات الاقتصادية طويلة المدى.\nالحكم: صح (True)."
-      },
-      {
-        lecture: 3,
-        origId: 19,
-        type: "tf",
-        q: "Efficiency and effectiveness are identical terms carrying the exact same meaning in management theory.",
-        options: ["True", "False"],
-        answer: 1, // False
-        hint: "ترجمة العبارة: الكفاءة (Efficiency) والفعالية (Effectiveness) هما مصطلحان متطابقان يحملان نفس المعنى تماماً.\nالحكم: خطأ (False) - الكفاءة تعني أداء العمل بالطريقة الصحيحة وبأقل تكلفة، بينما الفعالية تعني أداء العمل المناسب لتحقيق الهدف المطلوب."
-      },
-      {
-        lecture: 3,
-        origId: 20,
-        type: "tf",
-        q: "Enhancing performance efficiency necessarily leads to higher productivity and the highest possible quality.",
-        options: ["True", "False"],
-        answer: 0, // True
-        hint: "ترجمة العبارة: تعزيز كفاءة الأداء يؤدي بالضرورة لزيادة الإنتاجية وتحقيق أعلى جودة ممكنة.\nالحكم: صح (True)."
-      },
-      {
-        lecture: 3,
-        origId: 21,
-        type: "tf",
-        q: "The function of executive management is limited to issuing strict orders and instructions, without the need to motivate and develop human resources.",
-        options: ["True", "False"],
-        answer: 1, // False
-        hint: "ترجمة العبارة: تقتصر وظيفة الإدارة التنفيذية على إعطاء الأوامر الصارمة دون الحاجة لتحفيز وتطوير الموارد البشرية.\nالحكم: خطأ (False) - التحفيز والتطوير هما أساس النجاح التنفيذي."
-      },
-      {
-        lecture: 3,
-        origId: 22,
-        type: "tf",
-        q: "Making suitable decisions relies primarily on gathering accurate data and conducting a logical, objective analysis of situations.",
-        options: ["True", "False"],
-        answer: 0, // True
-        hint: "ترجمة العبارة: اتخاذ القرارات المناسبة يعتمد أساساً على جمع بيانات دقيقة وإجراء تحليل موضوعي للمواقف.\nالحكم: صح (True)."
-      },
-      {
-        lecture: 3,
-        origId: 23,
-        type: "tf",
-        q: "Sustainable and successful organizations are those that resist environmental changes and firmly refuse to adapt to changes in the business environment.",
-        options: ["True", "False"],
-        answer: 1, // False
-        hint: "ترجمة العبارة: المنظمات المستدامة والناجحة هي التي تقاوم التغيرات وترفض التكيف مع بيئة الأعمال.\nالحكم: خطأ (False) - المنظمات الناجحة هي الأكثر قدرة ومرونة على التكيف مع التغيرات."
-      },
-      {
-        lecture: 3,
-        origId: 24,
-        type: "tf",
-        q: "Management levels consist of three main tiers: top management, middle management, and executive or operational management.",
-        options: ["True", "False"],
-        answer: 0, // True
-        hint: "ترجمة العبارة: تتكون المستويات الإدارية من ثلاثة مستويات رئيسية: إدارة عليا، إدارة وسطى، وإدارة تنفيذية/تشغيلية.\nالحكم: صح (True)."
-      },
-      {
-        lecture: 3,
-        origId: 25,
-        type: "tf",
-        q: "Middle management is located at the bottom of the management hierarchy, directly below operational management.",
-        options: ["True", "False"],
-        answer: 1, // False
-        hint: "ترجمة العبارة: تقع الإدارة الوسطى في قاع الهرم الإداري أسفل الإدارة التشغيلية.\nالحكم: خطأ (False) - الإدارة الوسطى تقع في منتصف الهرم فوق الإدارة التشغيلية وأسفل الإدارة العليا."
-      },
-      {
-        lecture: 3,
-        origId: 26,
-        type: "tf",
-        q: "Operational or executive management (lower or operational management) represents the lowest level of management in the management hierarchy.",
-        options: ["True", "False"],
-        answer: 0, // True
-        hint: "ترجمة العبارة: تمثل الإدارة التشغيلية أو التنفيذية (الدنيا) المستوى الأدنى في الهرم الإداري.\nالحكم: صح (True)."
-      },
-      {
-        lecture: 3,
-        origId: 27,
-        type: "tf",
-        q: "The human skills of a successful manager include teamwork, empathy, motivation, and relationship building.",
-        options: ["True", "False"],
-        answer: 0, // True
-        hint: "ترجمة العبارة: المهارات الإنسانية للمدير الناجح تشمل العمل الجماعي، التعاطف، التحفيز، وبناء العلاقات.\nالحكم: صح (True)."
-      },
-      {
-        lecture: 3,
-        origId: 28,
-        type: "tf",
-        q: "A manager's communication skills are limited to active listening and providing feedback, without the need for presentation skills.",
-        options: ["True", "False"],
-        answer: 1, // False
-        hint: "ترجمة العبارة: تقتصر مهارات الاتصال لدى المدير على الاستماع وتقديم التغذية الراجعة دون الحاجة لمهارات العرض.\nالحكم: خطأ (False) - مهارات العرض والتقديم (Presentation skills) عنصر جوهري من مهارات الاتصال."
-      },
-      {
-        lecture: 3,
-        origId: 29,
-        type: "tf",
-        q: "Planning, organizing, coordinating, and controlling are integral parts of a manager's administrative skills.",
-        options: ["True", "False"],
-        answer: 0, // True
-        hint: "ترجمة العبارة: التخطيط والتنظيم والتنسيق والرقابة أجزاء لا تتجزأ من المهارات الإدارية للمدير.\nالحكم: صح (True)."
-      },
-      {
-        lecture: 3,
-        origId: 30,
-        type: "tf",
-        q: "Change management skills focus solely on commitment and fairness within the organizational work environment.",
-        options: ["True", "False"],
-        answer: 1, // False
-        hint: "ترجمة العبارة: تركز مهارات إدارة التغيير فقط على الالتزام والعدالة داخل بيئة العمل.\nالحكم: خطأ (False) - إدارة التغيير تركز على قيادة التحولات وحل المشكلات وإرشاد الفرق نحو النظم الجديدة."
-      },
-      {
-        lecture: 3,
-        origId: 31,
-        type: "tf",
-        q: "such as adaptability, flexibility, precision, commitment, and fairness fall under the umbrella of a manager's personal and professional skills.",
-        options: ["True", "False"],
-        answer: 0, // True
-        hint: "ترجمة العبارة: سمات مثل القدرة على التكيف، المرونة، الدقة، الالتزام، والعدالة تقع تحت مظلة المهارات الشخصية والمهنية للمدير.\nالحكم: صح (True)."
-      },
-      {
-        lecture: 3,
-        origId: 32,
-        type: "tf",
-        q: "Professional knowledge, digital skills, data analysis, and the use of technology are considered technical skills essential for a successful manager.",
-        options: ["True", "False"],
-        answer: 0, // True
-        hint: "ترجمة العبارة: المعرفة المهنية، المهارات الرقمية، تحليل البيانات، واستخدام التكنولوجيا تُعتبر مهارات فنية أساسية للمدير الناجح.\nالحكم: صح (True)."
+        id: "sub-sec",
+        name: "Computer Security (أمن الحاسوب)",
+        code: "COM207",
+        emoji: "🛡️",
+        desc: "مقرر أمن الحاسوب والمعلومات، ثالوث الأمان CIA Triad، أنواع الهجمات النشطة والسلبية، وآليات الدفاع والتشفير.",
+        quizzes: [
+          {
+            id: "quiz-sec-ch1",
+            title: "Chapter 1 - Security Basics (10 MCQs)",
+            questions: [
+              { id: 1, q: "Which goal of the CIA Triad ensures that systems work when users need them?", options: ["Confidentiality", "Integrity", "Availability", "Fabrication"], answer: 2, hint: "الترجمة: أي هدف من ثالوث أمن المعلومات (CIA) يضمن أن الأنظمة تعمل وجاهزة عندما يحتاجها المستخدمون؟\nالتلميح: Availability تعني التوافر وجاهزية الخدمة 24/7 دون انقطاع." },
+              { id: 2, q: "Stealing an unencrypted file during network transmission is an example of:", options: ["Interruption", "Interception", "Modification", "Fabrication"], answer: 1, hint: "الترجمة: سرقة أو نسخ ملف غير مشفر أثناء نقله عبر الشبكة يعتبر مثالاً على:\nالتلميح: Interception (الاعتراض)، وهو انتهاك مباشر للسرية (Confidentiality)." },
+              { id: 3, q: "An attacker captures a valid login packet and sends it again later to gain unauthorized access. This is called a:", options: ["Masquerade attack", "Replay attack", "Traffic analysis", "Passive attack"], answer: 1, hint: "الترجمة: التقاط حزمة بيانات صالحة لتسجيل الدخول وإعادة إرسالها لاحقاً يُسمى:\nالتلميح: Replay attack (هجوم إعادة الإرسال / التكرار)." },
+              { id: 4, q: "Which of the following is a passive attack?", options: ["Eavesdropping on a transmission", "Crashing a web server", "Modifying an accounting file", "Impersonating a system administrator"], answer: 0, hint: "الترجمة: أي مما يلي يُعتبر هجوماً سلبياً (Passive Attack)؟\nالتلميح: التنصت والاستماع السري (Eavesdropping on a transmission)." },
+              { id: 5, q: "What is the primary defensive focus when dealing with passive attacks?", options: ["System recovery", "Intrusion detection", "Prevention using encryption", "Restarting servers"], answer: 2, hint: "الترجمة: ما هو التركيز الدفاعي الأساسي عند التعامل مع الهجمات السلبية؟\nالتلميح: المنع المسبق عبر التشفير (Prevention using encryption)." },
+              { id: 6, q: "A user changes an exam score in a university database without permission. Which security goal is violated?", options: ["Confidentiality", "Integrity", "Availability", "Scalability"], answer: 1, hint: "الترجمة: تعديل درجات الامتحان في قاعدة البيانات بدون تصريح ينتهك هدف:\nالتلميح: سلامة وصحة البيانات (Integrity)." },
+              { id: 7, q: "An antivirus scanner is an example of which type of security mechanism?", options: ["Preventive control", "Detective control", "Recovery control", "Passive control"], answer: 1, hint: "الترجمة: برنامج فحص الفيروسات (Antivirus) يُعتبر آلية من نوع:\nالتلميح: آلية اكتشاف وإنذار (Detective control)." },
+              { id: 8, q: "Which security service confirms that an incoming message came from the claimed sender?", options: ["Authentication", "Availability", "Recovery", "Interruption"], answer: 0, hint: "الترجمة: أي خدمة أمنية تؤكد أن الرسالة واردة بالفعل من الشخص أو الجهاز صاحب الهوية؟\nالتلميح: المصادقة والتحقق من الهوية (Authentication)." },
+              { id: 9, q: "The principle stating that employees should only receive the permissions they need for their jobs is:", options: ["Least Privilege", "Defense in Depth", "Non-repudiation", "Active Defense"], answer: 0, hint: "الترجمة: المبدأ الذي ينص على منح الموظفين أقل صلاحيات ضرورية لأداء وظائفهم فقط هو:\nالتلميح: مبدأ الحد الأدنى من الامتيازات (Least Privilege)." },
+              { id: 10, q: "What does DoS stand for in computer security?", options: ["Data on Storage", "Denial of Service", "Distribution of Software", "Domain of Security"], answer: 1, hint: "الترجمة: ماذا يعني الاختصار DoS في أمن الحاسوب؟\nالتلميح: Denial of Service (هجوم حجب أو حرمان الخدمة)." }
+            ]
+          }
+        ]
       }
     ];
 
-    // ----------------------------------------------------
-    // 2. Application State
-    // ----------------------------------------------------
-    let currentCategory = 'all'; // 'all', 'lec2', 'lec3'
-    let activeQuestionList = []; // filtered questions
-    let currentIdx = 0;
-    let userAnswers = {}; // { questionIndex: selectedOptionIndex }
-    let examMode = false; // false = Practice (instant feedback), true = Exam
-    let soundEnabled = true;
+    // --------------------------------------------------------------
+    // 2. STATE MANAGEMENT & LOCAL STORAGE PERSISTENCE
+    // --------------------------------------------------------------
+    const STORAGE_KEY_SUBJECTS = 'academic_platform_subjects_v2';
+    const STORAGE_KEY_ANNOUNCE = 'academic_platform_announcement_v2';
+    const STORAGE_KEY_LANG = 'academic_platform_lang_v2';
 
-    // Timer Variables
-    let timerInterval = null;
-    let secondsElapsed = 0;
+    let currentSubjects = [];
+    let currentLang = 'ar'; // 'ar' or 'en'
+    let isAdminUnlocked = false;
 
-    // Web Audio Synthesizer (Tone.js)
-    let synth = null;
-    function initSynth() {
-      if (!synth && window.Tone) {
-        try {
-          synth = new Tone.PolySynth(Tone.Synth, {
-            oscillator: { type: "triangle" },
-            envelope: { attack: 0.005, decay: 0.1, sustain: 0, release: 0.1 }
-          }).toDestination();
-          Tone.start();
-        } catch (e) {}
+    // Secret Key Sequence Tracking (Triple Click)
+    let crestClickCount = 0;
+    let crestClickTimer = null;
+
+    // Navigation and Quiz State
+    let currentView = 'home';
+    let currentSubjectId = null;
+    let activeQuizData = null;
+    let activeQuestionList = [];
+    let activeQuestionIndex = 0;
+    let userAnswers = {};
+    let isExamMode = false;
+    let quizSeconds = 0;
+    let quizTimerInterval = null;
+
+    // Temporary parsed questions in modal
+    let editorExtractedQuestions = [];
+
+    // Initialize Data from Storage
+    function loadSavedData() {
+      try {
+        const savedSubs = localStorage.getItem(STORAGE_KEY_SUBJECTS);
+        if (savedSubs) {
+          currentSubjects = JSON.parse(savedSubs);
+        } else {
+          currentSubjects = JSON.parse(JSON.stringify(DEFAULT_SUBJECTS));
+          saveSubjects();
+        }
+
+        const savedAnnounce = localStorage.getItem(STORAGE_KEY_ANNOUNCE);
+        if (savedAnnounce) {
+          document.getElementById('marqueeText').innerText = savedAnnounce;
+        }
+
+        const savedLang = localStorage.getItem(STORAGE_KEY_LANG);
+        if (savedLang) {
+          currentLang = savedLang;
+          applyLanguageDirection();
+        }
+      } catch (e) {
+        console.error("Storage load error:", e);
+        currentSubjects = JSON.parse(JSON.stringify(DEFAULT_SUBJECTS));
       }
     }
 
-    function playSound(type) {
-      if (!soundEnabled) return;
-      initSynth();
-      if (!synth) return;
+    function saveSubjects() {
       try {
-        if (type === 'correct') {
-          synth.triggerAttackRelease(["E5", "G5"], "16n");
-        } else if (type === 'wrong') {
-          synth.triggerAttackRelease(["C3", "B2"], "16n");
-        } else if (type === 'finish') {
-          synth.triggerAttackRelease(["C4", "E4", "G4", "C5"], "8n");
-        }
-      } catch (e) {}
+        localStorage.setItem(STORAGE_KEY_SUBJECTS, JSON.stringify(currentSubjects));
+      } catch (e) {
+        console.error("Storage save error:", e);
+      }
     }
 
-    // Fisher-Yates Shuffle
-    function shuffle(array) {
+    // --------------------------------------------------------------
+    // 3. REVOLUTIONARY SMART CODE PARSER ENGINE (The Magic Extractor)
+    // --------------------------------------------------------------
+    /*
+      This parser accepts:
+      - Full raw HTML pages (like the user snippet containing originalQuestions = [...])
+      - Raw JavaScript files with arrays of questions
+      - Pure JSON arrays
+      - Various key formats:
+          * { question, options: [{ text, isCorrect }], arabicHint }
+          * { q, options: ["a", "b", "c"], answer: 1, hint }
+          * { question, a, b, c, d, correct: "b", hint }
+      It extracts everything safely, normalizes it, and reports the result!
+    */
+    function smartExtractQuestions(rawInput) {
+      if (!rawInput || typeof rawInput !== 'string') return [];
+      const trimmed = rawInput.trim();
+
+      // Case 1: Pure JSON parsing attempt
+      if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+        try {
+          const parsed = JSON.parse(trimmed);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            return normalizeQuestionsArray(parsed);
+          }
+        } catch (e) {}
+      }
+
+      // Case 2: Extract JavaScript Array from HTML / Script Code
+      // Looks for: const originalQuestions = [...]; or var questions = [...]; or let quizData = [...];
+      const arrayPatterns = [
+        /(?:const|let|var)\s+(?:originalQuestions|questions|allQuestionsRaw|quizData|examQuestions|allQuestions)\s*=\s*(\[[\s\S]*?\]);/i,
+        /\[\s*\{\s*(?:id|q|question)\s*:[\s\S]*?\}\s*\]/i
+      ];
+
+      for (let pattern of arrayPatterns) {
+        const match = pattern.exec(rawInput);
+        if (match) {
+          const matchedArrayString = match[1] || match[0];
+          try {
+            // Safe evaluation using Function
+            const evaluated = new Function(`"use strict"; return (${matchedArrayString});`)();
+            if (Array.isArray(evaluated) && evaluated.length > 0) {
+              return normalizeQuestionsArray(evaluated);
+            }
+          } catch (err) {
+            // If direct eval failed, try sanitizing trailing commas
+            try {
+              const sanitized = matchedArrayString
+                .replace(/,\s*([\]}])/g, '$1') // remove trailing commas
+                .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2":'); // ensure quotes around keys
+              const parsed = JSON.parse(sanitized);
+              if (Array.isArray(parsed) && parsed.length > 0) {
+                return normalizeQuestionsArray(parsed);
+              }
+            } catch (err2) {}
+          }
+        }
+      }
+
+      // Case 3: Fallback Regex Extraction for repeated question blocks
+      const extracted = [];
+      const questionBlockRegex = /\{\s*id\s*:\s*(\d+)[\s\S]*?question\s*:\s*["'`]([\s\S]*?)["'`][\s\S]*?options\s*:\s*(\[[\s\S]*?\])[\s\S]*?(?:arabicHint|hint)\s*:\s*["'`]([\s\S]*?)["'`]\s*\}/gi;
+      let blockMatch;
+      while ((blockMatch = questionBlockRegex.exec(rawInput)) !== null) {
+        try {
+          const qId = parseInt(blockMatch[1], 10);
+          const qText = blockMatch[2];
+          const rawOptions = new Function(`return (${blockMatch[3]});`)();
+          const qHint = blockMatch[4];
+          
+          let options = [];
+          let answer = 0;
+          if (Array.isArray(rawOptions)) {
+            rawOptions.forEach((opt, oIdx) => {
+              if (typeof opt === 'object' && opt !== null) {
+                options.push(opt.text || opt.title || '');
+                if (opt.isCorrect === true) answer = oIdx;
+              } else {
+                options.push(String(opt));
+              }
+            });
+          }
+          extracted.push({ id: qId || (extracted.length + 1), q: qText, options, answer, hint: qHint || '' });
+        } catch (e) {}
+      }
+
+      if (extracted.length > 0) {
+        return extracted;
+      }
+
+      return [];
+    }
+
+    // Normalizes diverse formats into { id, q, options: [], answer: 0, hint: '' }
+    function normalizeQuestionsArray(arr) {
+      const result = [];
+      arr.forEach((item, index) => {
+        if (!item || typeof item !== 'object') return;
+
+        // 1. Question Text
+        const qText = item.question || item.q || item.title || item.prompt || `Question ${index + 1}`;
+
+        // 2. Options & Correct Answer
+        let options = [];
+        let answer = 0;
+
+        if (Array.isArray(item.options)) {
+          // Check if options are objects [{ text, isCorrect }]
+          if (item.options.length > 0 && typeof item.options[0] === 'object' && item.options[0] !== null) {
+            item.options.forEach((optObj, optIdx) => {
+              options.push(optObj.text || optObj.label || optObj.title || '');
+              if (optObj.isCorrect === true || optObj.correct === true) {
+                answer = optIdx;
+              }
+            });
+          } else {
+            // Options are simple strings ["a", "b", "c", "d"]
+            options = item.options.map(o => String(o));
+            // Find answer index
+            if (typeof item.answer === 'number') {
+              answer = item.answer;
+            } else if (typeof item.answer === 'string') {
+              const letter = item.answer.trim().toLowerCase();
+              if (letter === 'a') answer = 0;
+              else if (letter === 'b') answer = 1;
+              else if (letter === 'c') answer = 2;
+              else if (letter === 'd') answer = 3;
+              else answer = parseInt(letter, 10) || 0;
+            } else if (typeof item.correctAnswer === 'number') {
+              answer = item.correctAnswer;
+            }
+          }
+        } else if (item.a && item.b) {
+          // Formats with separate keys a, b, c, d
+          options = [item.a, item.b];
+          if (item.c) options.push(item.c);
+          if (item.d) options.push(item.d);
+          const c = String(item.correct || item.answer || 'a').toLowerCase();
+          if (c === 'a') answer = 0;
+          else if (c === 'b') answer = 1;
+          else if (c === 'c') answer = 2;
+          else if (c === 'd') answer = 3;
+        }
+
+        // 3. Arabic Hint / Explanation
+        const hint = item.arabicHint || item.hint || item.explanation || item.arHint || '';
+
+        result.push({
+          id: item.id || (index + 1),
+          q: qText,
+          options: options.length > 0 ? options : ["Option 1", "Option 2"],
+          answer: Math.max(0, Math.min(answer, options.length - 1)),
+          hint: hint
+        });
+      });
+
+      return result;
+    }
+
+    // Live Code Input Handler (Triggers Auto Extraction with Visual Feedback)
+    function handleCodeInput(val) {
+      const statusBadge = document.getElementById('parserStatusBadge');
+      const summaryCard = document.getElementById('extractionSummaryCard');
+      const summaryHeading = document.getElementById('extractionSummaryHeading');
+      const summaryDetails = document.getElementById('extractionSummaryDetails');
+
+      if (!val || !val.trim()) {
+        statusBadge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800 border border-amber-300";
+        statusBadge.innerText = "⏳ بانتظار لصق الكود...";
+        summaryCard.classList.add('hidden');
+        editorExtractedQuestions = [];
+        return;
+      }
+
+      const extracted = smartExtractQuestions(val);
+
+      if (extracted.length > 0) {
+        editorExtractedQuestions = extracted;
+        statusBadge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300";
+        statusBadge.innerHTML = `✅ تم استخراج <strong>${extracted.length}</strong> سؤالاً تلقائياً!`;
+
+        summaryCard.classList.remove('hidden');
+        summaryHeading.innerText = `تم التعرف على بنية الكود بنجاح (${extracted.length} سؤال)`;
+        summaryDetails.innerText = `السؤال الأول: "${extracted[0].q.substring(0, 70)}..." • الخيارات: ${extracted[0].options.length} • التلميح العربي: ${extracted[0].hint ? 'موجود ومتوفر' : 'غير محدد'}`;
+        
+        // Update Preview Tab Badge
+        document.getElementById('previewTotalBadge').innerText = `${extracted.length} سؤال جاهز للمعاينة`;
+      } else {
+        editorExtractedQuestions = [];
+        statusBadge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-rose-100 text-rose-800 border border-rose-300";
+        statusBadge.innerText = "⚠️ لم يتم العثور على مصفوفة أسئلة بعد";
+        summaryCard.classList.add('hidden');
+      }
+    }
+
+    // Switch between "Code" and "Preview" inside Quiz Editor
+    function switchEditorTab(tab) {
+      const tabBtnCode = document.getElementById('tabBtnCode');
+      const tabBtnPreview = document.getElementById('tabBtnPreview');
+      const tabContentCode = document.getElementById('tabContentCode');
+      const tabContentPreview = document.getElementById('tabContentPreview');
+
+      if (tab === 'code') {
+        tabBtnCode.className = "px-3.5 py-1.5 rounded-xl bg-white text-royal-deep shadow-sm transition flex items-center gap-1.5";
+        tabBtnPreview.className = "px-3.5 py-1.5 rounded-xl text-stone-600 hover:text-stone-900 transition flex items-center gap-1.5";
+        tabContentCode.classList.remove('hidden');
+        tabContentPreview.classList.add('hidden');
+      } else {
+        // Preview Tab
+        tabBtnPreview.className = "px-3.5 py-1.5 rounded-xl bg-white text-emerald-700 shadow-sm transition flex items-center gap-1.5";
+        tabBtnCode.className = "px-3.5 py-1.5 rounded-xl text-stone-600 hover:text-stone-900 transition flex items-center gap-1.5";
+        tabContentCode.classList.add('hidden');
+        tabContentPreview.classList.remove('hidden');
+
+        renderEditorLivePreview();
+      }
+    }
+
+    // Render Preview in Luxury Gold / Beige Design
+    function renderEditorLivePreview() {
+      const container = document.getElementById('previewCardsContainer');
+      container.innerHTML = '';
+
+      if (editorExtractedQuestions.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 bg-white rounded-2xl border border-stone-200">
+            <i class="fa-solid fa-code text-4xl text-stone-300 mb-2"></i>
+            <p class="text-xs text-stone-500 font-bold">لا توجد أسئلة مستخرجة بعد للمعاينة.</p>
+            <p class="text-[11px] text-stone-400 mt-1">الرجاء لصق كود يحتوي على الأسئلة في تبويب "الرمز".</p>
+          </div>
+        `;
+        return;
+      }
+
+      const letters = ['a', 'b', 'c', 'd', 'e'];
+
+      editorExtractedQuestions.forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.className = "p-5 rounded-2xl bg-white border border-stone-200 shadow-sm text-left dir-ltr";
+
+        let optionsHtml = '';
+        item.options.forEach((opt, oIdx) => {
+          const isCorrect = (oIdx === item.answer);
+          optionsHtml += `
+            <div class="p-2.5 rounded-xl border text-xs flex items-center gap-2.5 ${
+              isCorrect 
+                ? 'bg-emerald-50 border-emerald-300 text-emerald-900 font-bold' 
+                : 'bg-parchment-50 border-stone-200 text-stone-700'
+            }">
+              <span class="w-6 h-6 rounded-lg flex items-center justify-center font-bold text-[11px] ${
+                isCorrect ? 'bg-emerald-600 text-white' : 'bg-stone-200 text-stone-600'
+              }">
+                ${letters[oIdx] || (oIdx + 1)}
+              </span>
+              <span class="flex-1">${opt}</span>
+              ${isCorrect ? '<span class="text-emerald-600 text-xs font-bold">✓ الإجابة الصحيحة</span>' : ''}
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between mb-2">
+            <span class="px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase bg-parchment-100 text-royal-goldDark border border-stone-200">
+              Question #${idx + 1}
+            </span>
+            <span class="text-[11px] font-mono text-stone-400">Correct: Index ${item.answer}</span>
+          </div>
+          <h4 class="font-bold text-royal-deep text-sm mb-3">${item.q}</h4>
+          <div class="space-y-2 mb-3">
+            ${optionsHtml}
+          </div>
+          ${
+            item.hint 
+              ? `<div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200 text-xs text-amber-950 font-medium text-right dir-rtl leading-relaxed">
+                   <div class="font-bold text-amber-800 mb-0.5">💡 التلميح والترجمة:</div>
+                   ${item.hint}
+                 </div>` 
+              : ''
+          }
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    // Beautify / Format Raw Code
+    function formatEditorJSON() {
+      if (editorExtractedQuestions.length > 0) {
+        document.getElementById('modalQuizRawCode').value = JSON.stringify(editorExtractedQuestions, null, 2);
+        handleCodeInput(document.getElementById('modalQuizRawCode').value);
+      }
+    }
+
+    // Insert Sample Code (Security chapter snippet provided by user)
+    function insertSampleSecurityCode() {
+      const sample = `const originalQuestions = [
+  {
+    id: 1,
+    question: "Which goal of the CIA Triad ensures that systems work when users need them?",
+    options: [
+      { text: "Confidentiality", isCorrect: false },
+      { text: "Integrity", isCorrect: false },
+      { text: "Availability", isCorrect: true },
+      { text: "Fabrication", isCorrect: false }
+    ],
+    arabicHint: "الترجمة: أي هدف من ثالوث أمن المعلومات (CIA) يضمن أن الأنظمة تعمل وجاهزة عندما يحتاجها المستخدمون؟\\nالتلميح: Availability تعني التوافر وجاهزية الخدمة 24/7 دون انقطاع."
+  },
+  {
+    id: 2,
+    question: "Stealing an unencrypted file during network transmission is an example of:",
+    options: [
+      { text: "Interruption", isCorrect: false },
+      { text: "Interception", isCorrect: true },
+      { text: "Modification", isCorrect: false },
+      { text: "Fabrication", isCorrect: false }
+    ],
+    arabicHint: "الترجمة: سرقة أو نسخ ملف غير مشفر أثناء نقله عبر الشبكة يعتبر مثالاً على:\\nالتلميح: هجوم Interception (الاعتراض) يُمثل انتهاكاً مباشراً للسرية."
+  }
+];`;
+      document.getElementById('modalQuizRawCode').value = sample;
+      handleCodeInput(sample);
+    }
+
+    // --------------------------------------------------------------
+    // 4. BILINGUAL CONTROLLER (العربية / English)
+    // --------------------------------------------------------------
+    const I18N = {
+      ar: {
+        langBtn: "English",
+        annTag: "إعلان هام",
+        subBrand: "منصة الاختبارات والتقييمات الأكاديمية الرسمية",
+        homeBtn: "الرئيسية",
+        adminBtn: "لوحة الإدارة",
+        heroBadge: "الفصل الدراسي الأول • بنك التدريبات الذكية",
+        heroTitle: "مرحباً بك في بوابة الاختبارات الأكاديمية",
+        heroDesc: "اختر المادة الدراسية للاطلاع على المحاضرات والبدء في خوض الاختبارات التفاعلية بنظام التصحيح الفوري أو نظام الامتحان المعتمد.",
+        statSubs: "المواد المسجلة",
+        statQuizzes: "الاختبارات المتاحة",
+        statQuestions: "إجمالي الأسئلة",
+        subjectsTitle: "المواد الدراسية المقررة",
+        clickToEnter: "اضغط على المادة لعرض اختباراتها",
+        backSubjects: "العودة للمواد",
+        quizzesTitle: "قائمة الاختبارات المتاحة لهذه المادة",
+        startQuizBtn: "بدء الاختبار الآن ⚡",
+        examMode: "امتحان",
+        practiceMode: "تدريب فوري",
+        shuffleBtn: "خلط 🔀",
+        hintBtn: "💡 إظهار الترجمة والتلميح بالعربي",
+        btnPrev: "السابق",
+        btnNext: "التالي",
+        btnFinish: "إنهاء الاختبار وتسليم الإجابات"
+      },
+      en: {
+        langBtn: "العربية",
+        annTag: "ANNOUNCEMENT",
+        subBrand: "Official Academic Assessment & Examination LMS",
+        homeBtn: "Home",
+        adminBtn: "Admin Panel",
+        heroBadge: "Semester 1 • Smart Interactive Examination Bank",
+        heroTitle: "Welcome to Academic Assessment Portal",
+        heroDesc: "Select a course to view available lectures and begin smart interactive quizzes with instant practice feedback or formal exam mode.",
+        statSubs: "Enrolled Courses",
+        statQuizzes: "Available Quizzes",
+        statQuestions: "Total Questions",
+        subjectsTitle: "Enrolled Academic Courses",
+        clickToEnter: "Click a course card to access quizzes",
+        backSubjects: "Back to Courses",
+        quizzesTitle: "Available Quizzes for this Course",
+        startQuizBtn: "Start Interactive Quiz ⚡",
+        examMode: "Exam Mode",
+        practiceMode: "Practice Mode",
+        shuffleBtn: "Shuffle 🔀",
+        hintBtn: "💡 Show Arabic Translation & Hint",
+        btnPrev: "Previous",
+        btnNext: "Next",
+        btnFinish: "Submit Exam Answers"
+      }
+    };
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'ar' ? 'en' : 'ar';
+      localStorage.setItem(STORAGE_KEY_LANG, currentLang);
+      applyLanguageDirection();
+      renderAllViews();
+    }
+
+    function applyLanguageDirection() {
+      const html = document.documentElement;
+      const t = I18N[currentLang];
+
+      if (currentLang === 'en') {
+        html.setAttribute('dir', 'ltr');
+        html.setAttribute('lang', 'en');
+      } else {
+        html.setAttribute('dir', 'rtl');
+        html.setAttribute('lang', 'ar');
+      }
+
+      document.getElementById('langText').innerText = t.langBtn;
+      document.getElementById('txtAnnounceTag').innerText = t.annTag;
+      document.getElementById('subBrandText').innerText = t.subBrand;
+      document.getElementById('txtHomeBtn').innerText = t.homeBtn;
+      document.getElementById('txtAdminBtn').innerText = t.adminBtn;
+      document.getElementById('heroBadge').innerText = t.heroBadge;
+      document.getElementById('heroTitle').innerText = t.heroTitle;
+      document.getElementById('heroDesc').innerText = t.heroDesc;
+      document.getElementById('statSubjectsLabel').innerText = t.statSubs;
+      document.getElementById('statQuizzesLabel').innerText = t.statQuizzes;
+      document.getElementById('statQuestionsLabel').innerText = t.statQuestions;
+      document.getElementById('subjectsSectionTitle').innerText = t.subjectsTitle;
+      document.getElementById('txtClickToEnter').innerText = t.clickToEnter;
+      document.getElementById('txtBackToSubjects').innerText = t.backSubjects;
+      document.getElementById('quizzesSectionTitle').innerText = t.quizzesTitle;
+      document.getElementById('txtShuffle').innerText = t.shuffleBtn;
+      document.getElementById('txtToggleHint').innerText = t.hintBtn;
+      document.getElementById('txtBtnPrev').innerText = t.btnPrev;
+      document.getElementById('txtBtnNext').innerText = t.btnNext;
+      document.getElementById('txtBtnFinish').innerText = t.btnFinish;
+    }
+
+    // --------------------------------------------------------------
+    // 5. SECRET ACCESS GATEWAY (Triple Click on Crest -> "nashy")
+    // --------------------------------------------------------------
+    document.getElementById('secretCrestBtn').addEventListener('click', () => {
+      crestClickCount++;
+      clearTimeout(crestClickTimer);
+
+      if (crestClickCount >= 3) {
+        crestClickCount = 0;
+        openPasswordModal();
+      } else {
+        crestClickTimer = setTimeout(() => {
+          crestClickCount = 0;
+        }, 700);
+      }
+    });
+
+    function openPasswordModal() {
+      const modal = document.getElementById('secretPasswordModal');
+      const input = document.getElementById('adminPasswordInput');
+      const err = document.getElementById('passwordError');
+      err.classList.add('hidden');
+      input.value = '';
+      modal.classList.remove('hidden');
+      setTimeout(() => input.focus(), 100);
+    }
+
+    function closePasswordModal() {
+      document.getElementById('secretPasswordModal').classList.add('hidden');
+    }
+
+    function handlePasswordSubmit(e) {
+      e.preventDefault();
+      const entered = document.getElementById('adminPasswordInput').value.trim();
+      const err = document.getElementById('passwordError');
+
+      if (entered === 'nashy') {
+        isAdminUnlocked = true;
+        closePasswordModal();
+        document.getElementById('headerAdminBtn').classList.remove('hidden');
+        showView('admin');
+      } else {
+        err.classList.remove('hidden');
+      }
+    }
+
+    function lockAdmin() {
+      isAdminUnlocked = false;
+      document.getElementById('headerAdminBtn').classList.add('hidden');
+      showView('home');
+    }
+
+    // --------------------------------------------------------------
+    // 6. VIEW NAVIGATION (Home / Subject / Quiz / Admin)
+    // --------------------------------------------------------------
+    function showView(viewName, paramId = null) {
+      currentView = viewName;
+
+      // Views containers
+      const vHome = document.getElementById('viewHome');
+      const vSubject = document.getElementById('viewSubject');
+      const vQuiz = document.getElementById('viewQuiz');
+      const vAdmin = document.getElementById('viewAdmin');
+
+      [vHome, vSubject, vQuiz, vAdmin].forEach(el => el.classList.add('hidden'));
+
+      if (viewName === 'home') {
+        vHome.classList.remove('hidden');
+        renderHomeSubjects();
+        updateStats();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (viewName === 'subject') {
+        vSubject.classList.remove('hidden');
+        currentSubjectId = paramId;
+        renderSubjectPage(paramId);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (viewName === 'quiz') {
+        vQuiz.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (viewName === 'admin') {
+        if (!isAdminUnlocked) {
+          openPasswordModal();
+          return;
+        }
+        vAdmin.classList.remove('hidden');
+        renderAdminDashboard();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    // --------------------------------------------------------------
+    // 7. RENDER HOME VIEW & SUBJECTS
+    // --------------------------------------------------------------
+    function updateStats() {
+      const subCount = currentSubjects.length;
+      let quizCount = 0;
+      let qCount = 0;
+
+      currentSubjects.forEach(s => {
+        if (Array.isArray(s.quizzes)) {
+          quizCount += s.quizzes.length;
+          s.quizzes.forEach(q => {
+            if (Array.isArray(q.questions)) qCount += q.questions.length;
+          });
+        }
+      });
+
+      document.getElementById('statSubjectsCount').innerText = subCount;
+      document.getElementById('statQuizzesCount').innerText = quizCount;
+      document.getElementById('statQuestionsCount').innerText = qCount;
+    }
+
+    function renderHomeSubjects() {
+      const grid = document.getElementById('subjectsGrid');
+      grid.innerHTML = '';
+
+      if (currentSubjects.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-16 text-center bg-white rounded-3xl border border-stone-200">
+            <i class="fa-solid fa-folder-open text-4xl text-stone-300 mb-2"></i>
+            <h4 class="text-base font-bold text-stone-700">لا توجد مواد مسجلة حالياً</h4>
+            <p class="text-xs text-stone-400 mt-1">انقر 3 مرات على أيقونة الصرح في الأعلى لإضافة مواد جديدة من لوحة الإدارة.</p>
+          </div>
+        `;
+        return;
+      }
+
+      currentSubjects.forEach(sub => {
+        const quizCount = sub.quizzes ? sub.quizzes.length : 0;
+        let questionTotal = 0;
+        if (sub.quizzes) {
+          sub.quizzes.forEach(q => { if (q.questions) questionTotal += q.questions.length; });
+        }
+
+        const card = document.createElement('div');
+        card.className = "group bg-white border border-stone-200 hover:border-royal-gold/60 rounded-3xl p-6 shadow-academic hover:shadow-academic-hover transition-all duration-300 flex flex-col justify-between cursor-pointer transform hover:-translate-y-1 relative overflow-hidden";
+        
+        card.onclick = () => showView('subject', sub.id);
+
+        card.innerHTML = `
+          <div class="flex items-start justify-between gap-3 mb-4">
+            <div class="w-14 h-14 rounded-2xl bg-parchment-50 border border-stone-200/90 text-3xl flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform">
+              ${sub.emoji || '📚'}
+            </div>
+            <span class="px-2.5 py-1 rounded-xl text-xs font-mono font-bold bg-parchment-100 text-royal-goldDark border border-stone-200">
+              ${sub.code || 'CODE'}
+            </span>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-bold text-royal-deep group-hover:text-royal-goldDark transition-colors mb-2">
+              ${sub.name}
+            </h4>
+            <p class="text-xs text-stone-500 line-clamp-2 leading-relaxed mb-5">
+              ${sub.desc || 'مقرر دراسي تفاعلي يشمل بنك الأسئلة والاختبارات الأكاديمية.'}
+            </p>
+          </div>
+
+          <div class="pt-4 border-t border-stone-100 flex items-center justify-between text-xs font-semibold">
+            <div class="flex items-center gap-2 text-stone-500">
+              <span class="flex items-center gap-1"><i class="fa-solid fa-list-check text-royal-gold"></i> ${quizCount} اختبار</span>
+              <span>•</span>
+              <span class="flex items-center gap-1"><i class="fa-solid fa-circle-question text-emerald-600"></i> ${questionTotal} سؤال</span>
+            </div>
+            <span class="text-royal-gold font-bold flex items-center gap-1 group-hover:translate-x-[-3px] rtl:group-hover:translate-x-[3px] transition-transform">
+              <span>دخول</span>
+              <i class="fa-solid fa-arrow-left rtl:rotate-0 ltr:rotate-180 text-[11px]"></i>
+            </span>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    // --------------------------------------------------------------
+    // 8. RENDER SUBJECT PAGE (Quizzes List)
+    // --------------------------------------------------------------
+    function renderSubjectPage(subId) {
+      const subject = currentSubjects.find(s => s.id === subId);
+      if (!subject) {
+        showView('home');
+        return;
+      }
+
+      document.getElementById('bcSubjectName').innerText = subject.name;
+      document.getElementById('subjectPageEmoji').innerText = subject.emoji || '📚';
+      document.getElementById('subjectPageTitle').innerText = subject.name;
+      document.getElementById('subjectPageCode').innerText = subject.code || 'CODE';
+      document.getElementById('subjectPageDesc').innerText = subject.desc || 'مقرر دراسي متكامل يحتوي على بنك أسئلة واختبارات تفاعلية.';
+      document.getElementById('subjectPageQuizCountBadge').innerText = `${subject.quizzes ? subject.quizzes.length : 0} اختبارات مسجلة`;
+
+      const listContainer = document.getElementById('quizzesListContainer');
+      listContainer.innerHTML = '';
+
+      if (!subject.quizzes || subject.quizzes.length === 0) {
+        listContainer.innerHTML = `
+          <div class="p-8 text-center bg-white rounded-2xl border border-stone-200">
+            <i class="fa-solid fa-file-circle-xmark text-4xl text-stone-300 mb-2"></i>
+            <h4 class="text-sm font-bold text-stone-700">لا توجد اختبارات مسجلة لهذه المادة بعد</h4>
+            <p class="text-xs text-stone-400 mt-1">يمكنك إضافة اختبارات جديدة من لوحة الإدارة.</p>
+          </div>
+        `;
+        return;
+      }
+
+      subject.quizzes.forEach((quiz, qIdx) => {
+        const qCount = quiz.questions ? quiz.questions.length : 0;
+        const item = document.createElement('div');
+        item.className = "bg-white border border-stone-200 hover:border-royal-gold/60 rounded-2xl p-5 shadow-sm hover:shadow-academic transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4";
+
+        item.innerHTML = `
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-parchment-50 border border-stone-200 text-royal-gold text-lg flex items-center justify-center font-black shrink-0">
+              ${qIdx + 1}
+            </div>
+            <div>
+              <h4 class="text-base font-bold text-royal-deep">${quiz.title}</h4>
+              <div class="flex items-center gap-3 text-xs text-stone-500 mt-0.5 font-medium">
+                <span class="flex items-center gap-1"><i class="fa-solid fa-circle-question text-emerald-600"></i> ${qCount} سؤال تفاعلي</span>
+                <span>•</span>
+                <span class="flex items-center gap-1"><i class="fa-solid fa-language text-amber-600"></i> متاح بالترجمة والتلميحات</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2.5 w-full sm:w-auto">
+            <button onclick="startQuizEngine('${subject.id}', '${quiz.id}', false)"
+                    class="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-parchment-100 hover:bg-parchment-200 text-royal-goldDark text-xs font-bold transition flex items-center justify-center gap-1.5">
+              <i class="fa-solid fa-chalkboard-user"></i>
+              <span>تدريب فوري</span>
+            </button>
+            <button onclick="startQuizEngine('${subject.id}', '${quiz.id}', true)"
+                    class="flex-1 sm:flex-none px-5 py-2.5 rounded-xl bg-royal-gold hover:bg-royal-goldDark text-white text-xs font-bold transition shadow-sm flex items-center justify-center gap-1.5">
+              <i class="fa-solid fa-pen-nib"></i>
+              <span>بدء الاختبار ⚡</span>
+            </button>
+          </div>
+        `;
+
+        listContainer.appendChild(item);
+      });
+    }
+
+    // --------------------------------------------------------------
+    // 9. ACTIVE QUIZ ENGINE & INTERACTION LOGIC
+    // --------------------------------------------------------------
+    function startQuizEngine(subjectId, quizId, examModeActive = false) {
+      const subject = currentSubjects.find(s => s.id === subjectId);
+      if (!subject) return;
+      const quiz = subject.quizzes.find(q => q.id === quizId);
+      if (!quiz || !quiz.questions || quiz.questions.length === 0) {
+        showCustomAlert("عذراً، هذا الاختبار لا يحتوي على أسئلة بعد.");
+        return;
+      }
+
+      currentSubjectId = subjectId;
+      activeQuizData = quiz;
+      isExamMode = examModeActive;
+      userAnswers = {};
+      activeQuestionIndex = 0;
+
+      // Reshuffle questions on load
+      activeQuestionList = shuffleArray(JSON.parse(JSON.stringify(quiz.questions)));
+
+      // Set Meta Display
+      document.getElementById('quizActiveSubjectBadge').innerText = subject.name;
+      document.getElementById('quizActiveTitle').innerText = quiz.title;
+
+      // Mode toggles
+      setQuizMode(isExamMode, false);
+
+      // DOM resets
+      document.getElementById('quizCard').classList.remove('hidden');
+      document.getElementById('quizResultsScreen').classList.add('hidden');
+
+      // Start Timer
+      startQuizTimer();
+
+      // Show View
+      showView('quiz');
+      renderQuizMatrix();
+      loadQuestionInCard(0);
+    }
+
+    function setQuizMode(mode, reload = true) {
+      isExamMode = mode;
+      const pBtn = document.getElementById('btnModePractice');
+      const eBtn = document.getElementById('btnModeExam');
+
+      if (isExamMode) {
+        eBtn.className = "px-3 py-1 rounded-lg bg-royal-gold text-white shadow-sm transition";
+        pBtn.className = "px-3 py-1 rounded-lg text-stone-600 hover:text-stone-900 transition";
+      } else {
+        pBtn.className = "px-3 py-1 rounded-lg bg-royal-gold text-white shadow-sm transition";
+        eBtn.className = "px-3 py-1 rounded-lg text-stone-600 hover:text-stone-900 transition";
+      }
+
+      if (reload) {
+        loadQuestionInCard(activeQuestionIndex);
+      }
+    }
+
+    function reshuffleActiveQuiz() {
+      if (!activeQuizData) return;
+      activeQuestionList = shuffleArray(JSON.parse(JSON.stringify(activeQuizData.questions)));
+      userAnswers = {};
+      activeQuestionIndex = 0;
+      startQuizTimer();
+      document.getElementById('quizCard').classList.remove('hidden');
+      document.getElementById('quizResultsScreen').classList.add('hidden');
+      renderQuizMatrix();
+      loadQuestionInCard(0);
+    }
+
+    function startQuizTimer() {
+      clearInterval(quizTimerInterval);
+      quizSeconds = 0;
+      updateTimerDisplay();
+      quizTimerInterval = setInterval(() => {
+        quizSeconds++;
+        updateTimerDisplay();
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const mins = Math.floor(quizSeconds / 60);
+      const secs = quizSeconds % 60;
+      document.getElementById('quizTimer').innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    // Question Jump Matrix Pills
+    function renderQuizMatrix() {
+      const matrix = document.getElementById('quizPillsMatrix');
+      matrix.innerHTML = '';
+
+      activeQuestionList.forEach((_, idx) => {
+        const pill = document.createElement('button');
+        pill.id = `pill-q-${idx}`;
+        pill.className = "w-7 h-7 rounded-lg text-xs font-bold flex items-center justify-center transition border bg-white border-stone-200 text-stone-600 hover:border-royal-gold";
+        pill.innerText = idx + 1;
+        pill.onclick = () => loadQuestionInCard(idx);
+        matrix.appendChild(pill);
+      });
+      updateMatrixStatus();
+    }
+
+    function updateMatrixStatus() {
+      activeQuestionList.forEach((item, idx) => {
+        const pill = document.getElementById(`pill-q-${idx}`);
+        if (!pill) return;
+
+        const isAnswered = userAnswers[idx] !== undefined;
+        const isCurrent = (idx === activeQuestionIndex);
+
+        pill.className = "w-7 h-7 rounded-lg text-xs font-bold flex items-center justify-center transition border ";
+
+        if (isCurrent) {
+          pill.classList.add('ring-2', 'ring-royal-gold', 'ring-offset-1');
+        }
+
+        if (isAnswered) {
+          if (!isExamMode) {
+            if (userAnswers[idx] === item.answer) {
+              pill.classList.add('bg-emerald-600', 'border-emerald-700', 'text-white');
+            } else {
+              pill.classList.add('bg-rose-600', 'border-rose-700', 'text-white');
+            }
+          } else {
+            pill.classList.add('bg-royal-gold', 'border-royal-goldDark', 'text-white');
+          }
+        } else {
+          pill.classList.add('bg-white', 'border-stone-200', 'text-stone-600', 'hover:border-royal-gold');
+        }
+      });
+    }
+
+    // Load active question into the card
+    function loadQuestionInCard(idx) {
+      if (idx < 0 || idx >= activeQuestionList.length) return;
+      activeQuestionIndex = idx;
+
+      const q = activeQuestionList[idx];
+
+      // Counters & Progress
+      document.getElementById('qCurrentNum').innerText = idx + 1;
+      document.getElementById('qTotalNum').innerText = activeQuestionList.length;
+      document.getElementById('cardQNum').innerText = idx + 1;
+
+      const progress = ((idx + 1) / activeQuestionList.length) * 100;
+      document.getElementById('quizProgressBar').style.width = `${progress}%`;
+
+      // Question Text & Hint
+      document.getElementById('cardQText').innerText = q.q;
+      document.getElementById('cardHintText').innerText = q.hint || 'لا يتوفر شرح إضافي لهذا السؤال.';
+      document.getElementById('cardHintBox').classList.add('hidden'); // auto-collapse hint
+
+      // Options Rendering
+      const optionsBox = document.getElementById('cardOptionsBox');
+      optionsBox.innerHTML = '';
+
+      const letters = ['A', 'B', 'C', 'D', 'E'];
+      const hasAnswered = userAnswers[idx] !== undefined;
+      const userChoice = userAnswers[idx];
+
+      q.options.forEach((optText, optIdx) => {
+        const btn = document.createElement('button');
+        btn.className = "w-full p-4 rounded-2xl border text-left dir-ltr flex items-center gap-3.5 text-xs sm:text-sm font-semibold transition-all group ";
+
+        const letterBadge = document.createElement('span');
+        letterBadge.className = "w-7 h-7 rounded-xl flex items-center justify-center font-bold text-xs uppercase shrink-0 transition ";
+        letterBadge.innerText = letters[optIdx] || (optIdx + 1);
+
+        const textSpan = document.createElement('span');
+        textSpan.className = "flex-1 leading-relaxed text-stone-800";
+        textSpan.innerText = optText;
+
+        if (!hasAnswered) {
+          btn.classList.add('bg-white', 'border-stone-200', 'hover:border-royal-gold', 'hover:bg-parchment-50');
+          letterBadge.classList.add('bg-stone-100', 'text-stone-600', 'group-hover:bg-royal-gold', 'group-hover:text-white');
+          btn.onclick = () => selectCardOption(idx, optIdx);
+        } else {
+          if (!isExamMode) {
+            // Practice Mode (Instant)
+            if (optIdx === q.answer) {
+              btn.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-950', 'ring-1', 'ring-emerald-400');
+              letterBadge.classList.add('bg-emerald-600', 'text-white');
+              textSpan.innerHTML += ' <span class="text-xs text-emerald-700 font-bold ml-2">✓ الإجابة الصحيحة</span>';
+            } else if (optIdx === userChoice) {
+              btn.classList.add('bg-rose-50', 'border-rose-400', 'text-rose-950', 'ring-1', 'ring-rose-400');
+              letterBadge.classList.add('bg-rose-600', 'text-white');
+              textSpan.innerHTML += ' <span class="text-xs text-rose-600 font-bold ml-2">✗ إجابتك الخاطئة</span>';
+            } else {
+              btn.classList.add('bg-stone-50', 'border-stone-200', 'opacity-60');
+              letterBadge.classList.add('bg-stone-200', 'text-stone-500');
+            }
+          } else {
+            // Exam Mode
+            if (optIdx === userChoice) {
+              btn.classList.add('bg-royal-gold/15', 'border-royal-gold', 'text-royal-deep', 'ring-1', 'ring-royal-gold');
+              letterBadge.classList.add('bg-royal-gold', 'text-white');
+            } else {
+              btn.classList.add('bg-white', 'border-stone-200', 'hover:border-stone-400');
+              letterBadge.classList.add('bg-stone-100', 'text-stone-600');
+            }
+            btn.onclick = () => selectCardOption(idx, optIdx); // allow changing in exam mode
+          }
+        }
+
+        btn.appendChild(letterBadge);
+        btn.appendChild(textSpan);
+        optionsBox.appendChild(btn);
+      });
+
+      // Feedback Box in Practice Mode
+      const fbBox = document.getElementById('cardFeedbackMsg');
+      if (hasAnswered && !isExamMode) {
+        fbBox.classList.remove('hidden');
+        if (userChoice === q.answer) {
+          fbBox.className = "p-3.5 rounded-2xl text-xs sm:text-sm font-bold border bg-emerald-50 border-emerald-300 text-emerald-900";
+          fbBox.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-600 ml-1"></i> إجابة صحيحة وممتازة!';
+        } else {
+          fbBox.className = "p-3.5 rounded-2xl text-xs sm:text-sm font-bold border bg-rose-50 border-rose-300 text-rose-900";
+          fbBox.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-600 ml-1"></i> إجابة غير صحيحة. الخيار الصحيح هو: <strong>(${letters[q.answer]})</strong>`;
+        }
+      } else {
+        fbBox.classList.add('hidden');
+      }
+
+      // Prev / Next Controls
+      document.getElementById('btnQuizPrev').disabled = (idx === 0);
+      const isLast = (idx === activeQuestionList.length - 1);
+      const nextBtn = document.getElementById('btnQuizNext');
+      const finishBtn = document.getElementById('btnQuizFinish');
+
+      if (isLast) {
+        nextBtn.classList.add('hidden');
+        finishBtn.classList.remove('hidden');
+      } else {
+        nextBtn.classList.remove('hidden');
+        finishBtn.classList.add('hidden');
+      }
+
+      updateMatrixStatus();
+      updateScoreTracker();
+    }
+
+    function selectCardOption(qIdx, optIdx) {
+      if (!isExamMode && userAnswers[qIdx] !== undefined) return; // lock in practice
+      userAnswers[qIdx] = optIdx;
+      loadQuestionInCard(qIdx);
+    }
+
+    function navigateQuiz(step) {
+      const target = activeQuestionIndex + step;
+      if (target >= 0 && target < activeQuestionList.length) {
+        loadQuestionInCard(target);
+      }
+    }
+
+    function toggleCardHint() {
+      const box = document.getElementById('cardHintBox');
+      box.classList.toggle('hidden');
+    }
+
+    function updateScoreTracker() {
+      let correct = 0;
+      activeQuestionList.forEach((q, idx) => {
+        if (userAnswers[idx] !== undefined && userAnswers[idx] === q.answer) correct++;
+      });
+      const answeredTotal = Object.keys(userAnswers).length;
+      document.getElementById('quizScoreTracker').innerText = `النتيجة الحالية: ${correct} من ${answeredTotal}`;
+    }
+
+    // Submit Quiz & Show Full Results
+    function submitActiveQuiz() {
+      clearInterval(quizTimerInterval);
+
+      try {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      } catch (e) {}
+
+      document.getElementById('quizCard').classList.add('hidden');
+      document.getElementById('quizResultsScreen').classList.remove('hidden');
+
+      let correct = 0;
+      activeQuestionList.forEach((q, idx) => {
+        if (userAnswers[idx] !== undefined && userAnswers[idx] === q.answer) correct++;
+      });
+
+      const total = activeQuestionList.length;
+      const wrong = total - correct;
+      const percent = Math.round((correct / total) * 100);
+
+      document.getElementById('resScoreText').innerText = `${correct} / ${total}`;
+      document.getElementById('resPercentText').innerText = `${percent}%`;
+      document.getElementById('resCorrectText').innerText = correct;
+      document.getElementById('resWrongText').innerText = wrong;
+      document.getElementById('resDurationText').innerText = `⏱ المدة المستغرقة: ${document.getElementById('quizTimer').innerText}`;
+
+      const icon = document.getElementById('resultIcon');
+      const head = document.getElementById('resultHeading');
+      if (percent >= 85) {
+        icon.innerText = "🏆";
+        head.innerText = "أداء استثنائي وممتاز!";
+      } else if (percent >= 65) {
+        icon.innerText = "🌟";
+        head.innerText = "أداء جيد جداً! واصل التقدم";
+      } else {
+        icon.innerText = "📚";
+        head.innerText = "يحتاج إلى مراجعة وتدريب إضافي";
+      }
+
+      renderReviewBreakdown();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Detailed Review Breakdown
+    function renderReviewBreakdown() {
+      const container = document.getElementById('quizReviewList');
+      container.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D', 'E'];
+
+      activeQuestionList.forEach((item, idx) => {
+        const userChoice = userAnswers[idx];
+        const isAnswered = (userChoice !== undefined);
+        const isCorrect = isAnswered && (userChoice === item.answer);
+
+        const card = document.createElement('div');
+        card.className = `p-4 rounded-2xl border text-xs sm:text-sm ${
+          isCorrect ? 'bg-emerald-50/70 border-emerald-200' : 'bg-rose-50/70 border-rose-200'
+        }`;
+
+        const correctText = item.options[item.answer] || '';
+        const userText = isAnswered ? item.options[userChoice] : '<em>لم يتم الإجابة على السؤال</em>';
+
+        card.innerHTML = `
+          <div class="flex items-start justify-between gap-2 mb-2">
+            <span class="font-bold text-royal-deep">
+              #${idx + 1}. ${item.q}
+            </span>
+            <span class="px-2 py-0.5 rounded text-[10px] font-black shrink-0 ${
+              isCorrect ? 'bg-emerald-600 text-white' : 'bg-rose-600 text-white'
+            }">
+              ${isCorrect ? 'صحيح ✓' : 'غير صحيح ✗'}
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 text-xs">
+            <div class="p-2.5 rounded-xl bg-white border border-stone-200">
+              <span class="text-stone-400 block mb-0.5">إجابتك:</span>
+              <span class="font-bold ${isCorrect ? 'text-emerald-700' : 'text-rose-700'}">${userText}</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-white border border-stone-200">
+              <span class="text-stone-400 block mb-0.5">الإجابة النموذجية:</span>
+              <span class="font-bold text-emerald-700">${correctText}</span>
+            </div>
+          </div>
+
+          ${
+            item.hint 
+              ? `<div class="mt-2.5 pt-2 border-t border-stone-200/80 text-[11px] text-amber-900 leading-relaxed font-medium">
+                   <i class="fa-solid fa-lightbulb text-amber-600 mr-1"></i>
+                   ${item.hint}
+                 </div>` 
+              : ''
+          }
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    // --------------------------------------------------------------
+    // 10. ADMIN DASHBOARD OPERATIONS (CRUD)
+    // --------------------------------------------------------------
+    function renderAdminDashboard() {
+      const container = document.getElementById('adminSubjectsTable');
+      container.innerHTML = '';
+
+      if (currentSubjects.length === 0) {
+        container.innerHTML = '<p class="text-xs text-stone-400 text-center py-6">لا توجد مواد مسجلة حالياً.</p>';
+        return;
+      }
+
+      currentSubjects.forEach((sub, sIdx) => {
+        const item = document.createElement('div');
+        item.className = "p-5 rounded-2xl bg-parchment-50 border border-stone-200 space-y-4";
+
+        let quizzesListHtml = '';
+        if (sub.quizzes && sub.quizzes.length > 0) {
+          sub.quizzes.forEach((q, qIdx) => {
+            const count = q.questions ? q.questions.length : 0;
+            quizzesListHtml += `
+              <div class="flex items-center justify-between p-3 rounded-xl bg-white border border-stone-200 text-xs">
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-royal-deep">${q.title}</span>
+                  <span class="text-stone-400">(${count} سؤال)</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button onclick="editQuizInEditor('${sub.id}', '${q.id}')" class="px-2.5 py-1 rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold transition">
+                    تعديل الكود
+                  </button>
+                  <button onclick="deleteQuiz('${sub.id}', '${q.id}')" class="px-2 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 transition" title="حذف الاختبار">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+            `;
+          });
+        } else {
+          quizzesListHtml = '<p class="text-xs text-stone-400 italic">لا توجد اختبارات لهذه المادة بعد.</p>';
+        }
+
+        item.innerHTML = `
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-stone-200/80 pb-3">
+            <div class="flex items-center gap-3">
+              <span class="text-2xl">${sub.emoji || '📚'}</span>
+              <div>
+                <h4 class="font-bold text-royal-deep text-sm sm:text-base">${sub.name}</h4>
+                <span class="text-xs text-stone-500 font-mono">${sub.code || 'MGT101'}</span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button onclick="openQuizModalForSubject('${sub.id}')" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition flex items-center gap-1">
+                <i class="fa-solid fa-plus"></i> إضافة اختبار
+              </button>
+              <button onclick="editSubjectModal('${sub.id}')" class="px-3 py-1.5 rounded-xl border border-stone-300 bg-white hover:bg-stone-50 text-stone-700 text-xs font-bold transition">
+                تعديل المادة
+              </button>
+              <button onclick="deleteSubject('${sub.id}')" class="px-2.5 py-1.5 rounded-xl bg-rose-100 hover:bg-rose-200 text-rose-700 text-xs transition" title="حذف المادة">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <span class="text-[11px] font-bold text-stone-500 block">الاختبارات التابعة:</span>
+            ${quizzesListHtml}
+          </div>
+        `;
+
+        container.appendChild(item);
+      });
+    }
+
+    // Smart Emoji Auto-Assigner
+    function autoAssignEmoji(name) {
+      const emojiInput = document.getElementById('subModalEmoji');
+      if (!name) return;
+      const lower = name.toLowerCase();
+
+      if (lower.includes('إدارة') || lower.includes('management')) emojiInput.value = '📊';
+      else if (lower.includes('أمن') || lower.includes('security') || lower.includes('cyber')) emojiInput.value = '🛡️';
+      else if (lower.includes('حاسب') || lower.includes('computer') || lower.includes('برمجة')) emojiInput.value = '💻';
+      else if (lower.includes('محاسبة') || lower.includes('accounting')) emojiInput.value = '🧮';
+      else if (lower.includes('اقتصاد') || lower.includes('economics')) emojiInput.value = '📈';
+      else if (lower.includes('قانون') || lower.includes('law')) emojiInput.value = '⚖️';
+      else if (lower.includes('طب') || lower.includes('medicine')) emojiInput.value = '🩺';
+      else if (lower.includes('هندسة') || lower.includes('engineering')) emojiInput.value = '⚙️';
+      else if (lower.includes('لغة') || lower.includes('language') || lower.includes('english')) emojiInput.value = '🌐';
+      else emojiInput.value = '📚';
+    }
+
+    // Modal Operations for Subjects
+    function openSubjectModal(subId = null) {
+      const modal = document.getElementById('subjectModal');
+      const title = document.getElementById('subjectModalTitle');
+      const editId = document.getElementById('subModalEditId');
+      const name = document.getElementById('subModalName');
+      const code = document.getElementById('subModalCode');
+      const emoji = document.getElementById('subModalEmoji');
+      const desc = document.getElementById('subModalDesc');
+
+      if (subId) {
+        const s = currentSubjects.find(x => x.id === subId);
+        if (s) {
+          title.innerText = "تعديل المادة الدراسية";
+          editId.value = s.id;
+          name.value = s.name;
+          code.value = s.code;
+          emoji.value = s.emoji || '📚';
+          desc.value = s.desc || '';
+        }
+      } else {
+        title.innerText = "إضافة مادة دراسية جديدة";
+        editId.value = '';
+        name.value = '';
+        code.value = '';
+        emoji.value = '📚';
+        desc.value = '';
+      }
+      modal.classList.remove('hidden');
+    }
+
+    function editSubjectModal(subId) {
+      openSubjectModal(subId);
+    }
+
+    function closeSubjectModal() {
+      document.getElementById('subjectModal').classList.add('hidden');
+    }
+
+    function handleSubjectSubmit(e) {
+      e.preventDefault();
+      const editId = document.getElementById('subModalEditId').value;
+      const name = document.getElementById('subModalName').value.trim();
+      const code = document.getElementById('subModalCode').value.trim();
+      const emoji = document.getElementById('subModalEmoji').value.trim() || '📚';
+      const desc = document.getElementById('subModalDesc').value.trim();
+
+      if (editId) {
+        const s = currentSubjects.find(x => x.id === editId);
+        if (s) {
+          s.name = name;
+          s.code = code;
+          s.emoji = emoji;
+          s.desc = desc;
+        }
+      } else {
+        currentSubjects.push({
+          id: 'sub-' + Date.now(),
+          name,
+          code,
+          emoji,
+          desc,
+          quizzes: []
+        });
+      }
+
+      saveSubjects();
+      closeSubjectModal();
+      renderAdminDashboard();
+      renderHomeSubjects();
+      updateStats();
+    }
+
+    function deleteSubject(subId) {
+      if (!confirm("هل أنت متأكد من حذف هذه المادة وجميع اختباراتها؟")) return;
+      currentSubjects = currentSubjects.filter(s => s.id !== subId);
+      saveSubjects();
+      renderAdminDashboard();
+      renderHomeSubjects();
+      updateStats();
+    }
+
+    // Modal Operations for Quizzes
+    let editingQuizTarget = { subId: null, quizId: null };
+
+    function openQuizModal(subId = null, quizId = null) {
+      const modal = document.getElementById('quizEditorModal');
+      const select = document.getElementById('modalQuizSubjectSelect');
+      const titleInput = document.getElementById('modalQuizTitle');
+      const codeInput = document.getElementById('modalQuizRawCode');
+
+      editingQuizTarget = { subId, quizId };
+      select.innerHTML = '';
+
+      currentSubjects.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.id;
+        opt.innerText = `${s.emoji || '📚'} ${s.name} (${s.code})`;
+        if (s.id === subId) opt.selected = true;
+        select.appendChild(opt);
+      });
+
+      if (subId && quizId) {
+        const s = currentSubjects.find(x => x.id === subId);
+        const q = s ? s.quizzes.find(x => x.id === quizId) : null;
+        if (q) {
+          titleInput.value = q.title;
+          codeInput.value = JSON.stringify(q.questions, null, 2);
+          handleCodeInput(codeInput.value);
+        }
+      } else {
+        titleInput.value = '';
+        codeInput.value = '';
+        handleCodeInput('');
+      }
+
+      switchEditorTab('code');
+      modal.classList.remove('hidden');
+    }
+
+    function openQuizModalForSubject(subId) {
+      openQuizModal(subId, null);
+    }
+
+    function editQuizInEditor(subId, quizId) {
+      openQuizModal(subId, quizId);
+    }
+
+    function closeQuizModal() {
+      document.getElementById('quizEditorModal').classList.add('hidden');
+    }
+
+    function saveQuizFromEditor() {
+      const subId = document.getElementById('modalQuizSubjectSelect').value;
+      const title = document.getElementById('modalQuizTitle').value.trim();
+      const codeVal = document.getElementById('modalQuizRawCode').value;
+
+      if (!title) {
+        showCustomAlert("يرجى إدخال عنوان للاختبار.");
+        return;
+      }
+
+      // Extract questions from code
+      const extracted = smartExtractQuestions(codeVal);
+      if (extracted.length === 0) {
+        showCustomAlert("تعذر استخراج الأسئلة! يرجى لصق كود صحيح يحتوي على مصفوفة أسئلة.");
+        return;
+      }
+
+      const subject = currentSubjects.find(s => s.id === subId);
+      if (!subject) return;
+
+      if (!subject.quizzes) subject.quizzes = [];
+
+      if (editingQuizTarget.quizId) {
+        // Edit existing
+        const q = subject.quizzes.find(x => x.id === editingQuizTarget.quizId);
+        if (q) {
+          q.title = title;
+          q.questions = extracted;
+        }
+      } else {
+        // Add new
+        subject.quizzes.push({
+          id: 'quiz-' + Date.now(),
+          title,
+          questions: extracted
+        });
+      }
+
+      saveSubjects();
+      closeQuizModal();
+      renderAdminDashboard();
+      renderHomeSubjects();
+      updateStats();
+
+      showCustomAlert(`✅ تم حفظ الاختبار بنجاح مع استخراج ${extracted.length} سؤالاً فورياً!`);
+    }
+
+    function deleteQuiz(subId, quizId) {
+      if (!confirm("هل أنت متأكد من حذف هذا الاختبار؟")) return;
+      const s = currentSubjects.find(x => x.id === subId);
+      if (s && s.quizzes) {
+        s.quizzes = s.quizzes.filter(q => q.id !== quizId);
+        saveSubjects();
+        renderAdminDashboard();
+        renderHomeSubjects();
+        updateStats();
+      }
+    }
+
+    // Modal Operations for Announcement
+    function openAnnouncementModal() {
+      const modal = document.getElementById('announcementModal');
+      document.getElementById('modalAnnounceText').value = document.getElementById('marqueeText').innerText;
+      modal.classList.remove('hidden');
+    }
+
+    function closeAnnouncementModal() {
+      document.getElementById('announcementModal').classList.add('hidden');
+    }
+
+    function handleAnnouncementSubmit(e) {
+      e.preventDefault();
+      const text = document.getElementById('modalAnnounceText').value.trim();
+      if (text) {
+        document.getElementById('marqueeText').innerText = text;
+        localStorage.setItem(STORAGE_KEY_ANNOUNCE, text);
+      }
+      closeAnnouncementModal();
+    }
+
+    // --------------------------------------------------------------
+    // 11. GENERAL HELPERS & UTILITIES
+    // --------------------------------------------------------------
+    function shuffleArray(array) {
       const arr = [...array];
       for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -1031,498 +2330,38 @@
       return arr;
     }
 
-    // Timer Operations
-    function startTimer() {
-      clearInterval(timerInterval);
-      secondsElapsed = 0;
-      updateTimerDisplay();
-      timerInterval = setInterval(() => {
-        secondsElapsed++;
-        updateTimerDisplay();
-      }, 1000);
+    function showCustomAlert(msg) {
+      const alertBox = document.createElement('div');
+      alertBox.className = "fixed bottom-5 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded-2xl bg-royal-deep text-white text-xs sm:text-sm font-bold shadow-2xl border border-royal-gold animate-fadeIn";
+      alertBox.innerText = msg;
+      document.body.appendChild(alertBox);
+      setTimeout(() => alertBox.remove(), 3200);
     }
 
-    function formatTime(secs) {
-      const mins = Math.floor(secs / 60);
-      const rem = secs % 60;
-      return `${mins.toString().padStart(2, '0')}:${rem.toString().padStart(2, '0')}`;
+    function renderAllViews() {
+      if (currentView === 'home') renderHomeSubjects();
+      else if (currentView === 'subject' && currentSubjectId) renderSubjectPage(currentSubjectId);
+      else if (currentView === 'admin') renderAdminDashboard();
+      updateStats();
     }
 
-    function updateTimerDisplay() {
-      document.getElementById('timerDisplay').innerText = formatTime(secondsElapsed);
+    // Update Live Date
+    function updateDateDisplay() {
+      const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+      const dateStr = new Date().toLocaleDateString(currentLang === 'ar' ? 'ar-EG' : 'en-US', options);
+      const el = document.getElementById('currentDateDisplay');
+      if (el) el.innerText = dateStr;
     }
 
-    // ----------------------------------------------------
-    // 3. Quiz Initialization & Filter Management
-    // ----------------------------------------------------
-    function initQuiz(shouldShuffle = true) {
-      // Filter list
-      let filtered = [];
-      if (currentCategory === 'lec2') {
-        filtered = allQuestionsRaw.filter(q => q.lecture === 2);
-      } else if (currentCategory === 'lec3') {
-        filtered = allQuestionsRaw.filter(q => q.lecture === 3);
-      } else {
-        filtered = [...allQuestionsRaw];
-      }
-
-      // Shuffle if specified
-      activeQuestionList = shouldShuffle ? shuffle(filtered) : filtered;
-      currentIdx = 0;
-      userAnswers = {};
-
-      // Reset DOM state
-      document.getElementById('resultsScreen').classList.add('hidden');
-      document.getElementById('quizContainer').classList.remove('hidden');
-
-      // Update total badge
-      document.getElementById('totalQuestionsText').innerText = activeQuestionList.length;
-      const scopeName = currentCategory === 'lec2' ? 'Lecture 2 (29)' : currentCategory === 'lec3' ? 'Lecture 3 (32)' : 'All (61)';
-      document.getElementById('activeFilterBadge').innerText = scopeName;
-
-      renderGrid();
-      loadQuestion(0);
-      startTimer();
-      updateScoreBadge();
-    }
-
-    // Question Grid / Bubble Matrix
-    function renderGrid() {
-      const grid = document.getElementById('questionGrid');
-      grid.innerHTML = '';
-
-      activeQuestionList.forEach((_, idx) => {
-        const pill = document.createElement('button');
-        pill.id = `pill-${idx}`;
-        pill.className = `w-7 h-7 rounded-lg text-xs font-semibold flex items-center justify-center smooth-transition border ${
-          idx === currentIdx 
-            ? 'bg-indigo-600 border-indigo-400 text-white shadow' 
-            : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-600'
-        }`;
-        pill.innerText = idx + 1;
-        pill.addEventListener('click', () => loadQuestion(idx));
-        grid.appendChild(pill);
-      });
-    }
-
-    function updateGridPills() {
-      activeQuestionList.forEach((item, idx) => {
-        const pill = document.getElementById(`pill-${idx}`);
-        if (!pill) return;
-
-        const isAnswered = userAnswers[idx] !== undefined;
-        const isCurrent = idx === currentIdx;
-
-        pill.className = "w-7 h-7 rounded-lg text-xs font-semibold flex items-center justify-center smooth-transition border ";
-
-        if (isCurrent) {
-          pill.classList.add('ring-2', 'ring-indigo-400', 'ring-offset-1', 'ring-offset-slate-950');
-        }
-
-        if (isAnswered) {
-          if (!examMode) {
-            if (userAnswers[idx] === item.answer) {
-              pill.classList.add('bg-emerald-600', 'border-emerald-400', 'text-white');
-            } else {
-              pill.classList.add('bg-rose-600', 'border-rose-400', 'text-white');
-            }
-          } else {
-            pill.classList.add('bg-indigo-900/90', 'border-indigo-500', 'text-indigo-200');
-          }
-        } else {
-          pill.classList.add('bg-slate-900', 'border-slate-800', 'text-slate-400', 'hover:border-slate-600');
-        }
-      });
-    }
-
-    // ----------------------------------------------------
-    // 4. Load & Render Active Question
-    // ----------------------------------------------------
-    function loadQuestion(idx) {
-      if (idx < 0 || idx >= activeQuestionList.length) return;
-      currentIdx = idx;
-
-      const item = activeQuestionList[idx];
-
-      // Counters & Progress Bar
-      document.getElementById('currentIdxText').innerText = idx + 1;
-      const progressPercent = ((idx + 1) / activeQuestionList.length) * 100;
-      document.getElementById('progressBar').style.width = `${progressPercent}%`;
-
-      // Header Meta
-      const lectureBadge = document.getElementById('lectureBadge');
-      if (item.lecture === 2) {
-        lectureBadge.innerText = "Lecture 2 • MCQ";
-        lectureBadge.className = "px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-indigo-500/15 text-indigo-400 border border-indigo-500/30";
-      } else {
-        lectureBadge.innerText = "Lecture 3 • True / False";
-        lectureBadge.className = "px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-violet-500/15 text-violet-400 border border-violet-500/30";
-      }
-
-      document.getElementById('origIdBadge').innerText = `Orig #${item.origId}`;
-      document.getElementById('questionText').innerText = item.q;
-
-      // Arabic Hint Setup (collapsed)
-      document.getElementById('hintContent').innerText = item.hint;
-      document.getElementById('hintCard').classList.add('hidden');
-      document.getElementById('hintArrow').classList.remove('rotate-180');
-
-      // Feedback message reset
-      const feedbackMsg = document.getElementById('immediateFeedbackText');
-      feedbackMsg.innerText = '';
-      feedbackMsg.className = 'text-xs sm:text-sm font-bold';
-
-      // Status Badge
-      const statusBadge = document.getElementById('statusBadge');
-      if (userAnswers[idx] !== undefined) {
-        statusBadge.classList.remove('hidden');
-        statusBadge.innerText = 'Answered';
-      } else {
-        statusBadge.classList.add('hidden');
-      }
-
-      // Render Options
-      const optionsContainer = document.getElementById('optionsContainer');
-      optionsContainer.innerHTML = '';
-
-      const letters = ['a', 'b', 'c', 'd'];
-      const hasAnswered = userAnswers[idx] !== undefined;
-      const selectedOption = userAnswers[idx];
-
-      item.options.forEach((optText, optIdx) => {
-        const optButton = document.createElement('button');
-        optButton.className = "w-full text-left p-3.5 sm:p-4 rounded-xl border smooth-transition flex items-start gap-3.5 text-sm sm:text-base font-medium relative group ";
-
-        const letterCircle = document.createElement('span');
-        letterCircle.className = "w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs uppercase shrink-0 smooth-transition ";
-
-        const textSpan = document.createElement('span');
-        textSpan.className = "flex-1 mt-0.5 leading-relaxed";
-        textSpan.innerText = optText;
-
-        if (item.type === 'tf') {
-          letterCircle.innerText = optIdx === 0 ? "T" : "F";
-        } else {
-          letterCircle.innerText = letters[optIdx];
-        }
-
-        if (!hasAnswered) {
-          // Unanswered
-          optButton.classList.add('bg-slate-950/70', 'border-slate-800', 'text-slate-200', 'hover:border-indigo-500', 'hover:bg-slate-900');
-          letterCircle.classList.add('bg-slate-900', 'text-slate-400', 'group-hover:bg-indigo-600', 'group-hover:text-white');
-          optButton.addEventListener('click', () => handleSelectOption(optIdx));
-        } else {
-          // Answered
-          if (!examMode) {
-            // Practice Mode (Instant Feedback)
-            if (optIdx === item.answer) {
-              optButton.classList.add('bg-emerald-950/40', 'border-emerald-500', 'text-emerald-200');
-              letterCircle.classList.add('bg-emerald-500', 'text-white');
-              textSpan.innerHTML += ` <span class="text-xs text-emerald-400 font-bold ml-1.5">✓ Correct</span>`;
-            } else if (optIdx === selectedOption) {
-              optButton.classList.add('bg-rose-950/40', 'border-rose-500', 'text-rose-200');
-              letterCircle.classList.add('bg-rose-500', 'text-white');
-              textSpan.innerHTML += ` <span class="text-xs text-rose-400 font-bold ml-1.5">✗ Your choice</span>`;
-            } else {
-              optButton.classList.add('bg-slate-950/30', 'border-slate-800/80', 'text-slate-500', 'opacity-60');
-              letterCircle.classList.add('bg-slate-900', 'text-slate-600');
-            }
-          } else {
-            // Exam Mode
-            if (optIdx === selectedOption) {
-              optButton.classList.add('bg-indigo-950/60', 'border-indigo-500', 'text-indigo-200');
-              letterCircle.classList.add('bg-indigo-600', 'text-white');
-            } else {
-              optButton.classList.add('bg-slate-950/50', 'border-slate-800', 'text-slate-300', 'hover:border-slate-600');
-              letterCircle.classList.add('bg-slate-900', 'text-slate-400');
-            }
-            // Allow changing answers in Exam Mode
-            optButton.addEventListener('click', () => handleSelectOption(optIdx));
-          }
-        }
-
-        optButton.appendChild(letterCircle);
-        optButton.appendChild(textSpan);
-        optionsContainer.appendChild(optButton);
-      });
-
-      // Immediate Feedback Text in Practice Mode
-      if (hasAnswered && !examMode) {
-        if (selectedOption === item.answer) {
-          feedbackMsg.innerText = "✓ Correct Answer!";
-          feedbackMsg.className = "text-xs sm:text-sm font-bold text-emerald-400";
-        } else {
-          const correctKey = item.type === 'tf' ? (item.answer === 0 ? 'True' : 'False') : `(${letters[item.answer]})`;
-          feedbackMsg.innerText = `✗ Incorrect. Correct choice: ${correctKey}`;
-          feedbackMsg.className = "text-xs sm:text-sm font-bold text-rose-400";
-        }
-      }
-
-      // Prev & Next Controls
-      document.getElementById('prevBtn').disabled = (currentIdx === 0);
-      const isLast = (currentIdx === activeQuestionList.length - 1);
-      document.getElementById('nextBtn').classList.toggle('hidden', isLast);
-      
-      const answeredTotal = Object.keys(userAnswers).length;
-      document.getElementById('finishBtn').classList.toggle('hidden', !isLast && answeredTotal < activeQuestionList.length);
-
-      updateGridPills();
-      updateScoreBadge();
-    }
-
-    // ----------------------------------------------------
-    // 5. Option Selection Handling
-    // ----------------------------------------------------
-    function handleSelectOption(optIdx) {
-      initSynth();
-      userAnswers[currentIdx] = optIdx;
-      const currentQ = activeQuestionList[currentIdx];
-
-      if (!examMode) {
-        if (optIdx === currentQ.answer) {
-          playSound('correct');
-        } else {
-          playSound('wrong');
-        }
-      }
-
-      loadQuestion(currentIdx);
-    }
-
-    // Hint Collapsible Toggle
-    document.getElementById('toggleHintBtn').addEventListener('click', () => {
-      const hintCard = document.getElementById('hintCard');
-      const arrow = document.getElementById('hintArrow');
-      const isHidden = hintCard.classList.contains('hidden');
-
-      if (isHidden) {
-        hintCard.classList.remove('hidden');
-        arrow.classList.add('rotate-180');
-      } else {
-        hintCard.classList.add('hidden');
-        arrow.classList.remove('rotate-180');
-      }
-    });
-
-    // Score Summary Calculation
-    function updateScoreBadge() {
-      let correct = 0;
-      const answeredKeys = Object.keys(userAnswers);
-
-      activeQuestionList.forEach((q, idx) => {
-        if (userAnswers[idx] !== undefined && userAnswers[idx] === q.answer) {
-          correct++;
-        }
-      });
-
-      if (!examMode) {
-        document.getElementById('scoreBadge').innerText = `Score: ${correct} / ${answeredKeys.length}`;
-      } else {
-        document.getElementById('scoreBadge').innerText = `Answered: ${answeredKeys.length} / ${activeQuestionList.length}`;
-      }
-    }
-
-    // ----------------------------------------------------
-    // 6. Finish Quiz & Render Results
-    // ----------------------------------------------------
-    function finishQuiz() {
-      clearInterval(timerInterval);
-      playSound('finish');
-
-      try {
-        confetti({
-          particleCount: 120,
-          spread: 80,
-          origin: { y: 0.6 }
-        });
-      } catch (e) {}
-
-      document.getElementById('quizContainer').classList.add('hidden');
-      document.getElementById('resultsScreen').classList.remove('hidden');
-
-      let correctCount = 0;
-      activeQuestionList.forEach((q, idx) => {
-        if (userAnswers[idx] !== undefined && userAnswers[idx] === q.answer) {
-          correctCount++;
-        }
-      });
-
-      const total = activeQuestionList.length;
-      const percentage = Math.round((correctCount / total) * 100);
-
-      document.getElementById('finalScoreVal').innerText = `${correctCount} / ${total}`;
-      document.getElementById('finalPercentage').innerText = `${percentage}% Accuracy`;
-      document.getElementById('finalTime').innerText = formatTime(secondsElapsed);
-      document.getElementById('finalScope').innerText = currentCategory === 'lec2' ? 'Lecture 2 (29)' : currentCategory === 'lec3' ? 'Lecture 3 (32)' : 'All Questions (61)';
-
-      const emojiEl = document.getElementById('scoreEmoji');
-      if (percentage >= 90) emojiEl.innerText = "🏆";
-      else if (percentage >= 75) emojiEl.innerText = "🌟";
-      else if (percentage >= 60) emojiEl.innerText = "👍";
-      else emojiEl.innerText = "📚";
-
-      renderReviewBreakdown();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // Render Full Review Breakdown
-    function renderReviewBreakdown() {
-      const container = document.getElementById('reviewList');
-      container.innerHTML = '';
-      const letters = ['a', 'b', 'c', 'd'];
-
-      activeQuestionList.forEach((item, idx) => {
-        const userChoice = userAnswers[idx];
-        const isCorrect = (userChoice !== undefined && userChoice === item.answer);
-
-        const card = document.createElement('div');
-        card.className = `p-4 sm:p-5 rounded-xl border ${
-          isCorrect ? 'bg-emerald-950/20 border-emerald-500/40' : 'bg-rose-950/20 border-rose-500/40'
-        }`;
-
-        const headerDiv = document.createElement('div');
-        headerDiv.className = "flex items-center justify-between text-xs font-semibold mb-2";
-        headerDiv.innerHTML = `
-          <span class="${isCorrect ? 'text-emerald-400' : 'text-rose-400'}">
-            ${isCorrect ? '✓ Correct' : '✗ Incorrect or Skipped'} • Question #${idx + 1} (Lecture ${item.lecture} • Orig #${item.origId})
-          </span>
-          <span class="text-slate-400">Answer: ${
-            item.type === 'tf' ? (item.answer === 0 ? 'True' : 'False') : `(${letters[item.answer]})`
-          }</span>
-        `;
-
-        const questionTitle = document.createElement('h4');
-        questionTitle.className = "font-bold text-slate-200 text-sm sm:text-base mb-3 leading-snug";
-        questionTitle.innerText = item.q;
-
-        const comparison = document.createElement('div');
-        comparison.className = "space-y-1.5 text-xs sm:text-sm";
-
-        // Correct text
-        const correctText = item.type === 'tf' 
-          ? (item.answer === 0 ? 'True' : 'False')
-          : `(${letters[item.answer]}) ${item.options[item.answer]}`;
-
-        const correctRow = document.createElement('div');
-        correctRow.className = "text-emerald-300 font-medium";
-        correctRow.innerHTML = `<strong>Correct:</strong> ${correctText}`;
-        comparison.appendChild(correctRow);
-
-        // User response if incorrect
-        if (!isCorrect) {
-          let userText = '<em>Skipped / Unanswered</em>';
-          if (userChoice !== undefined) {
-            userText = item.type === 'tf' 
-              ? (userChoice === 0 ? 'True' : 'False')
-              : `(${letters[userChoice]}) ${item.options[userChoice]}`;
-          }
-          const userRow = document.createElement('div');
-          userRow.className = "text-rose-300 font-medium";
-          userRow.innerHTML = `<strong>Your Answer:</strong> ${userText}`;
-          comparison.appendChild(userRow);
-        }
-
-        // Arabic Hint
-        const hintBox = document.createElement('div');
-        hintBox.className = "mt-3 pt-3 border-t border-slate-800 text-xs text-amber-200/90 arabic-text leading-relaxed whitespace-pre-line";
-        hintBox.innerText = `💡 ${item.hint}`;
-
-        card.appendChild(headerDiv);
-        card.appendChild(questionTitle);
-        card.appendChild(comparison);
-        card.appendChild(hintBox);
-
-        container.appendChild(card);
-      });
-    }
-
-    // ----------------------------------------------------
-    // 7. Event Handlers & Filters
-    // ----------------------------------------------------
-    // Category Filter Buttons
-    const filterAll = document.getElementById('filterAll');
-    const filterLec2 = document.getElementById('filterLec2');
-    const filterLec3 = document.getElementById('filterLec3');
-    const filterButtons = [filterAll, filterLec2, filterLec3];
-
-    function setFilter(cat, btn) {
-      currentCategory = cat;
-      filterButtons.forEach(b => {
-        b.className = "filter-tab px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 smooth-transition";
-      });
-      btn.className = "filter-tab px-3 py-1.5 rounded-lg bg-indigo-600 text-white shadow-sm smooth-transition";
-      initQuiz(true);
-    }
-
-    filterAll.addEventListener('click', () => setFilter('all', filterAll));
-    filterLec2.addEventListener('click', () => setFilter('lec2', filterLec2));
-    filterLec3.addEventListener('click', () => setFilter('lec3', filterLec3));
-
-    // Mode Toggle Buttons
-    const modePractice = document.getElementById('modePractice');
-    const modeExam = document.getElementById('modeExam');
-
-    modePractice.addEventListener('click', () => {
-      examMode = false;
-      modePractice.className = "mode-tab px-3.5 py-1.5 rounded-lg bg-indigo-600 text-white shadow-sm smooth-transition";
-      modeExam.className = "mode-tab px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 smooth-transition";
-      loadQuestion(currentIdx);
-    });
-
-    modeExam.addEventListener('click', () => {
-      examMode = true;
-      modeExam.className = "mode-tab px-3.5 py-1.5 rounded-lg bg-indigo-600 text-white shadow-sm smooth-transition";
-      modePractice.className = "mode-tab px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 smooth-transition";
-      loadQuestion(currentIdx);
-    });
-
-    // Navigation Controls
-    document.getElementById('prevBtn').addEventListener('click', () => {
-      if (currentIdx > 0) loadQuestion(currentIdx - 1);
-    });
-
-    document.getElementById('nextBtn').addEventListener('click', () => {
-      if (currentIdx < activeQuestionList.length - 1) loadQuestion(currentIdx + 1);
-    });
-
-    document.getElementById('finishBtn').addEventListener('click', finishQuiz);
-    document.getElementById('restartBtn').addEventListener('click', () => initQuiz(true));
-    document.getElementById('shuffleBtn').addEventListener('click', () => initQuiz(true));
-
-    document.getElementById('scrollToReviewBtn').addEventListener('click', () => {
-      document.getElementById('reviewContainer').scrollIntoView({ behavior: 'smooth' });
-    });
-
-    // Sound Toggle
-    const soundToggleBtn = document.getElementById('soundToggleBtn');
-    const soundIconOn = document.getElementById('soundIconOn');
-    const soundIconOff = document.getElementById('soundIconOff');
-
-    soundToggleBtn.addEventListener('click', () => {
-      soundEnabled = !soundEnabled;
-      soundIconOn.classList.toggle('hidden', !soundEnabled);
-      soundIconOff.classList.toggle('hidden', soundEnabled);
-    });
-
-    // Keyboard Shortcuts
-    window.addEventListener('keydown', (e) => {
-      if (!document.getElementById('resultsScreen').classList.contains('hidden')) return;
-
-      if (e.key === 'ArrowRight') {
-        if (currentIdx < activeQuestionList.length - 1) loadQuestion(currentIdx + 1);
-      } else if (e.key === 'ArrowLeft') {
-        if (currentIdx > 0) loadQuestion(currentIdx - 1);
-      } else if (['1', '2', '3', '4'].includes(e.key)) {
-        const opt = parseInt(e.key, 10) - 1;
-        if (activeQuestionList[currentIdx] && opt < activeQuestionList[currentIdx].options.length) {
-          handleSelectOption(opt);
-        }
-      }
-    });
-
-    // On Load
+    // --------------------------------------------------------------
+    // 12. INITIALIZATION ON WINDOW LOAD
+    // --------------------------------------------------------------
     window.onload = function() {
-      initQuiz(true);
+      loadSavedData();
+      applyLanguageDirection();
+      renderHomeSubjects();
+      updateStats();
+      updateDateDisplay();
     };
   </script>
 </body>
