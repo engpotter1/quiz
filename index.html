@@ -1,11 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Management Lecture 2 - Interactive MCQ Quiz</title>
+  <title>Management Exam Prep - Lectures 2 & 3 Interactive Quiz</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          }
+        }
+      }
+    }
+  </script>
   <!-- Google Fonts: Inter & Cairo -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,135 +41,178 @@
       font-family: 'Cairo', sans-serif;
       direction: rtl;
     }
-    /* Smooth transitions */
     .smooth-transition {
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    /* Custom Scrollbar for Questions Grid */
     .custom-scroll::-webkit-scrollbar {
       width: 6px;
       height: 6px;
     }
     .custom-scroll::-webkit-scrollbar-thumb {
-      background-color: #cbd5e1;
+      background-color: rgba(148, 163, 184, 0.4);
       border-radius: 9999px;
     }
   </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white transition-colors duration-300">
 
-  <!-- Top App Header -->
-  <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-30">
-    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+  <!-- Sticky Top Header -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <!-- Logo / Title -->
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/20 font-bold text-white text-lg">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/20 font-black text-white text-lg">
           M
         </div>
         <div>
           <h1 class="text-base sm:text-lg font-bold text-white tracking-tight flex items-center gap-2">
-            Management Quiz <span class="text-xs px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-medium">Lecture 2</span>
+            Management Quiz Bank
+            <span class="text-xs px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-semibold">Lectures 2 & 3</span>
           </h1>
-          <p class="text-xs text-slate-400 hidden sm:block">29 Questions • Random Order • Arabic Hints Available</p>
+          <p class="text-xs text-slate-400 hidden sm:block">61 Total Verbatim Questions • Shuffled • Hints with Arabic Explanations</p>
         </div>
       </div>
 
-      <!-- Quick Controls & Timer -->
+      <!-- Header Controls: Timer, Shuffle, and Audio -->
       <div class="flex items-center gap-2 sm:gap-3">
-        <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700/60 text-xs sm:text-sm font-mono text-slate-300">
+        <!-- Timer -->
+        <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs sm:text-sm font-mono text-slate-300 shadow-inner">
           <svg class="w-4 h-4 text-indigo-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           <span id="timerDisplay">00:00</span>
         </div>
-        <button id="shuffleBtn" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-xs sm:text-sm font-medium smooth-transition flex items-center gap-1.5" title="Reshuffle and Restart">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-          <span class="hidden sm:inline">Shuffle</span>
+
+        <!-- Shuffle Button -->
+        <button id="shuffleBtn" class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/80 text-xs sm:text-sm font-medium smooth-transition flex items-center gap-1.5 shadow-sm" title="Reshuffle Questions">
+          <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+          <span>Shuffle 🔀</span>
+        </button>
+
+        <!-- Sound Toggle -->
+        <button id="soundToggleBtn" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 text-xs smooth-transition" title="Toggle Sound">
+          <svg id="soundIconOn" class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+          <svg id="soundIconOff" class="w-4 h-4 text-slate-500 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z m12-2l4 4m0-4l-4 4"></path></svg>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Main Container -->
-  <main class="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6 flex flex-col justify-between">
+  <!-- Main Content Layout -->
+  <main class="flex-1 max-w-5xl w-full mx-auto p-4 sm:p-6 flex flex-col justify-between">
     
-    <!-- Mode & Navigation Pill Header -->
-    <div class="bg-slate-800/80 rounded-2xl p-4 border border-slate-700/60 shadow-xl mb-6">
-      <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
-        <!-- Mode Switcher -->
-        <div class="inline-flex p-1 rounded-xl bg-slate-900 border border-slate-700 text-xs font-medium">
-          <button id="modePractice" class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white shadow-sm smooth-transition">Instant Feedback</button>
-          <button id="modeExam" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 smooth-transition">Exam Mode</button>
+    <!-- Top Filter & Mode Dashboard -->
+    <div class="bg-slate-900/90 rounded-2xl p-4 sm:p-5 border border-slate-800 shadow-xl mb-6 space-y-4">
+      
+      <!-- Row 1: Category Filter & Quiz Mode -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <!-- Category Filter Pills -->
+        <div class="flex flex-wrap items-center gap-1.5 bg-slate-950 p-1.5 rounded-xl border border-slate-800 text-xs font-semibold">
+          <button id="filterAll" class="filter-tab px-3 py-1.5 rounded-lg bg-indigo-600 text-white shadow-sm smooth-transition">
+            All Questions (61)
+          </button>
+          <button id="filterLec2" class="filter-tab px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 smooth-transition">
+            Lecture 2: MCQs (29)
+          </button>
+          <button id="filterLec3" class="filter-tab px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 smooth-transition">
+            Lecture 3: True / False (32)
+          </button>
         </div>
 
-        <!-- Progress Counter -->
-        <div class="flex items-center gap-3 text-xs sm:text-sm font-semibold text-slate-300">
-          <span>Question <span id="currentIdxText" class="text-indigo-400 text-base">1</span> of 29</span>
-          <span class="h-3 w-px bg-slate-700"></span>
-          <span id="scoreBadge" class="text-emerald-400 font-mono">Score: 0 / 0</span>
+        <!-- Mode Toggle (Instant Practice vs Exam) -->
+        <div class="inline-flex p-1 rounded-xl bg-slate-950 border border-slate-800 text-xs font-semibold self-start md:self-auto">
+          <button id="modePractice" class="mode-tab px-3.5 py-1.5 rounded-lg bg-indigo-600 text-white shadow-sm smooth-transition">
+            Practice Mode (Instant Feedback)
+          </button>
+          <button id="modeExam" class="mode-tab px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 smooth-transition">
+            Exam Mode
+          </button>
         </div>
       </div>
 
-      <!-- Linear Progress Bar -->
-      <div class="w-full bg-slate-700/60 h-2 rounded-full overflow-hidden">
-        <div id="progressBar" class="bg-gradient-to-r from-indigo-500 to-violet-500 h-full w-[3.45%] smooth-transition"></div>
+      <!-- Row 2: Progress Status & Score Tracker -->
+      <div class="flex items-center justify-between text-xs sm:text-sm font-semibold text-slate-300 pt-2 border-t border-slate-800/80">
+        <div class="flex items-center gap-2">
+          <span>Question <span id="currentIdxText" class="text-indigo-400 text-base font-bold">1</span> of <span id="totalQuestionsText">61</span></span>
+          <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono" id="activeFilterBadge">All</span>
+        </div>
+        <div id="scoreBadge" class="text-emerald-400 font-mono text-sm">
+          Score: 0 / 0
+        </div>
       </div>
 
-      <!-- Quick Question Selector Pills Grid -->
-      <div class="mt-4 pt-3 border-t border-slate-700/60">
+      <!-- Linear Progress Indicator -->
+      <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
+        <div id="progressBar" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 h-full w-[2%] smooth-transition"></div>
+      </div>
+
+      <!-- Row 3: Question Bubble Navigator -->
+      <div class="pt-2">
         <div class="flex items-center justify-between text-xs text-slate-400 mb-2">
-          <span>Jump to Question:</span>
-          <span class="text-[11px] text-slate-500">🟢 Correct • 🔴 Wrong • ⚪ Visited</span>
+          <span class="font-medium">Quick Question Matrix:</span>
+          <span class="text-[11px] text-slate-500 flex items-center gap-2">
+            <span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span> Correct
+            <span class="inline-block w-2 h-2 rounded-full bg-rose-500"></span> Wrong
+            <span class="inline-block w-2 h-2 rounded-full bg-indigo-500"></span> Answered (Exam)
+          </span>
         </div>
-        <div id="questionGrid" class="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto custom-scroll p-1">
-          <!-- Dynamic Pills will be injected here -->
+        <div id="questionGrid" class="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto custom-scroll p-1 bg-slate-950/60 rounded-xl border border-slate-800/60">
+          <!-- Dynamic Pills -->
         </div>
       </div>
+
     </div>
 
-    <!-- Active Question Card -->
+    <!-- Active Question Container -->
     <div id="quizContainer" class="flex-1 flex flex-col justify-between">
-      <div class="bg-slate-800/90 rounded-2xl p-5 sm:p-7 border border-slate-700 shadow-2xl relative mb-6">
+      <div class="bg-slate-900 rounded-2xl p-5 sm:p-7 border border-slate-800 shadow-2xl relative mb-6">
         
-        <!-- Question Header Meta -->
+        <!-- Header Badges -->
         <div class="flex items-center justify-between gap-2 mb-4">
-          <span id="qBadge" class="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">
-            Original #1
-          </span>
-          <span id="statusBadge" class="text-xs px-2.5 py-1 rounded-full bg-slate-700/80 text-slate-300 hidden">
+          <div class="flex items-center gap-2">
+            <span id="lectureBadge" class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">
+              Lecture 2 • MCQ
+            </span>
+            <span id="origIdBadge" class="text-xs text-slate-400 font-mono">
+              Orig #1
+            </span>
+          </div>
+
+          <span id="statusBadge" class="text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700 hidden">
             Answered
           </span>
         </div>
 
-        <!-- English Question Text -->
-        <h2 id="questionText" class="text-lg sm:text-xl font-bold text-slate-100 leading-snug tracking-tight mb-6 min-h-[56px]">
+        <!-- Question English Text -->
+        <h2 id="questionText" class="text-base sm:text-xl font-bold text-slate-100 leading-relaxed mb-6 min-h-[50px]">
           Loading question text...
         </h2>
 
         <!-- Options Container -->
         <div id="optionsContainer" class="space-y-3 mb-6">
-          <!-- Dynamically populated options -->
+          <!-- Rendered dynamically -->
         </div>
 
-        <!-- Feedback & Arabic Hint Box -->
-        <div class="mt-4 pt-4 border-t border-slate-700/80 space-y-3">
-          <!-- Hint Toggle Button -->
-          <div class="flex items-center justify-between">
-            <button id="toggleHintBtn" class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs sm:text-sm font-semibold smooth-transition">
-              <span>💡 ترجمة وشرح السؤال (Hint)</span>
+        <!-- Arabic Hint & Feedback Section -->
+        <div class="pt-4 border-t border-slate-800/90 space-y-3">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <button id="toggleHintBtn" class="flex items-center gap-2 px-3 py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs sm:text-sm font-semibold smooth-transition">
+              <span>💡 Show Arabic Hint & Translation / إظهار التلميح والترجمة</span>
               <svg id="hintArrow" class="w-4 h-4 transform smooth-transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </button>
-            <span id="immediateFeedbackText" class="text-xs sm:text-sm font-medium"></span>
+            <div id="immediateFeedbackText" class="text-xs sm:text-sm font-bold"></div>
           </div>
 
-          <!-- Collapsible Arabic Hint Container -->
-          <div id="hintCard" class="hidden rounded-xl bg-amber-950/20 border border-amber-500/30 p-4 text-amber-200 text-sm leading-relaxed arabic-text smooth-transition">
-            <p id="hintContent"></p>
+          <!-- Collapsible Arabic Hint Box -->
+          <div id="hintCard" class="hidden rounded-xl bg-amber-950/25 border border-amber-500/30 p-4 text-amber-100/95 text-sm sm:text-base leading-relaxed arabic-text shadow-inner">
+            <div class="font-bold text-amber-300 mb-1 border-b border-amber-500/20 pb-1 text-sm">💡 الترجمة والشرح التفصيلي:</div>
+            <p id="hintContent" class="whitespace-pre-line"></p>
           </div>
         </div>
 
       </div>
 
-      <!-- Action Navigation Buttons -->
+      <!-- Bottom Nav Controls -->
       <div class="flex items-center justify-between gap-3">
-        <button id="prevBtn" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-sm font-semibold disabled:opacity-30 disabled:pointer-events-none smooth-transition flex items-center gap-2">
+        <button id="prevBtn" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 text-sm font-semibold disabled:opacity-30 disabled:pointer-events-none smooth-transition flex items-center gap-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
           Previous
         </button>
@@ -163,87 +224,66 @@
           </button>
           
           <button id="finishBtn" class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm shadow-lg shadow-emerald-600/30 smooth-transition flex items-center gap-2">
-            Finish Quiz
+            Submit Exam
           </button>
         </div>
       </div>
     </div>
 
-    <!-- Final Result & Review Modal Screen -->
-    <div id="resultsScreen" class="hidden bg-slate-800/95 rounded-2xl p-6 sm:p-8 border border-slate-700 shadow-2xl">
-      <div class="text-center max-w-md mx-auto mb-8">
+    <!-- Score & Review Screen -->
+    <div id="resultsScreen" class="hidden bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-800 shadow-2xl">
+      <div class="text-center max-w-lg mx-auto mb-8">
         <div id="scoreEmoji" class="text-6xl mb-3">🎉</div>
         <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-2">Quiz Completed!</h2>
-        <p class="text-sm text-slate-400">Great job reviewing Management Lecture 2.</p>
+        <p class="text-sm text-slate-400">Review your full results and check detailed answers below.</p>
         
-        <div class="mt-6 p-5 rounded-2xl bg-slate-900 border border-slate-700/80">
-          <div class="text-4xl sm:text-5xl font-black text-indigo-400 mb-1" id="finalScoreVal">0 / 29</div>
-          <div class="text-sm font-semibold text-slate-300" id="finalPercentage">0% Accuracy</div>
-          <div class="text-xs text-slate-400 mt-2 flex justify-center gap-4">
-            <span>⏱ Time: <strong id="finalTime" class="text-slate-200">00:00</strong></span>
-            <span>🎯 Mode: <strong id="finalMode" class="text-slate-200">Exam</strong></span>
+        <div class="mt-6 p-6 rounded-2xl bg-slate-950 border border-slate-800 shadow-inner">
+          <div class="text-4xl sm:text-5xl font-black text-indigo-400 mb-1" id="finalScoreVal">0 / 61</div>
+          <div class="text-base font-semibold text-slate-300" id="finalPercentage">0% Accuracy</div>
+          <div class="text-xs text-slate-400 mt-3 flex justify-center gap-5">
+            <span>⏱ Duration: <strong id="finalTime" class="text-slate-200">00:00</strong></span>
+            <span>📂 Scope: <strong id="finalScope" class="text-slate-200">All (61)</strong></span>
           </div>
         </div>
 
-        <div class="flex justify-center gap-3 mt-6">
+        <div class="flex flex-wrap justify-center gap-3 mt-6">
           <button id="restartBtn" class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold shadow-lg shadow-indigo-600/30 smooth-transition flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
             Retake & Reshuffle
           </button>
-          <button id="scrollToReviewBtn" class="px-5 py-2.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 text-sm font-semibold smooth-transition">
-            Review Answers
+          <button id="scrollToReviewBtn" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-semibold border border-slate-700 smooth-transition">
+            View All Answers Breakdown
           </button>
         </div>
       </div>
 
-      <!-- Detailed Review List -->
-      <div id="reviewContainer" class="pt-6 border-t border-slate-700 space-y-4">
-        <h3 class="text-lg font-bold text-white mb-4">Detailed Question Breakdown:</h3>
+      <!-- Detailed Review Container -->
+      <div id="reviewContainer" class="pt-6 border-t border-slate-800 space-y-4">
+        <h3 class="text-lg font-bold text-white mb-4">Detailed Question Breakdown & Explanations:</h3>
         <div id="reviewList" class="space-y-4">
-          <!-- Injected via JS -->
+          <!-- Injected dynamically -->
         </div>
       </div>
     </div>
 
   </main>
 
-  <footer class="text-center py-4 text-xs text-slate-500 border-t border-slate-800/80">
-    Management Quiz • Full verbatim 29 Questions from Lecture 2
+  <!-- Footer -->
+  <footer class="text-center py-4 text-xs text-slate-500 border-t border-slate-900">
+    Management Quiz Application • Complete Lectures 2 & 3 Coursework
   </footer>
 
-  <!-- Script Logic -->
+  <!-- Complete Javascript Application Logic -->
   <script>
-    // Audio synthesizer using Tone.js for clean feedback
-    let synth = null;
-    function initAudio() {
-      if (!synth && window.Tone) {
-        synth = new Tone.PolySynth(Tone.Synth, {
-          oscillator: { type: "triangle" },
-          envelope: { attack: 0.005, decay: 0.1, sustain: 0, release: 0.1 }
-        }).toDestination();
-        Tone.start();
-      }
-    }
-
-    function playSound(type) {
-      try {
-        if (!synth) initAudio();
-        if (type === 'correct') {
-          synth.triggerAttackRelease(["E5", "G5"], "16n");
-        } else if (type === 'wrong') {
-          synth.triggerAttackRelease(["C3", "B2"], "16n");
-        } else if (type === 'complete') {
-          synth.triggerAttackRelease(["C4", "E4", "G4", "C5"], "8n");
-        }
-      } catch (e) {
-        // Audio policy or silent fallback
-      }
-    }
-
-    // Exact 29 Questions Dataset (Strictly 29 questions matching the PDF content)
-    const rawQuestionsData = [
+    // ----------------------------------------------------
+    // 1. Full 61 Verbatim Questions Database
+    // ----------------------------------------------------
+    const allQuestionsRaw = [
+      // Lecture 2: Questions 1 to 29 (MCQs)
       {
-        id: 1,
+        lecture: 2,
+        origId: 1,
+        type: "mcq",
         q: "The field of management is considered one of the most important areas related to:",
         options: [
           "Increasing the number of employees only.",
@@ -252,10 +292,12 @@
           "A permanently static work environment."
         ],
         answer: 1,
-        hint: "ترجمة السؤال: يُعتبر مجال الإدارة من أهم المجالات المرتبطة بـ: (أ) زيادة عدد الموظفين فقط، (ب) نجاح المؤسسات وقدرتها على تحقيق أهدافها، (ج) تقليل الاعتماد على التكنولوجيا، (د) بيئة عمل راكدة وثابتة."
+        hint: "ترجمة السؤال: يُعتبر مجال الإدارة من أهم المجالات المرتبطة بـ:\n(a) زيادة عدد الموظفين فقط.\n(b) نجاح المؤسسات وقدرتها على تحقيق أهدافها.\n(c) تقليل الاعتماد على التكنولوجيا.\n(d) بيئة عمل راكدة وثابتة دائمًا.\n\nالشرح: الإدارة وُجدت أساساً لقيادة المؤسسة للنجاح وتحقيق الأهداف المرجوة بكفاءة."
       },
       {
-        id: 2,
+        lecture: 2,
+        origId: 2,
+        type: "mcq",
         q: "The environment in which organizations operate and achieve their goals is characterized by:",
         options: [
           "Constant change.",
@@ -264,22 +306,26 @@
           "Simplicity and a lack of complexity."
         ],
         answer: 0,
-        hint: "ترجمة السؤال: تتميز البيئة التي تعمل فيها المؤسسات وتحقق أهدافها بـ: (أ) التغير المستمر، (ب) الاستقرار التام والركود، (ج) التراجع والاندثار، (د) البساطة وغياب التعقيد."
+        hint: "ترجمة السؤال: تتميز البيئة التي تعمل فيها المؤسسات وتحقق أهدافها بـ:\n(a) التغير المستمر.\n(b) الاستقرار التام والركود.\n(c) التراجع والاندثار.\n(d) البساطة وغياب التعقيد.\n\nالشرح: بيئة الأعمال سريعة التغير في الأسعار، التكنولوجيا، والمنافسين."
       },
       {
-        id: 3,
+        lecture: 2,
+        origId: 3,
+        type: "mcq",
         q: "The importance of management increases in direct proportion to:",
         options: [
-          "A decrease in the number of competing companies.",
+          "A decrease in the number of competing companies .",
           "Continuous developments in the business environment.",
           "The stability of local laws and regulations.",
           "A drop in overall productivity."
         ],
         answer: 1,
-        hint: "ترجمة السؤال: تزداد أهمية الإدارة طردياً مع: (أ) انخفاض عدد الشركات المنافسة، (ب) التطورات المستمرة في بيئة الأعمال، (ج) ثبات واستقرار القوانين واللوائح، (د) هبوط الإنتاجية العامة."
+        hint: "ترجمة السؤال: تزداد أهمية الإدارة طردياً مع:\n(a) انخفاض عدد الشركات المنافسة.\n(b) التطورات المستمرة في بيئة الأعمال.\n(c) ثبات القوانين واللوائح.\n(d) هبوط الإنتاجية.\n\nالشرح: كلما زادت التغيرات والتطورات السريعة، زادت الحاجة إلى إدارة واعية تقود المؤسسة."
       },
       {
-        id: 4,
+        lecture: 2,
+        origId: 4,
+        type: "mcq",
         q: "Modern management relies primarily on the following for decision-making:",
         options: [
           "Personal experience only",
@@ -288,10 +334,12 @@
           "Randomness"
         ],
         answer: 2,
-        hint: "ترجمة السؤال: تعتمد الإدارة الحديثة بشكل أساسي في اتخاذ القرارات على: (أ) الخبرة الشخصية فقط، (ب) الحدس والتخمين، (ج) البيانات والتحليل والمعلومات، (د) العشوائية."
+        hint: "ترجمة السؤال: تعتمد الإدارة الحديثة بشكل أساسي في اتخاذ القرارات على:\n(a) الخبرة الشخصية فقط\n(b) الحدس والتخمين\n(c) البيانات والتحليل والمعلومات\n(d) العشوائية\n\nالشرح: القرار الرشيد يُبنى على الحقائق والأرقام والتحليل وليس على التخمين."
       },
       {
-        id: 5,
+        lecture: 2,
+        origId: 5,
+        type: "mcq",
         q: "The comprehensive management process includes:",
         options: [
           "planning and organization",
@@ -300,10 +348,12 @@
           "All of the above"
         ],
         answer: 3,
-        hint: "ترجمة السؤال: تشتمل العملية الإدارية الشاملة على: (أ) التخطيط والتنظيم، (ب) التوجيه المستمر والرقابة الفعالة، (ج) الاستخدام الأمثل للموارد وتقليل الهدر، (د) كل ما سبق."
+        hint: "ترجمة السؤال: تشتمل العملية الإدارية الشاملة على:\n(a) التخطيط والتنظيم\n(b) التوجيه المستمر والرقابة الفعالة\n(c) الاستخدام الأمثل للموارد وتقليل الهدر\n(d) كل ما سبق\n\nالشرح: الإدارة عملية متكاملة تشمل التخطيط والتنظيم والتوجيه والرقابة وتقليل الهدر."
       },
       {
-        id: 6,
+        lecture: 2,
+        origId: 6,
+        type: "mcq",
         q: "The primary goal of the management process is to ensure:",
         options: [
           "Complete reliance on personal experience",
@@ -312,10 +362,12 @@
           "Ceasing prior planning"
         ],
         answer: 1,
-        hint: "ترجمة السؤال: الهدف الأساسي للعملية الإدارية هو ضمان: (أ) الاعتماد الكامل على الخبرة الشخصية، (ب) الاستغلال الأمثل للموارد وتحقيق أفضل النتائج، (ج) زيادة إهدار الموارد، (د) التوقف عن التخطيط المسبق."
+        hint: "ترجمة السؤال: الهدف الأساسي للعملية الإدارية هو ضمان:\n(a) الاعتماد الكامل على الخبرة الشخصية\n(b) الاستخدام الأمثل للموارد وتحقيق أفضل النتائج\n(c) زيادة هدر الموارد\n(d) التوقف عن التخطيط المسبق\n\nالشرح: استثمار كل مورد متاح للحصول على أعلى نتيجة بأقل فاقد."
       },
       {
-        id: 7,
+        lecture: 2,
+        origId: 7,
+        type: "mcq",
         q: "Among the elements of the management concept is:",
         options: [
           "Prior planning",
@@ -324,10 +376,12 @@
           "Random organization"
         ],
         answer: 0,
-        hint: "ترجمة السؤال: من عناصر مفهوم الإدارة: (أ) التخطيط المسبق، (ب) الإهمال والرقابة، (ج) الاعتماد على الحدس، (د) التنظيم العشوائي."
+        hint: "ترجمة السؤال: من عناصر مفهوم الإدارة:\n(a) التخطيط المسبق (Prior planning)\n(b) الإهمال والرقابة\n(c) الاعتماد على الحدس\n(d) التنظيم العشوائي\n\nالشرح: التخطيط المسبق هو أول وظيفة من وظائف الإدارة وركيزتها الأولى."
       },
       {
-        id: 8,
+        lecture: 2,
+        origId: 8,
+        type: "mcq",
         q: "Successful management, within the limits of available resources, seeks to:",
         options: [
           "Reduce waste",
@@ -336,10 +390,12 @@
           "All of the above"
         ],
         answer: 3,
-        hint: "ترجمة السؤال: تسعى الإدارة الناجحة، في حدود مواردها المتاحة، إلى: (أ) تقليل الهدر، (ب) تحقيق أفضل نتائج ممكنة، (ج) اتخاذ قرارات مبنية على البيانات، (د) كل ما سبق."
+        hint: "ترجمة السؤال: تسعى الإدارة الناجحة، في حدود مواردها المتاحة، إلى:\n(a) تقليل الهدر\n(b) تحقيق أفضل النتائج الممكنة\n(c) اتخاذ قرارات مبنية على البيانات\n(d) كل ما سبق"
       },
       {
-        id: 9,
+        lecture: 2,
+        origId: 9,
+        type: "mcq",
         q: "What is the process that ensures a balance between efficiency, effectiveness, and performance monitoring within the organization?",
         options: [
           "Making appropriate decisions",
@@ -348,10 +404,12 @@
           "Make data"
         ],
         answer: 1,
-        hint: "ترجمة السؤال: ما هي العملية التي تضمن تحقيق التوازن بين الكفاءة والفعالية ومتابعة الأداء داخل المؤسسة؟ (أ) اتخاذ القرارات المناسبة، (ب) الرقابة على الأداء (Performance control)، (ج) التكيف مع التغيرات، (د) صناعة البيانات."
+        hint: "ترجمة السؤال: ما هي العملية التي تضمن التوازن بين الكفاءة والفعالية ومتابعة الأداء؟\n(b) الرقابة على الأداء (Performance control).\n\nالشرح: الرقابة تتابع التنفيذ الفعلي وتقارنه بالخطة لتصحيح الانحرافات."
       },
       {
-        id: 10,
+        lecture: 2,
+        origId: 10,
+        type: "mcq",
         q: "Management contributes to achieving a strategic advantage for the organization over its competitors; this is known as:",
         options: [
           "Gaining a competitive advantage only",
@@ -360,10 +418,12 @@
           "Make data only"
         ],
         answer: 1,
-        hint: "ترجمة السؤال: تساهم الإدارة في تحقيق ميزة استراتيجية للمؤسسة على منافسيها، ويُعرف هذا في مفتاح إجابة المحاضرة بـ: (أ) اكتساب ميزة تنافسية فقط، (ب) التكيف مع التغيرات (Adapting to changes)، (ج) تنسيق جهود الموظفين فقط، (د) صناعة البيانات فقط."
+        hint: "ترجمة السؤال: تساهم الإدارة في تحقيق ميزة استراتيجية للمؤسسة على منافسيها، ويُعرف هذا بحسب مفتاح حل المحاضرة بـ:\n(b) التكيف مع التغيرات (Adapting to changes)."
       },
       {
-        id: 11,
+        lecture: 2,
+        origId: 11,
+        type: "mcq",
         q: "Successful management is that which achieves a balance between the interests of the various parties namely:",
         options: [
           "Employees only",
@@ -372,10 +432,12 @@
           "Not make data"
         ],
         answer: 1,
-        hint: "ترجمة السؤال: الإدارة الناجحة هي التي تحقق التوازن بين مصالح الأطراف المختلفة، والمقصود بهم: (أ) الموظفون فقط، (ب) أصحاب المصلحة المتنوعون (Various stakeholders)، (ج) المديرون التنفيذيون فقط، (د) عدم صناعة البيانات."
+        hint: "ترجمة السؤال: الإدارة الناجحة تحقق التوازن بين مصالح الأطراف المختلفة، وهم:\n(b) أصحاب المصلحة المتنوعون (Various stakeholders).\n\nالشرح: تشمل الملاك، الموظفين، الزبائن، والمجتمع ككل."
       },
       {
-        id: 12,
+        lecture: 2,
+        origId: 12,
+        type: "mcq",
         q: "Optimal utilization of available resources means:",
         options: [
           "reducing the number of employees",
@@ -384,10 +446,12 @@
           "Using material and human resources in the best possible way without waste"
         ],
         answer: 3,
-        hint: "ترجمة السؤال: الاستغلال الأمثل للموارد المتاحة يعني: (أ) تقليل عدد الموظفين، (ب) صناعة البيانات، (ج) التخطيط المستمر، (د) استخدام الموارد المادية والبشرية بأفضل طريقة ممكنة دون هدر."
+        hint: "ترجمة السؤال: الاستخدام الأمثل للموارد المتاحة يعني:\n(d) استخدام الموارد المادية والبشرية بأفضل طريقة ممكنة دون هدر."
       },
       {
-        id: 13,
+        lecture: 2,
+        origId: 13,
+        type: "mcq",
         q: "To ensure that activities do not conflict and that goals are achieved smoothly, management:",
         options: [
           "Coordinates employee efforts",
@@ -396,10 +460,12 @@
           "Make data"
         ],
         answer: 0,
-        hint: "ترجمة السؤال: لضمان عدم تعارض الأنشطة وتحقيق الأهداف بسلاسة، تقوم الإدارة بـ: (أ) تنسيق جهود الموظفين (Coordinates employee efforts)، (ب) اتخاذ قرارات عشوائية، (ج) بيئة العمل الداخلية، (د) صناعة البيانات."
+        hint: "ترجمة السؤال: لضمان عدم تعارض الأنشطة وتحقيق الأهداف بسلاسة، تقوم الإدارة بـ:\n(a) تنسيق جهود الموظفين (Coordinates employee efforts)."
       },
       {
-        id: 14,
+        lecture: 2,
+        origId: 14,
+        type: "mcq",
         q: "The fundamental goal of management, around which all activities revolve, is:",
         options: [
           "Increasing the number of daily working hours",
@@ -408,10 +474,12 @@
           "Make data"
         ],
         answer: 1,
-        hint: "ترجمة السؤال: الهدف الأساسي للإدارة، والذي تدور حوله كافة الأنشطة، هو: (أ) زيادة عدد ساعات العمل، (ب) تحقيق أهداف المنظمة (Achieving Organizational goals)، (ج) تعيين عمال جدد باستمرار، (د) صناعة البيانات."
+        hint: "ترجمة السؤال: الهدف الأساسي للإدارة، والذي تدور حوله كافة الأنشطة، هو:\n(b) تحقيق أهداف المنظمة (Achieving Organizational goals)."
       },
       {
-        id: 15,
+        lecture: 2,
+        origId: 15,
+        type: "mcq",
         q: "Management aims to protect the organization ensure its continuity in the market by:",
         options: [
           "Ensuring stability and continuity",
@@ -420,10 +488,12 @@
           "Make data"
         ],
         answer: 0,
-        hint: "ترجمة السؤال: تهدف الإدارة إلى حماية المؤسسة وضمان استمرارها في السوق من خلال: (أ) ضمان الاستقرار والاستمرارية (Ensuring stability and continuity)، (ب) التركيز فقط على أرباح سريعة، (ج) تغيير النشاط الأساسي عشوائياً، (د) صناعة البيانات."
+        hint: "ترجمة السؤال: تهدف الإدارة إلى حماية المؤسسة وضمان استمرارها في السوق من خلال:\n(a) ضمان الاستقرار والاستمرارية (Ensuring stability and continuity)."
       },
       {
-        id: 16,
+        lecture: 2,
+        origId: 16,
+        type: "mcq",
         q: "The English phrase that accurately expresses the term \"achieving efficiency and effectiveness\" in management is:",
         options: [
           "Achieving efficiency and effectiveness",
@@ -432,10 +502,12 @@
           "Make data"
         ],
         answer: 0,
-        hint: "ترجمة السؤال: المصطلح الإنجليزي المعبر بدقة عن مصطلح 'تحقيق الكفاءة والفعالية' هو: (أ) Achieving efficiency and effectiveness."
+        hint: "ترجمة السؤال: التعبير الإنجليزي المعبر بدقة عن مصطلح 'تحقيق الكفاءة والفعالية' هو:\n(a) Achieving efficiency and effectiveness."
       },
       {
-        id: 17,
+        lecture: 2,
+        origId: 17,
+        type: "mcq",
         q: "Focusing on improving work quality while reducing the time, effort, and cost involved reflects the concept of:",
         options: [
           "Enhancing performance efficiency",
@@ -444,10 +516,12 @@
           "Make data"
         ],
         answer: 0,
-        hint: "ترجمة السؤال: التركيز على تحسين جودة العمل مع تقليل الوقت والجهد والتكلفة يعكس مفهوم: (أ) تعزيز كفاءة الأداء (Enhancing performance efficiency)، (ب) التكيف، (ج) القرارات، (د) صناعة البيانات."
+        hint: "ترجمة السؤال: التركيز على تحسين جودة العمل مع تقليل الوقت والجهد والتكلفة يعكس مفهوم:\n(a) تعزيز كفاءة الأداء (Enhancing performance efficiency)."
       },
       {
-        id: 18,
+        lecture: 2,
+        origId: 18,
+        type: "mcq",
         q: "Management is responsible for encouraging employees and developing their technical and behavioral skills; this is known as:",
         options: [
           "Gaining a sustainable",
@@ -456,10 +530,12 @@
           "Make data"
         ],
         answer: 1,
-        hint: "ترجمة السؤال: الإدارة مسؤولة عن تشجيع الموظفين وتطوير مهاراتهم الفنية والسلوكية؛ ويُعرف هذا بـ: (أ) اكتساب مستدام، (ب) تحفيز وتطوير الموارد البشرية (Motivating and developing human resources)."
+        hint: "ترجمة السؤال: الإدارة مسؤولة عن تشجيع الموظفين وتطوير مهاراتهم، ويُعرف هذا بـ:\n(b) تحفيز وتطوير الموارد البشرية (Motivating and developing human resources)."
       },
       {
-        id: 19,
+        lecture: 2,
+        origId: 19,
+        type: "mcq",
         q: "To address daily problems and strategic challenges based on scientific principles, management must... By:",
         options: [
           "Making suitable decisions",
@@ -468,10 +544,12 @@
           "Not Make data"
         ],
         answer: 0,
-        hint: "ترجمة السؤال: لمواجهة المشاكل اليومية والتحديات الاستراتيجية بناءً على أسس علمية، يجب على الإدارة التدخل من خلال: (أ) اتخاذ القرارات المناسبة (Making suitable decisions)."
+        hint: "ترجمة السؤال: لمواجهة المشاكل اليومية والتحديات الاستراتيجية وفق أسس علمية، يجب على الإدارة التدخل من خلال:\n(a) اتخاذ القرارات المناسبة (Making suitable decisions)."
       },
       {
-        id: 20,
+        lecture: 2,
+        origId: 20,
+        type: "mcq",
         q: "An organization's ability to flexibly handle economic, technological, and political fluctuations means:",
         options: [
           "Resources",
@@ -480,10 +558,12 @@
           "Not Make data"
         ],
         answer: 1,
-        hint: "ترجمة السؤال: قدرة المؤسسة على التعامل بمرونة مع التقلبات الاقتصادية والتكنولوجية والسياسية تعني: (أ) الموارد، (ب) التكيف مع التغيرات في بيئة الأعمال (Adapting to changes in the business environment)."
+        hint: "ترجمة السؤال: قدرة المؤسسة على التعامل بمرونة مع التقلبات الاقتصادية والسياسية تعني:\n(b) التكيف مع التغيرات في بيئة الأعمال (Adapting to changes in the business environment)."
       },
       {
-        id: 21,
+        lecture: 2,
+        origId: 21,
+        type: "mcq",
         q: "Which of the following management levels sits at the top of the management hierarchy and bears full responsibility for the organization?",
         options: [
           "Middle Management",
@@ -492,10 +572,12 @@
           "None of the above"
         ],
         answer: 0,
-        hint: "ترجمة السؤال: أي من المستويات الإدارية التالية يقع في قمة الهرم الإداري ويتحمل المسؤولية الكاملة عن المنظمة؟ (مُجاب عنها بنموذج أسئلة المحاضرة كـ Middle Management الاختيار a)."
+        hint: "ترجمة السؤال: أي المستويات الإدارية يجلس في قمة الهرم ويتحمل المسؤولية الكاملة؟\nملاحظة: مُحددة في مفتاح الإجابة الأصلي بالمحاضرة كـ (a) Middle Management على الرغم من أن الإدارة العليا هي المقصودة نظرياً."
       },
       {
-        id: 22,
+        lecture: 2,
+        origId: 22,
+        type: "mcq",
         q: "The level of management that acts as a link between top management and executive/operational management is:",
         options: [
           "Middle Management",
@@ -504,10 +586,12 @@
           "Board of Directors"
         ],
         answer: 0,
-        hint: "ترجمة السؤال: مستوى الإدارة الذي يعمل كحلقة وصل بين الإدارة العليا والإدارة التنفيذية/التشغيلية هو: (أ) الإدارة الوسطى (Middle Management)."
+        hint: "ترجمة السؤال: المستوى الإداري الذي يمثل حلقة الوصل بين الإدارة العليا والإدارة التنفيذية هو:\n(a) الإدارة الوسطى (Middle Management)."
       },
       {
-        id: 23,
+        lecture: 2,
+        origId: 23,
+        type: "mcq",
         q: "The focus of lower or operational management is primarily on:",
         options: [
           "strategic",
@@ -516,10 +600,12 @@
           "decisions"
         ],
         answer: 1,
-        hint: "ترجمة السؤال: يتركز اهتمام الإدارة المباشرة أو التشغيلية بشكل أساسي على: (ب) الإشراف المباشر على العمال وتوجيه العمليات اليومية (Directly supervising workers and directing daily operations)."
+        hint: "ترجمة السؤال: ينصب تركيز الإدارة الدنيا أو التشغيلية بشكل أساسي على:\n(b) الإشراف المباشر على العمال وتوجيه العمليات اليومية (Directly supervising workers and directing daily operations)."
       },
       {
-        id: 24,
+        lecture: 2,
+        origId: 24,
+        type: "mcq",
         q: "Which of the following falls under the \"human skills\" of a successful manager?",
         options: [
           "Planning",
@@ -528,10 +614,12 @@
           "Decision-making"
         ],
         answer: 1,
-        hint: "ترجمة السؤال: أي مما يلي يندرج تحت 'المهارات الإنسانية' للمدير الناجح؟ (ب) التعاطف وبناء العلاقات والتحفيز (Empathy, relationship building, and motivation)."
+        hint: "ترجمة السؤال: أي مما يلي يندرج تحت المهارات الإنسانية للمدير الناجح؟\n(b) التعاطف، بناء العلاقات، والتحفيز (Empathy, relationship building, and motivation)."
       },
       {
-        id: 25,
+        lecture: 2,
+        origId: 25,
+        type: "mcq",
         q: "The communication skills of an effective manager include four key elements: active listening, clear communication, feedback, and:",
         options: [
           "Commitment",
@@ -540,10 +628,12 @@
           "Flexibility"
         ],
         answer: 2,
-        hint: "ترجمة السؤال: تشمل مهارات الاتصال لدى المدير الفعال أربعة عناصر رئيسية: الاستماع النشط، والتواصل الواضح، والتغذية الراجعة، و: (ج) مهارات العرض والتقديم (Presentation skills)."
+        hint: "ترجمة السؤال: تشمل مهارات الاتصال: الاستماع النشط، التواصل الواضح، التغذية الراجعة، و:\n(c) مهارات العرض والتقديم (Presentation skills)."
       },
       {
-        id: 26,
+        lecture: 2,
+        origId: 26,
+        type: "mcq",
         q: "Planning, organizing, coordinating, and controlling are the fundamental pillars of:",
         options: [
           "technical skills",
@@ -552,10 +642,12 @@
           "Managerial skills"
         ],
         answer: 3,
-        hint: "ترجمة السؤال: التخطيط والتنظيم والتنسيق والرقابة هي الركائز الأساسية لـ: (د) المهارات الإدارية (Managerial skills)."
+        hint: "ترجمة السؤال: التخطيط والتنظيم والتنسيق والرقابة هي الركائز الأساسية لـ:\n(d) المهارات الإدارية (Managerial skills)."
       },
       {
-        id: 27,
+        lecture: 2,
+        origId: 27,
+        type: "mcq",
         q: "Which skill ensures a manager's ability to handle organizational transitions, solve problems, and innovate?",
         options: [
           "Change Management Skills",
@@ -564,10 +656,12 @@
           "Administrative Skills"
         ],
         answer: 0,
-        hint: "ترجمة السؤال: أي مهارة تضمن قدرة المدير على التعامل مع التحولات المؤسسية وحل المشكلات والابتكار؟ (أ) مهارات إدارة التغيير (Change Management Skills)."
+        hint: "ترجمة السؤال: أي مهارة تضمن قدرة المدير على إدارة التحولات التنظيمية وحل المشكلات والابتكار؟\n(a) مهارات إدارة التغيير (Change Management Skills)."
       },
       {
-        id: 28,
+        lecture: 2,
+        origId: 28,
+        type: "mcq",
         q: "Adaptability, flexibility, and fairness represent key dimensions of:",
         options: [
           "Technical Skills",
@@ -576,10 +670,12 @@
           "Administrative Skills"
         ],
         answer: 1,
-        hint: "ترجمة السؤال: تمثل القدرة على التكيف والمرونة والعدالة أبعاداً رئيسية لـ: (ب) المهارات الشخصية والمهنية (Personal & Professional Skills)."
+        hint: "ترجمة السؤال: تمثل القدرة على التكيف، المرونة، والعدالة أبعاداً لـ:\n(b) المهارات الشخصية والمهنية (Personal & Professional Skills)."
       },
       {
-        id: 29,
+        lecture: 2,
+        origId: 29,
+        type: "mcq",
         q: "When an organization requires a manager to use digital skills and data analysis, it is assessing their proficiency in:",
         options: [
           "Technical Skills",
@@ -588,29 +684,354 @@
           "Communication Skills"
         ],
         answer: 0,
-        hint: "ترجمة السؤال: عندما تطلب المؤسسة من المدير استخدام المهارات الرقمية وتحليل البيانات، فهي تقيم كفاءته في: (أ) المهارات الفنية والتقنية (Technical Skills)."
+        hint: "ترجمة السؤال: عندما تطلب المؤسسة من المدير مهارات رقمية وتحليل بيانات، فإنها تقيم:\n(a) المهارات الفنية والتقنية (Technical Skills)."
+      },
+
+      // Lecture 3: Questions 1 to 32 (True / False MCQs)
+      {
+        lecture: 3,
+        origId: 1,
+        type: "tf",
+        q: "Management is considered a field that does not influence an organization's ability to achieve its goals.",
+        options: ["True", "False"],
+        answer: 1, // False
+        hint: "ترجمة العبارة: تُعتبر الإدارة مجالاً لا يؤثر على قدرة المنظمة على تحقيق أهدافها.\nالحكم: خطأ (False) - بل هي العامل الحاسم في قدرة المنظمة على تحقيق أهدافها."
+      },
+      {
+        lecture: 3,
+        origId: 2,
+        type: "tf",
+        q: "The importance of management increases with the continuous developments occurring in the business environment .",
+        options: ["True", "False"],
+        answer: 0, // True
+        hint: "ترجمة العبارة: تزداد أهمية الإدارة مع التطورات المستمرة الحادثة في بيئة الأعمال.\nالحكم: صح (True) - التطورات المتسارعة تتطلب إدارة قوية للتعامل معها."
+      },
+      {
+        lecture: 3,
+        origId: 3,
+        type: "tf",
+        q: "Organizational goals are achieved within a work environment characterized by stability and a lack of change.",
+        options: ["True", "False"],
+        answer: 1, // False
+        hint: "ترجمة العبارة: تتحقق أهداف المنظمة داخل بيئة عمل تتسم بالثبات وعدم التغير.\nالحكم: خطأ (False) - بيئة العمل تتميز بالتغير الدائم والمستمر وليس الثبات."
+      },
+      {
+        lecture: 3,
+        origId: 4,
+        type: "tf",
+        q: "Modern management relies entirely on personal experience and intuition without the need... ...on data.",
+        options: ["True", "False"],
+        answer: 1, // False
+        hint: "ترجمة العبارة: تعتمد الإدارة الحديثة كلياً على الخبرة الشخصية والحدس دون الحاجة للبيانات.\nالحكم: خطأ (False) - الإدارة الحديثة تعتمد بالأساس على تحليل البيانات والمعلومات."
+      },
+      {
+        lecture: 3,
+        origId: 5,
+        type: "tf",
+        q: "Management involves an integrated process comprising advance planning, precise organization, continuous direction, and effective control.",
+        options: ["True", "False"],
+        answer: 0, // True
+        hint: "ترجمة العبارة: تتضمن الإدارة عملية متكاملة تشمل التخطيط المسبق، التنظيم الدقيق، التوجيه المستمر، والرقابة الفعالة.\nالحكم: صح (True)."
+      },
+      {
+        lecture: 3,
+        origId: 6,
+        type: "tf",
+        q: "The concept of management aims to minimize waste and ensure the optimal utilization of resources.",
+        options: ["True", "False"],
+        answer: 0, // True
+        hint: "ترجمة العبارة: يهدف مفهوم الإدارة إلى تقليل الهدر وضمان الاستخدام الأمثل للموارد.\nالحكم: صح (True)."
+      },
+      {
+        lecture: 3,
+        origId: 7,
+        type: "tf",
+        q: "Modern management disregards analysis and information when making decisions.",
+        options: ["True", "False"],
+        answer: 1, // False
+        hint: "ترجمة العبارة: تتجاهل الإدارة الحديثة التحليل والمعلومات عند اتخاذ القرارات.\nالحكم: خطأ (False) - الإدارة الحديثة تضع التحليل والمعلومات كأساس لصنع القرار."
+      },
+      {
+        lecture: 3,
+        origId: 8,
+        type: "tf",
+        q: "Achieving the best possible results within the limits of available capabilities is accomplished through the management process.",
+        options: ["True", "False"],
+        answer: 0, // True
+        hint: "ترجمة العبارة: تحقيق أفضل نتائج ممكنة في حدود الإمكانيات المتاحة يتم إنجازه عبر العملية الإدارية.\nالحكم: صح (True)."
+      },
+      {
+        lecture: 3,
+        origId: 9,
+        type: "tf",
+        q: "The \"Controlling\" function is considered the first step in the management process.",
+        options: ["True", "False"],
+        answer: 1, // False
+        hint: "ترجمة العبارة: تُعتبر وظيفة 'الرقابة' هي الخطوة الأولى في العملية الإدارية.\nالحكم: خطأ (False) - الخطوة الأولى هي التخطيط (Planning)، والرقابة هي الخطوة الأخيرة لمقارنة النتائج بالخطة."
+      },
+      {
+        lecture: 3,
+        origId: 10,
+        type: "tf",
+        q: "The \"Directing\" function involves communicating with employees and guiding them while they work.",
+        options: ["True", "False"],
+        answer: 0, // True
+        hint: "ترجمة العبارة: تشمل وظيفة 'التوجيه' التواصل مع الموظفين وإرشادهم أثناء العمل.\nالحكم: صح (True)."
+      },
+      {
+        lecture: 3,
+        origId: 11,
+        type: "tf",
+        q: "The primary goal of the \"Controlling\" function is to ensure that work proceeds according to established plans.",
+        options: ["True", "False"],
+        answer: 0, // True
+        hint: "ترجمة العبارة: الهدف الأساسي لوظيفة 'الرقابة' هو ضمان سير العمل وفقاً للخطط الموضوعة.\nالحكم: صح (True)."
+      },
+      {
+        lecture: 3,
+        origId: 12,
+        type: "tf",
+        q: "Performance control helps measure actual results and correct deviations promptly.",
+        options: ["True", "False"],
+        answer: 0, // True
+        hint: "ترجمة العبارة: الرقابة على الأداء تساعد في قياس النتائج الفعلية وتصحيح الانحرافات أولاً بأول.\nالحكم: صح (True)."
+      },
+      {
+        lecture: 3,
+        origId: 13,
+        type: "tf",
+        q: "Gaining a competitive advantage means a decline in the organization's standing and lagging behind other companies in the market.",
+        options: ["True", "False"],
+        answer: 1, // False
+        hint: "ترجمة العبارة: اكتساب الميزة التنافسية يعني تراجع مكانة الشركة وتأخرها عن منافسيها.\nالحكم: خطأ (False) - الميزة التنافسية تعني التفوق والتقدم على المنافسين في السوق."
+      },
+      {
+        lecture: 3,
+        origId: 14,
+        type: "tf",
+        q: "Modern, successful management focuses solely on serving the interests of the company's primary owner while completely ignoring the interests of other stakeholders.",
+        options: ["True", "False"],
+        answer: 1, // False
+        hint: "ترجمة العبارة: تركز الإدارة الحديثة فقط على خدمة مصالح صاحب الشركة وتتجاهل مصالح باقي أصحاب المصلحة.\nالحكم: خطأ (False) - الإدارة الحديثة توازن بين مصالح جميع الأطراف ذات الصلة (الموظفين، العملاء، المجتمع، والملاك)."
+      },
+      {
+        lecture: 3,
+        origId: 15,
+        type: "tf",
+        q: "Optimal utilization of available resources contributes directly to minimizing waste and reducing operational costs.",
+        options: ["True", "False"],
+        answer: 0, // True
+        hint: "ترجمة العبارة: الاستخدام الأمثل للموارد يساهم مباشرة في تقليل الهدر وخفض التكاليف التشغيلية.\nالحكم: صح (True)."
+      },
+      {
+        lecture: 3,
+        origId: 16,
+        type: "tf",
+        q: "In contemporary work environments, every employee in the organization works completely independently and in isolation, with no need to coordinate employee efforts.",
+        options: ["True", "False"],
+        answer: 1, // False
+        hint: "ترجمة العبارة: في بيئات العمل المعاصرة يعمل كل موظف في عزلة تامة دون حاجة لتنسيق الجهود.\nالحكم: خطأ (False) - التنسيق والعمل الجماعي ضروري لمنع التضارب وتحقيق الهدف المشترك."
+      },
+      {
+        lecture: 3,
+        origId: 17,
+        type: "tf",
+        q: "Achieving organizational goals of all types is the primary purpose and justification for the existence of any management.",
+        options: ["True", "False"],
+        answer: 0, // True
+        hint: "ترجمة العبارة: تحقيق أهداف المنظمة هو الغاية الأساسية والمبرر لوجود أي إدارة.\nالحكم: صح (True)."
+      },
+      {
+        lecture: 3,
+        origId: 18,
+        type: "tf",
+        q: "Ensuring stability and continuity helps the organization withstand and face economic crises in the long term.",
+        options: ["True", "False"],
+        answer: 0, // True
+        hint: "ترجمة العبارة: ضمان الاستقرار والاستمرارية يساعد المنظمة على الصمود في مواجهة الأزمات الاقتصادية طويلة المدى.\nالحكم: صح (True)."
+      },
+      {
+        lecture: 3,
+        origId: 19,
+        type: "tf",
+        q: "Efficiency and effectiveness are identical terms carrying the exact same meaning in management theory.",
+        options: ["True", "False"],
+        answer: 1, // False
+        hint: "ترجمة العبارة: الكفاءة (Efficiency) والفعالية (Effectiveness) هما مصطلحان متطابقان يحملان نفس المعنى تماماً.\nالحكم: خطأ (False) - الكفاءة تعني أداء العمل بالطريقة الصحيحة وبأقل تكلفة، بينما الفعالية تعني أداء العمل المناسب لتحقيق الهدف المطلوب."
+      },
+      {
+        lecture: 3,
+        origId: 20,
+        type: "tf",
+        q: "Enhancing performance efficiency necessarily leads to higher productivity and the highest possible quality.",
+        options: ["True", "False"],
+        answer: 0, // True
+        hint: "ترجمة العبارة: تعزيز كفاءة الأداء يؤدي بالضرورة لزيادة الإنتاجية وتحقيق أعلى جودة ممكنة.\nالحكم: صح (True)."
+      },
+      {
+        lecture: 3,
+        origId: 21,
+        type: "tf",
+        q: "The function of executive management is limited to issuing strict orders and instructions, without the need to motivate and develop human resources.",
+        options: ["True", "False"],
+        answer: 1, // False
+        hint: "ترجمة العبارة: تقتصر وظيفة الإدارة التنفيذية على إعطاء الأوامر الصارمة دون الحاجة لتحفيز وتطوير الموارد البشرية.\nالحكم: خطأ (False) - التحفيز والتطوير هما أساس النجاح التنفيذي."
+      },
+      {
+        lecture: 3,
+        origId: 22,
+        type: "tf",
+        q: "Making suitable decisions relies primarily on gathering accurate data and conducting a logical, objective analysis of situations.",
+        options: ["True", "False"],
+        answer: 0, // True
+        hint: "ترجمة العبارة: اتخاذ القرارات المناسبة يعتمد أساساً على جمع بيانات دقيقة وإجراء تحليل موضوعي للمواقف.\nالحكم: صح (True)."
+      },
+      {
+        lecture: 3,
+        origId: 23,
+        type: "tf",
+        q: "Sustainable and successful organizations are those that resist environmental changes and firmly refuse to adapt to changes in the business environment.",
+        options: ["True", "False"],
+        answer: 1, // False
+        hint: "ترجمة العبارة: المنظمات المستدامة والناجحة هي التي تقاوم التغيرات وترفض التكيف مع بيئة الأعمال.\nالحكم: خطأ (False) - المنظمات الناجحة هي الأكثر قدرة ومرونة على التكيف مع التغيرات."
+      },
+      {
+        lecture: 3,
+        origId: 24,
+        type: "tf",
+        q: "Management levels consist of three main tiers: top management, middle management, and executive or operational management.",
+        options: ["True", "False"],
+        answer: 0, // True
+        hint: "ترجمة العبارة: تتكون المستويات الإدارية من ثلاثة مستويات رئيسية: إدارة عليا، إدارة وسطى، وإدارة تنفيذية/تشغيلية.\nالحكم: صح (True)."
+      },
+      {
+        lecture: 3,
+        origId: 25,
+        type: "tf",
+        q: "Middle management is located at the bottom of the management hierarchy, directly below operational management.",
+        options: ["True", "False"],
+        answer: 1, // False
+        hint: "ترجمة العبارة: تقع الإدارة الوسطى في قاع الهرم الإداري أسفل الإدارة التشغيلية.\nالحكم: خطأ (False) - الإدارة الوسطى تقع في منتصف الهرم فوق الإدارة التشغيلية وأسفل الإدارة العليا."
+      },
+      {
+        lecture: 3,
+        origId: 26,
+        type: "tf",
+        q: "Operational or executive management (lower or operational management) represents the lowest level of management in the management hierarchy.",
+        options: ["True", "False"],
+        answer: 0, // True
+        hint: "ترجمة العبارة: تمثل الإدارة التشغيلية أو التنفيذية (الدنيا) المستوى الأدنى في الهرم الإداري.\nالحكم: صح (True)."
+      },
+      {
+        lecture: 3,
+        origId: 27,
+        type: "tf",
+        q: "The human skills of a successful manager include teamwork, empathy, motivation, and relationship building.",
+        options: ["True", "False"],
+        answer: 0, // True
+        hint: "ترجمة العبارة: المهارات الإنسانية للمدير الناجح تشمل العمل الجماعي، التعاطف، التحفيز، وبناء العلاقات.\nالحكم: صح (True)."
+      },
+      {
+        lecture: 3,
+        origId: 28,
+        type: "tf",
+        q: "A manager's communication skills are limited to active listening and providing feedback, without the need for presentation skills.",
+        options: ["True", "False"],
+        answer: 1, // False
+        hint: "ترجمة العبارة: تقتصر مهارات الاتصال لدى المدير على الاستماع وتقديم التغذية الراجعة دون الحاجة لمهارات العرض.\nالحكم: خطأ (False) - مهارات العرض والتقديم (Presentation skills) عنصر جوهري من مهارات الاتصال."
+      },
+      {
+        lecture: 3,
+        origId: 29,
+        type: "tf",
+        q: "Planning, organizing, coordinating, and controlling are integral parts of a manager's administrative skills.",
+        options: ["True", "False"],
+        answer: 0, // True
+        hint: "ترجمة العبارة: التخطيط والتنظيم والتنسيق والرقابة أجزاء لا تتجزأ من المهارات الإدارية للمدير.\nالحكم: صح (True)."
+      },
+      {
+        lecture: 3,
+        origId: 30,
+        type: "tf",
+        q: "Change management skills focus solely on commitment and fairness within the organizational work environment.",
+        options: ["True", "False"],
+        answer: 1, // False
+        hint: "ترجمة العبارة: تركز مهارات إدارة التغيير فقط على الالتزام والعدالة داخل بيئة العمل.\nالحكم: خطأ (False) - إدارة التغيير تركز على قيادة التحولات وحل المشكلات وإرشاد الفرق نحو النظم الجديدة."
+      },
+      {
+        lecture: 3,
+        origId: 31,
+        type: "tf",
+        q: "such as adaptability, flexibility, precision, commitment, and fairness fall under the umbrella of a manager's personal and professional skills.",
+        options: ["True", "False"],
+        answer: 0, // True
+        hint: "ترجمة العبارة: سمات مثل القدرة على التكيف، المرونة، الدقة، الالتزام، والعدالة تقع تحت مظلة المهارات الشخصية والمهنية للمدير.\nالحكم: صح (True)."
+      },
+      {
+        lecture: 3,
+        origId: 32,
+        type: "tf",
+        q: "Professional knowledge, digital skills, data analysis, and the use of technology are considered technical skills essential for a successful manager.",
+        options: ["True", "False"],
+        answer: 0, // True
+        hint: "ترجمة العبارة: المعرفة المهنية، المهارات الرقمية، تحليل البيانات، واستخدام التكنولوجيا تُعتبر مهارات فنية أساسية للمدير الناجح.\nالحكم: صح (True)."
       }
     ];
 
-    // State Variables
-    let quizData = [];
-    let currentIndex = 0;
-    let userAnswers = {}; // { questionIndex: chosenOptionIndex }
-    let examMode = false; // false = instant feedback, true = exam mode
-    let secondsElapsed = 0;
-    let timerInterval = null;
+    // ----------------------------------------------------
+    // 2. Application State
+    // ----------------------------------------------------
+    let currentCategory = 'all'; // 'all', 'lec2', 'lec3'
+    let activeQuestionList = []; // filtered questions
+    let currentIdx = 0;
+    let userAnswers = {}; // { questionIndex: selectedOptionIndex }
+    let examMode = false; // false = Practice (instant feedback), true = Exam
+    let soundEnabled = true;
 
-    // Fisher-Yates Shuffle
-    function shuffleArray(arr) {
-      const copy = [...arr];
-      for (let i = copy.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [copy[i], copy[j]] = [copy[j], copy[i]];
+    // Timer Variables
+    let timerInterval = null;
+    let secondsElapsed = 0;
+
+    // Web Audio Synthesizer (Tone.js)
+    let synth = null;
+    function initSynth() {
+      if (!synth && window.Tone) {
+        try {
+          synth = new Tone.PolySynth(Tone.Synth, {
+            oscillator: { type: "triangle" },
+            envelope: { attack: 0.005, decay: 0.1, sustain: 0, release: 0.1 }
+          }).toDestination();
+          Tone.start();
+        } catch (e) {}
       }
-      return copy;
     }
 
-    // Timer Logic
+    function playSound(type) {
+      if (!soundEnabled) return;
+      initSynth();
+      if (!synth) return;
+      try {
+        if (type === 'correct') {
+          synth.triggerAttackRelease(["E5", "G5"], "16n");
+        } else if (type === 'wrong') {
+          synth.triggerAttackRelease(["C3", "B2"], "16n");
+        } else if (type === 'finish') {
+          synth.triggerAttackRelease(["C4", "E4", "G4", "C5"], "8n");
+        }
+      } catch (e) {}
+    }
+
+    // Fisher-Yates Shuffle
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // Timer Operations
     function startTimer() {
       clearInterval(timerInterval);
       secondsElapsed = 0;
@@ -623,65 +1044,79 @@
 
     function formatTime(secs) {
       const mins = Math.floor(secs / 60);
-      const remSecs = secs % 60;
-      return `${mins.toString().padStart(2, '0')}:${remSecs.toString().padStart(2, '0')}`;
+      const rem = secs % 60;
+      return `${mins.toString().padStart(2, '0')}:${rem.toString().padStart(2, '0')}`;
     }
 
     function updateTimerDisplay() {
       document.getElementById('timerDisplay').innerText = formatTime(secondsElapsed);
     }
 
-    // Initialize or Reset Quiz
-    function initQuiz() {
-      initAudio();
-      quizData = shuffleArray(rawQuestionsData);
-      currentIndex = 0;
+    // ----------------------------------------------------
+    // 3. Quiz Initialization & Filter Management
+    // ----------------------------------------------------
+    function initQuiz(shouldShuffle = true) {
+      // Filter list
+      let filtered = [];
+      if (currentCategory === 'lec2') {
+        filtered = allQuestionsRaw.filter(q => q.lecture === 2);
+      } else if (currentCategory === 'lec3') {
+        filtered = allQuestionsRaw.filter(q => q.lecture === 3);
+      } else {
+        filtered = [...allQuestionsRaw];
+      }
+
+      // Shuffle if specified
+      activeQuestionList = shouldShuffle ? shuffle(filtered) : filtered;
+      currentIdx = 0;
       userAnswers = {};
-      
-      // Hide results, show quiz
+
+      // Reset DOM state
       document.getElementById('resultsScreen').classList.add('hidden');
       document.getElementById('quizContainer').classList.remove('hidden');
 
-      renderQuestionGrid();
+      // Update total badge
+      document.getElementById('totalQuestionsText').innerText = activeQuestionList.length;
+      const scopeName = currentCategory === 'lec2' ? 'Lecture 2 (29)' : currentCategory === 'lec3' ? 'Lecture 3 (32)' : 'All (61)';
+      document.getElementById('activeFilterBadge').innerText = scopeName;
+
+      renderGrid();
       loadQuestion(0);
       startTimer();
-      updateScoreSummary();
+      updateScoreBadge();
     }
 
-    // Render Question Pill Navigator
-    function renderQuestionGrid() {
+    // Question Grid / Bubble Matrix
+    function renderGrid() {
       const grid = document.getElementById('questionGrid');
       grid.innerHTML = '';
 
-      quizData.forEach((_, idx) => {
+      activeQuestionList.forEach((_, idx) => {
         const pill = document.createElement('button');
         pill.id = `pill-${idx}`;
         pill.className = `w-7 h-7 rounded-lg text-xs font-semibold flex items-center justify-center smooth-transition border ${
-          idx === currentIndex 
+          idx === currentIdx 
             ? 'bg-indigo-600 border-indigo-400 text-white shadow' 
-            : 'bg-slate-850 bg-slate-900 border-slate-700 text-slate-400 hover:border-slate-500'
+            : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-600'
         }`;
         pill.innerText = idx + 1;
-        pill.addEventListener('click', () => {
-          loadQuestion(idx);
-        });
+        pill.addEventListener('click', () => loadQuestion(idx));
         grid.appendChild(pill);
       });
     }
 
-    function updateQuestionGridPills() {
-      quizData.forEach((item, idx) => {
+    function updateGridPills() {
+      activeQuestionList.forEach((item, idx) => {
         const pill = document.getElementById(`pill-${idx}`);
         if (!pill) return;
 
         const isAnswered = userAnswers[idx] !== undefined;
-        const isCurrent = idx === currentIndex;
+        const isCurrent = idx === currentIdx;
 
-        // Reset base classes
         pill.className = "w-7 h-7 rounded-lg text-xs font-semibold flex items-center justify-center smooth-transition border ";
 
         if (isCurrent) {
-          pill.classList.add('ring-2', 'ring-indigo-400', 'ring-offset-1', 'ring-offset-slate-900');
+          pill.classList.add('ring-2', 'ring-indigo-400', 'ring-offset-1', 'ring-offset-slate-950');
         }
 
         if (isAnswered) {
@@ -692,31 +1127,42 @@
               pill.classList.add('bg-rose-600', 'border-rose-400', 'text-white');
             }
           } else {
-            pill.classList.add('bg-indigo-900/80', 'border-indigo-500', 'text-indigo-200');
+            pill.classList.add('bg-indigo-900/90', 'border-indigo-500', 'text-indigo-200');
           }
         } else {
-          pill.classList.add('bg-slate-900', 'border-slate-700', 'text-slate-400', 'hover:border-slate-500');
+          pill.classList.add('bg-slate-900', 'border-slate-800', 'text-slate-400', 'hover:border-slate-600');
         }
       });
     }
 
-    // Load and Render Active Question
+    // ----------------------------------------------------
+    // 4. Load & Render Active Question
+    // ----------------------------------------------------
     function loadQuestion(idx) {
-      if (idx < 0 || idx >= quizData.length) return;
-      currentIndex = idx;
+      if (idx < 0 || idx >= activeQuestionList.length) return;
+      currentIdx = idx;
 
-      const item = quizData[idx];
+      const item = activeQuestionList[idx];
 
-      // Update counters & progress bar
+      // Counters & Progress Bar
       document.getElementById('currentIdxText').innerText = idx + 1;
-      const progressPercent = ((idx + 1) / quizData.length) * 100;
+      const progressPercent = ((idx + 1) / activeQuestionList.length) * 100;
       document.getElementById('progressBar').style.width = `${progressPercent}%`;
 
       // Header Meta
-      document.getElementById('qBadge').innerText = `Question ${idx + 1} of 29 • (Original #${item.id})`;
+      const lectureBadge = document.getElementById('lectureBadge');
+      if (item.lecture === 2) {
+        lectureBadge.innerText = "Lecture 2 • MCQ";
+        lectureBadge.className = "px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-indigo-500/15 text-indigo-400 border border-indigo-500/30";
+      } else {
+        lectureBadge.innerText = "Lecture 3 • True / False";
+        lectureBadge.className = "px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-violet-500/15 text-violet-400 border border-violet-500/30";
+      }
+
+      document.getElementById('origIdBadge').innerText = `Orig #${item.origId}`;
       document.getElementById('questionText').innerText = item.q;
 
-      // Arabic Hint Setup (collapsed by default)
+      // Arabic Hint Setup (collapsed)
       document.getElementById('hintContent').innerText = item.hint;
       document.getElementById('hintCard').classList.add('hidden');
       document.getElementById('hintArrow').classList.remove('rotate-180');
@@ -724,7 +1170,7 @@
       // Feedback message reset
       const feedbackMsg = document.getElementById('immediateFeedbackText');
       feedbackMsg.innerText = '';
-      feedbackMsg.className = 'text-xs sm:text-sm font-medium';
+      feedbackMsg.className = 'text-xs sm:text-sm font-bold';
 
       // Status Badge
       const statusBadge = document.getElementById('statusBadge');
@@ -745,7 +1191,7 @@
 
       item.options.forEach((optText, optIdx) => {
         const optButton = document.createElement('button');
-        optButton.className = "w-full text-left p-3.5 sm:p-4 rounded-xl border smooth-transition flex items-start gap-3 text-sm sm:text-base font-medium relative group ";
+        optButton.className = "w-full text-left p-3.5 sm:p-4 rounded-xl border smooth-transition flex items-start gap-3.5 text-sm sm:text-base font-medium relative group ";
 
         const letterCircle = document.createElement('span');
         letterCircle.className = "w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs uppercase shrink-0 smooth-transition ";
@@ -754,39 +1200,43 @@
         textSpan.className = "flex-1 mt-0.5 leading-relaxed";
         textSpan.innerText = optText;
 
-        letterCircle.innerText = letters[optIdx];
+        if (item.type === 'tf') {
+          letterCircle.innerText = optIdx === 0 ? "T" : "F";
+        } else {
+          letterCircle.innerText = letters[optIdx];
+        }
 
         if (!hasAnswered) {
-          // Unanswered State
-          optButton.classList.add('bg-slate-900/60', 'border-slate-700', 'text-slate-200', 'hover:border-indigo-500', 'hover:bg-slate-800');
-          letterCircle.classList.add('bg-slate-800', 'text-slate-300', 'group-hover:bg-indigo-600', 'group-hover:text-white');
+          // Unanswered
+          optButton.classList.add('bg-slate-950/70', 'border-slate-800', 'text-slate-200', 'hover:border-indigo-500', 'hover:bg-slate-900');
+          letterCircle.classList.add('bg-slate-900', 'text-slate-400', 'group-hover:bg-indigo-600', 'group-hover:text-white');
           optButton.addEventListener('click', () => handleSelectOption(optIdx));
         } else {
-          // Already Answered
+          // Answered
           if (!examMode) {
-            // Immediate Feedback Mode Colors
+            // Practice Mode (Instant Feedback)
             if (optIdx === item.answer) {
               optButton.classList.add('bg-emerald-950/40', 'border-emerald-500', 'text-emerald-200');
               letterCircle.classList.add('bg-emerald-500', 'text-white');
-              textSpan.innerHTML += ` <span class="text-xs text-emerald-400 font-bold ml-1">✓ Correct</span>`;
+              textSpan.innerHTML += ` <span class="text-xs text-emerald-400 font-bold ml-1.5">✓ Correct</span>`;
             } else if (optIdx === selectedOption) {
               optButton.classList.add('bg-rose-950/40', 'border-rose-500', 'text-rose-200');
               letterCircle.classList.add('bg-rose-500', 'text-white');
-              textSpan.innerHTML += ` <span class="text-xs text-rose-400 font-bold ml-1">✗ Your choice</span>`;
+              textSpan.innerHTML += ` <span class="text-xs text-rose-400 font-bold ml-1.5">✗ Your choice</span>`;
             } else {
-              optButton.classList.add('bg-slate-900/30', 'border-slate-800', 'text-slate-500', 'opacity-60');
-              letterCircle.classList.add('bg-slate-800', 'text-slate-600');
+              optButton.classList.add('bg-slate-950/30', 'border-slate-800/80', 'text-slate-500', 'opacity-60');
+              letterCircle.classList.add('bg-slate-900', 'text-slate-600');
             }
           } else {
-            // Exam Mode Neutral Selected
+            // Exam Mode
             if (optIdx === selectedOption) {
-              optButton.classList.add('bg-indigo-950/50', 'border-indigo-500', 'text-indigo-200');
+              optButton.classList.add('bg-indigo-950/60', 'border-indigo-500', 'text-indigo-200');
               letterCircle.classList.add('bg-indigo-600', 'text-white');
             } else {
-              optButton.classList.add('bg-slate-900/40', 'border-slate-700/60', 'text-slate-300', 'hover:border-slate-500');
-              letterCircle.classList.add('bg-slate-800', 'text-slate-400');
+              optButton.classList.add('bg-slate-950/50', 'border-slate-800', 'text-slate-300', 'hover:border-slate-600');
+              letterCircle.classList.add('bg-slate-900', 'text-slate-400');
             }
-            // Allow changing answer in Exam Mode
+            // Allow changing answers in Exam Mode
             optButton.addEventListener('click', () => handleSelectOption(optIdx));
           }
         }
@@ -796,50 +1246,55 @@
         optionsContainer.appendChild(optButton);
       });
 
-      // Feedback message in Instant Feedback Mode
+      // Immediate Feedback Text in Practice Mode
       if (hasAnswered && !examMode) {
         if (selectedOption === item.answer) {
           feedbackMsg.innerText = "✓ Correct Answer!";
           feedbackMsg.className = "text-xs sm:text-sm font-bold text-emerald-400";
         } else {
-          feedbackMsg.innerText = `✗ Incorrect. Correct choice is (${letters[item.answer]}).`;
+          const correctKey = item.type === 'tf' ? (item.answer === 0 ? 'True' : 'False') : `(${letters[item.answer]})`;
+          feedbackMsg.innerText = `✗ Incorrect. Correct choice: ${correctKey}`;
           feedbackMsg.className = "text-xs sm:text-sm font-bold text-rose-400";
         }
       }
 
-      // Prev / Next button state
-      document.getElementById('prevBtn').disabled = (currentIndex === 0);
-      const isLast = (currentIndex === quizData.length - 1);
+      // Prev & Next Controls
+      document.getElementById('prevBtn').disabled = (currentIdx === 0);
+      const isLast = (currentIdx === activeQuestionList.length - 1);
       document.getElementById('nextBtn').classList.toggle('hidden', isLast);
-      document.getElementById('finishBtn').classList.toggle('hidden', !isLast && Object.keys(userAnswers).length < quizData.length);
+      
+      const answeredTotal = Object.keys(userAnswers).length;
+      document.getElementById('finishBtn').classList.toggle('hidden', !isLast && answeredTotal < activeQuestionList.length);
 
-      updateQuestionGridPills();
-      updateScoreSummary();
+      updateGridPills();
+      updateScoreBadge();
     }
 
-    // Option Click Handler
-    function handleSelectOption(optionIndex) {
-      initAudio();
-      userAnswers[currentIndex] = optionIndex;
-      const currentQ = quizData[currentIndex];
+    // ----------------------------------------------------
+    // 5. Option Selection Handling
+    // ----------------------------------------------------
+    function handleSelectOption(optIdx) {
+      initSynth();
+      userAnswers[currentIdx] = optIdx;
+      const currentQ = activeQuestionList[currentIdx];
 
       if (!examMode) {
-        if (optionIndex === currentQ.answer) {
+        if (optIdx === currentQ.answer) {
           playSound('correct');
         } else {
           playSound('wrong');
         }
       }
 
-      loadQuestion(currentIndex);
+      loadQuestion(currentIdx);
     }
 
-    // Arabic Hint Toggle
+    // Hint Collapsible Toggle
     document.getElementById('toggleHintBtn').addEventListener('click', () => {
       const hintCard = document.getElementById('hintCard');
       const arrow = document.getElementById('hintArrow');
       const isHidden = hintCard.classList.contains('hidden');
-      
+
       if (isHidden) {
         hintCard.classList.remove('hidden');
         arrow.classList.add('rotate-180');
@@ -850,33 +1305,34 @@
     });
 
     // Score Summary Calculation
-    function updateScoreSummary() {
-      let correctCount = 0;
+    function updateScoreBadge() {
+      let correct = 0;
       const answeredKeys = Object.keys(userAnswers);
 
-      quizData.forEach((q, idx) => {
+      activeQuestionList.forEach((q, idx) => {
         if (userAnswers[idx] !== undefined && userAnswers[idx] === q.answer) {
-          correctCount++;
+          correct++;
         }
       });
 
       if (!examMode) {
-        document.getElementById('scoreBadge').innerText = `Score: ${correctCount} / ${answeredKeys.length}`;
+        document.getElementById('scoreBadge').innerText = `Score: ${correct} / ${answeredKeys.length}`;
       } else {
-        document.getElementById('scoreBadge').innerText = `Answered: ${answeredKeys.length} / 29`;
+        document.getElementById('scoreBadge').innerText = `Answered: ${answeredKeys.length} / ${activeQuestionList.length}`;
       }
     }
 
-    // Finish Quiz & Show Review
+    // ----------------------------------------------------
+    // 6. Finish Quiz & Render Results
+    // ----------------------------------------------------
     function finishQuiz() {
       clearInterval(timerInterval);
-      playSound('complete');
+      playSound('finish');
 
-      // Trigger Confetti effect
       try {
         confetti({
-          particleCount: 100,
-          spread: 70,
+          particleCount: 120,
+          spread: 80,
           origin: { y: 0.6 }
         });
       } catch (e) {}
@@ -885,38 +1341,40 @@
       document.getElementById('resultsScreen').classList.remove('hidden');
 
       let correctCount = 0;
-      quizData.forEach((q, idx) => {
+      activeQuestionList.forEach((q, idx) => {
         if (userAnswers[idx] !== undefined && userAnswers[idx] === q.answer) {
           correctCount++;
         }
       });
 
-      const percentage = Math.round((correctCount / quizData.length) * 100);
-      document.getElementById('finalScoreVal').innerText = `${correctCount} / 29`;
+      const total = activeQuestionList.length;
+      const percentage = Math.round((correctCount / total) * 100);
+
+      document.getElementById('finalScoreVal').innerText = `${correctCount} / ${total}`;
       document.getElementById('finalPercentage').innerText = `${percentage}% Accuracy`;
       document.getElementById('finalTime').innerText = formatTime(secondsElapsed);
-      document.getElementById('finalMode').innerText = examMode ? 'Exam Mode' : 'Instant Feedback';
+      document.getElementById('finalScope').innerText = currentCategory === 'lec2' ? 'Lecture 2 (29)' : currentCategory === 'lec3' ? 'Lecture 3 (32)' : 'All Questions (61)';
 
-      // Emoji response based on percentage
       const emojiEl = document.getElementById('scoreEmoji');
-      if (percentage >= 85) emojiEl.innerText = "🏆";
-      else if (percentage >= 65) emojiEl.innerText = "🌟";
-      else if (percentage >= 50) emojiEl.innerText = "👍";
+      if (percentage >= 90) emojiEl.innerText = "🏆";
+      else if (percentage >= 75) emojiEl.innerText = "🌟";
+      else if (percentage >= 60) emojiEl.innerText = "👍";
       else emojiEl.innerText = "📚";
 
-      renderReviewList();
+      renderReviewBreakdown();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Render Detailed Review Breakdown
-    function renderReviewList() {
+    // Render Full Review Breakdown
+    function renderReviewBreakdown() {
       const container = document.getElementById('reviewList');
       container.innerHTML = '';
       const letters = ['a', 'b', 'c', 'd'];
 
-      quizData.forEach((item, idx) => {
+      activeQuestionList.forEach((item, idx) => {
         const userChoice = userAnswers[idx];
         const isCorrect = (userChoice !== undefined && userChoice === item.answer);
+
         const card = document.createElement('div');
         card.className = `p-4 sm:p-5 rounded-xl border ${
           isCorrect ? 'bg-emerald-950/20 border-emerald-500/40' : 'bg-rose-950/20 border-rose-500/40'
@@ -926,103 +1384,145 @@
         headerDiv.className = "flex items-center justify-between text-xs font-semibold mb-2";
         headerDiv.innerHTML = `
           <span class="${isCorrect ? 'text-emerald-400' : 'text-rose-400'}">
-            ${isCorrect ? '✓ Correct' : '✗ Incorrect or Skipped'} • Question #${idx + 1} (Orig #${item.id})
+            ${isCorrect ? '✓ Correct' : '✗ Incorrect or Skipped'} • Question #${idx + 1} (Lecture ${item.lecture} • Orig #${item.origId})
           </span>
-          <span class="text-slate-400">Answer: (${letters[item.answer]})</span>
+          <span class="text-slate-400">Answer: ${
+            item.type === 'tf' ? (item.answer === 0 ? 'True' : 'False') : `(${letters[item.answer]})`
+          }</span>
         `;
 
         const questionTitle = document.createElement('h4');
         questionTitle.className = "font-bold text-slate-200 text-sm sm:text-base mb-3 leading-snug";
         questionTitle.innerText = item.q;
 
-        const answersComparison = document.createElement('div');
-        answersComparison.className = "space-y-1.5 text-xs sm:text-sm";
+        const comparison = document.createElement('div');
+        comparison.className = "space-y-1.5 text-xs sm:text-sm";
 
-        // Correct Answer Display
+        // Correct text
+        const correctText = item.type === 'tf' 
+          ? (item.answer === 0 ? 'True' : 'False')
+          : `(${letters[item.answer]}) ${item.options[item.answer]}`;
+
         const correctRow = document.createElement('div');
-        correctRow.className = "text-emerald-300 font-medium flex items-start gap-1";
-        correctRow.innerHTML = `<span><strong>Correct:</strong> (${letters[item.answer]}) ${item.options[item.answer]}</span>`;
-        answersComparison.appendChild(correctRow);
+        correctRow.className = "text-emerald-300 font-medium";
+        correctRow.innerHTML = `<strong>Correct:</strong> ${correctText}`;
+        comparison.appendChild(correctRow);
 
-        // User Selection Display
+        // User response if incorrect
         if (!isCorrect) {
+          let userText = '<em>Skipped / Unanswered</em>';
+          if (userChoice !== undefined) {
+            userText = item.type === 'tf' 
+              ? (userChoice === 0 ? 'True' : 'False')
+              : `(${letters[userChoice]}) ${item.options[userChoice]}`;
+          }
           const userRow = document.createElement('div');
-          userRow.className = "text-rose-300 font-medium flex items-start gap-1";
-          userRow.innerHTML = `<span><strong>Your answer:</strong> ${
-            userChoice !== undefined 
-              ? `(${letters[userChoice]}) ${item.options[userChoice]}`
-              : '<em>Skipped / Not answered</em>'
-          }</span>`;
-          answersComparison.appendChild(userRow);
+          userRow.className = "text-rose-300 font-medium";
+          userRow.innerHTML = `<strong>Your Answer:</strong> ${userText}`;
+          comparison.appendChild(userRow);
         }
 
-        // Arabic Hint in Review
+        // Arabic Hint
         const hintBox = document.createElement('div');
-        hintBox.className = "mt-3 pt-3 border-t border-slate-700/60 text-xs text-amber-200/90 arabic-text leading-relaxed";
+        hintBox.className = "mt-3 pt-3 border-t border-slate-800 text-xs text-amber-200/90 arabic-text leading-relaxed whitespace-pre-line";
         hintBox.innerText = `💡 ${item.hint}`;
 
         card.appendChild(headerDiv);
         card.appendChild(questionTitle);
-        card.appendChild(answersComparison);
+        card.appendChild(comparison);
         card.appendChild(hintBox);
 
         container.appendChild(card);
       });
     }
 
-    // Navigation Buttons Event Listeners
-    document.getElementById('prevBtn').addEventListener('click', () => {
-      if (currentIndex > 0) loadQuestion(currentIndex - 1);
-    });
+    // ----------------------------------------------------
+    // 7. Event Handlers & Filters
+    // ----------------------------------------------------
+    // Category Filter Buttons
+    const filterAll = document.getElementById('filterAll');
+    const filterLec2 = document.getElementById('filterLec2');
+    const filterLec3 = document.getElementById('filterLec3');
+    const filterButtons = [filterAll, filterLec2, filterLec3];
 
-    document.getElementById('nextBtn').addEventListener('click', () => {
-      if (currentIndex < quizData.length - 1) loadQuestion(currentIndex + 1);
-    });
+    function setFilter(cat, btn) {
+      currentCategory = cat;
+      filterButtons.forEach(b => {
+        b.className = "filter-tab px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 smooth-transition";
+      });
+      btn.className = "filter-tab px-3 py-1.5 rounded-lg bg-indigo-600 text-white shadow-sm smooth-transition";
+      initQuiz(true);
+    }
 
-    document.getElementById('finishBtn').addEventListener('click', finishQuiz);
-    document.getElementById('restartBtn').addEventListener('click', initQuiz);
-    document.getElementById('shuffleBtn').addEventListener('click', initQuiz);
+    filterAll.addEventListener('click', () => setFilter('all', filterAll));
+    filterLec2.addEventListener('click', () => setFilter('lec2', filterLec2));
+    filterLec3.addEventListener('click', () => setFilter('lec3', filterLec3));
 
-    document.getElementById('scrollToReviewBtn').addEventListener('click', () => {
-      document.getElementById('reviewContainer').scrollIntoView({ behavior: 'smooth' });
-    });
-
-    // Practice / Exam Mode Toggles
+    // Mode Toggle Buttons
     const modePractice = document.getElementById('modePractice');
     const modeExam = document.getElementById('modeExam');
 
     modePractice.addEventListener('click', () => {
       examMode = false;
-      modePractice.className = "px-3 py-1.5 rounded-lg bg-indigo-600 text-white shadow-sm smooth-transition";
-      modeExam.className = "px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 smooth-transition";
-      loadQuestion(currentIndex);
+      modePractice.className = "mode-tab px-3.5 py-1.5 rounded-lg bg-indigo-600 text-white shadow-sm smooth-transition";
+      modeExam.className = "mode-tab px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 smooth-transition";
+      loadQuestion(currentIdx);
     });
 
     modeExam.addEventListener('click', () => {
       examMode = true;
-      modeExam.className = "px-3 py-1.5 rounded-lg bg-indigo-600 text-white shadow-sm smooth-transition";
-      modePractice.className = "px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 smooth-transition";
-      loadQuestion(currentIndex);
+      modeExam.className = "mode-tab px-3.5 py-1.5 rounded-lg bg-indigo-600 text-white shadow-sm smooth-transition";
+      modePractice.className = "mode-tab px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 smooth-transition";
+      loadQuestion(currentIdx);
     });
 
-    // Keyboard Shortcuts (Arrow Left/Right, 1-4 for options)
+    // Navigation Controls
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      if (currentIdx > 0) loadQuestion(currentIdx - 1);
+    });
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      if (currentIdx < activeQuestionList.length - 1) loadQuestion(currentIdx + 1);
+    });
+
+    document.getElementById('finishBtn').addEventListener('click', finishQuiz);
+    document.getElementById('restartBtn').addEventListener('click', () => initQuiz(true));
+    document.getElementById('shuffleBtn').addEventListener('click', () => initQuiz(true));
+
+    document.getElementById('scrollToReviewBtn').addEventListener('click', () => {
+      document.getElementById('reviewContainer').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Sound Toggle
+    const soundToggleBtn = document.getElementById('soundToggleBtn');
+    const soundIconOn = document.getElementById('soundIconOn');
+    const soundIconOff = document.getElementById('soundIconOff');
+
+    soundToggleBtn.addEventListener('click', () => {
+      soundEnabled = !soundEnabled;
+      soundIconOn.classList.toggle('hidden', !soundEnabled);
+      soundIconOff.classList.toggle('hidden', soundEnabled);
+    });
+
+    // Keyboard Shortcuts
     window.addEventListener('keydown', (e) => {
-      // Don't trigger if quiz is finished
       if (!document.getElementById('resultsScreen').classList.contains('hidden')) return;
 
       if (e.key === 'ArrowRight') {
-        if (currentIndex < quizData.length - 1) loadQuestion(currentIndex + 1);
+        if (currentIdx < activeQuestionList.length - 1) loadQuestion(currentIdx + 1);
       } else if (e.key === 'ArrowLeft') {
-        if (currentIndex > 0) loadQuestion(currentIndex - 1);
+        if (currentIdx > 0) loadQuestion(currentIdx - 1);
       } else if (['1', '2', '3', '4'].includes(e.key)) {
-        const optIdx = parseInt(e.key, 10) - 1;
-        handleSelectOption(optIdx);
+        const opt = parseInt(e.key, 10) - 1;
+        if (activeQuestionList[currentIdx] && opt < activeQuestionList[currentIdx].options.length) {
+          handleSelectOption(opt);
+        }
       }
     });
 
-    // Start on Page Load
+    // On Load
     window.onload = function() {
-      initQuiz();
+      initQuiz(true);
     };
   </script>
 </body>
