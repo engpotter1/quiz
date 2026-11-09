@@ -1,735 +1,1631 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NUSC | Electronics COM 205 Midterm Examination</title>
+  <title>NUSC | COM207 Computer Security Quiz Platform</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
             cairo: ['Cairo', 'sans-serif'],
             mono: ['JetBrains Mono', 'monospace']
+          },
+          colors: {
+            cyber: {
+              950: '#070b14',
+              900: '#0d1527',
+              850: '#111c34',
+              800: '#162444',
+              700: '#1f335e',
+              neon: '#00f2fe',
+              accent: '#4facfe',
+              green: '#10b981',
+              red: '#f43f5e'
+            }
           }
         }
       }
     }
   </script>
   <style>
-    body { font-family: 'Cairo', sans-serif; }
-    .code-font { font-family: 'JetBrains Mono', monospace; direction: ltr; }
-    .ltr-box { direction: ltr; text-align: left; }
-    .svg-container svg { width: 100%; height: auto; max-height: 120px; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #070b14; color: #f1f5f9; }
+    .ar-text { font-family: 'Cairo', sans-serif; direction: rtl; text-align: right; }
+    .glow-cyan { box-shadow: 0 0 25px -5px rgba(0, 242, 254, 0.25); }
+    .glow-indigo { box-shadow: 0 0 25px -5px rgba(99, 102, 241, 0.3); }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #070b14; }
+    ::-webkit-scrollbar-thumb { background: #1f335e; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen antialiased flex flex-col">
+<body class="min-h-screen flex flex-col bg-cyber-950 text-slate-100 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
 
-  <!-- Header -->
-  <header class="bg-slate-900/90 backdrop-blur border-b border-slate-800 sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+  <!-- Top Cyber Bar -->
+  <header class="sticky top-0 z-50 bg-cyber-900/90 backdrop-blur-md border-b border-cyber-700/50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-600/30">
-          <i class="fa-solid fa-microchip text-lg"></i>
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/20">
+          <i class="fa-solid fa-shield-halved text-lg"></i>
         </div>
         <div>
-          <h1 class="font-bold text-sm sm:text-base text-white">COM 205 | Electronics Midterm Platform</h1>
-          <p class="text-xs text-indigo-400">جامعة مدينة السادات الأهلية (NUSC) • د. أحمد بشير</p>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold px-2 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800/60 font-mono">COM207</span>
+            <h1 class="font-extrabold text-sm sm:text-base tracking-tight text-white">Computer Security Exam Platform</h1>
+          </div>
+          <p class="text-[11px] text-slate-400">National University of Sadat City (NUSC) • Dr. Asmaa Saad</p>
         </div>
       </div>
-      <div class="flex items-center gap-2">
-        <button id="shuffleBtn" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 border border-slate-700 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition">
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button id="instantToggleBtn" onclick="toggleInstantFeedback()" class="text-xs px-3 py-1.5 rounded-lg border border-slate-700 bg-cyber-850 hover:bg-cyber-800 text-slate-300 flex items-center gap-2 transition" title="Toggle immediate correction mode">
+          <i class="fa-solid fa-bolt text-amber-400"></i>
+          <span class="hidden sm:inline">Instant Feedback:</span>
+          <span id="instantStatus" class="font-bold text-amber-400 font-mono">OFF</span>
+        </button>
+        <button onclick="shuffleActivePool()" class="text-xs px-3 py-1.5 rounded-lg border border-cyan-500/30 bg-cyan-950/40 hover:bg-cyan-900/50 text-cyan-300 font-semibold flex items-center gap-1.5 transition">
           <i class="fa-solid fa-shuffle"></i>
-          <span>لخبطة الأسئلة</span>
+          <span class="hidden sm:inline">Shuffle</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Main View -->
-  <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full">
-    <!-- Hero / Info Box -->
-    <div class="bg-gradient-to-r from-indigo-950 via-slate-900 to-indigo-900 border border-indigo-800/40 rounded-2xl p-4 sm:p-6 mb-6 shadow-xl relative overflow-hidden">
-      <div class="relative z-10">
-        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-bold mb-2 border border-indigo-500/30">
-          <i class="fa-solid fa-graduation-cap"></i> أسئلة ميدتيرم نظامية ومباشرة مع رسومات هندسية
-        </span>
-        <h2 class="text-lg sm:text-2xl font-extrabold text-white mb-1">منصة اختبارات الإلكترونيات الرقمية</h2>
-        <p class="text-xs sm:text-sm text-slate-300 max-w-3xl leading-relaxed">
-          تم تصميم الأسئلة لتكون مباشرة بنمط الدكتور مع رسوم توضيحية كاملة لكل البوابات والدوائر التوافقية والتتابعية. يمكنك حل كل ملف PDF على حدة وعمل تسليم وإعادة محاولة له مستقلاً دون التأثير على باقي الأجزاء.
-        </p>
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex-1 w-full flex flex-col gap-6">
+
+    <!-- Sub Header Hero -->
+    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-cyber-900 via-slate-900 to-cyber-850 border border-cyber-700/40 p-5 sm:p-6 glow-cyan">
+      <div class="absolute -right-10 -bottom-10 w-52 h-52 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold mb-2">
+            <i class="fa-solid fa-graduation-cap"></i> Chapters 1, 2 & 3 Official Assessments
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight">Interactive Midterm Training & Question Bank</h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl leading-relaxed">
+            Covers CIA Triad, Security Threats, Attacks & Policies, Access Control Models (DAC, MAC, Bell-LaPadula), Authentication Factors, Tokens, and Biometrics. Includes bilingual hints and textbook model answers.
+          </p>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="bg-cyber-950/80 border border-slate-800 p-3 rounded-xl text-center min-w-[90px]">
+            <span class="text-[11px] text-slate-400 font-medium block">Total Pool</span>
+            <span id="heroTotalCount" class="text-lg font-black text-cyan-400 font-mono">60</span>
+            <span class="text-[10px] text-slate-500 block">MCQ & T/F</span>
+          </div>
+          <div class="bg-cyber-950/80 border border-slate-800 p-3 rounded-xl text-center min-w-[90px]">
+            <span class="text-[11px] text-slate-400 font-medium block">Essay Bank</span>
+            <span class="text-lg font-black text-indigo-400 font-mono">15</span>
+            <span class="text-[10px] text-slate-500 block">Model Answers</span>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Navigation Tabs -->
-    <div class="flex items-center gap-2 overflow-x-auto pb-3 mb-6 border-b border-slate-800" id="tabsBar">
-      <button onclick="switchTab('pdf1')" id="tab-pdf1" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap bg-indigo-600 text-white shadow-md">PDF 1: Number Systems</button>
-      <button onclick="switchTab('pdf2')" id="tab-pdf2" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap bg-slate-900 text-slate-400 hover:bg-slate-800">PDF 2: Logic Gates</button>
-      <button onclick="switchTab('pdf3')" id="tab-pdf3" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap bg-slate-900 text-slate-400 hover:bg-slate-800">PDF 3: Specs & Arithmetic</button>
-      <button onclick="switchTab('pdf4')" id="tab-pdf4" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap bg-slate-900 text-slate-400 hover:bg-slate-800">PDF 4: Boolean Algebra</button>
-      <button onclick="switchTab('pdf5')" id="tab-pdf5" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap bg-slate-900 text-slate-400 hover:bg-slate-800">PDF 5: Circuits & MUX</button>
-      <button onclick="switchTab('all')" id="tab-all" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap bg-slate-900 text-amber-400 border border-amber-500/30 hover:bg-slate-800">كل الأسئلة معاً (All 200 Qs)</button>
+    <div class="flex items-center gap-2 overflow-x-auto pb-2 border-b border-cyber-800 text-xs sm:text-sm font-semibold">
+      <button onclick="switchTab('all')" id="tab-all" class="tab-btn px-4 py-2.5 rounded-xl transition whitespace-nowrap bg-cyan-500 text-cyber-950 font-black shadow-md shadow-cyan-500/20">
+        <i class="fa-solid fa-layer-group mr-1.5"></i> All Chapters (Exam)
+      </button>
+      <button onclick="switchTab('ch1')" id="tab-ch1" class="tab-btn px-4 py-2.5 rounded-xl transition whitespace-nowrap bg-cyber-900 text-slate-300 hover:bg-cyber-850 hover:text-white border border-cyber-800">
+        <i class="fa-solid fa-1 mr-1.5 text-cyan-400"></i> Intro to Security
+      </button>
+      <button onclick="switchTab('ch2')" id="tab-ch2" class="tab-btn px-4 py-2.5 rounded-xl transition whitespace-nowrap bg-cyber-900 text-slate-300 hover:bg-cyber-850 hover:text-white border border-cyber-800">
+        <i class="fa-solid fa-2 mr-1.5 text-cyan-400"></i> Access Control
+      </button>
+      <button onclick="switchTab('ch3')" id="tab-ch3" class="tab-btn px-4 py-2.5 rounded-xl transition whitespace-nowrap bg-cyber-900 text-slate-300 hover:bg-cyber-850 hover:text-white border border-cyber-800">
+        <i class="fa-solid fa-3 mr-1.5 text-cyan-400"></i> Identification & Auth
+      </button>
+      <button onclick="switchTab('essay')" id="tab-essay" class="tab-btn px-4 py-2.5 rounded-xl transition whitespace-nowrap bg-cyber-900 text-amber-300 hover:bg-cyber-850 hover:text-amber-200 border border-amber-500/30">
+        <i class="fa-solid fa-book-open mr-1.5 text-amber-400"></i> Essay Review (Part C)
+      </button>
     </div>
 
-    <!-- Active Section Controls & Status Bar -->
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 mb-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-      <div>
-        <div class="flex items-center gap-2 mb-1">
-          <span id="tabBadge" class="bg-indigo-600/30 text-indigo-400 text-xs px-2.5 py-0.5 rounded-md font-bold">PDF 1</span>
-          <h3 id="tabHeading" class="text-sm sm:text-base font-bold text-white">Number Systems & Analog vs Digital</h3>
-        </div>
-        <p id="tabSubtitle" class="text-xs text-slate-400">40 سؤالاً حول الأنظمة الثنائية، الست عشرية، المتمم الثنائي، وتمثيل النقطة العائمة.</p>
+    <!-- Filter & Action Strip -->
+    <div id="quizFilterStrip" class="bg-cyber-900 border border-cyber-800 rounded-2xl p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div class="flex items-center flex-wrap gap-2">
+        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider mr-1">Filter:</span>
+        <button onclick="setFilter('all')" id="filter-all" class="filter-btn text-xs px-3 py-1.5 rounded-lg bg-cyber-800 text-white font-bold border border-slate-700">All (<span id="count-all">0</span>)</button>
+        <button onclick="setFilter('mcq')" id="filter-mcq" class="filter-btn text-xs px-3 py-1.5 rounded-lg bg-cyber-950 text-slate-400 hover:text-white border border-cyber-800">Multiple Choice (<span id="count-mcq">0</span>)</button>
+        <button onclick="setFilter('tf')" id="filter-tf" class="filter-btn text-xs px-3 py-1.5 rounded-lg bg-cyber-950 text-slate-400 hover:text-white border border-cyber-800">True / False (<span id="count-tf">0</span>)</button>
       </div>
-      <div class="flex items-center gap-2 w-full md:w-auto">
-        <button onclick="submitCurrentSection()" class="flex-1 md:flex-initial bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20">
-          <i class="fa-solid fa-check-double"></i>
-          <span>تصحيح هذا الجزء (Submit)</span>
+
+      <div class="flex items-center gap-2.5 w-full md:w-auto">
+        <button onclick="resetCurrentTab()" class="flex-1 md:flex-initial text-xs px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold flex items-center justify-center gap-1.5 transition">
+          <i class="fa-solid fa-arrow-rotate-left"></i>
+          <span>Reset / Retake</span>
         </button>
-        <button onclick="resetCurrentSection()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs sm:text-sm px-3 py-2.5 rounded-xl transition border border-slate-700" title="إعادة محاولة هذا الملف فقط">
-          <i class="fa-solid fa-rotate-right"></i>
-          <span>إعادة</span>
+        <button onclick="submitExam()" id="submitBtn" class="flex-1 md:flex-initial text-xs px-5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20 transition">
+          <i class="fa-solid fa-check-to-slot"></i>
+          <span>Submit Exam</span>
         </button>
       </div>
     </div>
 
-    <!-- Score Card (Hidden until submit) -->
-    <div id="scoreBox" class="hidden mb-6 rounded-2xl p-5 border transition">
-      <div class="flex items-center justify-between flex-wrap gap-4">
-        <div class="flex items-center gap-3">
-          <div id="scoreIcon" class="w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold"></div>
+    <!-- Result / Score Card Modal Banner (Hidden until submit) -->
+    <div id="scoreBanner" class="hidden rounded-2xl border p-5 sm:p-6 transition-all duration-300">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div id="scoreIconContainer" class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl font-black shrink-0"></div>
           <div>
-            <h4 id="scoreTitle" class="font-bold text-base text-white"></h4>
-            <p id="scoreMessage" class="text-xs text-slate-300"></p>
+            <h3 id="scoreTitle" class="text-lg font-bold text-white"></h3>
+            <p id="scoreSubtitle" class="text-xs text-slate-300 mt-0.5"></p>
           </div>
         </div>
-        <div class="flex items-center gap-3">
-          <div class="bg-slate-950/60 border border-slate-800 px-4 py-2 rounded-xl text-center">
-            <span class="block text-xs text-slate-400">درجتك</span>
-            <span id="scoreVal" class="text-xl font-extrabold text-white"></span>
+        <div class="flex items-center gap-4 w-full sm:w-auto justify-end">
+          <div class="text-right">
+            <span class="text-xs text-slate-400 block font-medium">Final Grade</span>
+            <span id="scoreText" class="text-2xl font-black text-cyan-400 font-mono">0 / 0</span>
           </div>
-          <div class="bg-slate-950/60 border border-slate-800 px-4 py-2 rounded-xl text-center">
-            <span class="block text-xs text-slate-400">النسبة</span>
-            <span id="scorePct" class="text-xl font-extrabold text-indigo-400"></span>
+          <div class="w-16 h-16 rounded-full border-4 border-slate-700 flex items-center justify-center bg-cyber-950" id="scoreCircle">
+            <span id="scorePercentage" class="text-sm font-black text-white font-mono">0%</span>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Questions Container -->
-    <div id="questionsWrapper" class="space-y-6"></div>
+    <div id="quizContainer" class="space-y-4"></div>
 
-    <!-- Bottom Submit -->
-    <div class="mt-8 pt-6 border-t border-slate-800 flex justify-end">
-      <button onclick="submitCurrentSection()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm px-6 py-3 rounded-xl transition flex items-center gap-2 shadow-lg shadow-emerald-600/30">
-        <i class="fa-solid fa-check-double"></i>
-        <span>تسليم وتصحيح هذا البي دي إف</span>
-      </button>
-    </div>
+    <!-- Essay View Container (Only shown on essay tab) -->
+    <div id="essayContainer" class="hidden space-y-6"></div>
+
   </main>
 
-  <!-- SVG Drawing Generator Helpers -->
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-cyber-800 bg-cyber-900/60 py-4 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p>© 2026/2027 Faculty of Science, National University of Sadat City (NUSC)</p>
+      <p class="text-slate-400">COM207 Computer Security • Prepared for Data Science & AI Students</p>
+    </div>
+  </footer>
+
+  <!-- Question Data & Core Engine -->
   <script>
-    // Pure Vector SVG Generator for Electronics Midterm
-    const SVGs = {
-      andGate: (a="A", b="B", y="Y=A·B") => `
-        <svg viewBox="0 0 240 80" class="max-w-xs mx-auto text-slate-200">
-          <line x1="20" y1="25" x2="70" y2="25" stroke="#818cf8" stroke-width="3"/>
-          <line x1="20" y1="55" x2="70" y2="55" stroke="#818cf8" stroke-width="3"/>
-          <path d="M 70 10 L 110 10 A 30 30 0 0 1 110 70 L 70 70 Z" fill="#1e1b4b" stroke="#6366f1" stroke-width="3"/>
-          <line x1="140" y1="40" x2="190" y2="40" stroke="#34d399" stroke-width="3"/>
-          <text x="10" y="30" fill="#94a3b8" font-size="12" font-family="monospace">${a}</text>
-          <text x="10" y="60" fill="#94a3b8" font-size="12" font-family="monospace">${b}</text>
-          <text x="195" y="44" fill="#34d399" font-size="12" font-family="monospace">${y}</text>
-        </svg>`,
-      orGate: (a="A", b="B", y="Y=A+B") => `
-        <svg viewBox="0 0 240 80" class="max-w-xs mx-auto text-slate-200">
-          <line x1="20" y1="25" x2="75" y2="25" stroke="#818cf8" stroke-width="3"/>
-          <line x1="20" y1="55" x2="75" y2="55" stroke="#818cf8" stroke-width="3"/>
-          <path d="M 70 10 Q 90 40 70 70 Q 115 70 140 40 Q 115 10 70 10 Z" fill="#1e1b4b" stroke="#6366f1" stroke-width="3"/>
-          <line x1="140" y1="40" x2="190" y2="40" stroke="#34d399" stroke-width="3"/>
-          <text x="10" y="30" fill="#94a3b8" font-size="12" font-family="monospace">${a}</text>
-          <text x="10" y="60" fill="#94a3b8" font-size="12" font-family="monospace">${b}</text>
-          <text x="195" y="44" fill="#34d399" font-size="12" font-family="monospace">${y}</text>
-        </svg>`,
-      notGate: (a="A", y="Y=A'") => `
-        <svg viewBox="0 0 240 80" class="max-w-xs mx-auto text-slate-200">
-          <line x1="30" y1="40" x2="80" y2="40" stroke="#818cf8" stroke-width="3"/>
-          <polygon points="80,15 80,65 130,40" fill="#1e1b4b" stroke="#6366f1" stroke-width="3"/>
-          <circle cx="136" cy="40" r="6" fill="#1e1b4b" stroke="#6366f1" stroke-width="3"/>
-          <line x1="142" y1="40" x2="190" y2="40" stroke="#34d399" stroke-width="3"/>
-          <text x="15" y="44" fill="#94a3b8" font-size="12" font-family="monospace">${a}</text>
-          <text x="195" y="44" fill="#34d399" font-size="12" font-family="monospace">${y}</text>
-        </svg>`,
-      xorGate: (a="A", b="B", y="Y=A⊕B") => `
-        <svg viewBox="0 0 240 80" class="max-w-xs mx-auto text-slate-200">
-          <line x1="20" y1="25" x2="70" y2="25" stroke="#818cf8" stroke-width="3"/>
-          <line x1="20" y1="55" x2="70" y2="55" stroke="#818cf8" stroke-width="3"/>
-          <path d="M 60 10 Q 80 40 60 70" fill="none" stroke="#6366f1" stroke-width="3"/>
-          <path d="M 70 10 Q 90 40 70 70 Q 115 70 140 40 Q 115 10 70 10 Z" fill="#1e1b4b" stroke="#6366f1" stroke-width="3"/>
-          <line x1="140" y1="40" x2="190" y2="40" stroke="#34d399" stroke-width="3"/>
-          <text x="10" y="30" fill="#94a3b8" font-size="12" font-family="monospace">${a}</text>
-          <text x="10" y="60" fill="#94a3b8" font-size="12" font-family="monospace">${b}</text>
-          <text x="195" y="44" fill="#34d399" font-size="12" font-family="monospace">${y}</text>
-        </svg>`,
-      nandGate: (a="A", b="B", y="Y=(A·B)'") => `
-        <svg viewBox="0 0 240 80" class="max-w-xs mx-auto text-slate-200">
-          <line x1="20" y1="25" x2="70" y2="25" stroke="#818cf8" stroke-width="3"/>
-          <line x1="20" y1="55" x2="70" y2="55" stroke="#818cf8" stroke-width="3"/>
-          <path d="M 70 10 L 105 10 A 30 30 0 0 1 105 70 L 70 70 Z" fill="#1e1b4b" stroke="#6366f1" stroke-width="3"/>
-          <circle cx="141" cy="40" r="6" fill="#1e1b4b" stroke="#6366f1" stroke-width="3"/>
-          <line x1="147" y1="40" x2="190" y2="40" stroke="#34d399" stroke-width="3"/>
-          <text x="10" y="30" fill="#94a3b8" font-size="12" font-family="monospace">${a}</text>
-          <text x="10" y="60" fill="#94a3b8" font-size="12" font-family="monospace">${b}</text>
-          <text x="195" y="44" fill="#34d399" font-size="12" font-family="monospace">${y}</text>
-        </svg>`,
-      transistorSwitch: (state="Cutoff", vin="0V (LOW)", vout="5V (HIGH)") => `
-        <svg viewBox="0 0 260 100" class="max-w-xs mx-auto text-slate-200">
-          <rect x="10" y="10" width="240" height="80" rx="8" fill="#0f172a" stroke="#334155" stroke-width="2"/>
-          <text x="20" y="30" fill="#38bdf8" font-size="11" font-weight="bold">BJT Inverter (${state})</text>
-          <text x="20" y="52" fill="#94a3b8" font-size="11">Vin = <tspan fill="#f59e0b" font-weight="bold">${vin}</tspan></text>
-          <text x="20" y="72" fill="#94a3b8" font-size="11">Vout = <tspan fill="#10b981" font-weight="bold">${vout}</tspan></text>
-          <circle cx="210" cy="50" r="18" fill="#1e293b" stroke="#6366f1" stroke-width="2"/>
-          <path d="M 198 40 L 222 60 M 198 60 L 222 40" stroke="${state === 'Saturation' ? '#10b981' : '#ef4444'}" stroke-width="3"/>
-        </svg>`,
-      halfAdder: () => `
-        <svg viewBox="0 0 260 90" class="max-w-xs mx-auto text-slate-200">
-          <rect x="60" y="15" width="130" height="60" rx="6" fill="#1e1b4b" stroke="#6366f1" stroke-width="2"/>
-          <text x="85" y="48" fill="#ffffff" font-size="13" font-weight="bold">Half Adder</text>
-          <line x1="20" y1="32" x2="60" y2="32" stroke="#818cf8" stroke-width="2"/>
-          <line x1="20" y1="58" x2="60" y2="58" stroke="#818cf8" stroke-width="2"/>
-          <text x="10" y="36" fill="#94a3b8" font-size="12">A</text>
-          <text x="10" y="62" fill="#94a3b8" font-size="12">B</text>
-          <line x1="190" y1="32" x2="230" y2="32" stroke="#34d399" stroke-width="2"/>
-          <line x1="190" y1="58" x2="230" y2="58" stroke="#f59e0b" stroke-width="2"/>
-          <text x="235" y="36" fill="#34d399" font-size="11">Sum (A⊕B)</text>
-          <text x="235" y="62" fill="#f59e0b" font-size="11">Carry (A·B)</text>
-        </svg>`,
-      fullAdder: () => `
-        <svg viewBox="0 0 280 100" class="max-w-xs mx-auto text-slate-200">
-          <rect x="70" y="15" width="130" height="70" rx="6" fill="#1e1b4b" stroke="#6366f1" stroke-width="2"/>
-          <text x="96" y="55" fill="#ffffff" font-size="13" font-weight="bold">Full Adder</text>
-          <line x1="20" y1="28" x2="70" y2="28" stroke="#818cf8" stroke-width="2"/><text x="10" y="32" fill="#94a3b8" font-size="11">A</text>
-          <line x1="20" y1="50" x2="70" y2="50" stroke="#818cf8" stroke-width="2"/><text x="10" y="54" fill="#94a3b8" font-size="11">B</text>
-          <line x1="20" y1="72" x2="70" y2="72" stroke="#818cf8" stroke-width="2"/><text x="10" y="76" fill="#94a3b8" font-size="11">Cin</text>
-          <line x1="200" y1="35" x2="245" y2="35" stroke="#34d399" stroke-width="2"/><text x="248" y="39" fill="#34d399" font-size="11">Sum</text>
-          <line x1="200" y1="65" x2="245" y2="65" stroke="#f59e0b" stroke-width="2"/><text x="248" y="69" fill="#f59e0b" font-size="11">Cout</text>
-        </svg>`,
-      muxBlock: (type="4-to-1 MUX") => `
-        <svg viewBox="0 0 260 100" class="max-w-xs mx-auto text-slate-200">
-          <polygon points="70,15 150,30 150,70 70,85" fill="#1e1b4b" stroke="#6366f1" stroke-width="2"/>
-          <text x="88" y="55" fill="#ffffff" font-size="11" font-weight="bold">${type}</text>
-          <line x1="25" y1="28" x2="70" y2="28" stroke="#818cf8" stroke-width="2"/><text x="10" y="32" fill="#94a3b8" font-size="10">I0</text>
-          <line x1="25" y1="42" x2="70" y2="42" stroke="#818cf8" stroke-width="2"/><text x="10" y="46" fill="#94a3b8" font-size="10">I1</text>
-          <line x1="25" y1="58" x2="70" y2="58" stroke="#818cf8" stroke-width="2"/><text x="10" y="62" fill="#94a3b8" font-size="10">I2</text>
-          <line x1="25" y1="72" x2="70" y2="72" stroke="#818cf8" stroke-width="2"/><text x="10" y="76" fill="#94a3b8" font-size="10">I3</text>
-          <line x1="150" y1="50" x2="200" y2="50" stroke="#34d399" stroke-width="2"/><text x="205" y="54" fill="#34d399" font-size="11">Y (Out)</text>
-          <line x1="100" y1="79" x2="100" y2="95" stroke="#f59e0b" stroke-width="2"/><text x="92" y="98" fill="#f59e0b" font-size="9">S1</text>
-          <line x1="120" y1="75" x2="120" y2="95" stroke="#f59e0b" stroke-width="2"/><text x="115" y="98" fill="#f59e0b" font-size="9">S0</text>
-        </svg>`,
-      demuxBlock: () => `
-        <svg viewBox="0 0 260 100" class="max-w-xs mx-auto text-slate-200">
-          <polygon points="70,30 150,15 150,85 70,70" fill="#1e1b4b" stroke="#6366f1" stroke-width="2"/>
-          <text x="82" y="55" fill="#ffffff" font-size="11" font-weight="bold">1-to-4 DEMUX</text>
-          <line x1="25" y1="50" x2="70" y2="50" stroke="#34d399" stroke-width="2"/><text x="10" y="54" fill="#34d399" font-size="10">Data</text>
-          <line x1="150" y1="28" x2="200" y2="28" stroke="#818cf8" stroke-width="2"/><text x="205" y="32" fill="#94a3b8" font-size="10">D0</text>
-          <line x1="150" y1="42" x2="200" y2="42" stroke="#818cf8" stroke-width="2"/><text x="205" y="46" fill="#94a3b8" font-size="10">D1</text>
-          <line x1="150" y1="58" x2="200" y2="58" stroke="#818cf8" stroke-width="2"/><text x="205" y="62" fill="#94a3b8" font-size="10">D2</text>
-          <line x1="150" y1="72" x2="200" y2="72" stroke="#818cf8" stroke-width="2"/><text x="205" y="76" fill="#94a3b8" font-size="10">D3</text>
-        </svg>`,
-      flipFlop: (type="D") => `
-        <svg viewBox="0 0 220 90" class="max-w-xs mx-auto text-slate-200">
-          <rect x="60" y="15" width="90" height="60" rx="6" fill="#1e1b4b" stroke="#6366f1" stroke-width="2"/>
-          <text x="95" y="50" fill="#ffffff" font-size="14" font-weight="bold">${type} FF</text>
-          <line x1="20" y1="30" x2="60" y2="30" stroke="#818cf8" stroke-width="2"/><text x="10" y="34" fill="#94a3b8" font-size="11">${type}</text>
-          <polyline points="60,54 68,58 60,62" fill="none" stroke="#f59e0b" stroke-width="2"/>
-          <line x1="20" y1="58" x2="60" y2="58" stroke="#f59e0b" stroke-width="2"/><text x="5" y="62" fill="#f59e0b" font-size="9">CLK</text>
-          <line x1="150" y1="30" x2="190" y2="30" stroke="#34d399" stroke-width="2"/><text x="195" y="34" fill="#34d399" font-size="11">Q</text>
-          <line x1="150" y1="60" x2="190" y2="60" stroke="#94a3b8" stroke-width="2"/><text x="195" y="64" fill="#94a3b8" font-size="11">Q'</text>
-        </svg>`
-    };
-  </script>
+    // Complete questions directly from Chapter 1, 2, and 3 assessments
+    const questionsDB = [
+      // CHAPTER 1 - TRUE / FALSE (Section 1.9 Part A)
+      {
+        id: "ch1_tf_1",
+        chapter: "ch1",
+        type: "tf",
+        question: "Computer security protects hardware, software, data, and communication links.",
+        options: ["True", "False"],
+        correct: 0,
+        hint: {
+          arQ: "أمن الحاسوب يحمي العتاد والبرمجيات والبيانات ووصلات الاتصال.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "A) True",
+          exp: "Computer security covers hardware, software, firmware, data/information, and telecommunications."
+        }
+      },
+      {
+        id: "ch1_tf_2",
+        chapter: "ch1",
+        type: "tf",
+        question: "Availability means that only authorized users can read secret messages.",
+        options: ["True", "False"],
+        correct: 1,
+        hint: {
+          arQ: "التوافرية (Availability) تعني أن المستخدمين المصرح لهم فقط يمكنهم قراءة الرسائل السرية.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "B) False",
+          exp: "False: Keeping messages secret is Confidentiality. Availability means services and systems are operational and accessible when needed."
+        }
+      },
+      {
+        id: "ch1_tf_3",
+        chapter: "ch1",
+        type: "tf",
+        question: "Passive attacks change the content of transmitted data files.",
+        options: ["True", "False"],
+        correct: 1,
+        hint: {
+          arQ: "الهجمات السلبية (Passive attacks) تغير محتوى ملفات البيانات المرسلة.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "B) False",
+          exp: "False: Passive attacks only eavesdrop or monitor traffic without altering or deleting any data."
+        }
+      },
+      {
+        id: "ch1_tf_4",
+        chapter: "ch1",
+        type: "tf",
+        question: "Interception is a threat that directly violates data confidentiality.",
+        options: ["True", "False"],
+        correct: 0,
+        hint: {
+          arQ: "الاعتراض (Interception) هو تهديد ينتهك مباشرة سرية البيانات (Confidentiality).",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "A) True",
+          exp: "True: Interception occurs when an unauthorized entity gains access to private data (eavesdropping/wiretapping)."
+        }
+      },
+      {
+        id: "ch1_tf_5",
+        chapter: "ch1",
+        type: "tf",
+        question: "In a masquerade attack, an attacker pretends to be a legitimate user.",
+        options: ["True", "False"],
+        correct: 0,
+        hint: {
+          arQ: "في هجوم التنكر (Masquerade)، يدعي المهاجم ويتظاهر بأنه مستخدم شرعي.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "A) True",
+          exp: "True: Masquerade is an active attack where an unauthorized entity impersonates a genuine user."
+        }
+      },
+      {
+        id: "ch1_tf_6",
+        chapter: "ch1",
+        type: "tf",
+        question: "Traffic analysis is an example of an active attack.",
+        options: ["True", "False"],
+        correct: 1,
+        hint: {
+          arQ: "تحليل حركة المرور (Traffic analysis) يُعد مثالاً على الهجوم النشط (Active attack).",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "B) False",
+          exp: "False: Traffic analysis is a passive attack because the hacker only observes packet patterns, timing, and volume without changing data."
+        }
+      },
+      {
+        id: "ch1_tf_7",
+        chapter: "ch1",
+        type: "tf",
+        question: "A Denial of Service (DoS) attack makes services unavailable to authorized users.",
+        options: ["True", "False"],
+        correct: 0,
+        hint: {
+          arQ: "هجوم حجب الخدمة (DoS) يجعل الخدمات غير متاحة للمستخدمين المصرح لهم.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "A) True",
+          exp: "True: A DoS attack exhausts system or network resources to destroy availability."
+        }
+      },
+      {
+        id: "ch1_tf_8",
+        chapter: "ch1",
+        type: "tf",
+        question: "Active attacks are usually easier to detect than passive attacks.",
+        options: ["True", "False"],
+        correct: 0,
+        hint: {
+          arQ: "الهجمات النشطة عادة ما تكون أسهل في الاكتشاف مقارنة بالهجمات السلبية.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "A) True",
+          exp: "True: Active attacks leave visible traces, system crashes, or data alterations, whereas passive attacks leave no operational trace."
+        }
+      },
+      {
+        id: "ch1_tf_9",
+        chapter: "ch1",
+        type: "tf",
+        question: "Non-repudiation allows a sender to easily deny sending an email.",
+        options: ["True", "False"],
+        correct: 1,
+        hint: {
+          arQ: "عدم الإنكار (Non-repudiation) يتيح للراسل إنكار إرسال بريد إلكتروني بسهولة.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "B) False",
+          exp: "False: Non-repudiation prevents a sender or receiver from falsely denying an action or transmission."
+        }
+      },
+      {
+        id: "ch1_tf_10",
+        chapter: "ch1",
+        type: "tf",
+        question: "System backups are an example of a recovery mechanism.",
+        options: ["True", "False"],
+        correct: 0,
+        hint: {
+          arQ: "النسخ الاحتياطي للنظام (System backups) يُعد مثالاً على آليات الاستعادة (Recovery).",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "A) True",
+          exp: "True: Backups restore damaged or lost files after an attack or hardware crash."
+        }
+      },
 
-  <!-- Complete Standard 200 Questions Database -->
-  <script>
-    // 200 Standard Direct Academic Questions
-    const rawData = {
-      pdf1: [
-        { q: "What is the decimal equivalent of the binary number (101101)₂?", o: ["41", "43", "45", "47"], c: 2, t: "mcq", arQ: "ما هي القيمة العشرية للرقم الثنائي (101101)₂؟", arO: ["A) 41", "B) 43", "C) 45", "D) 47"], exp: "32 + 8 + 4 + 1 = 45." },
-        { q: "Convert (1101 1010)₂ into hexadecimal equivalent:", o: ["(DA)₁₆", "(CB)₁₆", "(EA)₁₆", "(D8)₁₆"], c: 0, t: "mcq", arQ: "حول العدد الثنائي (1101 1010)₂ للست عشري:", arO: ["A) DA", "B) CB", "C) EA", "D) D8"], exp: "1101 = D و 1010 = A ينتج DA." },
-        { q: "How is the 1's complement of a binary number obtained?", o: ["Adding 1 to MSB", "Inverting all bits (replacing 0s with 1s and 1s with 0s)", "Shifting bits left", "Dividing by 2"], c: 1, t: "mcq", arQ: "كيف يتم إيجاد المتمم الأحادي (1's complement)؟", arO: ["A) إضافة 1", "B) قلب جميع الخانات (0 إلى 1 و 1 إلى 0)", "C) الإزاحة يساراً", "D) القسمة على 2"], exp: "عكس كل خانة ثنائية مباشرة." },
-        { q: "Physical quantities in the real world (such as temperature and pressure) are analogue in nature.", o: ["True", "False"], c: 0, t: "tf", arQ: "الكميات الفيزيائية في العالم الحقيقي مثل الحرارة والضغط هي كميات تناظرية بطبيعتها.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "The real world is analogue." },
-        { q: "A 64K memory space has 65,536 addresses. In hexadecimal, these range from:", o: ["0000 to EEEE", "0000 to FFFF", "0001 to FFFF", "1000 to 9999"], c: 1, t: "mcq", arQ: "جهاز بذاكرة 64K يحتاج 65536 عنواناً، في النظام الست عشري تُكتب من:", arO: ["A) 0000 إلى EEEE", "B) 0000 إلى FFFF", "C) 0001 إلى FFFF", "D) 1000 إلى 9999"], exp: "من 0 إلى 65535 تمثل بـ 0000 إلى FFFF." },
-        { q: "In IEEE single precision floating-point format, how many bits are used for the mantissa?", o: ["8 bits", "16 bits", "23 bits", "32 bits"], c: 2, t: "mcq", arQ: "في معيار IEEE أحادي الدقة للفاصلة العائمة، كم عدد بتات المانتيسا؟", arO: ["A) 8 بت", "B) 16 بت", "C) 23 بت", "D) 32 بت"], exp: "1 بت إشارة + 8 بت أس + 23 بت مانتيسا." },
-        { q: "Which circuit converts continuous real-world analog signals into digital data?", o: ["DAC", "ADC", "Inverter", "Subtractor"], c: 1, t: "mcq", arQ: "ما هي الدائرة التي تحول الإشارات التناظرية المستمرة إلى بيانات رقمية؟", arO: ["A) DAC", "B) ADC", "C) عاكس", "D) طارح"], exp: "Analog to Digital Converter (ADC)." },
-        { q: "Digital systems provide higher noise immunity and easier IC fabrication than analog systems.", o: ["True", "False"], c: 0, t: "tf", arQ: "الأنظمة الرقمية توفر مناعة أعلى للضوضاء وسهولة تصنيع على دوائر متكاملة مقارنة بالتناظرية.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "من أهم مميزات الأنظمة الرقمية." },
-        { q: "The octal number system is a radix-8 system with digits from:", o: ["0 to 8", "0 to 7", "1 to 8", "0 to 9"], c: 1, t: "mcq", arQ: "النظام الثماني هو نظام أساسه 8 وتتراوح أرقامه من:", arO: ["A) 0 إلى 8", "B) 0 إلى 7", "C) 1 إلى 8", "D) 0 إلى 9"], exp: "أرقامه من 0 إلى 7 فقط." },
-        { q: "Convert octal (137)₈ to decimal:", o: ["90", "95", "100", "111"], c: 1, t: "mcq", arQ: "حول الرقم الثماني (137)₈ إلى عشري:", arO: ["A) 90", "B) 95", "C) 100", "D) 111"], exp: "1×64 + 3×8 + 7×1 = 95." },
-        { q: "In the hexadecimal system, the symbol 'E' corresponds to decimal value:", o: ["12", "13", "14", "15"], c: 2, t: "mcq", arQ: "في النظام الست عشري، يقابل الحرف 'E' في العشري الرقم:", arO: ["A) 12", "B) 13", "C) 14", "D) 15"], exp: "A=10, B=11, C=12, D=13, E=14, F=15." },
-        { q: "A 'Byte' consists of exactly:", o: ["4 bits", "8 bits", "16 bits", "32 bits"], c: 1, t: "mcq", arQ: "يتكون البايت (Byte) من:", arO: ["A) 4 بت", "B) 8 بت", "C) 16 بت", "D) 32 بت"], exp: "البايت = 8 بت." },
-        { q: "The smallest fundamental unit of digital information is the bit.", o: ["True", "False"], c: 0, t: "tf", arQ: "أصغر وحدة أساسية للمعلومات الرقمية هي البت (bit).", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "البت يحمل 0 أو 1." },
-        { q: "Convert decimal 13 into binary:", o: ["1101", "1011", "1110", "1100"], c: 0, t: "mcq", arQ: "تحويل الرقم 13 العشري إلى ثنائي:", arO: ["A) 1101", "B) 1011", "C) 1110", "D) 1100"], exp: "8 + 4 + 1 = 13 (1101₂)." },
-        { q: "The 2's complement of a binary number is obtained by adding 1 to its 1's complement.", o: ["True", "False"], c: 0, t: "tf", arQ: "يتم الحصول على المتمم الثنائي بإضافة 1 إلى المتمم الأحادي.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "2's complement = 1's complement + 1." },
-        { q: "Convert decimal fraction 0.375 into binary:", o: [".011", ".101", ".110", ".001"], c: 0, t: "mcq", arQ: "تحويل الكسر العشري 0.375 إلى كسر ثنائي:", arO: ["A) .011", "B) .101", "C) .110", "D) .001"], exp: "0.375 = 1/4 + 1/8 = .011₂." },
-        { q: "The decimal number system is a radix-10 positional system.", o: ["True", "False"], c: 0, t: "tf", arQ: "النظام العشري هو نظام موضعي أساسه 10.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نعم، أساسه 10." },
-        { q: "To convert a binary number to hexadecimal, bits are grouped into sets of:", o: ["2 bits", "3 bits", "4 bits", "8 bits"], c: 2, t: "mcq", arQ: "للتحويل من ثنائي إلى ست عشري، تجمع الخانات في مجموعات من:", arO: ["A) 2 بت", "B) 3 بت", "C) 4 بت", "D) 8 بت"], exp: "كل 4 خانات ثنائية تكافئ خانة ست عشرية." },
-        { q: "Hexadecimal (3A)₁₆ is equivalent in decimal to:", o: ["56", "58", "60", "62"], c: 1, t: "mcq", arQ: "الرقم الست عشري (3A)₁₆ يكافئ في النظام العشري:", arO: ["A) 56", "B) 58", "C) 60", "D) 62"], exp: "3×16 + 10 = 58." },
-        { q: "To convert binary to octal, bits are partitioned into groups of 3 bits.", o: ["True", "False"], c: 0, t: "tf", arQ: "للتحويل من ثنائي إلى ثماني تجمع الخانات في مجموعات من 3 بتات.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "2³ = 8 فكل 3 بت تعطي رقماً ثمانياً." },
-        { q: "The 1's complement of (10010110)₂ is:", o: ["(01101001)₂", "(01101010)₂", "(11101001)₂", "(00010110)₂"], c: 0, t: "mcq", arQ: "المتمم الأحادي للرقم (10010110)₂ هو:", arO: ["A) 01101001", "B) 01101010", "C) 11101001", "D) 00010110"], exp: "قلب كل 0 إلى 1 وكل 1 إلى 0." },
-        { q: "Two's complement is the most common format to represent signed integers in computers.", o: ["True", "False"], c: 0, t: "tf", arQ: "المتمم الثنائي هو الطريقة الأكثر استخداماً لتمثيل الأعداد الصحيحة ذات الإشارة في الحاسوب.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نصاً من السلايدات: 'two's complement (most common)'." },
-        { q: "What is (1111)₂ in decimal?", o: ["13", "14", "15", "16"], c: 2, t: "mcq", arQ: "العدد الثنائي (1111)₂ يكافئ بالعشري:", arO: ["A) 13", "B) 14", "C) 15", "D) 16"], exp: "8 + 4 + 2 + 1 = 15." },
-        { q: "The weight of the first bit to the left of the binary point is 2⁰ = 1.", o: ["True", "False"], c: 0, t: "tf", arQ: "وزن الخانة الأولى يسار العلامة الثنائية هو 2⁰ = 1.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، خانة الآحاد الثنائية." },
-        { q: "The weight of the first bit to the right of the binary point is:", o: ["2⁻¹ (0.5)", "2⁻² (0.25)", "2¹ (2)", "2⁰ (1)"], c: 0, t: "mcq", arQ: "وزن أول خانة يمين العلامة الثنائية هو:", arO: ["A) 2⁻¹ = 0.5", "B) 2⁻² = 0.25", "C) 2¹ = 2", "D) 2⁰ = 1"], exp: "أول كسر ثنائي هو 2⁻¹ = 0.5." },
-        { q: "In floating point representation, the binary point is fixed at the end of the number.", o: ["True", "False"], c: 1, t: "tf", arQ: "في تمثيل النقطة العائمة، العلامة الثنائية ثابتة دائماً في النهاية.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "خطأ، العلامة تتحرك (تطفو) اعتماداً على الأس." },
-        { q: "A 4-bit binary group is called a:", o: ["Nibble", "Byte", "Word", "Double Word"], c: 0, t: "mcq", arQ: "المجموعة المكونة من 4 بتات تسمى:", arO: ["A) Nibble", "B) Byte", "C) Word", "D) Double Word"], exp: "4 بت = Nibble." },
-        { q: "Convert decimal 82 to hexadecimal:", o: ["(52)₁₆", "(5A)₁₆", "(42)₁₆", "(62)₁₆"], c: 0, t: "mcq", arQ: "تحويل الرقم 82 العشري إلى ست عشري:", arO: ["A) 52", "B) 5A", "C) 42", "D) 62"], exp: "82 ÷ 16 = 5 والباقي 2 (52₁₆)." },
-        { q: "Analogue quantities can take any value within a continuous range between limits.", o: ["True", "False"], c: 0, t: "tf", arQ: "الكميات التناظرية تأخذ أي قيمة ضمن نطاق مستمر بين حدين.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، لأنها إشارات مستمرة." },
-        { q: "What is the binary representation of hexadecimal digit 'F'?", o: ["1110", "1111", "1001", "1100"], c: 1, t: "mcq", arQ: "التمثيل الثنائي للخانة الست عشرية 'F' هو:", arO: ["A) 1110", "B) 1111", "C) 1001", "D) 1100"], exp: "F = 15 = 1111₂." },
-        { q: "Convert binary (100)₂ to decimal:", o: ["2", "4", "6", "8"], c: 1, t: "mcq", arQ: "تحويل الرقم الثنائي (100)₂ إلى عشري:", arO: ["A) 2", "B) 4", "C) 6", "D) 8"], exp: "1×2² = 4." },
-        { q: "The base of the binary number system is 2.", o: ["True", "False"], c: 0, t: "tf", arQ: "أساس النظام الثنائي هو 2.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، يتكون من 0 و 1." },
-        { q: "What is the 8-bit two's complement of decimal -5?", o: ["11111011", "11111010", "00000101", "10000101"], c: 0, t: "mcq", arQ: "ما هو المتمم الثنائي 8-bit للرقم 5-؟", arO: ["A) 11111011", "B) 11111010", "C) 00000101", "D) 10000101"], exp: "+5 = 00000101، بقلبها: 11111010 ثم +1 = 11111011." },
-        { q: "A Digital-to-Analog Converter (DAC) restores analog signals from digital samples.", o: ["True", "False"], c: 0, t: "tf", arQ: "محول DAC يعيد توليد الإشارة التناظرية من العينات الرقمية.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، ويتبعه مرشح (filter)." },
-        { q: "Convert decimal 10 to hexadecimal:", o: ["A", "B", "C", "D"], c: 0, t: "mcq", arQ: "تحويل الرقم 10 العشري للست عشري:", arO: ["A) A", "B) B", "C) C", "D) D"], exp: "10 يقابله A." },
-        { q: "In binary, 10₂ equals decimal 2.", o: ["True", "False"], c: 0, t: "tf", arQ: "في النظام الثنائي، 10₂ يساوي 2 بالعشري.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "1×2¹ + 0 = 2." },
-        { q: "Which number system uses digits from 0 to 9 and letters A through F?", o: ["Octal", "Hexadecimal", "Decimal", "Binary"], c: 1, t: "mcq", arQ: "أي نظام يستخدم الأرقام من 0 لـ 9 والحروف من A إلى F؟", arO: ["A) الثماني", "B) الست عشري", "C) العشري", "D) الثنائي"], exp: "النظام الست عشري (Hexadecimal)." },
-        { q: "In 8-bit two's complement, an MSB of '1' signifies a negative number.", o: ["True", "False"], c: 0, t: "tf", arQ: "في المتمم الثنائي، وجود 1 في أعلى خانة يساراً (MSB) يعني أن الرقم سالب.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، خانة الإشارة 1 تعني سالباً." },
-        { q: "Hexadecimal numbers provide a compact representation for binary values inside computers.", o: ["True", "False"], c: 0, t: "tf", arQ: "توفر الأعداد الست عشرية تمثيلاً مختصراً ومدمجاً للأرقام الثنائية في الحاسب.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نعم، كل 4 بت تختصر في خانة واحدة." },
-        { q: "Convert binary (110)₂ to decimal:", o: ["4", "5", "6", "7"], c: 2, t: "mcq", arQ: "تحويل الرقم الثنائي (110)₂ إلى عشري:", arO: ["A) 4", "B) 5", "C) 6", "D) 7"], exp: "4 + 2 = 6." }
-      ],
-      pdf2: [
-        { q: "When a BJT transistor operates in Saturation with Vin ≈ 5V, its output Vout is approximately:", o: ["5 V (HIGH)", "0 V (LOW)", "2.5 V", "Infinite"], c: 1, t: "mcq", svg: SVGs.transistorSwitch("Saturation", "5V (HIGH)", "≈ 0V (LOW)"), arQ: "عندما يعمل الترانزستور في وضع التشبع (Saturation) مع دخل 5V، يكون الخرج:", arO: ["A) 5V", "B) 0V", "C) 2.5V", "D) لا نهائي"], exp: "في التشبع يتصل الخرج بالأرضي فيصبح 0V تقريباً." },
-        { q: "When a BJT transistor is in Cutoff with Vin = 0V, its output Vout is approximately:", o: ["0 V", "5 V (HIGH)", "1 V", "-5 V"], c: 1, t: "mcq", svg: SVGs.transistorSwitch("Cutoff", "0V (LOW)", "5V (HIGH)"), arQ: "عندما يكون الترانزستور في وضع القطع (Cutoff) مع دخل 0V، يكون الخرج:", arO: ["A) 0V", "B) 5V", "C) 1V", "D) -5V"], exp: "في القطع ينقطع المسار للأرضي فيرتفع الخرج إلى 5V." },
-        { q: "The output of an AND gate is HIGH only when all of its inputs are HIGH.", o: ["True", "False"], c: 0, t: "tf", svg: SVGs.andGate(), arQ: "خرج بوابة AND يكون 1 فقط عندما تكون جميع مدخلاتها 1.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "قاعدة بوابة AND: Y = A · B." },
-        { q: "The output of an OR gate is LOW only when all of its inputs are LOW.", o: ["True", "False"], c: 0, t: "tf", svg: SVGs.orGate(), arQ: "خرج بوابة OR يكون 0 فقط عندما تكون جميع مدخلاتها 0.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "قاعدة بوابة OR: Y = A + B." },
-        { q: "A NOT gate is also known as an Inverter.", o: ["True", "False"], c: 0, t: "tf", svg: SVGs.notGate(), arQ: "تسمى بوابة NOT أيضاً بالعاكس (Inverter).", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "لأنها تعكس حالة الدخل." },
-        { q: "For a 2-input XOR gate, what is the output if inputs are A = 1 and B = 1?", o: ["1", "0", "Floating", "High-Z"], c: 1, t: "mcq", svg: SVGs.xorGate("1", "1", "Y=0"), arQ: "لبوابة XOR، ما هو الخرج إذا كان A=1 و B=1؟", arO: ["A) 1", "B) 0", "C) عائم", "D) ممانعة عالية"], exp: "بوابة XOR تعطي 0 عند تطابق المدخلين." },
-        { q: "For a 2-input XOR gate, what is the output if inputs are A = 1 and B = 0?", o: ["0", "1", "High-Z", "Undefined"], c: 1, t: "mcq", svg: SVGs.xorGate("1", "0", "Y=1"), arQ: "لبوابة XOR، ما هو الخرج إذا كان A=1 و B=0؟", arO: ["A) 0", "B) 1", "C) ممانعة عالية", "D) غير محدد"], exp: "بوابة XOR تعطي 1 عند اختلاف المدخلين." },
-        { q: "In digital logic, True = ON = 1 and False = OFF = 0.", o: ["True", "False"], c: 0, t: "tf", arQ: "في المنطق الرقمي: True = ON = 1 و False = OFF = 0.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "المستويات المنطقية الثنائية القياسية." },
-        { q: "How many 2-input AND gates are required to implement a 4-input AND gate?", o: ["2", "3", "4", "5"], c: 1, t: "mcq", arQ: "كم بوابة AND ثنائية تلزم لبناء بوابة AND ذات 4 مداخل؟", arO: ["A) 2", "B) 3", "C) 4", "D) 5"], exp: "3 بوابات كما ورد تفصيلاً في سلايدات المحاضرة." },
-        { q: "How many 2-input OR gates are required to implement a 4-input OR gate?", o: ["2", "3", "4", "6"], c: 1, t: "mcq", arQ: "كم بوابة OR ثنائية تلزم لبناء بوابة OR ذات 4 مداخل؟", arO: ["A) 2", "B) 3", "C) 4", "D) 6"], exp: "3 بوابات إما متتالية أو على شكل شجرة." },
-        { q: "The output of a multiple-input XOR gate is logic '1' if the number of 1s in the inputs is odd.", o: ["True", "False"], c: 0, t: "tf", arQ: "خرج بوابة XOR متعددة المداخل يكون 1 إذا كان عدد الواحدات في الدخل فردياً.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نصاً: 'output is 1 when number of 1s is odd'." },
-        { q: "If an input signal '0' passes through two cascaded NOT gates, the output is:", o: ["0", "1", "High-Z", "Oscillating"], c: 0, t: "mcq", arQ: "إذا مر الدخل 0 عبر بوابتي NOT متتاليتين، يكون الخرج النهائي:", arO: ["A) 0", "B) 1", "C) ممانعة عالية", "D) متذبذب"], exp: "نفي النفي إثبات: (0')' = 0." },
-        { q: "A truth table depicts a logic gate's output response for all possible input combinations.", o: ["True", "False"], c: 0, t: "tf", arQ: "جدول الصواب يوضح استجابة خرج البوابة لجميع احتمالات الدخل الممكنة.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "هذا هو الغرض الأساسي لجدول الصواب." },
-        { q: "Which gate performs the logic operation Y = A + B?", o: ["AND", "OR", "XOR", "NOT"], c: 1, t: "mcq", svg: SVGs.orGate(), arQ: "أي بوابة تنفذ العملية المنطقية Y = A + B؟", arO: ["A) AND", "B) OR", "C) XOR", "D) NOT"], exp: "الرمز '+' يمثل عملية OR." },
-        { q: "Which gate performs the logic operation Y = A · B?", o: ["AND", "OR", "XOR", "NAND"], c: 0, t: "mcq", svg: SVGs.andGate(), arQ: "أي بوابة تنفذ العملية المنطقية Y = A · B؟", arO: ["A) AND", "B) OR", "C) XOR", "D) NAND"], exp: "الرمز '·' يمثل عملية AND." },
-        { q: "The symbol ⊕ represents which logic gate operation?", o: ["AND", "OR", "XOR", "NOT"], c: 2, t: "mcq", svg: SVGs.xorGate(), arQ: "الرمز ⊕ يمثل عملية أي بوابة منطقية؟", arO: ["A) AND", "B) OR", "C) XOR", "D) NOT"], exp: "Y = A ⊕ B هي صيغة XOR." },
-        { q: "A standard NOT gate has only one input and one output.", o: ["True", "False"], c: 0, t: "tf", svg: SVGs.notGate(), arQ: "بوابة NOT القياسية لها مدخل واحد ومخرج واحد فقط.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، مدخل وحيد ومخرج وحيد." },
-        { q: "For a 3-input AND gate, how many total input combinations exist in its truth table?", o: ["4", "6", "8", "16"], c: 2, t: "mcq", arQ: "لبوابة AND ذات 3 مداخل، كم عدد التوليفات في جدول الصواب؟", arO: ["A) 4", "B) 6", "C) 8", "D) 16"], exp: "2³ = 8 توليفات." },
-        { q: "For a 3-input AND gate, how many input combinations produce an output of '1'?", o: ["1", "3", "4", "7"], c: 0, t: "mcq", arQ: "لبوابة AND ذات 3 مداخل، كم حالة دخل تنتج خرجاً 1؟", arO: ["A) حالة واحدة فقط", "B) 3 حالات", "C) 4 حالات", "D) 7 حالات"], exp: "حالة واحدة فقط عند (1, 1, 1)." },
-        { q: "For a 3-input OR gate, how many input combinations produce an output of '0'?", o: ["1", "3", "7", "8"], c: 0, t: "mcq", arQ: "لبوابة OR ذات 3 مداخل، كم حالة دخل تنتج خرجاً 0؟", arO: ["A) حالة واحدة فقط", "B) 3 حالات", "C) 7 حالات", "D) 8 حالات"], exp: "حالة واحدة فقط عند (0, 0, 0)." },
-        { q: "If A = 1 and B = 0, what is the output of an AND gate?", o: ["0", "1", "2", "Undefined"], c: 0, t: "mcq", svg: SVGs.andGate("1", "0", "Y=0"), arQ: "إذا كان A=1 و B=0، ما هو خرج بوابة AND؟", arO: ["A) 0", "B) 1", "C) 2", "D) غير محدد"], exp: "1 · 0 = 0." },
-        { q: "If A = 0 and B = 1, what is the output of an OR gate?", o: ["0", "1", "High-Z", "Undefined"], c: 1, t: "mcq", svg: SVGs.orGate("0", "1", "Y=1"), arQ: "إذا كان A=0 و B=1، ما هو خرج بوابة OR؟", arO: ["A) 0", "B) 1", "C) ممانعة عالية", "D) غير محدد"], exp: "0 + 1 = 1." },
-        { q: "Logic gates can be cascaded so that the output of one gate serves as input to another.", o: ["True", "False"], c: 0, t: "tf", arQ: "يمكن ربط البوابات بالتتالي بحيث يكون خرج بوابة مدخلاً لأخرى.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، ويسمى ذلك بالـ Cascading." },
-        { q: "Input A=1 passes through a NOT gate, then ANDed with input B=1. What is the output?", o: ["0", "1", "High-Z", "Undefined"], c: 0, t: "mcq", arQ: "الدخل A=1 ينفى بـ NOT ليعطي 0، ثم يضرب مع B=1 بـ AND. الخرج هو:", arO: ["A) 0", "B) 1", "C) ممانعة عالية", "D) غير محدد"], exp: "0 · 1 = 0." },
-        { q: "A NAND gate produces an output that is the inverse of an AND gate.", o: ["True", "False"], c: 0, t: "tf", svg: SVGs.nandGate(), arQ: "بوابة NAND تعطي خرجاً هو النفي الدقيق لبوابة AND.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "Y = (A · B)'." },
-        { q: "An all-zeros input (0, 0, 0, 0) fed to an EX-OR gate produces an output of:", o: ["0", "1", "High-Z", "Undefined"], c: 0, t: "mcq", arQ: "إدخال أصفار كاملة على بوابة XOR ينتج خرجاً مقداره:", arO: ["A) 0", "B) 1", "C) ممانعة عالية", "D) غير محدد"], exp: "عدد الواحدات صفر (زوجي) فالخرج 0." },
-        { q: "Logic gates are fabricated inside Integrated Circuits (ICs).", o: ["True", "False"], c: 0, t: "tf", arQ: "تُصنع البوابات المنطقية داخل الدوائر المتكاملة (ICs).", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، في شرائح إلكترونية متكاملة." },
-        { q: "A 4-input EX-OR gate with inputs (0, 0, 1, 1) produces an output of:", o: ["0", "1", "High-Z", "Undefined"], c: 0, t: "mcq", arQ: "بوابة XOR ذات 4 مداخل عليها الدخل (0, 0, 1, 1) تعطي خرجاً:", arO: ["A) 0", "B) 1", "C) ممانعة عالية", "D) غير محدد"], exp: "عدد الواحدات هو 2 (زوجي) فالخرج 0." },
-        { q: "A 4-input EX-OR gate with inputs (1, 0, 0, 0) produces an output of:", o: ["0", "1", "High-Z", "Undefined"], c: 1, t: "mcq", arQ: "بوابة XOR ذات 4 مداخل عليها الدخل (1, 0, 0, 0) تعطي خرجاً:", arO: ["A) 0", "B) 1", "C) ممانعة عالية", "D) غير محدد"], exp: "عدد الواحدات فردي (واحد فقط) فالخرج 1." },
-        { q: "In 5V TTL systems, 0 V represents logic 0 and +5 V represents logic 1.", o: ["True", "False"], c: 0, t: "tf", arQ: "في أنظمة TTL بجهد 5V، يمثل 0V المستوى 0 ويمثل 5V المستوى 1.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، هذه هي المستويات المعيارية." },
-        { q: "Which logic gate gives output 1 only when its inputs are unlike?", o: ["AND", "OR", "XOR", "NOR"], c: 2, t: "mcq", svg: SVGs.xorGate(), arQ: "أي بوابة تعطي 1 فقط عندما تكون مداخلها مختلفة؟", arO: ["A) AND", "B) OR", "C) XOR", "D) NOR"], exp: "بوابة Exclusive-OR." },
-        { q: "If A = 0 and B = 0, what is the output of an OR gate?", o: ["0", "1", "2", "Floating"], c: 0, t: "mcq", svg: SVGs.orGate("0", "0", "Y=0"), arQ: "إذا كان A=0 و B=0، ما هو خرج بوابة OR؟", arO: ["A) 0", "B) 1", "C) 2", "D) عائم"], exp: "0 + 0 = 0." },
-        { q: "If A = 1 and B = 1, what is the output of an OR gate?", o: ["0", "1", "2", "Floating"], c: 1, t: "mcq", svg: SVGs.orGate("1", "1", "Y=1"), arQ: "إذا كان A=1 و B=1، ما هو خرج بوابة OR؟", arO: ["A) 0", "B) 1", "C) 2", "D) عائم"], exp: "1 + 1 = 1 في الجبر البوليني." },
-        { q: "The expression for a 3-input AND gate is Y = A · B · C.", o: ["True", "False"], c: 0, t: "tf", svg: SVGs.andGate("A,B", "C", "Y=A·B·C"), arQ: "معادلة بوابة AND ذات 3 مداخل هي Y = A · B · C.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح." },
-        { q: "The expression for a 3-input OR gate is Y = A + B + C.", o: ["True", "False"], c: 0, t: "tf", svg: SVGs.orGate("A,B", "C", "Y=A+B+C"), arQ: "معادلة بوابة OR ذات 3 مداخل هي Y = A + B + C.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح." },
-        { q: "Can a 4-input OR gate be hardware-implemented using three 2-input OR gates?", o: ["Yes", "No", "Only with TTL", "Only with inverters"], c: 0, t: "mcq", arQ: "هل يمكن بناء بوابة OR ذات 4 مداخل باستخدام 3 بوابات OR ثنائية؟", arO: ["A) نعم", "B) لا", "C) فقط بـ TTL", "D) فقط بعواكس"], exp: "نعم، كما هو موضح بسلايدات المحاضرة." },
-        { q: "An AND gate behaves like series switches, while an OR gate behaves like parallel switches.", o: ["True", "False"], c: 0, t: "tf", arQ: "تعمل بوابة AND مثل مفاتيح على التوالي، وبوابة OR مثل مفاتيح على التوازي.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، تشبيه فيزيائي دقيق." },
-        { q: "If input A = 1, its inverted signal A' is equal to 0.", o: ["True", "False"], c: 0, t: "tf", svg: SVGs.notGate("1", "0"), arQ: "إذا كان الدخل A=1، فإن المتمم A' يساوي 0.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نفي الـ 1 هو 0." },
-        { q: "Digital logic gates operate solely on discrete binary numbers (0 and 1).", o: ["True", "False"], c: 0, t: "tf", arQ: "تعمل البوابات الرقمية فقط على الأعداد الثنائية المتقطعة (0 و 1).", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح." },
-        { q: "For a NOT gate, if input is 0, the output is:", o: ["0", "1", "High-Z", "Undefined"], c: 1, t: "mcq", svg: SVGs.notGate("0", "1"), arQ: "لبوابة NOT، إذا كان الدخل 0 يكون الخرج:", arO: ["A) 0", "B) 1", "C) ممانعة عالية", "D) غير محدد"], exp: "عكس الصفر هو 1." }
-      ],
-      pdf3: [
-        { q: "What is defined as the number of inputs connected to a single logic gate?", o: ["Fan-in", "Fan-out", "Noise margin", "Propagation delay"], c: 0, t: "mcq", arQ: "ما هو التعريف لعدد المداخل المتصلة ببوابة منطقية واحدة؟", arO: ["A) Fan-in", "B) Fan-out", "C) هامش الضوضاء", "D) تأخير الانتشار"], exp: "Fan-In هو عدد مداخل البوابة." },
-        { q: "What is defined as the maximum number of standard load inputs a gate's output can drive?", o: ["Fan-in", "Fan-out", "Power dissipation", "Duty cycle"], c: 1, t: "mcq", arQ: "ما هو أقصى عدد من المداخل التي يمكن لمخرج بوابة قيادتها بكفاءة؟", arO: ["A) Fan-in", "B) Fan-out", "C) تبديد القدرة", "D) دورة التشغيل"], exp: "Fan-Out هو قدرة الخرج على القيادة." },
-        { q: "The typical fan-out for standard TTL logic gates is:", o: ["1 to 2", "5 to 10", "50 to 100", "Unlimited"], c: 1, t: "mcq", arQ: "قيمة Fan-out المعتادة لعائلة TTL هي:", arO: ["A) 1 إلى 2", "B) 5 إلى 10", "C) 50 إلى 100", "D) غير محدودة"], exp: "نصاً بالجدول: 5 to 10 for TTL." },
-        { q: "Which logic family consumes less static power and is ideal for battery-operated devices?", o: ["TTL", "CMOS", "RTL", "ECL"], c: 1, t: "mcq", arQ: "أي عائلة تستهلك طاقة ساكنة أقل وتناسب الأجهزة المحمولة؟", arO: ["A) TTL", "B) CMOS", "C) RTL", "D) ECL"], exp: "CMOS تستهلك طاقة ضئيلة جداً." },
-        { q: "Propagation delay is typically measured in which time unit?", o: ["Seconds (s)", "Milliseconds (ms)", "Nanoseconds (ns)", "Kilohertz (kHz)"], c: 2, t: "mcq", arQ: "يقاس تأخير الانتشار عادة بوحدة:", arO: ["A) ثواني", "B) ميلي ثانية", "C) نانو ثانية (ns)", "D) كيلو هرتز"], exp: "يقاس بالنانو ثانية (ns)." },
-        { q: "A lower propagation delay indicates a faster logic gate.", o: ["True", "False"], c: 0, t: "tf", arQ: "انخفاض زمن تأخير الانتشار يعني أن البوابة المنطقية أسرع.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "lower delay = faster gate." },
-        { q: "Noise margin is the unwanted noise voltage a circuit can tolerate without corrupting logic states.", o: ["True", "False"], c: 0, t: "tf", arQ: "هامش الضوضاء هو جهد الضوضاء الذي تتحمله الدائرة دون حدوث خطأ في المستوى المنطقي.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "هذا هو تعريف Noise Margin." },
-        { q: "The standard operating temperature range for commercial ICs is:", o: ["-40°C to +125°C", "0°C to 70°C", "-100°C to 0°C", "100°C to 200°C"], c: 1, t: "mcq", arQ: "مدى درجات الحرارة القياسي للشرائح التجارية هو:", arO: ["A) -40 إلى 125", "B) 0°C إلى 70°C", "C) -100 إلى 0", "D) 100 إلى 200"], exp: "Standard: 0°C to 70°C." },
-        { q: "In binary addition, 0 + 0 equals:", o: ["0", "1", "10", "Undefined"], c: 0, t: "mcq", arQ: "في الجمع الثنائي: 0 + 0 يساوي:", arO: ["A) 0", "B) 1", "C) 10", "D) غير محدد"], exp: "0 + 0 = 0." },
-        { q: "In binary addition, 1 + 0 equals:", o: ["0", "1", "10", "Undefined"], c: 1, t: "mcq", arQ: "في الجمع الثنائي: 1 + 0 يساوي:", arO: ["A) 0", "B) 1", "C) 10", "D) غير محدد"], exp: "1 + 0 = 1." },
-        { q: "In binary addition, 1 + 1 equals:", o: ["0 with Carry = 1", "1 with Carry = 0", "1 with Carry = 1", "2 with Carry = 0"], c: 0, t: "mcq", arQ: "في الجمع الثنائي: 1 + 1 ينتج:", arO: ["A) 0 مع حمل 1", "B) 1 مع حمل 0", "C) 1 مع حمل 1", "D) 2 مع حمل 0"], exp: "1 + 1 = 10₂ (Sum 0, Carry 1)." },
-        { q: "In binary addition of three bits, 1 + 1 + 1 produces:", o: ["Sum = 0, Carry = 1", "Sum = 1, Carry = 1", "Sum = 1, Carry = 0", "Sum = 0, Carry = 0"], c: 1, t: "mcq", arQ: "عند جمع 3 بتات (1 + 1 + 1) يكون الناتج:", arO: ["A) Sum=0, Carry=1", "B) Sum=1, Carry=1", "C) Sum=1, Carry=0", "D) Sum=0, Carry=0"], exp: "1 + 1 + 1 = 3 بالعشري أي 11₂ (Sum 1, Carry 1)." },
-        { q: "In binary subtraction, 1 - 0 equals:", o: ["0", "1", "0 with borrow 1", "Undefined"], c: 1, t: "mcq", arQ: "في الطرح الثنائي: 1 - 0 يساوي:", arO: ["A) 0", "B) 1", "C) 0 مع استلاف 1", "D) غير محدد"], exp: "1 - 0 = 1." },
-        { q: "In binary subtraction, 1 - 1 equals:", o: ["0", "1", "10", "Borrow 1"], c: 0, t: "mcq", arQ: "في الطرح الثنائي: 1 - 1 يساوي:", arO: ["A) 0", "B) 1", "C) 10", "D) استلاف 1"], exp: "1 - 1 = 0." },
-        { q: "In binary subtraction, 0 - 1 produces a difference of 1 with a borrow of 1.", o: ["True", "False"], c: 0, t: "tf", arQ: "في الطرح الثنائي: 0 - 1 ينتج فرقاً 1 مع استلاف 1 من الخانة المجاورة.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "قاعدة الطرح الثنائي الأساسية." },
-        { q: "What is (1100)₂ - (1001)₂ in decimal?", o: ["1", "2", "3", "4"], c: 2, t: "mcq", arQ: "ما هو الناتج العشري للعملية الثنائية (1100)₂ - (1001)₂؟", arO: ["A) 1", "B) 2", "C) 3", "D) 4"], exp: "12 - 9 = 3 (0011₂)." },
-        { q: "Binary multiplication can be performed using repeated shift and add operations.", o: ["True", "False"], c: 0, t: "tf", arQ: "يمكن تنفيذ الضرب الثنائي باستخدام خوارزمية الإزاحة والجمع المتكرر.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، Repeated Left-Shift and Add." },
-        { q: "In binary multiplication, 1 × 0 equals:", o: ["0", "1", "10", "Undefined"], c: 0, t: "mcq", arQ: "في الضرب الثنائي: 1 × 0 يساوي:", arO: ["A) 0", "B) 1", "C) 10", "D) غير محدد"], exp: "أي رقم في صفر يساوي صفراً." },
-        { q: "In binary multiplication, 1 × 1 equals:", o: ["0", "1", "2", "10"], c: 1, t: "mcq", arQ: "في الضرب الثنائي: 1 × 1 يساوي:", arO: ["A) 0", "B) 1", "C) 2", "D) 10"], exp: "1 × 1 = 1." },
-        { q: "For standard TTL, the HIGH logic level voltage range is typically:", o: ["0 to 0.8 V", "2.0 to 5.0 V", "-5 to 0 V", "10 to 15 V"], c: 1, t: "mcq", arQ: "لبوابات TTL، نطاق جهد المستوى HIGH هو:", arO: ["A) 0 إلى 0.8 V", "B) 2.0 إلى 5.0 V", "C) -5 إلى 0 V", "D) 10 إلى 15 V"], exp: "TTL High من 2V إلى 5V." },
-        { q: "For standard TTL, the LOW logic level voltage range is typically:", o: ["0 to 0.8 V", "2.0 to 5.0 V", "3.5 to 5.0 V", "-1 to 0 V"], c: 0, t: "mcq", arQ: "لبوابات TTL، نطاق جهد المستوى LOW هو:", arO: ["A) 0 إلى 0.8 V", "B) 2.0 إلى 5.0 V", "C) 3.5 إلى 5.0 V", "D) -1 إلى 0 V"], exp: "TTL Low من 0 إلى 0.8V." },
-        { q: "Power dissipation in logic gates is commonly measured in milliwatts (mW).", o: ["True", "False"], c: 0, t: "tf", arQ: "يقاس تبديد القدرة في البوابات المنطقية بالـ mW.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نعم، يقاس بالـ milliwatts." },
-        { q: "A higher noise margin indicates greater circuit reliability.", o: ["True", "False"], c: 0, t: "tf", arQ: "هامش الضوضاء الأعلى يعني موثوقية ومقاومة أفضل للتشويش.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "Higher noise margin = more reliable." },
-        { q: "Digital gates cannot process continuous analog signals directly without an ADC.", o: ["True", "False"], c: 0, t: "tf", arQ: "لا تستطيع البوابات الرقمية معالجة الإشارات التناظرية المستمرة بدون محول ADC.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، لأنها تتعامل مع 0 و 1 فقط." },
-        { q: "When adding large binary numbers, carry out from one column is added to the next higher column.", o: ["True", "False"], c: 0, t: "tf", arQ: "في جمع الأعداد الثنائية يرحل الحمل للعمود الأعلى التالي.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، هذه آلية الجمع الموضعي." },
-        { q: "Multiply binary (101)₂ by (10)₂:", o: ["(1010)₂", "(1100)₂", "(1000)₂", "(1110)₂"], c: 0, t: "mcq", arQ: "حاصل ضرب (101)₂ في (10)₂ هو:", arO: ["A) 1010", "B) 1100", "C) 1000", "D) 1110"], exp: "5 × 2 = 10 (1010₂)." },
-        { q: "In binary subtraction, a borrow from an adjacent column contributes 2 (binary 10₂).", o: ["True", "False"], c: 0, t: "tf", arQ: "الاستلاف من الخانة المجاورة في النظام الثنائي يضيف 2 (10₂).", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "لأن أساس النظام هو 2." },
-        { q: "TTL logic gates consume more power than CMOS gates.", o: ["True", "False"], c: 0, t: "tf", arQ: "تستهلك بوابات TTL طاقة أكبر من بوابات CMOS.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، TTL تستهلك طاقة أعلى وتولد حرارة أكثر." },
-        { q: "Which specification indicates the number of inputs a single gate can have?", o: ["Fan-in", "Propagation delay", "Operating frequency", "Vcc"], c: 0, t: "mcq", arQ: "أي معيار يحدد عدد مداخل البوابة الواحدة؟", arO: ["A) Fan-in", "B) تأخير الانتشار", "C) تردد التشغيل", "D) Vcc"], exp: "Fan-in." },
-        { q: "Add binary numbers (1010)₂ + (0101)₂:", o: ["(1111)₂", "(10000)₂", "(1110)₂", "(1011)₂"], c: 0, t: "mcq", arQ: "ناتج جمع (1010)₂ + (0101)₂ هو:", arO: ["A) 1111", "B) 10000", "C) 1110", "D) 1011"], exp: "10 + 5 = 15 = 1111₂." },
-        { q: "Subtract binary numbers (111)₂ - (010)₂:", o: ["(101)₂", "(100)₂", "(110)₂", "(011)₂"], c: 0, t: "mcq", arQ: "ناتج طرح (111)₂ - (010)₂ هو:", arO: ["A) 101", "B) 100", "C) 110", "D) 011"], exp: "7 - 2 = 5 = 101₂." },
-        { q: "Multiplication of (23)₁₀ by (6)₁₀ in binary yields:", o: ["(10001010)₂", "(10011010)₂", "(11001010)₂", "(10001100)₂"], c: 0, t: "mcq", arQ: "ضرب 23 في 6 يعطي 138، وتمثيله الثنائي هو:", arO: ["A) 10001010", "B) 10011010", "C) 11001010", "D) 10001100"], exp: "128 + 8 + 2 = 138 (10001010₂)." },
-        { q: "CMOS logic gates typically operate with higher noise margins than TTL.", o: ["True", "False"], c: 0, t: "tf", arQ: "بوابات CMOS تعمل بهامش ضوضاء أعلى من TTL.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح." },
-        { q: "Extreme temperatures can degrade gate switching speed and reliability.", o: ["True", "False"], c: 0, t: "tf", arQ: "درجات الحرارة القصوى قد تؤثر سلباً على سرعة وموثوقية البوابات.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، Temperature sensitive." },
-        { q: "In binary addition, 0 + 1 results in:", o: ["0 with Carry 0", "1 with Carry 0", "1 with Carry 1", "0 with Carry 1"], c: 1, t: "mcq", arQ: "في الجمع الثنائي: 0 + 1 ينتج:", arO: ["A) 0 مع حمل 0", "B) 1 مع حمل 0", "C) 1 مع حمل 1", "D) 0 مع حمل 1"], exp: "المجموع 1 والحمل 0." },
-        { q: "In 3-bit binary addition with A=1, B=1, Cin=0, the result is:", o: ["Sum = 0, Cout = 1", "Sum = 1, Cout = 0", "Sum = 1, Cout = 1", "Sum = 0, Cout = 0"], c: 0, t: "mcq", arQ: "إذا كان A=1 و B=1 و Cin=0، فإن ناتج الجمع هو:", arO: ["A) Sum=0, Cout=1", "B) Sum=1, Cout=0", "C) Sum=1, Cout=1", "D) Sum=0, Cout=0"], exp: "1 + 1 = 10₂ (Sum 0, Cout 1)." },
-        { q: "In 3-bit subtraction with Minuend=0, Subtrahend=1, Bin=0, Difference=1 and Bout=1.", o: ["True", "False"], c: 0, t: "tf", arQ: "في الطرح بـ 3 بتات: إذا كان المطروح منه 0 والمطروح 1 والاستلاف 0، فالفرق 1 والاستلاف 1.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح (0 - 1 = 1 مع استلاف 1)." },
-        { q: "Modern integrated circuits can fit millions of logic gates on a single silicon die.", o: ["True", "False"], c: 0, t: "tf", arQ: "يمكن دمج ملايين البوابات المنطقية على شريحة سيليكون واحدة.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح." },
-        { q: "Lower power dissipation in a gate is preferred because it generates less heat.", o: ["True", "False"], c: 0, t: "tf", arQ: "انخفاض تبديد القدرة مفضل لأنه يقلل الحرارة المتولدة.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح." },
-        { q: "Binary multiplication is essentially repetitive addition with left shifts.", o: ["True", "False"], c: 0, t: "tf", arQ: "الضرب الثنائي هو بالأساس جمع متكرر مع إزاحة لليسار.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح." }
-      ],
-      pdf4: [
-        { q: "According to Boolean algebra postulates, 1 · 1 equals:", o: ["0", "1", "2", "Undefined"], c: 1, t: "mcq", arQ: "وفقاً لمسلمات الجبر البوليني: 1 · 1 يساوي:", arO: ["A) 0", "B) 1", "C) 2", "D) غير محدد"], exp: "1 · 1 = 1." },
-        { q: "According to Boolean algebra postulates, 0 + 0 equals:", o: ["0", "1", "00", "Undefined"], c: 0, t: "mcq", arQ: "وفقاً لمسلمات الجبر البوليني: 0 + 0 يساوي:", arO: ["A) 0", "B) 1", "C) 00", "D) غير محدد"], exp: "0 + 0 = 0." },
-        { q: "The complement of 1 is 0 (1' = 0), and the complement of 0 is 1 (0' = 1).", o: ["True", "False"], c: 0, t: "tf", arQ: "متمم 1 هو 0، ومتمم 0 هو 1.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "مسلمة المتمم الأساسية." },
-        { q: "Theorem 1 states that 0 · X equals:", o: ["X", "0", "1", "X'"], c: 1, t: "mcq", arQ: "النظرية 1 تنص على أن 0 · X يساوي:", arO: ["A) X", "B) 0", "C) 1", "D) X'"], exp: "أي متغير يضرب في 0 يعطي 0." },
-        { q: "Theorem 1 states that 1 + X equals:", o: ["X", "1", "0", "1+X"], c: 1, t: "mcq", arQ: "النظرية 1 تنص على أن 1 + X يساوي:", arO: ["A) X", "B) 1", "C) 0", "D) 1+X"], exp: "1 + أي تعبير بوليني = 1." },
-        { q: "Theorem 2 states that 1 · X equals:", o: ["1", "0", "X", "X'"], c: 2, t: "mcq", arQ: "النظرية 2 تنص على أن 1 · X يساوي:", arO: ["A) 1", "B) 0", "C) X", "D) X'"], exp: "1 هو العنصر المحايد في الضرب." },
-        { q: "Theorem 2 states that 0 + X equals:", o: ["0", "1", "X", "X'"], c: 2, t: "mcq", arQ: "النظرية 2 تنص على أن 0 + X يساوي:", arO: ["A) 0", "B) 1", "C) X", "D) X'"], exp: "0 هو العنصر المحايد في الجمع." },
-        { q: "The Idempotent law states that X · X = X and X + X = X.", o: ["True", "False"], c: 0, t: "tf", arQ: "ينص قانون التساوي الذاتي (Idempotent) على أن X·X = X و X+X = X.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "قانون Idempotent." },
-        { q: "According to the Complementation Law, X · X' equals:", o: ["1", "0", "X", "Undefined"], c: 1, t: "mcq", arQ: "وفقاً لقانون المتمم: X · X' يساوي:", arO: ["A) 1", "B) 0", "C) X", "D) غير محدد"], exp: "ضرب أي متغير في متممه يساوي 0." },
-        { q: "According to the Complementation Law, X + X' equals:", o: ["1", "0", "X", "2X"], c: 0, t: "mcq", arQ: "وفقاً لقانون المتمم: X + X' يساوي:", arO: ["A) 1", "B) 0", "C) X", "D) 2X"], exp: "جمع أي متغير مع متممه يساوي 1." },
-        { q: "The Commutative Law states that X + Y = Y + X and X · Y = Y · X.", o: ["True", "False"], c: 0, t: "tf", arQ: "ينص قانون الإبدال على أن X+Y = Y+X و X·Y = Y·X.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "قانون الإبدال." },
-        { q: "The Associative Law states that X + (Y + Z) = (X + Y) + Z.", o: ["True", "False"], c: 0, t: "tf", arQ: "ينص قانون التجميع على أن X + (Y + Z) = (X + Y) + Z.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "قانون التجميع." },
-        { q: "According to the first Distributive Law, X · (Y + Z) expands to:", o: ["X·Y + X·Z", "X + Y·Z", "(X+Y)·Z", "X·Y·Z"], c: 0, t: "mcq", arQ: "وفقاً لقانون التوزيع: X · (Y + Z) يساوي:", arO: ["A) X·Y + X·Z", "B) X + Y·Z", "C) (X+Y)·Z", "D) X·Y·Z"], exp: "توزيع الضرب على الجمع." },
-        { q: "The second Distributive Law states that X + Y·Z equals:", o: ["(X + Y) · (X + Z)", "X·Y + X·Z", "X + Y + Z", "(X·Y) + Z"], c: 0, t: "mcq", arQ: "قانون التوزيع الثاني: X + Y·Z يساوي:", arO: ["A) (X + Y) · (X + Z)", "B) X·Y + X·Z", "C) X + Y + Z", "D) (X·Y) + Z"], exp: "توزيع الجمع على الضرب البوليني." },
-        { q: "To find the DUAL of a Boolean expression, change '+' to '·', '·' to '+', 0 to 1, 1 to 0, leaving literals unchanged.", o: ["True", "False"], c: 0, t: "tf", arQ: "لإيجاد المزدوج (Dual)، نقلب + إلى · و · إلى + و 0 إلى 1 و 1 إلى 0 دون تغيير الرموز.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "تعريف المزدوج البوليني (Dual)." },
-        { q: "What is the dual of A·B' + B·C'?", o: ["(A + B') · (B + C')", "A'·B + B'·C", "(A' + B) · (B' + C)", "A·B + B·C"], c: 0, t: "mcq", arQ: "ما هو المزدوج للتعبير A·B' + B·C'؟", arO: ["A) (A + B') · (B + C')", "B) A'·B + B'·C", "C) (A' + B) · (B' + C)", "D) A·B + B·C"], exp: "استبدال الضرب بجمع والجمع بضرب." },
-        { q: "According to Theorem 8, X·Y + X·Y' simplifies to:", o: ["X", "Y", "1", "0"], c: 0, t: "mcq", arQ: "وفقاً للنظرية 8: X·Y + X·Y' يتبسط إلى:", arO: ["A) X", "B) Y", "C) 1", "D) 0"], exp: "X(Y + Y') = X(1) = X." },
-        { q: "According to Theorem 8 dual, (X + Y) · (X + Y') simplifies to:", o: ["X", "Y", "0", "1"], c: 0, t: "mcq", arQ: "وفقاً للنظرية: (X + Y) · (X + Y') يتبسط إلى:", arO: ["A) X", "B) Y", "C) 0", "D) 1"], exp: "X + Y·Y' = X + 0 = X." },
-        { q: "Simplify: (X + Y') · Y :", o: ["X·Y", "Y", "X", "0"], c: 0, t: "mcq", arQ: "بسط: (X + Y') · Y :", arO: ["A) X·Y", "B) Y", "C) X", "D) 0"], exp: "X·Y + Y'·Y = X·Y + 0 = X·Y." },
-        { q: "Simplify: X·Y' + Y :", o: ["X + Y", "X·Y", "Y", "X"], c: 0, t: "mcq", arQ: "بسط: X·Y' + Y :", arO: ["A) X + Y", "B) X·Y", "C) Y", "D) X"], exp: "(X + Y)(Y' + Y) = X + Y." },
-        { q: "The Absorption Law states that X + X·Y simplifies to:", o: ["X", "Y", "X + Y", "1"], c: 0, t: "mcq", arQ: "قانون الامتصاص: X + X·Y يتبسط إلى:", arO: ["A) X", "B) Y", "C) X + Y", "D) 1"], exp: "X(1 + Y) = X." },
-        { q: "The dual of the Absorption Law states that X · (X + Y) simplifies to:", o: ["X", "Y", "X·Y", "0"], c: 0, t: "mcq", arQ: "مزدوج قانون الامتصاص: X · (X + Y) يتبسط إلى:", arO: ["A) X", "B) Y", "C) X·Y", "D) 0"], exp: "X·X + X·Y = X + X·Y = X." },
-        { q: "In Boolean algebra, each occurrence of a variable or its complement is called a:", o: ["Literal", "Term", "Byte", "Karnaugh"], c: 0, t: "mcq", arQ: "كل ظهور لمتغير أو متممه يسمى:", arO: ["A) Literal", "B) Term", "C) Byte", "D) Karnaugh"], exp: "تعريف الـ Literal." },
-        { q: "An expression formed by literals and operations at one level is called a Term.", o: ["True", "False"], c: 0, t: "tf", arQ: "التعبير المكون من literals وعمليات عند مستوى واحد يسمى Term.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "تعريف الـ Term." },
-        { q: "Simplify: (A·B + C·D) · [(A' + B') · (C' + D')] :", o: ["0", "1", "A·B", "C·D"], c: 0, t: "mcq", arQ: "بسط: مقدار مضروب في متممه X · X' :", arO: ["A) 0", "B) 1", "C) A·B", "D) C·D"], exp: "X · X' = 0 دائماً." },
-        { q: "According to the Consensus Theorem, X·Y + X'·Z + Y·Z simplifies to:", o: ["X·Y + X'·Z", "Y·Z", "X + Z", "X·Y·Z"], c: 0, t: "mcq", arQ: "وفقاً لنظرية التوافق (Consensus)، التعبير X·Y + X'·Z + Y·Z يتبسط إلى:", arO: ["A) X·Y + X'·Z", "B) Y·Z", "C) X + Z", "D) X·Y·Z"], exp: "الحد Y·Z زائد (redundant) ويحذف." },
-        { q: "In the Consensus Theorem, the term Y·Z is redundant and can be omitted.", o: ["True", "False"], c: 0, t: "tf", arQ: "في نظرية التوافق، الحد Y·Z يعتبر زائداً ويمكن حذفه.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، فكرة نظرية التوافق." },
-        { q: "Simplify: [1 + L·M + L·M' + L'·M] :", o: ["1", "0", "L", "M"], c: 0, t: "mcq", arQ: "بسط: [1 + L·M + L·M' + L'·M] :", arO: ["A) 1", "B) 0", "C) L", "D) M"], exp: "1 + أي تعبير = 1." },
-        { q: "Simplify: Z·X + Z·X'·Y :", o: ["Z·X + Z·Y", "Z", "X·Y", "0"], c: 0, t: "mcq", arQ: "بسط: Z·X + Z·X'·Y :", arO: ["A) Z·X + Z·Y", "B) Z", "C) X·Y", "D) 0"], exp: "Z(X + X'·Y) = Z(X + Y) = Z·X + Z·Y." },
-        { q: "Simplify: A + A·B' + A·B'·C' :", o: ["A", "B", "C", "1"], c: 0, t: "mcq", arQ: "بسط: A + A·B' + A·B'·C' :", arO: ["A) A", "B) B", "C) C", "D) 1"], exp: "الحد A يمتص جميع الحدود الأكبر التي تحتويه فيكون الناتج A." },
-        { q: "De Morgan's theorem states that (A + B)' = A' · B'.", o: ["True", "False"], c: 0, t: "tf", arQ: "تنص نظرية ديمورجان على أن (A + B)' = A' · B'.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح." },
-        { q: "De Morgan's theorem states that (A · B)' = A' + B'.", o: ["True", "False"], c: 0, t: "tf", arQ: "تنص نظرية ديمورجان على أن (A · B)' = A' + B'.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح." },
-        { q: "Simplify: A'·B' + A'·B + A·B' + A·B :", o: ["1", "0", "A", "B"], c: 0, t: "mcq", arQ: "بسط: A'·B' + A'·B + A·B' + A·B :", arO: ["A) 1", "B) 0", "C) A", "D) B"], exp: "A'(B'+B) + A(B'+B) = A' + A = 1." },
-        { q: "The double complement of variable A (A'') equals A.", o: ["True", "False"], c: 0, t: "tf", arQ: "نفي النفي (A'') يساوي المتغير الأصلي A.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح." },
-        { q: "The dual of an expression leaves variables uncomplemented.", o: ["True", "False"], c: 0, t: "tf", arQ: "المزدوج (Dual) يترك المتغيرات دون نفي.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، يغير العمليات فقط." },
-        { q: "How many literals exist in: A' + A·B + A·C' + A'·B·C ?", o: ["8 literals", "4 literals", "3 literals", "10 literals"], c: 0, t: "mcq", arQ: "كم عدد الـ Literals في: A' + A·B + A·C' + A'·B·C ؟", arO: ["A) 8", "B) 4", "C) 3", "D) 10"], exp: "1 + 2 + 2 + 3 = 8 literals." },
-        { q: "How many unique variables exist in: A' + A·B + A·C' + A'·B·C ?", o: ["3 variables", "8 variables", "4 variables", "2 variables"], c: 0, t: "mcq", arQ: "كم عدد المتغيرات الفريدة في التعبير السابق؟", arO: ["A) 3 (A, B, C)", "B) 8", "C) 4", "D) 2"], exp: "A و B و C فقط." },
-        { q: "According to Boolean postulates, 0 · 0 = 0.", o: ["True", "False"], c: 0, t: "tf", arQ: "وفقاً للمسلمات: 0 · 0 = 0.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح." },
-        { q: "Simplify: (A + B) · (A + B') :", o: ["A", "B", "1", "0"], c: 0, t: "mcq", arQ: "بسط: (A + B) · (A + B') :", arO: ["A) A", "B) B", "C) 1", "D) 0"], exp: "A + B·B' = A + 0 = A." },
-        { q: "Simplifying Boolean expressions reduces gate count and propagation delay in physical circuits.", o: ["True", "False"], c: 0, t: "tf", arQ: "تبسيط التعبيرات يقلل عدد البوابات وزمن التأخير بالدائرة.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، هذا هو الهدف الهندسي." }
-      ],
-      pdf5: [
-        { q: "Which two gates are Universal Gates because each can implement any Boolean function?", o: ["NAND and NOR", "AND and OR", "XOR and XNOR", "NOT and AND"], c: 0, t: "mcq", svg: SVGs.nandGate(), arQ: "أي بوابتين تعتبران بوابات شاملة (Universal Gates)؟", arO: ["A) NAND و NOR", "B) AND و OR", "C) XOR و XNOR", "D) NOT و AND"], exp: "NAND و NOR بوابات شاملة." },
-        { q: "In a combinational logic circuit, the output depends only on the present input combinations.", o: ["True", "False"], c: 0, t: "tf", arQ: "في الدوائر التوافقية، يعتمد الخرج فقط على المدخلات الحالية.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نصاً: depends only on present inputs." },
-        { q: "Sequential logic circuits contain memory elements such as flip-flops.", o: ["True", "False"], c: 0, t: "tf", svg: SVGs.flipFlop("D"), arQ: "الدوائر التتابعية تحتوي على عناصر ذاكرة مثل القلابات.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، بفضل عناصر الذاكرة." },
-        { q: "A Half-Adder circuit adds how many binary bits?", o: ["Two bits", "Three bits", "Four bits", "Eight bits"], c: 0, t: "mcq", svg: SVGs.halfAdder(), arQ: "دائرة الجامع النصفي (Half-Adder) تجمع كم بت؟", arO: ["A) خانتين (2 bits)", "B) 3 خانات", "C) 4 خانات", "D) 8 خانات"], exp: "الجامع النصفي يجمع خانتين A و B." },
-        { q: "A Full-Adder circuit adds how many binary bits (including carry-in)?", o: ["Two bits", "Three bits", "Four bits", "Six bits"], c: 1, t: "mcq", svg: SVGs.fullAdder(), arQ: "دائرة الجامع الكامل (Full-Adder) تجمع كم بت؟", arO: ["A) خانتين", "B) 3 خانات (A, B, Cin)", "C) 4 خانات", "D) 6 خانات"], exp: "تجمع 3 خانات: A و B و Cin." },
-        { q: "In a Half-Adder, the SUM output is produced by which logic gate?", o: ["AND", "OR", "EX-OR", "NAND"], c: 2, t: "mcq", svg: SVGs.halfAdder(), arQ: "في الجامع النصفي، مخرج المجموع ينتج من بوابة:", arO: ["A) AND", "B) OR", "C) EX-OR", "D) NAND"], exp: "Sum = A ⊕ B." },
-        { q: "In a Half-Adder, the CARRY output is produced by which logic gate?", o: ["AND", "OR", "EX-OR", "NOR"], c: 0, t: "mcq", svg: SVGs.halfAdder(), arQ: "في الجامع النصفي، مخرج الحمل ينتج من بوابة:", arO: ["A) AND", "B) OR", "C) EX-OR", "D) NOR"], exp: "Carry = A · B." },
-        { q: "A Half-Subtractor produces which two outputs?", o: ["Difference and Borrow", "Sum and Carry", "Quotient and Remainder", "Enable and Strobe"], c: 0, t: "mcq", arQ: "الطارح النصفي ينتج مخرجين هما:", arO: ["A) الفرق والاستلاف (Difference & Borrow)", "B) المجموع والحمل", "C) القسمة والباقي", "D) التمكين والوميض"], exp: "Difference (D) و Borrow (Bo)." },
-        { q: "In a Half-Subtractor, the Borrow equation Bo for inputs A (minuend) and B (subtrahend) is:", o: ["Bo = A' · B", "Bo = A · B", "Bo = A · B'", "Bo = A ⊕ B"], c: 0, t: "mcq", arQ: "في الطارح النصفي، معادلة الاستلاف Bo هي:", arO: ["A) Bo = A' · B", "B) Bo = A · B", "C) Bo = A · B'", "D) Bo = A ⊕ B"], exp: "Bo = A' · B." },
-        { q: "In a Half-Subtractor, the Difference equation D is given by:", o: ["D = A ⊕ B", "D = A · B", "D = A + B", "D = (A · B)'"], c: 0, t: "mcq", arQ: "في الطارح النصفي، معادلة الفرق D هي:", arO: ["A) D = A ⊕ B", "B) D = A · B", "C) D = A + B", "D) D = (A · B)'"], exp: "D = A ⊕ B." },
-        { q: "A Multiplexer (MUX) is also known as a:", o: ["Data Selector", "Data Distributor", "Encoder", "Counter"], c: 0, t: "mcq", svg: SVGs.muxBlock("4-to-1 MUX"), arQ: "يُطلق على المجمع (Multiplexer) أيضاً اسم:", arO: ["A) محدد البيانات (Data Selector)", "B) موزع البيانات", "C) مشفر", "D) عداد"], exp: "Data Selector." },
-        { q: "How many data inputs does a 4-to-1 Multiplexer have?", o: ["2", "4", "8", "16"], c: 1, t: "mcq", svg: SVGs.muxBlock("4-to-1 MUX"), arQ: "كم عدد مداخل البيانات في مجمع 4-to-1 MUX؟", arO: ["A) 2", "B) 4", "C) 8", "D) 16"], exp: "له 4 مداخل بيانات (I0 إلى I3)." },
-        { q: "How many select lines does a 4-to-1 Multiplexer require?", o: ["1", "2", "3", "4"], c: 1, t: "mcq", svg: SVGs.muxBlock("4-to-1 MUX"), arQ: "كم عدد خطوط الاختيار في مجمع 4-to-1 MUX؟", arO: ["A) 1", "B) 2", "C) 3", "D) 4"], exp: "2² = 4، إذن خطان للاختيار." },
-        { q: "How many select lines does an 8-to-1 Multiplexer require?", o: ["2", "3", "4", "8"], c: 1, t: "mcq", svg: SVGs.muxBlock("8-to-1 MUX"), arQ: "كم عدد خطوط الاختيار في مجمع 8-to-1 MUX؟", arO: ["A) 2", "B) 3", "C) 4", "D) 8"], exp: "2³ = 8، إذن 3 خطوط اختيار." },
-        { q: "A Demultiplexer routes a single input to one of multiple output lines.", o: ["True", "False"], c: 0, t: "tf", svg: SVGs.demuxBlock(), arQ: "الموزع (Demultiplexer) يوجه خط دخل واحد إلى أحد خطوط الخرج المتعددة.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، موزع بيانات." },
-        { q: "A 1-to-4 Demultiplexer has how many select lines?", o: ["1", "2", "4", "8"], c: 1, t: "mcq", svg: SVGs.demuxBlock(), arQ: "كم عدد خطوط الاختيار في موزع 1-to-4 DEMUX؟", arO: ["A) 1", "B) 2", "C) 4", "D) 8"], exp: "2² = 4، خطان للاختيار." },
-        { q: "Multiplexers in IC packages typically include an ENABLE (STROBE) input.", o: ["True", "False"], c: 0, t: "tf", arQ: "رقائق المجمع MUX تحتوي عادة على طرف تمكين ENABLE.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، للتحكم في تفعيل الشريحة." },
-        { q: "A Full Adder can be constructed from two Half Adders and an OR gate.", o: ["True", "False"], c: 0, t: "tf", svg: SVGs.fullAdder(), arQ: "يمكن بناء الجامع الكامل باستخدام جامعين نصفيين وبوابة OR.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، تصميم قياسي." },
-        { q: "The expression for the SUM of a Full Adder is:", o: ["A ⊕ B ⊕ Cin", "A · B · Cin", "A + B + Cin", "(A · B) ⊕ Cin"], c: 0, t: "mcq", svg: SVGs.fullAdder(), arQ: "معادلة المجموع SUM للجامع الكامل هي:", arO: ["A) A ⊕ B ⊕ Cin", "B) A · B · Cin", "C) A + B + Cin", "D) (A · B) ⊕ Cin"], exp: "Sum = A ⊕ B ⊕ Cin." },
-        { q: "For a Full Adder with A=1, B=1, and Cin=1, the outputs are:", o: ["Sum = 1, Cout = 1", "Sum = 0, Cout = 1", "Sum = 1, Cout = 0", "Sum = 0, Cout = 0"], c: 0, t: "mcq", svg: SVGs.fullAdder(), arQ: "في الجامع الكامل إذا كان A=1 و B=1 و Cin=1 فإن الناتج:", arO: ["A) Sum = 1, Cout = 1", "B) Sum = 0, Cout = 1", "C) Sum = 1, Cout = 0", "D) Sum = 0, Cout = 0"], exp: "1 + 1 + 1 = 3 (11₂)، المجموع 1 والحمل 1." },
-        { q: "For a Full Adder with A=1, B=0, and Cin=1, the outputs are:", o: ["Sum = 0, Cout = 1", "Sum = 1, Cout = 1", "Sum = 1, Cout = 0", "Sum = 0, Cout = 0"], c: 0, t: "mcq", svg: SVGs.fullAdder(), arQ: "في الجامع الكامل إذا كان A=1 و B=0 و Cin=1 فإن الناتج:", arO: ["A) Sum = 0, Cout = 1", "B) Sum = 1, Cout = 1", "C) Sum = 1, Cout = 0", "D) Sum = 0, Cout = 0"], exp: "1 + 0 + 1 = 2 (10₂)، المجموع 0 والحمل 1." },
-        { q: "The first step in combinational logic circuit design is stating the problem clearly.", o: ["True", "False"], c: 0, t: "tf", arQ: "الخطوة الأولى في تصميم الدوائر التوافقية هي صياغة المشكلة بوضوح.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "1. Statement of the problem." },
-        { q: "Which tool is commonly used to simplify Boolean expressions for combinational circuits?", o: ["Karnaugh Map (K-map)", "ADC Converter", "Shift Register", "Microcontroller GPIO"], c: 0, t: "mcq", arQ: "أي أداة تستخدم لتبسيط التعبيرات البولينية للدوائر التوافقية؟", arO: ["A) خريطة كارنوف (K-map)", "B) محول ADC", "C) مسجل إزاحة", "D) أطراف الميكروكنترولر"], exp: "خريطة كارنوف (K-map)." },
-        { q: "In a 4-to-1 MUX, if select inputs are S1=0 and S0=1, which input is routed to output Y?", o: ["I0", "I1", "I2", "I3"], c: 1, t: "mcq", svg: SVGs.muxBlock("4-to-1 MUX"), arQ: "في مجمع 4-to-1، إذا كان خط الاختيار S1=0 و S0=1 فأي دخل يمر؟", arO: ["A) I0", "B) I1", "C) I2", "D) I3"], exp: "01₂ يقابل الرقم 1 فيمر I1." },
-        { q: "In a 4-to-1 MUX, if select inputs are S1=1 and S0=1, which input is routed to output Y?", o: ["I0", "I1", "I2", "I3"], c: 3, t: "mcq", svg: SVGs.muxBlock("4-to-1 MUX"), arQ: "في مجمع 4-to-1، إذا كان خط الاختيار S1=1 و S0=1 فأي دخل يمر؟", arO: ["A) I0", "B) I1", "C) I2", "D) I3"], exp: "11₂ يقابل الرقم 3 فيمر I3." },
-        { q: "An 8-to-1 Multiplexer has 8 data inputs and 1 output line.", o: ["True", "False"], c: 0, t: "tf", svg: SVGs.muxBlock("8-to-1 MUX"), arQ: "المجمع 8-to-1 MUX يمتلك 8 مداخل بيانات وخط خرج واحد.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح." },
-        { q: "In a 1-to-4 DEMUX, if select inputs are A=1, B=0, input data is directed to:", o: ["D0", "D1", "D2", "D3"], c: 2, t: "mcq", svg: SVGs.demuxBlock(), arQ: "في موزع 1-to-4، إذا كان الاختيار A=1 و B=0 فإن البيانات تذهب إلى:", arO: ["A) D0", "B) D1", "C) D2", "D) D3"], exp: "10₂ يقابل 2 فتذهب إلى D2." },
-        { q: "Flip-flops and latches are typical memory elements found in sequential circuits.", o: ["True", "False"], c: 0, t: "tf", svg: SVGs.flipFlop("SR"), arQ: "القلابات هي عناصر الذاكرة النموذجية في الدوائر التتابعية.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح." },
-        { q: "Can any combinational logic circuit be built using only NAND gates?", o: ["Yes, NAND is a universal gate", "No, OR gates are strictly needed", "Only if it has 2 inputs", "Only in sequential mode"], c: 0, t: "mcq", svg: SVGs.nandGate(), arQ: "هل يمكن بناء أي دائرة توافقية باستخدام بوابات NAND فقط؟", arO: ["A) نعم، لأن NAND بوابة شاملة", "B) لا", "C) فقط لمدخلين", "D) فقط بالتتابعي"], exp: "نعم، NAND بوابة شاملة." },
-        { q: "Can any combinational logic circuit be built using only NOR gates?", o: ["Yes, NOR is a universal gate", "No, NOR cannot invert signals", "Only with pull-up resistors", "Only for subtractors"], c: 0, t: "mcq", arQ: "هل يمكن بناء أي دائرة توافقية باستخدام بوابات NOR فقط؟", arO: ["A) نعم، لأن NOR بوابة شاملة", "B) لا", "C) فقط بمقاومات رفع", "D) فقط للطارح"], exp: "نعم، NOR بوابة شاملة." },
-        { q: "A 4-bit shift register made of flip-flops is an example of a sequential circuit.", o: ["True", "False"], c: 0, t: "tf", svg: SVGs.flipFlop("D"), arQ: "مسجل الإزاحة ذو 4 بتات والمكون من قلابات هو مثال على دائرة تتابعية.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، الدوائر التي تحوي ذاكرة تتابعية." },
-        { q: "A binary counter counting from 0 to 15 is called a:", o: ["Mod-16 counter", "Mod-4 counter", "Demultiplexer", "Half-Adder"], c: 0, t: "mcq", arQ: "العداد الثنائي الذي يعد من 0 إلى 15 يسمى عداد:", arO: ["A) Mod-16 counter", "B) Mod-4 counter", "C) Demultiplexer", "D) Half-Adder"], exp: "يعد 16 حالة (من 0 إلى 15)." },
-        { q: "In full adder design, the Carry-out equation is Cout = A·B + B·Cin + A·Cin.", o: ["True", "False"], c: 0, t: "tf", svg: SVGs.fullAdder(), arQ: "في الجامع الكامل، معادلة الحمل هي Cout = A·B + B·Cin + A·Cin.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، الصيغة المبسطة للحمل." },
-        { q: "A Half-Adder cannot accept a carry-in from a previous addition stage.", o: ["True", "False"], c: 0, t: "tf", svg: SVGs.halfAdder(), arQ: "الجامع النصفي لا يستطيع استقبال حمل من مرحلة سابقة.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، ولهذا يستخدم الجامع الكامل Full Adder." },
-        { q: "If the ENABLE input of a multiplexer is inactive, the multiplexer is disabled.", o: ["True", "False"], c: 0, t: "tf", svg: SVGs.muxBlock("MUX"), arQ: "إذا كان مدخل التمكين ENABLE غير مفعل يتم تعطيل المجمع.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، يجب تفعيله ليعمل الـ MUX." },
-        { q: "In a Half-Subtractor, if A = 0 and B = 1, what are the outputs?", o: ["Difference = 1, Borrow = 1", "Difference = 0, Borrow = 0", "Difference = 1, Borrow = 0", "Difference = 0, Borrow = 1"], c: 0, t: "mcq", arQ: "في الطارح النصفي إذا كان A=0 و B=1، فما هي المخرجات؟", arO: ["A) الفرق 1، الاستلاف 1", "B) 0 و 0", "C) الفرق 1، الاستلاف 0", "D) الفرق 0، الاستلاف 1"], exp: "0 - 1 يستلزم استلاف 1 ويكون الفرق 1." },
-        { q: "In a Half-Subtractor, if A = 1 and B = 0, what are the outputs?", o: ["Difference = 1, Borrow = 0", "Difference = 0, Borrow = 1", "Difference = 0, Borrow = 0", "Difference = 1, Borrow = 1"], c: 0, t: "mcq", arQ: "في الطارح النصفي إذا كان A=1 و B=0، فما هي المخرجات؟", arO: ["A) الفرق 1، الاستلاف 0", "B) الفرق 0، الاستلاف 1", "C) 0 و 0", "D) 1 و 1"], exp: "1 - 0 = 1 بدون استلاف." },
-        { q: "A 2-to-1 multiplexer has 2 data inputs and requires 1 select line.", o: ["True", "False"], c: 0, t: "tf", svg: SVGs.muxBlock("2-to-1 MUX"), arQ: "مجمع 2-to-1 له مدخلا بيانات ويحتاج خط اختيار واحد.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "2¹ = 2، خط اختيار واحد كافٍ." },
-        { q: "Which circuit component is used to route data from one source to one of many destinations?", o: ["Demultiplexer", "Multiplexer", "Half-Adder", "Full-Adder"], c: 0, t: "mcq", svg: SVGs.demuxBlock(), arQ: "أي دائرة تستخدم لتوجيه البيانات من مصدر واحد إلى عدة وجهات؟", arO: ["A) Demultiplexer", "B) Multiplexer", "C) Half-Adder", "D) Full-Adder"], exp: "الموزع (Demultiplexer)." },
-        { q: "Minimizing Boolean expressions helps reduce circuit size, gate count, and power consumption.", o: ["True", "False"], c: 0, t: "tf", arQ: "تبسيط التعبيرات في الدوائر التوافقية يساعد على تقليل حجم الدائرة واستهلاك الطاقة.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، الهدف الهندسي الرئيسي." }
-      ]
-    };
+      // CHAPTER 1 - MCQS (Section 1.9 Part B)
+      {
+        id: "ch1_mcq_1",
+        chapter: "ch1",
+        type: "mcq",
+        question: "Which goal of the CIA Triad ensures that systems work when users need them?",
+        options: ["Confidentiality", "Integrity", "Availability", "Fabrication"],
+        correct: 2,
+        hint: {
+          arQ: "أي أهداف ثالوث CIA يضمن عمل الأنظمة وجاهزيتها عندما يحتاجها المستخدمون؟",
+          arO: ["A) السرية (Confidentiality)", "B) التكامل والسلامة (Integrity)", "C) التوافرية (Availability)", "D) التلفيق (Fabrication)"],
+          ans: "C) Availability",
+          exp: "Availability ensures prompt and reliable access to data and services for authorized users."
+        }
+      },
+      {
+        id: "ch1_mcq_2",
+        chapter: "ch1",
+        type: "mcq",
+        question: "Stealing an unencrypted file during network transmission is an example of:",
+        options: ["Interruption", "Interception", "Modification", "Fabrication"],
+        correct: 1,
+        hint: {
+          arQ: "سرقة ملف غير مشفر أثناء نقله عبر الشبكة هو مثال على تهديد:",
+          arO: ["A) الانقطاع (Interruption)", "B) الاعتراض (Interception)", "C) التعديل (Modification)", "D) التلفيق (Fabrication)"],
+          ans: "B) Interception",
+          exp: "Interception is an unauthorized access to data in transit, attacking confidentiality."
+        }
+      },
+      {
+        id: "ch1_mcq_3",
+        chapter: "ch1",
+        type: "mcq",
+        question: "An attacker captures a valid login packet and sends it again later to gain unauthorized access. This is called a:",
+        options: ["Masquerade attack", "Replay attack", "Traffic analysis", "Passive attack"],
+        correct: 1,
+        hint: {
+          arQ: "يلتقط المهاجم حزمة تسجيل دخول صحيحة ويعيد إرسالها لاحقاً للدخول غير المصرح. هذا يسمى:",
+          arO: ["A) هجوم التنكر (Masquerade)", "B) هجوم إعادة التشغيل (Replay attack)", "C) تحليل حركة المرور", "D) هجوم سلبي"],
+          ans: "B) Replay attack",
+          exp: "A replay attack passively sniffs a valid transmission and retransmits it to produce an unauthorized effect."
+        }
+      },
+      {
+        id: "ch1_mcq_4",
+        chapter: "ch1",
+        type: "mcq",
+        question: "Which of the following is a passive attack?",
+        options: ["Eavesdropping on a transmission", "Crashing a web server", "Modifying an accounting file", "Impersonating a system administrator"],
+        correct: 0,
+        hint: {
+          arQ: "أي مما يلي يُعد هجوماً سلبياً (Passive attack)؟",
+          arO: ["A) التنصت على نقل البيانات (Eavesdropping)", "B) إسقاط خادم الويب", "C) تعديل ملف حسابات", "D) انتحال شخصية مدير النظام"],
+          ans: "A) Eavesdropping on a transmission",
+          exp: "Eavesdropping listens to data without modifying it; all other choices actively change data or state."
+        }
+      },
+      {
+        id: "ch1_mcq_5",
+        chapter: "ch1",
+        type: "mcq",
+        question: "What is the primary defensive focus when dealing with passive attacks?",
+        options: ["System recovery", "Intrusion detection", "Prevention using encryption", "Restarting servers"],
+        correct: 2,
+        hint: {
+          arQ: "ما هو الهدف الدفاعي الأساسي عند التعامل مع الهجمات السلبية؟",
+          arO: ["A) استعادة النظام", "B) اكتشاف التسلل", "C) الوقاية باستخدام التشفير", "D) إعادة تشغيل الخوادم"],
+          ans: "C) Prevention using encryption",
+          exp: "Because passive attacks are silent and hard to detect, prevention via encryption is the primary goal."
+        }
+      },
+      {
+        id: "ch1_mcq_6",
+        chapter: "ch1",
+        type: "mcq",
+        question: "A user changes an exam score in a university database without permission. Which security goal is violated?",
+        options: ["Confidentiality", "Integrity", "Availability", "Scalability"],
+        correct: 1,
+        hint: {
+          arQ: "قام مستخدم بتعديل درجات امتحان في قاعدة بيانات الجامعة دون تصريح. أي هدف أمني تم انتهاكه؟",
+          arO: ["A) السرية (Confidentiality)", "B) سلامة وتكامل البيانات (Integrity)", "C) التوافرية (Availability)", "D) القابلية للتوسع"],
+          ans: "B) Integrity",
+          exp: "Integrity ensures information is altered only by authorized parties in authorized ways."
+        }
+      },
+      {
+        id: "ch1_mcq_7",
+        chapter: "ch1",
+        type: "mcq",
+        question: "An antivirus scanner is an example of which type of security mechanism?",
+        options: ["Preventive control", "Detective control", "Recovery control", "Passive control"],
+        correct: 1,
+        hint: {
+          arQ: "برنامج فحص الفيروسات (Antivirus scanner) يعتبر مثالاً على أي نوع من آليات الأمان؟",
+          arO: ["A) تحكم وقائي (Preventive)", "B) تحكم اكتشافي (Detective control)", "C) تحكم استعادة (Recovery)", "D) تحكم سلبي"],
+          ans: "B) Detective control",
+          exp: "Antivirus scanners detect existing malicious code or infections on a system."
+        }
+      },
+      {
+        id: "ch1_mcq_8",
+        chapter: "ch1",
+        type: "mcq",
+        question: "Which security service confirms that an incoming message came from the claimed sender?",
+        options: ["Authentication", "Availability", "Recovery", "Interruption"],
+        correct: 0,
+        hint: {
+          arQ: "أي خدمة أمنية تؤكد أن الرسالة الواردة جاءت بالفعل من الراسل المدعى؟",
+          arO: ["A) المصادقة والتحقق (Authentication)", "B) التوافرية", "C) الاستعادة", "D) الانقطاع"],
+          ans: "A) Authentication",
+          exp: "Authentication verifies the identity of the communicating entity or origin of data."
+        }
+      },
+      {
+        id: "ch1_mcq_9",
+        chapter: "ch1",
+        type: "mcq",
+        question: "The principle stating that employees should only receive the permissions they need for their jobs is:",
+        options: ["Least Privilege", "Defense in Depth", "Non-repudiation", "Active Defense"],
+        correct: 0,
+        hint: {
+          arQ: "المبدأ الذي ينص على منح الموظفين فقط الصلاحيات الأدنى التي يحتاجونها لعملهم هو:",
+          arO: ["A) الامتياز الأدنى (Least Privilege)", "B) الدفاع بالعمق", "C) عدم الإنكار", "D) الدفاع النشط"],
+          ans: "A) Least Privilege",
+          exp: "Principle of Least Privilege minimizes risk by granting only the minimum necessary rights."
+        }
+      },
+      {
+        id: "ch1_mcq_10",
+        chapter: "ch1",
+        type: "mcq",
+        question: "What does DoS stand for in computer security?",
+        options: ["Data on Storage", "Denial of Service", "Distribution of Software", "Domain of Security"],
+        correct: 1,
+        hint: {
+          arQ: "ماذا يعني الاختصار DoS في أمن الحاسوب؟",
+          arO: ["A) Data on Storage", "B) Denial of Service (حجب الخدمة)", "C) Distribution of Software", "D) Domain of Security"],
+          ans: "B) Denial of Service",
+          exp: "DoS = Denial of Service, an active attack aimed at disabling system availability."
+        }
+      },
 
-    // Build the master questions array
-    let masterDB = [];
-    let counter = 1;
-    ['pdf1', 'pdf2', 'pdf3', 'pdf4', 'pdf5'].forEach(pdfKey => {
-      rawData[pdfKey].forEach(item => {
-        masterDB.push({
-          id: counter++,
-          pdf: pdfKey,
-          type: item.t,
-          question: item.q,
-          options: item.o,
-          correct: item.c,
-          svg: item.svg || null,
-          hint: {
-            arQ: item.arQ,
-            arO: item.arO,
-            ans: `${String.fromCharCode(65 + item.c)}) ${item.o[item.c]}`,
-            exp: item.exp
-          }
-        });
-      });
-    });
+      // CHAPTER 2 - TRUE / FALSE (Section 2.7 Part A)
+      {
+        id: "ch2_tf_1",
+        chapter: "ch2",
+        type: "tf",
+        question: "In Discretionary Access Control (DAC), the owner of an object decides who is permitted to access that file.",
+        options: ["True", "False"],
+        correct: 0,
+        hint: {
+          arQ: "في نموذج التحكم بالوصول الاختياري (DAC)، مالك الكائن هو من يحدد من مسموح له بالوصول للملف.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "A) True",
+          exp: "True: Under DAC, access permissions are at the discretion of the object's owner."
+        }
+      },
+      {
+        id: "ch2_tf_2",
+        chapter: "ch2",
+        type: "tf",
+        question: "Subjects represent passive system resources, such as files and database directories.",
+        options: ["True", "False"],
+        correct: 1,
+        hint: {
+          arQ: "الفواعل (Subjects) تمثل الموارد السلبية في النظام مثل الملفات ومجلدات قواعد البيانات.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "B) False",
+          exp: "False: Subjects are active entities (users and processes). Objects are passive resources (files, folders, hardware)."
+        }
+      },
+      {
+        id: "ch2_tf_3",
+        chapter: "ch2",
+        type: "tf",
+        question: "Discretionary Access Control is vulnerable to Trojan horse attacks because running programs inherit the user's permissions.",
+        options: ["True", "False"],
+        correct: 0,
+        hint: {
+          arQ: "التحكم بالاختيار (DAC) معرض لهجمات حصان طروادة لأن البرامج ترث صلاحيات المستخدم الذي يشغلها.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "A) True",
+          exp: "True: A Trojan executed by an authorized user runs with all the user's privileges, bypassing owner intent."
+        }
+      },
+      {
+        id: "ch2_tf_4",
+        chapter: "ch2",
+        type: "tf",
+        question: "In Mandatory Access Control (MAC), an individual file owner can change access rights at any time.",
+        options: ["True", "False"],
+        correct: 1,
+        hint: {
+          arQ: "في التحكم الإلزامي (MAC)، يستطيع مالك الملف الفردي تغيير صلاحيات الوصول في أي وقت.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "B) False",
+          exp: "False: In MAC, access decisions are enforced centrally by policy and administrators, not by file creators."
+        }
+      },
+      {
+        id: "ch2_tf_5",
+        chapter: "ch2",
+        type: "tf",
+        question: "The 'No-Read-Up' rule in the Bell-LaPadula model prevents a user from reading files classified above their security clearance.",
+        options: ["True", "False"],
+        correct: 0,
+        hint: {
+          arQ: "قاعدة 'عدم القراءة لأعلى No-Read-Up' في نموذج Bell-LaPadula تمنع المستخدم من قراءة ملفات تصنيفها أعلى من تصريحه الأمني.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "A) True",
+          exp: "True: Simple Security Property = No-read-up (a subject can only read objects at or below its clearance)."
+        }
+      },
+      {
+        id: "ch2_tf_6",
+        chapter: "ch2",
+        type: "tf",
+        question: "The 'No-Write-Down' rule allows a Top Secret user to write operational notes into an Unclassified file.",
+        options: ["True", "False"],
+        correct: 1,
+        hint: {
+          arQ: "قاعدة 'عدم الكتابة لأسفل No-Write-Down' تسمح لمستخدم بتصريح سري للغاية بالكتابة في ملف غير مصنف.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "B) False",
+          exp: "False: The *-Property (No-write-down) forbids writing down to prevent leaking classified data to lower levels."
+        }
+      },
+      {
+        id: "ch2_tf_7",
+        chapter: "ch2",
+        type: "tf",
+        question: "The Access Control Matrix is widely used directly in production systems because of its compact storage efficiency.",
+        options: ["True", "False"],
+        correct: 1,
+        hint: {
+          arQ: "مصفوفة التحكم بالوصول تُستخدم بشكل مباشر وشائع في الأنظمة الفعلية لكفاءة تخزينها العالية.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "B) False",
+          exp: "False: Real systems have millions of objects and thousands of users, creating a sparse matrix that wastes storage."
+        }
+      },
+      {
+        id: "ch2_tf_8",
+        chapter: "ch2",
+        type: "tf",
+        question: "An Access Control List (ACL) represents a column-wise decomposition of the Access Control Matrix.",
+        options: ["True", "False"],
+        correct: 0,
+        hint: {
+          arQ: "قائمة التحكم بالوصول (ACL) تمثل تفكيك مصفوفة التحكم بالوصول حسب الأعمدة (Stored with Object).",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "A) True",
+          exp: "True: ACLs attach the column permissions directly to the object."
+        }
+      },
+      {
+        id: "ch2_tf_9",
+        chapter: "ch2",
+        type: "tf",
+        question: "Revoking access permissions is generally easier in Capability List systems than in Access Control List systems.",
+        options: ["True", "False"],
+        correct: 1,
+        hint: {
+          arQ: "إلغاء وسحب الصلاحيات أسهل في قوائم القدرات (Capability Lists) مقارنة بقوائم (ACLs).",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "B) False",
+          exp: "False: Revoking in ACL is easy (edit 1 file's list). In capability lists, capabilities are dispersed across all subjects."
+        }
+      },
+      {
+        id: "ch2_tf_10",
+        chapter: "ch2",
+        type: "tf",
+        question: "UNIX systems use a 9-bit permission scheme covering Owner, Group, and World classes.",
+        options: ["True", "False"],
+        correct: 0,
+        hint: {
+          arQ: "أنظمة يونكس UNIX تستخدم نظام تصاريح من 9 بت يغطي المالك والمجموعة والآخرين (rwx rwx rwx).",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "A) True",
+          exp: "True: 3 bits for User/Owner (rwx), 3 for Group (rwx), and 3 for Others/World (rwx)."
+        }
+      },
 
-    // App state
-    let activeTab = 'pdf1';
+      // CHAPTER 2 - MCQS (Section 2.7 Part B)
+      {
+        id: "ch2_mcq_1",
+        chapter: "ch2",
+        type: "mcq",
+        question: "Which level of access control abstraction defines high-level organizational requirements regarding who can access what resources?",
+        options: ["Access Control Mechanisms", "Access Control Policies", "Access Control Models", "Protection Bits"],
+        correct: 1,
+        hint: {
+          arQ: "أي مستوى من مستويات تجريد التحكم بالوصول يحدد المتطلبات التنظيمية العليا لمن يمكنه الوصول إلى الموارد؟",
+          arO: ["A) آليات التحكم (Mechanisms)", "B) سياسات التحكم بالوصول (Policies)", "C) نماذج التحكم (Models)", "D) بتات الحماية"],
+          ans: "B) Access Control Policies",
+          exp: "Policies state high-level rules; models formalize them; mechanisms enforce them in software/hardware."
+        }
+      },
+      {
+        id: "ch2_mcq_2",
+        chapter: "ch2",
+        type: "mcq",
+        question: "Under DAC, if User Ann gives User Bob read permission to a file, and Bob copies the contents into a new file that he shares with others, this illustrates which weakness?",
+        options: ["Transitive read access", "Denial of service", "Violation of the *-Property", "Role-based inheritance"],
+        correct: 0,
+        hint: {
+          arQ: "في DAC، إذا أعطت Ann إذناً لـ Bob بقراءة ملف، فقام Bob بنسخه في ملف جديد وشاركه مع الآخرين، فهذا يوضح أي ثغرة؟",
+          arO: ["A) الوصول المتعدي للقراءة (Transitive read access)", "B) حجب الخدمة", "C) انتهاك خاصية النجمة", "D) وراثة الأدوار"],
+          ans: "A) Transitive read access",
+          exp: "In DAC, once Bob reads the data, he can copy and propagate it without Ann's consent."
+        }
+      },
+      {
+        id: "ch2_mcq_3",
+        chapter: "ch2",
+        type: "mcq",
+        question: "An access control system where permissions are assigned strictly by a central authority and cannot be altered by file owners is:",
+        options: ["Discretionary Access Control (DAC)", "Mandatory Access Control (MAC)", "Owner-based Control", "Capability List Control"],
+        correct: 1,
+        hint: {
+          arQ: "نظام تحكم بالوصول تُحدد فيه الصلاحيات حصراً بواسطة سلطة مركزية ولا يملك المالك تعديلها هو:",
+          arO: ["A) التحكم الاختياري (DAC)", "B) التحكم الإلزامي (MAC)", "C) التحكم المعتمد على المالك", "D) التحكم بقوائم القدرات"],
+          ans: "B) Mandatory Access Control (MAC)",
+          exp: "MAC enforces central, non-discretionary system-wide security rules."
+        }
+      },
+      {
+        id: "ch2_mcq_4",
+        chapter: "ch2",
+        type: "mcq",
+        question: "In the Bell-LaPadula model, which property prevents confidential information from flowing to lower security classifications?",
+        options: ["Simple Security Property (No-Read-Up)", "*-Property (No-Write-Down)", "Discretionary Exception", "Dominance Equivalence"],
+        correct: 1,
+        hint: {
+          arQ: "في نموذج Bell-LaPadula، أي خاصية تمنع تسرب المعلومات السرية لدرجات تصنيف أمنية أدنى؟",
+          arO: ["A) خاصية الأمان البسيطة (لا قراءة لأعلى)", "B) خاصية النجمة (لا كتابة لأسفل No-Write-Down)", "C) استثناء اختياري", "D) تكافؤ السيطرة"],
+          ans: "B) *-Property (No-Write-Down)",
+          exp: "The *-Property forbids writing down, preventing subjects with high clearance from leaking secrets to lower classifications."
+        }
+      },
+      {
+        id: "ch2_mcq_5",
+        chapter: "ch2",
+        type: "mcq",
+        question: "Decomposing the Access Control Matrix by columns produces which implementation mechanism?",
+        options: ["Capability Lists", "Access Control Lists (ACLs)", "Protection Bits", "Security Clearance Logs"],
+        correct: 1,
+        hint: {
+          arQ: "تفكيك مصفوفة التحكم بالوصول حسب الأعمدة ينتج أي آلية تنفيذ؟",
+          arO: ["A) قوائم القدرات (Capability Lists)", "B) قوائم التحكم بالوصول (ACLs)", "C) بتات الحماية", "D) سجلات التصريح"],
+          ans: "B) Access Control Lists (ACLs)",
+          exp: "Columns correspond to objects; saving by column attaches an ACL to each object."
+        }
+      },
+      {
+        id: "ch2_mcq_6",
+        chapter: "ch2",
+        type: "mcq",
+        question: "Decomposing the Access Control Matrix by rows produces which implementation mechanism?",
+        options: ["Capability Lists (C-Lists)", "Access Control Lists (ACLs)", "Security Matrices", "Firewall Rules"],
+        correct: 0,
+        hint: {
+          arQ: "تفكيك مصفوفة التحكم بالوصول حسب الصفوف ينتج أي آلية تنفيذ؟",
+          arO: ["A) قوائم القدرات (Capability Lists / C-Lists)", "B) قوائم التحكم بالوصول (ACLs)", "C) مصفوفات الأمان", "D) قواعد جدار الحماية"],
+          ans: "A) Capability Lists (C-Lists)",
+          exp: "Rows correspond to subjects; saving by row gives each subject a ticket-like Capability List."
+        }
+      },
+      {
+        id: "ch2_mcq_7",
+        chapter: "ch2",
+        type: "mcq",
+        question: "What is a key operational advantage of Capability Lists over Access Control Lists (ACLs)?",
+        options: ["Straightforward permission revocation", "Faster access execution because no list searching is needed when opening resources", "Automatic elimination of dangling references", "Compact storage for multi-department organizations"],
+        correct: 1,
+        hint: {
+          arQ: "ما الميزة التشغيلية الرئيسية لقوائم القدرات (C-Lists) مقارنة بقوائم (ACLs)؟",
+          arO: ["A) سهولة إلغاء الصلاحيات", "B) سرعة تنفيذ الوصول لعدم الحاجة للبحث في قوائم عند فتح الملف", "C) الحذف التلقائي للمراجع المعلقة", "D) التخزين المدمج"],
+          ans: "B) Faster access execution because no list searching is needed when opening resources",
+          exp: "A subject presents an unforgeable capability ticket, granting immediate access without searching."
+        }
+      },
+      {
+        id: "ch2_mcq_8",
+        chapter: "ch2",
+        type: "mcq",
+        question: "How many protection bits does a standard UNIX file system use to define read, write, and execute permissions across Owner, Group, and World?",
+        options: ["3 bits", "6 bits", "9 bits", "15 bits"],
+        correct: 2,
+        hint: {
+          arQ: "كم عدد بتات الحماية التي يستخدمها نظام ملفات UNIX القياسي لتعريف تصاريح (r, w, x) للمالك والمجموعة والآخرين؟",
+          arO: ["A) 3 بت", "B) 6 بت", "C) 9 بت", "D) 15 بت"],
+          ans: "C) 9 bits",
+          exp: "UNIX uses 9 bits: 3 for Owner (rwx), 3 for Group (rwx), and 3 for Others/World (rwx)."
+        }
+      },
+      {
+        id: "ch2_mcq_9",
+        chapter: "ch2",
+        type: "mcq",
+        question: "In an ACL entry with wildcards, what does the line 'Tana, *: rw' mean?",
+        options: ["Tana has read/write permissions only when logged into the sysadm group", "Tana has read/write permissions regardless of which group she belongs to at login", "Everyone in Tana's group has read/write access", "Tana's permissions are revoked across all groups"],
+        correct: 1,
+        hint: {
+          arQ: "في سجل ACL يحتوي على علامة النجمة (Wildcard)، ماذا يعني السطر 'Tana, *: rw'؟",
+          arO: ["A) تانا لها صلاحية القراءة والكتابة فقط عند دخولها بمجموعة sysadm", "B) تانا لها صلاحية القراءة والكتابة بغض النظر عن المجموعة التي تنتمي إليها عند تسجيل الدخول", "C) كل شخص في مجموعة تانا له وصول", "D) تم إلغاء صلاحيات تانا"],
+          ans: "B) Tana has read/write permissions regardless of which group she belongs to at login",
+          exp: "The asterisk (*) matches any group, meaning Tana receives rw access under any active group."
+        }
+      },
+      {
+        id: "ch2_mcq_10",
+        chapter: "ch2",
+        type: "mcq",
+        question: "Which list shows the correct hierarchy of security classification levels from highest to lowest?",
+        options: ["Top Secret > Secret > Confidential > Unclassified", "Secret > Top Secret > Confidential > Unclassified", "Confidential > Secret > Top Secret > Unclassified", "Top Secret > Confidential > Secret > Unclassified"],
+        correct: 0,
+        hint: {
+          arQ: "أي قائمة توضح الترتيب الهرمي الصحيح لمستويات التصنيف الأمني من الأعلى إلى الأدنى؟",
+          arO: ["A) سري للغاية > سري > موثوق > غير مصنف", "B) سري > سري للغاية > موثوق > غير مصنف", "C) موثوق > سري > سري للغاية > غير مصنف", "D) سري للغاية > موثوق > سري > غير مصنف"],
+          ans: "A) Top Secret > Secret > Confidential > Unclassified",
+          exp: "Top Secret (TS) > Secret (S) > Confidential (C) > Unclassified (U)."
+        }
+      },
+
+      // CHAPTER 3 - TRUE / FALSE (Section 3.7 Part A)
+      {
+        id: "ch3_tf_1",
+        chapter: "ch3",
+        type: "tf",
+        question: "Identification is the process of establishing and verifying the validity of a claimed identity.",
+        options: ["True", "False"],
+        correct: 1,
+        hint: {
+          arQ: "التعريف (Identification) هو عملية إثبات والتحقق من صحة الهوية المدعاة.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "B) False",
+          exp: "False: Identification is presenting the claimed identity (username). Authentication is verifying that claim."
+        }
+      },
+      {
+        id: "ch3_tf_2",
+        chapter: "ch3",
+        type: "tf",
+        question: "Passwords and PINs are examples of authentication based on something the user knows.",
+        options: ["True", "False"],
+        correct: 0,
+        hint: {
+          arQ: "كلمات المرور وأرقام PIN هي أمثلة على المصادقة القائمة على 'شيء يعرفه المستخدم'.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "A) True",
+          exp: "True: Passwords, PINs, and secret keys represent the 'knowledge' authentication factor."
+        }
+      },
+      {
+        id: "ch3_tf_3",
+        chapter: "ch3",
+        type: "tf",
+        question: "Shoulder surfing occurs when an attacker observes someone entering their password or PIN from nearby or with binoculars.",
+        options: ["True", "False"],
+        correct: 0,
+        hint: {
+          arQ: "التلصص من فوق الكتف (Shoulder surfing) يحدث عندما يراقب المهاجم شخصاً يدخل كلمة مروره من مسافة قريبة أو بالمنظار.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "A) True",
+          exp: "True: Directly observing a user typing credentials is the definition of shoulder surfing."
+        }
+      },
+      {
+        id: "ch3_tf_4",
+        chapter: "ch3",
+        type: "tf",
+        question: "Storing passwords in an unencrypted plaintext file is considered a secure operational practice.",
+        options: ["True", "False"],
+        correct: 1,
+        hint: {
+          arQ: "تخزين كلمات المرور في ملف نصي عادي غير مشفر يُعد ممارسة تشغيلية آمنة.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "B) False",
+          exp: "False: Password files must be secured using one-way cryptographic hashing to prevent disclosure upon breach."
+        }
+      },
+      {
+        id: "ch3_tf_5",
+        chapter: "ch3",
+        type: "tf",
+        question: "Memory tokens, such as standard magnetic stripe cards, contain microprocessors that execute cryptographic algorithms.",
+        options: ["True", "False"],
+        correct: 1,
+        hint: {
+          arQ: "بطاقات الذاكرة (Memory tokens) كالبطاقات المغناطيسية تحتوي على معالجات دقيقة تنفذ خوارزميات التشفير.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "B) False",
+          exp: "False: Memory tokens only store data (no processor). Smart tokens contain integrated circuits that process algorithms."
+        }
+      },
+      {
+        id: "ch3_tf_6",
+        chapter: "ch3",
+        type: "tf",
+        question: "Smart tokens using dynamic password generation produce codes that change periodically over time.",
+        options: ["True", "False"],
+        correct: 0,
+        hint: {
+          arQ: "البطاقات الذكية التي تستخدم التوليد الديناميكي لكلمات المرور تنتج رموزاً تتغير دورياً مع الوقت.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "A) True",
+          exp: "True: Dynamic tokens use an internal clock and cryptographic key to generate a new One-Time Password (e.g., every 60s)."
+        }
+      },
+      {
+        id: "ch3_tf_7",
+        chapter: "ch3",
+        type: "tf",
+        question: "One-time passwords generated by challenge-response tokens are vulnerable to electronic sniffing attacks because they can be replayed repeatedly.",
+        options: ["True", "False"],
+        correct: 1,
+        hint: {
+          arQ: "كلمات المرور لمرة واحدة (OTP) الناتجة عن بطاقات التحدي والاستجابة معرضة لهجمات التنصت لأنه يمكن إعادة استخدامها.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "B) False",
+          exp: "False: Because OTPs are valid for one session only, captured hashes cannot be replayed successfully."
+        }
+      },
+      {
+        id: "ch3_tf_8",
+        chapter: "ch3",
+        type: "tf",
+        question: "Iris scanning requires a user to place their eye against a physical lens and focus on a target point.",
+        options: ["True", "False"],
+        correct: 1,
+        hint: {
+          arQ: "فحص القزحية (Iris scanning) يتطلب من المستخدم وضع عينه ملاصقة لعدسة فيزيائية والتركيز على نقطة محددة.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "B) False",
+          exp: "False: Retina scanning requires looking into a lens close-up. Iris scanning uses a standard camera from a comfortable distance."
+        }
+      },
+      {
+        id: "ch3_tf_9",
+        chapter: "ch3",
+        type: "tf",
+        question: "Signature verification evaluates behavioral characteristics, such as writing speed, pressure, and stroke velocity.",
+        options: ["True", "False"],
+        correct: 0,
+        hint: {
+          arQ: "التحقق من التوقيع يقيم الخصائص السلوكية (Behavioral) مثل سرعة الكتابة والضغط وتسارع الحركة.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "A) True",
+          exp: "True: Dynamic signature verification measures behavioral handwriting dynamics rather than just static image shape."
+        }
+      },
+      {
+        id: "ch3_tf_10",
+        chapter: "ch3",
+        type: "tf",
+        question: "Combining an ATM card with a secret PIN is an example of combining two different authentication factors.",
+        options: ["True", "False"],
+        correct: 0,
+        hint: {
+          arQ: "الجمع بين بطاقة الصراف الآلي (ATM) ورقم PIN السري يُعد مثالاً على الجمع بين عاملين مختلفين للمصادقة.",
+          arO: ["True (صح)", "False (خطأ)"],
+          ans: "A) True",
+          exp: "True: It combines 'something you possess' (ATM card) with 'something you know' (PIN)."
+        }
+      },
+
+      // CHAPTER 3 - MCQS (Section 3.7 Part B)
+      {
+        id: "ch3_mcq_1",
+        chapter: "ch3",
+        type: "mcq",
+        question: "Which security measure functions as the first line of defense to stop unauthorized individuals from entering a computer system?",
+        options: ["File Encryption", "Identification and Authentication (I&A)", "Packet Filtering", "Access Control Matrix"],
+        correct: 1,
+        hint: {
+          arQ: "أي تدبير أمني يعمل كخط دفاع أول لمنع الأفراد غير المصرح لهم من الدخول لنظام الحاسوب؟",
+          arO: ["A) تشفير الملفات", "B) التعريف والمصادقة (I&A)", "C) فلترة الحزم", "D) مصفوفة التحكم بالوصول"],
+          ans: "B) Identification and Authentication (I&A)",
+          exp: "I&A is the gatekeeper that identifies users and validates their identity before any resource access is considered."
+        }
+      },
+      {
+        id: "ch3_mcq_2",
+        chapter: "ch3",
+        type: "mcq",
+        question: "An ATM card coupled with a secret PIN combines which two authentication factors?",
+        options: ["Something you know and something you are", "Something you have and something you know", "Something you have and something you are", "Something you know and somewhere you are"],
+        correct: 1,
+        hint: {
+          arQ: "بطاقة الصراف الآلي المقترنة برقم PIN تجمع بين أي عاملين من عوامل المصادقة؟",
+          arO: ["A) شيء تعرفه وشيء أنت عليه", "B) شيء تملكه (بطاقة) وشيء تعرفه (PIN)", "C) شيء تملكه وشيء أنت عليه", "D) شيء تعرفه ومكان وجودك"],
+          ans: "B) Something you have and something you know",
+          exp: "ATM card = possession (token); PIN = knowledge factor."
+        }
+      },
+      {
+        id: "ch3_mcq_3",
+        chapter: "ch3",
+        type: "mcq",
+        question: "When an attacker deceives an employee into revealing their password by pretending to be an IT administrator, this attack is called:",
+        options: ["Shoulder surfing", "Social engineering", "Denial of service", "Drive-by download"],
+        correct: 1,
+        hint: {
+          arQ: "عندما يخدع المهاجم موظفاً لكشف كلمة مروره مدعياً أنه مسؤول تكنولوجيا المعلومات، يسمى هذا الهجوم:",
+          arO: ["A) التلصص بالكتف", "B) الهندسة الاجتماعية (Social engineering)", "C) حجب الخدمة", "D) التحميل العابر"],
+          ans: "B) Social engineering",
+          exp: "Social engineering targets human psychology to trick individuals into divulging credentials."
+        }
+      },
+      {
+        id: "ch3_mcq_4",
+        chapter: "ch3",
+        type: "mcq",
+        question: "What is the main operational difference between memory tokens and smart tokens?",
+        options: [
+          "Memory tokens contain integrated circuits that process data",
+          "Smart tokens contain integrated circuits that process data, while memory tokens only store data",
+          "Memory tokens are more expensive than smart tokens",
+          "Smart tokens cannot generate one-time passwords"
+        ],
+        correct: 1,
+        hint: {
+          arQ: "ما الفرق التشغيلي الرئيسي بين بطاقات الذاكرة (Memory tokens) والبطاقات الذكية (Smart tokens)؟",
+          arO: [
+            "A) بطاقات الذاكرة تحتوي دوائر متكاملة لمعالجة البيانات",
+            "B) البطاقات الذكية تحتوي دوائر متكاملة تعالج البيانات، بينما بطاقات الذاكرة تكتفي بالتخزين فقط",
+            "C) بطاقات الذاكرة أغلى",
+            "D) البطاقات الذكية لا تولد كلمات مرور ديناميكية"
+          ],
+          ans: "B) Smart tokens contain integrated circuits that process data...",
+          exp: "Smart cards have microprocessors to execute crypto algorithms; memory cards (like magstripe) merely hold data."
+        }
+      },
+      {
+        id: "ch3_mcq_5",
+        chapter: "ch3",
+        type: "mcq",
+        question: "Which type of token generates a unique numeric code that changes periodically (e.g., every minute)?",
+        options: ["Magnetic stripe card", "Dynamic password generator token", "Static memory token", "Passive punch card"],
+        correct: 1,
+        hint: {
+          arQ: "أي نوع من الرموز المميزة يولد كوداً رقمياً فريداً يتغير دورياً (مثلاً كل دقيقة)؟",
+          arO: ["A) بطاقة شريط مغناطيسي", "B) رمز مولد كلمات المرور الديناميكي (Dynamic password generator)", "C) رمز ذاكرة ساكن", "D) بطاقة مثقوبة"],
+          ans: "B) Dynamic password generator token",
+          exp: "Dynamic password generator tokens produce time-based or counter-based One-Time Passwords."
+        }
+      },
+      {
+        id: "ch3_mcq_6",
+        chapter: "ch3",
+        type: "mcq",
+        question: "In a challenge-response authentication protocol, what does the host computer send to the token?",
+        options: ["The user's stored plaintext password", "An unpredictable random challenge string", "The user's biometric fingerprint", "A static PIN code"],
+        correct: 1,
+        hint: {
+          arQ: "في بروتوكول مصادقة التحدي والاستجابة، ماذا يرسل الحاسوب المضيف إلى البطاقة/الرمز؟",
+          arO: ["A) كلمة مرور المستخدم النصية", "B) نص تحدٍ عشوائي غير متوقع (Random challenge)", "C) بصمة المستخدم الحيوية", "D) كود PIN ساكن"],
+          ans: "B) An unpredictable random challenge string",
+          exp: "The host transmits a fresh random challenge; the token hashes or encrypts it with a secret key."
+        }
+      },
+      {
+        id: "ch3_mcq_7",
+        chapter: "ch3",
+        type: "mcq",
+        question: "Which of the following is classified as a behavioral biometric characteristic?",
+        options: ["Fingerprint pattern", "Retina blood vessel pattern", "Handwritten signature dynamics", "Hand geometry"],
+        correct: 2,
+        hint: {
+          arQ: "أي من الخصائص التالية يُصنف كخاصية حيوية سلوكية (Behavioral)؟",
+          arO: ["A) نمط بصمات الأصابع", "B) نمط أوعية شبكية العين", "C) ديناميكيات التوقيع باليد (Signature dynamics)", "D) هندسة اليد"],
+          ans: "C) Handwritten signature dynamics",
+          exp: "Signature dynamics and voice are behavioral (learned actions); fingerprints, retinas, and hands are physiological."
+        }
+      },
+      {
+        id: "ch3_mcq_8",
+        chapter: "ch3",
+        type: "mcq",
+        question: "Which biometric technology analyzes the layer of blood vessels located at the back of the human eye?",
+        options: ["Iris scanning", "Retina scanning", "Facial recognition", "Hand geometry"],
+        correct: 1,
+        hint: {
+          arQ: "أي تقنية حيوية تحلل شبكة الأوعية الدموية الواقعة في الجزء الخلفي من عين الإنسان؟",
+          arO: ["A) فحص القزحية (Iris)", "B) فحص الشبكية (Retina scanning)", "C) التعرف على الوجه", "D) هندسة اليد"],
+          ans: "B) Retina scanning",
+          exp: "Retina scanning uses low-intensity light directed into the eye to map blood vessel patterns at the back of the eye."
+        }
+      },
+      {
+        id: "ch3_mcq_9",
+        chapter: "ch3",
+        type: "mcq",
+        question: "Why does iris scanning generally achieve higher user acceptance than retina scanning?",
+        options: [
+          "It requires no physical contact and uses a conventional camera from a distance",
+          "It is based on a secret password",
+          "It relies on voice-to-print algorithms",
+          "It does not require any computing hardware"
+        ],
+        correct: 0,
+        hint: {
+          arQ: "لماذا يحظى فحص القزحية (Iris) بقبول واستحسان أكبر لدى المستخدمين مقارنة بفحص الشبكية (Retina)؟",
+          arO: [
+            "A) لا يتطلب تلامساً فيزيائياً ويستخدم كاميرا عادية من مسافة مريحة",
+            "B) يعتمد على كلمة مرور سرية",
+            "C) يعتمد على خوارزميات الصوت",
+            "D) لا يتطلب عتاد حاسوبي"
+          ],
+          ans: "A) It requires no physical contact and uses a conventional camera from a distance",
+          exp: "Retina scanning requires looking into a lens very closely, causing user discomfort; iris scanning is non-invasive."
+        }
+      },
+      {
+        id: "ch3_mcq_10",
+        chapter: "ch3",
+        type: "mcq",
+        question: "How do modern operating systems protect password files against unauthorized reading by attackers who download the file?",
+        options: ["By using plain text formatting", "By using one-way encryption (hashing)", "By writing them on paper tokens", "By sharing them among all users"],
+        correct: 1,
+        hint: {
+          arQ: "كيف تحمي أنظمة التشغيل الحديثة ملفات كلمات المرور ضد القراءة المباشرة إذا تم تحميل الملف من قبل مخترق؟",
+          arO: ["A) باستخدام التنسيق النصي العادي", "B) باستخدام التجزئة / التشفير أحادي الاتجاه (Hashing)", "C) بكتابتها على بطاقات ورقية", "D) بمشاركتها مع جميع المستخدمين"],
+          ans: "B) By using one-way encryption (hashing)",
+          exp: "One-way hashes allow verification by hashing entered inputs without storing plaintext passwords."
+        }
+      }
+    ];
+
+    // Essay Bank from Section 1.9, 2.7, and 3.7
+    const essayDB = [
+      // Chapter 1 Essays
+      {
+        ch: "Chapter 1: Introduction to Security",
+        title: "1. The CIA Triad Concepts and Real-Life Examples",
+        question: "Explain the three components of the CIA Triad with simple real-life examples.",
+        answer: `
+          <div class="space-y-3">
+            <div><strong class="text-cyan-400">1. Confidentiality (السرية):</strong> Keeping private data hidden from unauthorized people. <br><em class="text-slate-400">Example:</em> Medical records in a hospital must only be accessible to the treating doctor and the patient.</div>
+            <div><strong class="text-cyan-400">2. Integrity (سلامة وتكامل البيانات):</strong> Ensuring data and systems are accurate, unmodified, and trustworthy. <br><em class="text-slate-400">Example:</em> A student's midterm exam score of 85 must not be maliciously altered to 95 in the database.</div>
+            <div><strong class="text-cyan-400">3. Availability (التوافرية):</strong> Guaranteeing systems and networks operate properly and remain accessible when needed. <br><em class="text-slate-400">Example:</em> The university registration portal must remain operational 24/7 during registration week without crashing.</div>
+          </div>
+        `
+      },
+      {
+        ch: "Chapter 1: Introduction to Security",
+        title: "2. Data Confidentiality vs. Privacy",
+        question: "What is the difference between Data Confidentiality and Privacy?",
+        answer: `
+          <div class="space-y-2">
+            <p><strong>Data Confidentiality (سرية البيانات):</strong> Focuses on protecting sensitive information from unauthorized access, leakage, or disclosure (e.g., encrypting stored files or user passwords).</p>
+            <p><strong>Privacy (الخصوصية):</strong> Focuses on the rights of individuals to retain control over their personal information—deciding who is authorized to collect their personal data, what can be collected, and how it is utilized.</p>
+          </div>
+        `
+      },
+      {
+        ch: "Chapter 1: Introduction to Security",
+        title: "3. Passive vs. Active Attacks",
+        question: "Compare passive attacks and active attacks in terms of data modification, detection, and defense strategy.",
+        answer: `
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs text-left border border-slate-700 rounded-lg">
+              <thead class="bg-cyber-800 text-cyan-300">
+                <tr><th class="p-2 border-b border-slate-700">Feature</th><th class="p-2 border-b border-slate-700">Passive Attacks</th><th class="p-2 border-b border-slate-700">Active Attacks</th></tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800">
+                <tr><td class="p-2 font-semibold">Data Modification</td><td class="p-2">No changes (monitors/listens)</td><td class="p-2">Yes (modifies, deletes, or fakes)</td></tr>
+                <tr><td class="p-2 font-semibold">System Operation</td><td class="p-2">Runs normally</td><td class="p-2">Disrupted or halted</td></tr>
+                <tr><td class="p-2 font-semibold">Detection Ease</td><td class="p-2">Very hard (no traces left)</td><td class="p-2">Relatively easy to detect</td></tr>
+                <tr><td class="p-2 font-semibold">Primary Defense</td><td class="p-2 text-emerald-400 font-bold">Prevention (Strong Encryption)</td><td class="p-2 text-cyan-400 font-bold">Detection & Recovery (Backups/Alarms)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        `
+      },
+      {
+        ch: "Chapter 1: Introduction to Security",
+        title: "4. The Four Basic Security Threats",
+        question: "Name and explain the four basic types of security threats.",
+        answer: `
+          <ul class="list-disc pl-5 space-y-1.5 text-xs text-slate-200">
+            <li><strong>Interception (الاعتراض):</strong> An unauthorized entity gains access to private communications (attacks <em>Confidentiality</em>). Example: sniffing unencrypted traffic.</li>
+            <li><strong>Interruption (الانقطاع):</strong> An asset is destroyed, damaged, or made unavailable (attacks <em>Availability</em>). Example: cutting communication wires or launching DoS attacks.</li>
+            <li><strong>Modification (التعديل):</strong> An unauthorized entity alters or tampers with legitimate data (attacks <em>Integrity</em>). Example: modifying an accounting file.</li>
+            <li><strong>Fabrication (التلفيق/التزييف):</strong> An attacker injects counterfeit objects or false transactions into the system (attacks <em>Integrity / Authenticity</em>). Example: forging a sender's email.</li>
+          </ul>
+        `
+      },
+      {
+        ch: "Chapter 1: Introduction to Security",
+        title: "5. Preventive, Detective, and Recovery Controls",
+        question: "Explain the difference between Preventive, Detective, and Recovery security mechanisms.",
+        answer: `
+          <div class="space-y-2 text-xs">
+            <p><strong>1. Preventive Mechanisms (آليات وقائية):</strong> Stop attacks from succeeding before they happen (e.g., data encryption, complex passwords, access permissions, locked server rooms).</p>
+            <p><strong>2. Detective Mechanisms (آليات اكتشافية):</strong> Identify and alert administrators to security breaches or violations during or immediately after they occur (e.g., antivirus scanners, system audit logs, network IDS alarms).</p>
+            <p><strong>3. Recovery Mechanisms (آليات استعادة):</strong> Repair damage, clear infections, and restore operations to normal after an incident occurs (e.g., restoring database files from offsite backups, rebooting crashed servers).</p>
+          </div>
+        `
+      },
+
+      // Chapter 2 Essays
+      {
+        ch: "Chapter 2: Access Control",
+        title: "1. Definition of Access Control & Real-World Examples",
+        question: "Define access control and describe its role in safeguarding computer resources, using two real-world examples.",
+        answer: `
+          <div class="space-y-2 text-xs">
+            <p><strong>Definition:</strong> Access Control is the security mechanism ensuring that all direct interactions with system objects are authorized, regulating read, write, and execute operations.</p>
+            <p><strong>Real-World Examples:</strong></p>
+            <p><em>1. Social Networks (Facebook):</em> Users determine privacy settings for posts and pictures—granting visibility strictly to the owner, designated friends, or public audiences.</p>
+            <p><em>2. Operating Systems (Windows/Linux):</em> Prevents non-root standard users from modifying other users' personal documents or killing running system services.</p>
+          </div>
+        `
+      },
+      {
+        ch: "Chapter 2: Access Control",
+        title: "2. Policies, Models, and Mechanisms",
+        question: "Explain the three levels of abstraction in access control: policies, models, and mechanisms.",
+        answer: `
+          <div class="space-y-2 text-xs">
+            <p><strong>1. Policies (السياسات):</strong> High-level organizational requirements and administrative rules specifying who can access what assets and under which conditions.</p>
+            <p><strong>2. Models (النماذج):</strong> Formal mathematical and logical frameworks representing access control concepts and theoretical boundaries (e.g., Bell-LaPadula).</p>
+            <p><strong>3. Mechanisms (الآليات):</strong> Low-level software data structures, system calls, and hardware circuits that physically enforce policy decisions (e.g., ACLs, UNIX protection bits).</p>
+          </div>
+        `
+      },
+      {
+        ch: "Chapter 2: Access Control",
+        title: "3. DAC vs. MAC and DAC Vulnerabilities",
+        question: "Compare Discretionary Access Control (DAC) with Mandatory Access Control (MAC), highlighting the main security vulnerabilities of DAC.",
+        answer: `
+          <div class="space-y-2 text-xs">
+            <p><strong>DAC:</strong> The resource owner holds the discretion to grant or revoke permissions. It is flexible and widely used in commercial OSs.</p>
+            <p><strong>MAC:</strong> A central security authority dictates permissions based on classification labels and user clearances; individual owners cannot alter permissions.</p>
+            <p><strong>DAC Vulnerabilities:</strong></p>
+            <ul class="list-disc pl-5 space-y-1">
+              <li><em>Transitive Read Access:</em> A user granted read permission can copy the confidential content into a new file and share it without the original owner's knowledge.</li>
+              <li><em>Trojan Horse Vulnerability:</em> Programs inherit the full permissions of the user who executes them. A hidden Trojan launched by Ann can wipe Ann's files while appearing in audit logs as Ann's own action.</li>
+              <li><em>Lack of Information Flow Guarantees:</em> Information can be freely duplicated across arbitrary objects.</li>
+            </ul>
+          </div>
+        `
+      },
+      {
+        ch: "Chapter 2: Access Control",
+        title: "4. The Bell-LaPadula Multilevel Security Model",
+        question: "Detail the two rules of the Bell-LaPadula security model and explain how they protect confidentiality.",
+        answer: `
+          <div class="space-y-2 text-xs">
+            <p><strong>1. Simple Security Property (No-Read-Up):</strong> A subject at a given security clearance can only read objects whose classification is at or below its clearance level. (Subjects cannot read classified files above their clearance).</p>
+            <p><strong>2. *-Property / Star Property (No-Write-Down):</strong> A subject can only write to objects whose classification level is equal to or higher than its clearance level. (A Top-Secret user cannot write into an Unclassified or Confidential file).</p>
+            <p><strong>Confidentiality Protection:</strong> By enforcing both rules, information flows exclusively <em>upward</em> or within the same level, making it mathematically impossible for classified data to leak downward to unauthorized users.</p>
+          </div>
+        `
+      },
+      {
+        ch: "Chapter 2: Access Control",
+        title: "5. ACLs vs. Capability Lists (C-Lists)",
+        question: "Compare Access Control Lists (ACLs) and Capability Lists (C-Lists) in terms of matrix decomposition, runtime verification speed, and permission revocation.",
+        answer: `
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs text-left border border-slate-700 rounded-lg">
+              <thead class="bg-cyber-800 text-cyan-300">
+                <tr><th class="p-2 border-b border-slate-700">Criteria</th><th class="p-2 border-b border-slate-700">Access Control List (ACL)</th><th class="p-2 border-b border-slate-700">Capability List (C-List)</th></tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800">
+                <tr><td class="p-2 font-semibold">Matrix Decomposition</td><td class="p-2">By Columns (Stored with the Object)</td><td class="p-2">By Rows (Stored with the Subject)</td></tr>
+                <tr><td class="p-2 font-semibold">Verification Speed</td><td class="p-2">Slower (system must search the object's list)</td><td class="p-2">Very fast (presenting ticket grants immediate access)</td></tr>
+                <tr><td class="p-2 font-semibold">Permission Revocation</td><td class="p-2 text-emerald-400 font-bold">Easy (just delete entry from file's ACL)</td><td class="p-2 text-rose-400 font-bold">Difficult (capabilities scattered across all users)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        `
+      },
+
+      // Chapter 3 Essays
+      {
+        ch: "Chapter 3: Identification and Authentication",
+        title: "1. Definition of I&A and First Line of Defense",
+        question: "Define Identification and Authentication (I&A) and explain why they are considered the first line of defense in computer security.",
+        answer: `
+          <div class="space-y-2 text-xs">
+            <p><strong>Identification (التعريف):</strong> The process where an entity presents a claimed identity to the system (e.g., typing a username or account number).</p>
+            <p><strong>Authentication (المصادقة/إثبات الهوية):</strong> The process of testing and verifying the validity of that claimed identity through verified proof (e.g., password, smart card, biometric scan).</p>
+            <p><strong>Why First Line of Defense?</strong> I&A stands as the primary boundary gatekeeper. If unauthorized entities enter the system unchecked, subsequent access control enforcement, auditing, and accountability become impossible.</p>
+          </div>
+        `
+      },
+      {
+        ch: "Chapter 3: Identification and Authentication",
+        title: "2. Password Advantages and Common Attacks",
+        question: "Discuss the main advantages of password authentication and explain three common methods attackers use to obtain passwords.",
+        answer: `
+          <div class="space-y-2 text-xs">
+            <p><strong>Advantages:</strong> Familiar to all users and administrators, universally supported by operating systems, and requires no expensive specialized hardware readers.</p>
+            <p><strong>Attack Methods:</strong></p>
+            <ul class="list-disc pl-5 space-y-1">
+              <li><em>Guessing:</em> Attackers exploit user tendency to choose easily remembered passwords (names of children, pets, birthdates, dictionary words).</li>
+              <li><em>Shoulder Surfing:</em> Direct observation of a user entering their credentials, either standing nearby or using binoculars from a distance.</li>
+              <li><em>Social Engineering:</em> Deceiving users into revealing credentials by impersonating trusted figures (e.g., IT support technicians).</li>
+              <li><em>Sniffing:</em> Intercepting unencrypted passwords as they traverse network wires.</li>
+            </ul>
+          </div>
+        `
+      },
+      {
+        ch: "Chapter 3: Identification and Authentication",
+        title: "3. Memory Tokens vs. Smart Tokens & Challenge-Response",
+        question: "Compare memory tokens and smart tokens, explaining how challenge-response protocols help stop replay attacks.",
+        answer: `
+          <div class="space-y-2 text-xs">
+            <p><strong>Memory Tokens:</strong> Store data on a medium (e.g., magnetic stripe on credit card) but lack an internal microprocessor to execute code.</p>
+            <p><strong>Smart Tokens:</strong> Incorporate integrated circuits and microprocessors, allowing them to run cryptographic operations and securely store keys.</p>
+            <p><strong>Challenge-Response Protocol:</strong> The host sends a fresh, unpredictable random number (nonce/challenge) to the token. The token encrypts or hashes the challenge with its internal secret key. Even if an attacker sniffs the transmitted response, they cannot reuse it because the next session will feature an entirely new random challenge, neutralizing replay attacks.</p>
+          </div>
+        `
+      },
+      {
+        ch: "Chapter 3: Identification and Authentication",
+        title: "4. Physiological vs. Behavioral Biometrics",
+        question: "Differentiate between physiological and behavioral biometrics, and compare fingerprint verification with signature verification.",
+        answer: `
+          <div class="space-y-2 text-xs">
+            <p><strong>Physiological Biometrics:</strong> Direct physical measurements of the human anatomy (e.g., fingerprints, iris, retina, hand geometry).</p>
+            <p><strong>Behavioral Biometrics:</strong> Measurements of characteristic actions learned and performed by an individual over time (e.g., voice cadence, signature dynamics).</p>
+            <p><strong>Fingerprint vs. Signature:</strong></p>
+            <ul class="list-disc pl-5 space-y-1">
+              <li><em>Fingerprint:</em> Physiological trait analyzing the physical ridge and valley patterns of the fingertip via optical or ultrasonic sensors. It is highly stable and widely accepted.</li>
+              <li><em>Signature Verification:</em> Behavioral trait analyzing not just the final visual shape, but dynamic characteristics like writing speed, pen pressure, and stroke acceleration.</li>
+            </ul>
+          </div>
+        `
+      },
+      {
+        ch: "Chapter 3: Identification and Authentication",
+        title: "5. Multi-Factor Security of ATM Card + PIN",
+        question: "Explain why combining an ATM card with a secret PIN is more secure than using a password alone.",
+        answer: `
+          <div class="space-y-2 text-xs">
+            <p>An ATM transaction requires two independent authentication factors:</p>
+            <p>1. <strong>Something you possess:</strong> The physical ATM card (possession factor).</p>
+            <p>2. <strong>Something you know:</strong> The secret 4-digit PIN (knowledge factor).</p>
+            <p><strong>Security Advantage:</strong> If an attacker steals or guesses the PIN, they cannot perform a withdrawal without possessing the physical card. Conversely, if a thief steals the physical card, they cannot access funds without knowing the secret PIN. This eliminates single-point authentication failure.</p>
+          </div>
+        `
+      }
+    ];
+
+    // State Variables
+    let currentTab = 'all';
+    let currentFilter = 'all';
+    let instantFeedback = false;
     let userAnswers = {};
-    let submittedTabs = {
-      pdf1: false,
-      pdf2: false,
-      pdf3: false,
-      pdf4: false,
-      pdf5: false,
-      all: false
-    };
+    let isSubmitted = false;
+    let activeQuestionPool = [];
 
-    const tabDescriptions = {
-      pdf1: { badge: "PDF 1", title: "Number Systems & Codes", sub: "40 سؤالاً حول الأنظمة الثنائية، الست عشرية، المتمم الثنائي، وتمثيل النقطة العائمة." },
-      pdf2: { badge: "PDF 2", title: "Logic Gates & Transistor Switching", sub: "40 سؤالاً مع رسومات هندسية للبوابات الأساسية وتوصيلاتها وحالات الترانزستور." },
-      pdf3: { badge: "PDF 3", title: "Specifications & Binary Arithmetic", sub: "40 سؤالاً على مواصفات البوابات (Fan-in, Fan-out, Noise Margin) وقواعد الجمع والطرح." },
-      pdf4: { badge: "PDF 4", title: "Boolean Algebra & Theorems", sub: "40 سؤالاً معيارياً حول النظريات من 1 إلى 12 والامتصاص والتوافق والمزدوج." },
-      pdf5: { badge: "PDF 5", title: "Combinational Circuits & MUX", sub: "40 سؤالاً مع رسومات الجامع والطرح النصفي والكامل والـ MUX والـ DEMUX والقلابات." },
-      all: { badge: "All 200 Qs", title: "Full Exam Simulation", sub: "محاكاة شاملة لكامل بنك الأسئلة (200 سؤال) مع إمكانية التسليم الشامل." }
-    };
+    // Filter helper
+    function getFilteredQuestions() {
+      let pool = [];
+      if (currentTab === 'all') {
+        pool = [...questionsDB];
+      } else {
+        pool = questionsDB.filter(q => q.chapter === currentTab);
+      }
 
-    function getCurrentList() {
-      if (activeTab === 'all') return masterDB;
-      return masterDB.filter(q => q.pdf === activeTab);
+      if (currentFilter === 'mcq') {
+        pool = pool.filter(q => q.type === 'mcq');
+      } else if (currentFilter === 'tf') {
+        pool = pool.filter(q => q.type === 'tf');
+      }
+
+      return pool;
     }
 
-    function renderActiveQuestions() {
-      const container = document.getElementById('questionsWrapper');
-      const questions = getCurrentList();
-      const isSub = submittedTabs[activeTab];
+    // Tab Switching
+    function switchTab(tabKey) {
+      currentTab = tabKey;
+      
+      // Update Tab Buttons UI
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.className = "tab-btn px-4 py-2.5 rounded-xl transition whitespace-nowrap bg-cyber-900 text-slate-300 hover:bg-cyber-850 hover:text-white border border-cyber-800";
+      });
 
+      const activeBtn = document.getElementById(`tab-${tabKey}`);
+      if (activeBtn) {
+        if (tabKey === 'essay') {
+          activeBtn.className = "tab-btn px-4 py-2.5 rounded-xl transition whitespace-nowrap bg-amber-500 text-cyber-950 font-black shadow-md shadow-amber-500/20";
+        } else {
+          activeBtn.className = "tab-btn px-4 py-2.5 rounded-xl transition whitespace-nowrap bg-cyan-500 text-cyber-950 font-black shadow-md shadow-cyan-500/20";
+        }
+      }
+
+      // Handle Essay Mode vs Quiz Mode
+      const quizStrip = document.getElementById('quizFilterStrip');
+      const quizCont = document.getElementById('quizContainer');
+      const essayCont = document.getElementById('essayContainer');
+      const scoreBanner = document.getElementById('scoreBanner');
+
+      if (tabKey === 'essay') {
+        quizStrip.classList.add('hidden');
+        quizCont.classList.add('hidden');
+        scoreBanner.classList.add('hidden');
+        essayCont.classList.remove('hidden');
+        renderEssays();
+      } else {
+        quizStrip.classList.remove('hidden');
+        quizCont.classList.remove('hidden');
+        essayCont.classList.add('hidden');
+        resetCurrentTab();
+      }
+    }
+
+    // Filter by question type
+    function setFilter(type) {
+      currentFilter = type;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.className = "filter-btn text-xs px-3 py-1.5 rounded-lg bg-cyber-950 text-slate-400 hover:text-white border border-cyber-800";
+      });
+      const activeBtn = document.getElementById(`filter-${type}`);
+      if (activeBtn) {
+        activeBtn.className = "filter-btn text-xs px-3 py-1.5 rounded-lg bg-cyber-800 text-white font-bold border border-slate-700";
+      }
+      activeQuestionPool = getFilteredQuestions();
+      renderQuiz();
+    }
+
+    // Toggle Instant Feedback
+    function toggleInstantFeedback() {
+      instantFeedback = !instantFeedback;
+      const statusEl = document.getElementById('instantStatus');
+      const btn = document.getElementById('instantToggleBtn');
+      if (instantFeedback) {
+        statusEl.textContent = "ON";
+        statusEl.className = "font-bold text-emerald-400 font-mono";
+        btn.className = "text-xs px-3 py-1.5 rounded-lg border border-emerald-500/40 bg-emerald-950/40 text-emerald-300 flex items-center gap-2 transition";
+      } else {
+        statusEl.textContent = "OFF";
+        statusEl.className = "font-bold text-amber-400 font-mono";
+        btn.className = "text-xs px-3 py-1.5 rounded-lg border border-slate-700 bg-cyber-850 hover:bg-cyber-800 text-slate-300 flex items-center gap-2 transition";
+      }
+      renderQuiz();
+    }
+
+    // Shuffle active question pool
+    function shuffleActivePool() {
+      activeQuestionPool.sort(() => Math.random() - 0.5);
+      renderQuiz();
+    }
+
+    // Reset current tab
+    function resetCurrentTab() {
+      userAnswers = {};
+      isSubmitted = false;
+      document.getElementById('scoreBanner').classList.add('hidden');
+      activeQuestionPool = getFilteredQuestions();
+      updateFilterCounts();
+      renderQuiz();
+      window.scrollTo({ top: 180, behavior: 'smooth' });
+    }
+
+    // Update counts
+    function updateFilterCounts() {
+      let basePool = currentTab === 'all' ? questionsDB : questionsDB.filter(q => q.chapter === currentTab);
+      document.getElementById('count-all').textContent = basePool.length;
+      document.getElementById('count-mcq').textContent = basePool.filter(q => q.type === 'mcq').length;
+      document.getElementById('count-tf').textContent = basePool.filter(q => q.type === 'tf').length;
+    }
+
+    // Select Answer
+    function chooseOption(questionId, optionIdx) {
+      if (isSubmitted) return;
+      userAnswers[questionId] = optionIdx;
+      renderQuiz();
+    }
+
+    // Toggle Hint Accordion
+    function toggleHint(questionId) {
+      const hintBox = document.getElementById(`hint-box-${questionId}`);
+      if (hintBox) {
+        hintBox.classList.toggle('hidden');
+      }
+    }
+
+    // Render Quiz Questions
+    function renderQuiz() {
+      const container = document.getElementById('quizContainer');
       container.innerHTML = '';
 
-      questions.forEach((q, idx) => {
-        const qNum = idx + 1;
-        const userSel = userAnswers[q.id];
+      if (activeQuestionPool.length === 0) {
+        container.innerHTML = `
+          <div class="bg-cyber-900 border border-cyber-800 rounded-2xl p-8 text-center text-slate-400">
+            <i class="fa-solid fa-folder-open text-3xl mb-2 text-slate-600"></i>
+            <p class="text-sm">No questions match the current filter.</p>
+          </div>
+        `;
+        return;
+      }
+
+      activeQuestionPool.forEach((q, index) => {
+        const qNum = index + 1;
+        const userChoice = userAnswers[q.id];
+        const isAnswered = userChoice !== undefined;
+        const showResult = isSubmitted || (instantFeedback && isAnswered);
 
         const card = document.createElement('div');
-        card.className = "bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm transition";
+        card.className = "bg-cyber-900 border border-cyber-800 rounded-2xl p-4 sm:p-5 transition shadow-sm";
 
-        if (isSub) {
-          if (userSel === q.correct) {
+        if (showResult) {
+          if (userChoice === q.correct) {
             card.classList.add('border-emerald-500/50', 'bg-emerald-950/10');
           } else {
             card.classList.add('border-rose-500/50', 'bg-rose-950/10');
           }
         }
 
-        let inner = `
+        // Header
+        let cardHTML = `
           <div class="flex items-center justify-between gap-2 mb-3">
             <div class="flex items-center gap-2">
-              <span class="w-7 h-7 rounded-lg bg-indigo-600 text-white font-bold text-xs flex items-center justify-center">Q${qNum}</span>
-              <span class="text-xs uppercase font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-300">${q.type === 'tf' ? 'True / False' : 'MCQ'}</span>
-              <span class="text-xs text-slate-500 font-semibold">[${q.pdf.toUpperCase()}]</span>
+              <span class="w-7 h-7 rounded-lg bg-cyber-800 text-cyan-400 font-bold text-xs flex items-center justify-center font-mono border border-cyber-700">Q${qNum}</span>
+              <span class="text-[11px] font-semibold px-2 py-0.5 rounded bg-cyber-950 text-slate-400 uppercase tracking-wider">${q.type === 'tf' ? 'True / False' : 'Multiple Choice'}</span>
+              <span class="text-[11px] text-slate-500 font-mono">[${q.chapter.toUpperCase()}]</span>
             </div>
-            <button onclick="toggleHint(${q.id})" class="text-xs font-bold bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 px-3 py-1 rounded-lg flex items-center gap-1.5 transition">
-              <i class="fa-solid fa-lightbulb text-amber-400"></i>
-              <span>مساعدة وترجمة</span>
+            <button onclick="toggleHint('${q.id}')" class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1.5 transition">
+              <i class="fa-solid fa-language text-amber-400"></i>
+              <span>ترجمة ومساعدة</span>
             </button>
           </div>
 
-          <h4 class="ltr-box text-sm sm:text-base font-semibold text-slate-100 mb-4 leading-relaxed">${q.question}</h4>
+          <h3 class="text-sm sm:text-base font-semibold text-slate-100 mb-4 leading-relaxed">${q.question}</h3>
         `;
 
-        // Render SVG if question requires drawing
-        if (q.svg) {
-          inner += `<div class="bg-slate-950/70 border border-slate-800/80 rounded-xl p-3 mb-4 flex items-center justify-center">${q.svg}</div>`;
-        }
+        // Options
+        cardHTML += `<div class="space-y-2">`;
+        q.options.forEach((optText, optIdx) => {
+          const isSelected = userChoice === optIdx;
+          let optStyle = "bg-cyber-950 border-cyber-800 hover:border-slate-700 text-slate-300";
+          let badgeStyle = "bg-cyber-850 text-slate-400 border border-slate-700";
+          let iconHTML = "";
 
-        // Render Options
-        inner += `<div class="space-y-2 ltr-box">`;
-        q.options.forEach((opt, optIdx) => {
-          const isSelected = userSel === optIdx;
-          let optClass = "bg-slate-950/60 border-slate-800 hover:border-slate-700 text-slate-300";
-          let badge = "bg-slate-800 text-slate-400";
-          let icon = "";
-
-          if (isSub) {
+          if (showResult) {
             if (optIdx === q.correct) {
-              optClass = "bg-emerald-950/40 border-emerald-500 text-emerald-200 font-semibold";
-              badge = "bg-emerald-600 text-white";
-              icon = `<i class="fa-solid fa-check text-emerald-400 ml-auto"></i>`;
+              optStyle = "bg-emerald-950/40 border-emerald-500 text-emerald-200 font-semibold";
+              badgeStyle = "bg-emerald-600 text-white border-emerald-500";
+              iconHTML = `<i class="fa-solid fa-circle-check text-emerald-400 ml-auto"></i>`;
             } else if (isSelected && optIdx !== q.correct) {
-              optClass = "bg-rose-950/40 border-rose-500 text-rose-200";
-              badge = "bg-rose-600 text-white";
-              icon = `<i class="fa-solid fa-xmark text-rose-400 ml-auto"></i>`;
+              optStyle = "bg-rose-950/40 border-rose-500 text-rose-200";
+              badgeStyle = "bg-rose-600 text-white border-rose-500";
+              iconHTML = `<i class="fa-solid fa-circle-xmark text-rose-400 ml-auto"></i>`;
             } else {
-              optClass = "opacity-50 border-slate-800 text-slate-500";
+              optStyle = "opacity-50 border-cyber-800 text-slate-500 bg-cyber-950";
             }
           } else if (isSelected) {
-            optClass = "bg-indigo-950/60 border-indigo-500 text-indigo-100 font-medium";
-            badge = "bg-indigo-600 text-white";
+            optStyle = "bg-cyan-950/60 border-cyan-500 text-cyan-200 font-medium glow-cyan";
+            badgeStyle = "bg-cyan-500 text-cyber-950 font-bold border-cyan-400";
           }
 
-          const optLetter = String.fromCharCode(65 + optIdx);
-          inner += `
-            <div onclick="selectChoice(${q.id}, ${optIdx})" class="flex items-center gap-3 p-3 rounded-xl border text-xs sm:text-sm cursor-pointer transition ${optClass}">
-              <span class="w-6 h-6 rounded-md ${badge} font-bold text-xs flex items-center justify-center shrink-0">
-                ${q.type === 'tf' ? (optIdx === 0 ? 'T' : 'F') : optLetter}
+          const letter = String.fromCharCode(65 + optIdx);
+          cardHTML += `
+            <div onclick="chooseOption('${q.id}', ${optIdx})" class="flex items-center gap-3 p-3 rounded-xl border text-xs sm:text-sm cursor-pointer transition select-none ${optStyle}">
+              <span class="w-6 h-6 rounded-md ${badgeStyle} text-xs font-mono flex items-center justify-center shrink-0">
+                ${q.type === 'tf' ? (optIdx === 0 ? 'T' : 'F') : letter}
               </span>
-              <span class="flex-1">${opt}</span>
-              ${icon}
+              <span class="flex-1">${optText}</span>
+              ${iconHTML}
             </div>
           `;
         });
-        inner += `</div>`;
+        cardHTML += `</div>`;
 
-        // Hint Block
-        inner += `
-          <div id="hint-${q.id}" class="hidden mt-4 p-4 rounded-xl bg-slate-950 border border-amber-500/30 text-xs text-slate-300 space-y-2">
-            <div class="text-amber-400 font-bold flex items-center gap-1.5 pb-2 border-b border-slate-800">
-              <i class="fa-solid fa-circle-info"></i>
-              <span>ترجمة السؤال والخيارات:</span>
+        // Hint Accordion (Arabic translation and explanation)
+        cardHTML += `
+          <div id="hint-box-${q.id}" class="hidden mt-4 p-4 rounded-xl bg-cyber-950 border border-amber-500/30 space-y-3">
+            <div class="flex items-center justify-between pb-2 border-b border-cyber-800">
+              <span class="text-xs font-bold text-amber-400 flex items-center gap-1.5 ar-text">
+                <i class="fa-solid fa-circle-info"></i> ترجمة السؤال والخيارات النموذجية:
+              </span>
             </div>
-            <div>
-              <span class="text-slate-400 font-bold block mb-0.5">السؤال بالعربي:</span>
-              <p class="font-semibold text-white text-sm">${q.hint.arQ}</p>
+            <div class="ar-text">
+              <span class="text-[11px] text-slate-400 font-bold block mb-1">السؤال بالعربي:</span>
+              <p class="text-xs sm:text-sm text-slate-200 font-semibold leading-relaxed">${q.hint.arQ}</p>
             </div>
-            <div class="space-y-1 bg-slate-900/60 p-2.5 rounded-lg border border-slate-800 text-slate-300">
-              <span class="text-slate-400 font-bold block mb-1">الخيارات:</span>
+            <div class="ar-text bg-cyber-900/60 p-2.5 rounded-lg border border-cyber-800 text-xs space-y-1 text-slate-300">
+              <span class="text-[11px] text-slate-400 font-bold block mb-1">الخيارات:</span>
               ${q.hint.arO.map(o => `<div>${o}</div>`).join('')}
             </div>
-            <div class="bg-emerald-950/40 border border-emerald-500/30 p-2.5 rounded-lg text-emerald-300">
-              <span class="font-bold block text-emerald-400 mb-0.5">الإجابة النموذجية: ${q.hint.ans}</span>
+            <div class="ar-text bg-emerald-950/30 border border-emerald-500/30 p-2.5 rounded-lg text-xs">
+              <span class="font-bold text-emerald-400 block mb-1">الإجابة المعتمدة في منهج NUSC: ${q.hint.ans}</span>
               <p class="text-slate-300 font-normal leading-relaxed">${q.hint.exp}</p>
             </div>
           </div>
         `;
 
-        card.innerHTML = inner;
+        card.innerHTML = cardHTML;
         container.appendChild(card);
       });
-
-      updateScoreUI();
     }
 
-    function selectChoice(qid, oidx) {
-      if (submittedTabs[activeTab]) return;
-      userAnswers[qid] = oidx;
-      renderActiveQuestions();
-    }
-
-    function toggleHint(qid) {
-      const box = document.getElementById(`hint-${qid}`);
-      if (box) box.classList.toggle('hidden');
-    }
-
-    function submitCurrentSection() {
-      const qList = getCurrentList();
-      const count = qList.filter(q => userAnswers[q.id] !== undefined).length;
-      if (count === 0) {
-        alert("يرجى الإجابة على سؤال واحد على الأقل قبل التسليم!");
+    // Submit Exam
+    function submitExam() {
+      if (activeQuestionPool.length === 0) return;
+      const answeredCount = activeQuestionPool.filter(q => userAnswers[q.id] !== undefined).length;
+      if (answeredCount === 0) {
+        alert("Please answer at least one question before submitting!");
         return;
       }
-      submittedTabs[activeTab] = true;
-      renderActiveQuestions();
+
+      isSubmitted = true;
+      renderQuiz();
+
+      // Calculate score
+      let correctCount = 0;
+      activeQuestionPool.forEach(q => {
+        if (userAnswers[q.id] === q.correct) correctCount++;
+      });
+
+      const total = activeQuestionPool.length;
+      const pct = Math.round((correctCount / total) * 100);
+      const passed = pct >= 60;
+
+      const banner = document.getElementById('scoreBanner');
+      banner.classList.remove('hidden');
+
+      if (passed) {
+        banner.className = "rounded-2xl border p-5 sm:p-6 bg-emerald-950/20 border-emerald-500/40 text-emerald-100 glow-cyan";
+        document.getElementById('scoreIconContainer').className = "w-14 h-14 rounded-2xl flex items-center justify-center text-2xl font-black shrink-0 bg-emerald-500 text-cyber-950 shadow-lg shadow-emerald-500/30";
+        document.getElementById('scoreIconContainer').innerHTML = `<i class="fa-solid fa-trophy"></i>`;
+        document.getElementById('scoreTitle').textContent = "Excellent Job! Exam Passed";
+        document.getElementById('scoreSubtitle').textContent = `You correctly answered ${correctCount} out of ${total} questions. Review detailed answers below.`;
+        document.getElementById('scoreCircle').className = "w-16 h-16 rounded-full border-4 border-emerald-500 flex items-center justify-center bg-cyber-950";
+      } else {
+        banner.className = "rounded-2xl border p-5 sm:p-6 bg-rose-950/20 border-rose-500/40 text-rose-100";
+        document.getElementById('scoreIconContainer').className = "w-14 h-14 rounded-2xl flex items-center justify-center text-2xl font-black shrink-0 bg-rose-500 text-cyber-950 shadow-lg shadow-rose-500/30";
+        document.getElementById('scoreIconContainer').innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i>`;
+        document.getElementById('scoreTitle').textContent = "Review Needed! Practice Again";
+        document.getElementById('scoreSubtitle').textContent = `You scored ${correctCount} out of ${total} questions. Study the questions highlighted in red.`;
+        document.getElementById('scoreCircle').className = "w-16 h-16 rounded-full border-4 border-rose-500 flex items-center justify-center bg-cyber-950";
+      }
+
+      document.getElementById('scoreText').textContent = `${correctCount} / ${total}`;
+      document.getElementById('scorePercentage').textContent = `${pct}%`;
+
       window.scrollTo({ top: 120, behavior: 'smooth' });
     }
 
-    function resetCurrentSection() {
-      const qList = getCurrentList();
-      qList.forEach(q => {
-        delete userAnswers[q.id];
+    // Render Essay / Short Answers Tab
+    function renderEssays() {
+      const container = document.getElementById('essayContainer');
+      container.innerHTML = `
+        <div class="bg-gradient-to-r from-amber-950/30 to-cyber-900 border border-amber-500/30 rounded-2xl p-5 mb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 font-bold text-lg">
+              <i class="fa-solid fa-pen-nib"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-white">Part C: Essay & Conceptual Questions Review</h3>
+              <p class="text-xs text-slate-300">Complete theoretical questions and model answers verbatim from Chapters 1, 2, and 3 of Dr. Asmaa Saad's textbook.</p>
+            </div>
+          </div>
+        </div>
+      `;
+
+      essayDB.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = "bg-cyber-900 border border-cyber-800 rounded-2xl p-5 sm:p-6 shadow-sm";
+        card.innerHTML = `
+          <div class="flex items-center justify-between gap-2 mb-3">
+            <span class="text-xs font-bold text-cyan-400 font-mono px-2 py-0.5 rounded bg-cyan-950 border border-cyan-800">${item.ch}</span>
+            <span class="text-xs text-slate-500 font-mono">Essay #${index + 1}</span>
+          </div>
+          <h4 class="text-sm sm:text-base font-bold text-white mb-2">${item.title}</h4>
+          <p class="text-xs sm:text-sm text-slate-300 font-semibold mb-4 bg-cyber-950/80 p-3 rounded-xl border border-cyber-800 text-cyan-200">
+            <i class="fa-regular fa-circle-question mr-1.5 text-cyan-400"></i> ${item.question}
+          </p>
+          <div class="p-4 rounded-xl bg-cyber-950/60 border border-slate-800/80 text-xs sm:text-sm text-slate-300 leading-relaxed">
+            <div class="text-slate-400 font-bold text-[11px] uppercase tracking-wider mb-2 flex items-center gap-1.5">
+              <i class="fa-solid fa-book-bookmark text-indigo-400"></i> Textbook Model Answer:
+            </div>
+            ${item.answer}
+          </div>
+        `;
+        container.appendChild(card);
       });
-      submittedTabs[activeTab] = false;
-      renderActiveQuestions();
     }
 
-    function updateScoreUI() {
-      const scoreBox = document.getElementById('scoreBox');
-      const isSub = submittedTabs[activeTab];
-
-      if (!isSub) {
-        scoreBox.classList.add('hidden');
-        return;
-      }
-
-      const qList = getCurrentList();
-      const total = qList.length;
-      let score = 0;
-      qList.forEach(q => {
-        if (userAnswers[q.id] === q.correct) score++;
-      });
-
-      const pct = Math.round((score / total) * 100);
-      const passed = pct >= 50;
-
-      scoreBox.classList.remove('hidden');
-      scoreBox.className = passed
-        ? "mb-6 rounded-2xl p-5 border bg-emerald-950/20 border-emerald-500/40 text-emerald-100"
-        : "mb-6 rounded-2xl p-5 border bg-rose-950/20 border-rose-500/40 text-rose-100";
-
-      const icon = document.getElementById('scoreIcon');
-      icon.className = passed ? "w-12 h-12 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-xl font-bold" : "w-12 h-12 rounded-xl bg-rose-600 text-white flex items-center justify-center text-xl font-bold";
-      icon.innerHTML = passed ? `<i class="fa-solid fa-award"></i>` : `<i class="fa-solid fa-triangle-exclamation"></i>`;
-
-      document.getElementById('scoreTitle').textContent = passed ? "أداء ممتاز! مبروك اجتياز الاختبار" : "تحتاج لمراجعة بعض المفاهيم";
-      document.getElementById('scoreMessage').textContent = `أجبت على ${score} إجابة صحيحة من أصل ${total} سؤالاً. راجع الإجابات النموذجية والهنت بالأسفل.`;
-      document.getElementById('scoreVal').textContent = `${score} / ${total}`;
-      document.getElementById('scorePct').textContent = `${pct}%`;
-    }
-
-    function switchTab(tabKey) {
-      activeTab = tabKey;
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.className = "tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap bg-slate-900 text-slate-400 hover:bg-slate-800";
-      });
-
-      const activeBtn = document.getElementById(`tab-${tabKey}`);
-      if (activeBtn) {
-        activeBtn.className = "tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap bg-indigo-600 text-white shadow-md";
-      }
-
-      const desc = tabDescriptions[tabKey];
-      document.getElementById('tabBadge').textContent = desc.badge;
-      document.getElementById('tabHeading').textContent = desc.title;
-      document.getElementById('tabSubtitle').textContent = desc.sub;
-
-      renderActiveQuestions();
-    }
-
-    // Shuffle functionality
-    document.getElementById('shuffleBtn').addEventListener('click', () => {
-      if (activeTab === 'all') {
-        masterDB.sort(() => Math.random() - 0.5);
-      } else {
-        const others = masterDB.filter(q => q.pdf !== activeTab);
-        const current = masterDB.filter(q => q.pdf === activeTab);
-        current.sort(() => Math.random() - 0.5);
-        masterDB = [...others, ...current];
-      }
-      renderActiveQuestions();
-    });
-
-    // Start on load
+    // Initialize application on page load
     window.onload = function() {
-      switchTab('pdf1');
+      switchTab('all');
     };
   </script>
 </body>
