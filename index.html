@@ -1,1457 +1,1438 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Data Science Quiz Platform - 40 MCQs</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Inter & Cairo -->
+  <title>NUSC | COM 205 Electronics Midterm Platform</title>
+  <!-- Google Fonts & Tailwind CSS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            cairo: ['Cairo', 'sans-serif'],
+            sans: ['Inter', 'Cairo', 'sans-serif'],
+            cairo: ['Cairo', 'sans-serif']
           },
           colors: {
             brand: {
-              50: '#eff6ff',
-              100: '#dbeafe',
-              500: '#3b82f6',
-              600: '#2563eb',
-              700: '#1d4ed8',
-              800: '#1e40af',
-              900: '#1e3a8a',
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#4f46e5',
+              600: '#4338ca',
+              700: '#3730a3',
+              800: '#312e81',
+              900: '#1e1b4b'
             }
           }
         }
       }
     }
   </script>
+
   <style>
-    /* Smooth transitions and scrollbar */
-    * {
-      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.15s ease;
+    body {
+      font-family: 'Cairo', 'Inter', sans-serif;
+      transition: background-color 0.3s, color 0.3s;
     }
+    .ltr-content {
+      direction: ltr;
+      text-align: left;
+      font-family: 'Inter', sans-serif;
+    }
+    .rtl-content {
+      direction: rtl;
+      text-align: right;
+      font-family: 'Cairo', sans-serif;
+    }
+    /* Custom scrollbar */
     ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+      width: 7px;
+      height: 7px;
     }
     ::-webkit-scrollbar-track {
       background: rgba(0,0,0,0.05);
     }
-    .dark ::-webkit-scrollbar-track {
-      background: rgba(255,255,255,0.05);
-    }
     ::-webkit-scrollbar-thumb {
-      background: rgba(100,116,139,0.3);
+      background: #818cf8;
       border-radius: 4px;
     }
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(100,116,139,0.5);
+    .badge-glow {
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.35);
     }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 dark:bg-zinc-950 dark:text-zinc-100 min-h-screen flex flex-col font-sans antialiased select-none">
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen">
 
-  <!-- TOP HEADER / NAV -->
-  <header class="sticky top-0 z-40 bg-white/95 dark:bg-zinc-900/95 backdrop-blur border-b border-slate-200 dark:border-zinc-800 shadow-sm px-4 lg:px-8 py-3.5">
-    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
-      
-      <!-- Brand & Title -->
+  <!-- Top Academic Navigation Bar -->
+  <header class="bg-slate-900 border-b border-slate-800 text-white sticky top-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 font-bold text-lg">
-          DS
+        <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/30">
+          <i class="fa-solid fa-microchip text-lg"></i>
         </div>
         <div>
-          <h1 class="font-extrabold text-slate-900 dark:text-white tracking-tight text-base sm:text-lg leading-tight flex items-center gap-2">
-            Data Science MCQ Exam Bank
-            <span class="hidden sm:inline-flex text-xs px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-950/80 dark:text-blue-300 font-semibold border border-blue-200 dark:border-blue-800">40 Questions</span>
-          </h1>
-          <p class="text-xs text-slate-500 dark:text-zinc-400 font-medium">Lectures 1 to 4 • Complete Official Material</p>
+          <h1 class="text-base sm:text-lg font-bold leading-tight">COM 205 | Electronics Midterm</h1>
+          <p class="text-xs text-indigo-300 font-normal">جامعة مدينة السادات الأهلية (NUSC) • بنك أسئلة الميدتيرم المباشرة</p>
         </div>
       </div>
 
-      <!-- Controls: Mode, Shuffle, Dark Mode -->
+      <!-- Quick Action Controls -->
       <div class="flex items-center gap-2 sm:gap-3">
-        <!-- Timer (in exam mode) -->
-        <div id="examTimerBadge" class="hidden items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-400 font-mono font-bold text-xs sm:text-sm">
-          <svg class="w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          <span id="timerDisplay">40:00</span>
-        </div>
-
-        <!-- Shuffle Button -->
-        <button id="shuffleBtn" title="لغبطة ترتيب الأسئلة" class="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-200 transition">
-          <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-          </svg>
-          <span class="hidden md:inline">لغبطة الأسئلة /</span> <span>Shuffle</span>
+        <button id="shuffleBtn" class="flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-indigo-200 border border-slate-700 transition">
+          <i class="fa-solid fa-shuffle text-indigo-400"></i>
+          <span class="hidden sm:inline">لخبطة الأسئلة</span>
+          <span class="sm:hidden">لخبطة</span>
         </button>
-
-        <!-- Mode Toggle (Practice vs Exam) -->
-        <button id="examModeToggleBtn" class="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/60 dark:hover:bg-blue-900/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 transition">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
-          <span id="modeLabel">Practice Mode</span>
-        </button>
-
-        <!-- Dark / Light Theme Toggle -->
-        <button id="themeToggleBtn" aria-label="Toggle Theme" class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-600 dark:text-zinc-300 transition">
-          <!-- Sun Icon (shown in dark mode) -->
-          <svg id="sunIcon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-          <!-- Moon Icon (shown in light mode) -->
-          <svg id="moonIcon" class="w-4 h-4 block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        <button id="themeToggleBtn" class="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition" title="تبديل الوضع">
+          <i class="fa-solid fa-moon"></i>
         </button>
       </div>
-
     </div>
   </header>
 
-  <!-- LECTURE FILTER BAR -->
-  <div class="bg-white dark:bg-zinc-900 border-b border-slate-200 dark:border-zinc-800 px-4 py-2.5">
-    <div class="max-w-7xl mx-auto flex items-center justify-between gap-3 overflow-x-auto no-scrollbar text-xs">
-      <div class="flex items-center gap-1.5 shrink-0">
-        <span class="text-slate-400 dark:text-zinc-500 font-semibold uppercase tracking-wider text-[11px] mr-1">Filter:</span>
-        <button data-filter="all" class="lecture-filter-btn px-3 py-1.5 rounded-md font-semibold bg-blue-600 text-white shadow-sm transition">All (40)</button>
-        <button data-filter="1" class="lecture-filter-btn px-3 py-1.5 rounded-md font-medium text-slate-600 dark:text-zinc-300 hover:bg-slate-100 dark:hover:bg-zinc-800 transition">Lec 1: Fundamentals (10)</button>
-        <button data-filter="2" class="lecture-filter-btn px-3 py-1.5 rounded-md font-medium text-slate-600 dark:text-zinc-300 hover:bg-slate-100 dark:hover:bg-zinc-800 transition">Lec 2: Cleaning (10)</button>
-        <button data-filter="3" class="lecture-filter-btn px-3 py-1.5 rounded-md font-medium text-slate-600 dark:text-zinc-300 hover:bg-slate-100 dark:hover:bg-zinc-800 transition">Lec 3: Kaggle & ML (10)</button>
-        <button data-filter="4" class="lecture-filter-btn px-3 py-1.5 rounded-md font-medium text-slate-600 dark:text-zinc-300 hover:bg-slate-100 dark:hover:bg-zinc-800 transition">Lec 4: ML Core (10)</button>
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- Hero / Info Banner -->
+    <div class="bg-gradient-to-r from-indigo-900 via-indigo-800 to-slate-900 rounded-2xl p-5 sm:p-6 text-white mb-6 shadow-xl relative overflow-hidden">
+      <div class="relative z-10 max-w-3xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-400/30 text-indigo-200 text-xs font-semibold mb-3">
+          <i class="fa-solid fa-graduation-cap"></i> تدريب ميدتيرم نظامي (أسئلة واضحة ومباشرة بدون تعقيد)
+        </div>
+        <h2 class="text-xl sm:text-2xl font-extrabold mb-2">منصة التدريب التفاعلي لمادة الإلكترونيات</h2>
+        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4">
+          الأسئلة مصممة بنمط امتحانات أستاذ المادة (Direct MCQs & True/False). يمكنك حل كل بي دي إف مستقلاً وعمل <span class="text-emerald-300 font-bold">Submit</span> وتصحيح وإعادة محاولة له بمفرده، أو تجربة نمط <span class="text-amber-300 font-bold">جميع الأسئلة (40 سؤالاً)</span>. وإذا واجهت أي صعوبة، اضغط على زر <span class="text-indigo-300 font-bold">"Hint / ترجمة ومساعدة"</span> لعرض السؤال وخياراته باللغة العربية مع الحل النموذجي.
+        </p>
+        
+        <!-- Live Global Status -->
+        <div class="flex flex-wrap gap-4 text-xs font-medium text-slate-300 pt-2 border-t border-indigo-700/50">
+          <div><i class="fa-solid fa-list-check text-indigo-400 ml-1"></i> إجمالي الأسئلة: <span class="font-bold text-white">40 سؤال</span></div>
+          <div><i class="fa-solid fa-folder-open text-emerald-400 ml-1"></i> التقسيم: <span class="font-bold text-white">5 محاضرات (8 أسئلة لكل ملف)</span></div>
+          <div><i class="fa-solid fa-language text-amber-400 ml-1"></i> الدعم: <span class="font-bold text-white">ترجمة وشرح فوري لكل سؤال</span></div>
+        </div>
+      </div>
+      <!-- Decorative IC illustration -->
+      <i class="fa-solid fa-network-wired text-indigo-700/20 text-9xl absolute -left-6 -bottom-6 pointer-events-none select-none"></i>
+    </div>
+
+    <!-- Navigation Tabs (PDF 1 to 5 + All Questions) -->
+    <div class="flex items-center gap-2 overflow-x-auto pb-3 mb-6 no-scrollbar">
+      <button class="tab-btn px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center gap-2 whitespace-nowrap bg-indigo-600 text-white shadow-md shadow-indigo-600/30" data-tab="pdf1">
+        <i class="fa-regular fa-file-pdf"></i> PDF 1: Number Systems
+      </button>
+      <button class="tab-btn px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center gap-2 whitespace-nowrap bg-white text-slate-700 hover:bg-slate-100 border border-slate-200" data-tab="pdf2">
+        <i class="fa-regular fa-file-pdf"></i> PDF 2: Logic Gates
+      </button>
+      <button class="tab-btn px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center gap-2 whitespace-nowrap bg-white text-slate-700 hover:bg-slate-100 border border-slate-200" data-tab="pdf3">
+        <i class="fa-regular fa-file-pdf"></i> PDF 3: Specs & Arithmetic
+      </button>
+      <button class="tab-btn px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center gap-2 whitespace-nowrap bg-white text-slate-700 hover:bg-slate-100 border border-slate-200" data-tab="pdf4">
+        <i class="fa-regular fa-file-pdf"></i> PDF 4: Boolean Algebra
+      </button>
+      <button class="tab-btn px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center gap-2 whitespace-nowrap bg-white text-slate-700 hover:bg-slate-100 border border-slate-200" data-tab="pdf5">
+        <i class="fa-regular fa-file-pdf"></i> PDF 5: Combinational Logic
+      </button>
+      <button class="tab-btn px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center gap-2 whitespace-nowrap bg-white text-indigo-700 hover:bg-indigo-50 border border-indigo-200 font-extrabold" data-tab="all">
+        <i class="fa-solid fa-layer-group"></i> كل الأسئلة معاً (40 Qs)
+      </button>
+    </div>
+
+    <!-- Active Section Header & Summary Card -->
+    <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <span id="activeBadge" class="text-xs font-extrabold px-2.5 py-0.5 rounded-md bg-indigo-100 text-indigo-700">PDF 1</span>
+          <h3 id="activeTitle" class="text-base sm:text-lg font-bold text-slate-800">Number Systems, Codes & Analog vs Digital</h3>
+        </div>
+        <p id="activeDesc" class="text-xs sm:text-sm text-slate-500">
+          التحويلات بين الأنظمة الثنائية والعشرية والست عشرية، والمكمل الثنائي (2's complement)، ونبذة عن الـ ADC والـ DAC.
+        </p>
       </div>
 
-      <!-- Quick Stats badge -->
-      <div class="shrink-0 flex items-center gap-3 text-slate-500 dark:text-zinc-400 font-medium text-[11px]">
-        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span> Answered: <b id="statAnsweredCount" class="text-slate-800 dark:text-white ml-0.5">0</b></span>
-        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-500 inline-block"></span> Flagged: <b id="statFlaggedCount" class="text-slate-800 dark:text-white ml-0.5">0</b></span>
+      <!-- Action Buttons for the Active Section -->
+      <div class="flex items-center gap-2 self-start md:self-auto">
+        <button id="submitSectionBtn" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shadow-md shadow-emerald-600/20 transition flex items-center gap-2">
+          <i class="fa-solid fa-check-double"></i>
+          <span>تصحيح هذا الجزء (Submit)</span>
+        </button>
+        <button id="retakeSectionBtn" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm border border-slate-300 transition flex items-center gap-1.5" title="إعادة المحاولة لهذا الملف فقط">
+          <i class="fa-solid fa-arrow-rotate-right"></i>
+          <span>إعادة المحاولة</span>
+        </button>
       </div>
     </div>
-  </div>
 
-  <!-- MAIN WORKSPACE -->
-  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-    
-    <!-- LEFT / MAIN COLUMN: QUESTION CARD (lg:col-span-8) -->
-    <section class="lg:col-span-8 space-y-4">
-      
-      <!-- Progress Bar Card -->
-      <div class="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl p-4 shadow-sm">
-        <div class="flex items-center justify-between text-xs font-semibold text-slate-500 dark:text-zinc-400 mb-2">
-          <span>Overall Progress: <strong id="progressPercent" class="text-blue-600 dark:text-blue-400 font-bold">0%</strong></span>
-          <span>Question <span id="currentQDisplay" class="text-slate-900 dark:text-white font-bold">1</span> of <span id="totalQDisplay" class="text-slate-900 dark:text-white font-bold">40</span></span>
-        </div>
-        <div class="w-full h-2.5 bg-slate-100 dark:bg-zinc-800 rounded-full overflow-hidden">
-          <div id="progressBarFill" class="h-full bg-gradient-to-r from-blue-600 to-indigo-500 rounded-full transition-all duration-300" style="width: 0%"></div>
-        </div>
-      </div>
-
-      <!-- QUESTION DISPLAY CARD -->
-      <div class="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl shadow-sm overflow-hidden relative">
-        
-        <!-- Header Info -->
-        <div class="p-5 sm:p-6 border-b border-slate-100 dark:border-zinc-800/80 flex items-center justify-between gap-3 bg-slate-50/50 dark:bg-zinc-900/50">
-          <div class="flex items-center gap-2">
-            <span id="badgeLecture" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
-              Lecture 1
-            </span>
-            <span id="badgeQNum" class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-100 text-slate-700 dark:bg-zinc-800 dark:text-zinc-300">
-              Q1
-            </span>
-          </div>
-
-          <div class="flex items-center gap-2">
-            <!-- Flag Button -->
-            <button id="flagBtn" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border border-slate-200 dark:border-zinc-700 text-slate-600 dark:text-zinc-300 hover:bg-slate-100 dark:hover:bg-zinc-800 transition">
-              <svg id="flagIcon" class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path></svg>
-              <span>Review Later</span>
-            </button>
+    <!-- Section Result Alert Box (Hidden until submitted) -->
+    <div id="resultBox" class="hidden rounded-2xl p-5 mb-6 border transition-all duration-300">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div id="resultIcon" class="w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold"></div>
+          <div>
+            <h4 id="resultHeading" class="text-base sm:text-lg font-bold"></h4>
+            <p id="resultText" class="text-xs sm:text-sm"></p>
           </div>
         </div>
-
-        <!-- Question Body -->
-        <div class="p-6 sm:p-7 space-y-6">
-          <h2 id="questionText" class="text-base sm:text-lg lg:text-xl font-bold text-slate-900 dark:text-white leading-relaxed">
-            Which three main disciplines intersect to define the core field of Data Science?
-          </h2>
-
-          <!-- Arabic Hint / Translation Toggle -->
-          <div class="rounded-xl border border-amber-200 dark:border-amber-900/60 bg-amber-50/60 dark:bg-amber-950/20 overflow-hidden transition-all">
-            <button id="toggleArabicBtn" class="w-full px-4 py-3 text-left sm:flex sm:items-center sm:justify-between text-xs sm:text-sm font-semibold text-amber-800 dark:text-amber-300 hover:bg-amber-100/50 dark:hover:bg-amber-900/30 transition">
-              <span class="flex items-center gap-2 font-cairo">
-                <svg class="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
-                تلميح وترجمة السؤال بالعربي (Arabic Hint & Translation)
-              </span>
-              <span id="hintToggleArrow" class="text-amber-600 dark:text-amber-400 font-bold ml-2">▼ إظهار</span>
-            </button>
-            <div id="arabicHintContent" class="hidden px-5 py-4 border-t border-amber-200/80 dark:border-amber-900/40 text-amber-950 dark:text-amber-100 text-sm leading-relaxed font-cairo text-right" dir="rtl">
-              <!-- Dynamically populated Arabic translation/hint -->
-            </div>
+        <div class="flex items-center gap-4 text-center">
+          <div class="bg-white/80 dark:bg-slate-800/80 px-4 py-2 rounded-xl border border-slate-200">
+            <span class="block text-xs text-slate-500">الدرجة</span>
+            <span id="resultScore" class="text-xl font-extrabold text-slate-800"></span>
           </div>
-
-          <!-- Options List (A, B, C, D) -->
-          <div id="optionsContainer" class="space-y-3">
-            <!-- Rendered by JS -->
+          <div class="bg-white/80 dark:bg-slate-800/80 px-4 py-2 rounded-xl border border-slate-200">
+            <span class="block text-xs text-slate-500">النسبة المئوية</span>
+            <span id="resultPercent" class="text-xl font-extrabold text-slate-800"></span>
           </div>
-
-          <!-- Explanation Box (Active in Practice mode or post-submission) -->
-          <div id="explanationBox" class="hidden p-5 rounded-xl border border-blue-200 dark:border-blue-900/60 bg-blue-50/70 dark:bg-blue-950/30 space-y-2">
-            <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-              Detailed Solution & Reference
-            </div>
-            <p id="explanationText" class="text-xs sm:text-sm text-slate-700 dark:text-zinc-300 leading-relaxed">
-              <!-- Inserted explanation -->
-            </p>
-          </div>
-        </div>
-
-        <!-- Card Footer: Prev, Next, Submit -->
-        <div class="px-6 py-4 bg-slate-50 dark:bg-zinc-900/80 border-t border-slate-100 dark:border-zinc-800 flex items-center justify-between gap-3">
-          <button id="prevBtn" class="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-200 hover:bg-white dark:hover:bg-zinc-800 transition disabled:opacity-40 disabled:cursor-not-allowed">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-            Previous
-          </button>
-
-          <div class="flex items-center gap-2">
-            <button id="clearChoiceBtn" class="hidden sm:inline-flex text-xs text-slate-500 hover:text-slate-700 dark:hover:text-zinc-300 underline font-medium mr-2">
-              Clear Selection
-            </button>
-            <button id="nextBtn" class="flex items-center gap-1.5 px-5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-blue-600 hover:bg-blue-700 text-white shadow-sm shadow-blue-500/20 transition">
-              Next
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </button>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- RIGHT COLUMN: PALETTE & METRICS (lg:col-span-4) -->
-    <aside class="lg:col-span-4 space-y-5">
-      
-      <!-- PALETTE CARD -->
-      <div class="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm space-y-4">
-        <div class="flex items-center justify-between border-b border-slate-100 dark:border-zinc-800 pb-3">
-          <h3 class="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
-            <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-            Question Navigation (1 - 40)
-          </h3>
-          <span id="filteredCountBadge" class="text-[11px] font-semibold text-slate-400">40 items</span>
-        </div>
-
-        <!-- Legend -->
-        <div class="grid grid-cols-2 gap-2 text-[11px] font-medium text-slate-500 dark:text-zinc-400 pb-2 border-b border-slate-100 dark:border-zinc-800/80">
-          <div class="flex items-center gap-1.5">
-            <span class="w-3.5 h-3.5 rounded bg-blue-600 border border-blue-600"></span> Current
-          </div>
-          <div class="flex items-center gap-1.5">
-            <span class="w-3.5 h-3.5 rounded bg-emerald-500 text-white"></span> Answered
-          </div>
-          <div class="flex items-center gap-1.5">
-            <span class="w-3.5 h-3.5 rounded bg-amber-500"></span> Flagged
-          </div>
-          <div class="flex items-center gap-1.5">
-            <span class="w-3.5 h-3.5 rounded bg-slate-100 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700"></span> Unanswered
-          </div>
-        </div>
-
-        <!-- Grid of 40 Question buttons -->
-        <div id="paletteGrid" class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-5 gap-2 max-h-[320px] overflow-y-auto p-1">
-          <!-- Dynamically generated 40 buttons -->
-        </div>
-
-        <!-- Submit / Finish Button -->
-        <div class="pt-2">
-          <button id="finishExamBtn" class="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold text-sm shadow-md shadow-emerald-600/20 transition flex items-center justify-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-            <span>Submit & View Results (إنهاء الاختبار)</span>
-          </button>
         </div>
       </div>
+    </div>
 
-      <!-- Quick Tips Card -->
-      <div class="bg-blue-50/60 dark:bg-zinc-900 border border-blue-200/80 dark:border-zinc-800 rounded-2xl p-4 text-xs space-y-2 text-slate-600 dark:text-zinc-400">
-        <p class="font-bold text-blue-900 dark:text-blue-300 flex items-center gap-1.5">
-          <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-          Exam Instructions
-        </p>
-        <p>• Contains exactly 40 MCQs: 10 per lecture from Lectures 1, 2, 3, and 4.</p>
-        <p>• Click <strong>"تلميح وترجمة السؤال بالعربي"</strong> anytime you need an Arabic context breakdown.</p>
-        <p>• Click <strong>"Shuffle"</strong> to scramble questions in unpredictable order.</p>
+    <!-- Questions List Container -->
+    <div id="questionsContainer" class="space-y-6">
+      <!-- Injected via JS -->
+    </div>
+
+    <!-- Bottom Submission Bar -->
+    <div class="mt-8 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-xs text-slate-500">
+        <i class="fa-solid fa-circle-info text-indigo-500 ml-1"></i> بعد الضغط على Submit يمكنك مراجعة الإجابات الصحيحة وشرح كل سؤال باللغة العربية.
+      </p>
+      <div class="flex items-center gap-3 w-full sm:w-auto">
+        <button id="bottomSubmitBtn" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-lg shadow-emerald-600/30 transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-check-double"></i>
+          <span>تسليم هذا البي دي إف وتصحيحه</span>
+        </button>
       </div>
-
-    </aside>
+    </div>
 
   </main>
 
-  <!-- RESULT MODAL -->
-  <div id="resultModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative space-y-6 text-center transform transition-all">
-      
-      <!-- Close icon -->
-      <button id="closeModalBtn" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-white p-2">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-      </button>
-
-      <div class="w-16 h-16 mx-auto rounded-2xl bg-blue-100 dark:bg-blue-950 flex items-center justify-center text-blue-600 dark:text-blue-400 shadow-inner">
-        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-      </div>
-
-      <div class="space-y-1">
-        <h3 class="text-2xl font-black text-slate-900 dark:text-white">Exam Completed!</h3>
-        <p class="text-xs sm:text-sm text-slate-500 dark:text-zinc-400">Here is your performance breakdown across all 40 questions</p>
-      </div>
-
-      <!-- Score Ring / Numbers -->
-      <div class="grid grid-cols-3 gap-3 bg-slate-50 dark:bg-zinc-800/50 p-4 rounded-2xl border border-slate-100 dark:border-zinc-800">
-        <div>
-          <div class="text-2xl font-black text-emerald-600 dark:text-emerald-400" id="resCorrect">0</div>
-          <div class="text-[11px] font-semibold text-slate-500 uppercase">Correct</div>
-        </div>
-        <div>
-          <div class="text-2xl font-black text-rose-600 dark:text-rose-400" id="resWrong">0</div>
-          <div class="text-[11px] font-semibold text-slate-500 uppercase">Incorrect</div>
-        </div>
-        <div>
-          <div class="text-2xl font-black text-blue-600 dark:text-blue-400" id="resScore">0%</div>
-          <div class="text-[11px] font-semibold text-slate-500 uppercase">Grade</div>
-        </div>
-      </div>
-
-      <!-- Lecture wise breakdown -->
-      <div class="space-y-2 text-left text-xs text-slate-600 dark:text-zinc-300">
-        <div class="font-bold text-slate-900 dark:text-white pb-1 border-b border-slate-100 dark:border-zinc-800">Lecture Breakdown:</div>
-        <div class="flex justify-between items-center py-1">
-          <span>Lecture 1 (Fundamentals & Collection)</span>
-          <span id="breakdownLec1" class="font-bold text-blue-600">0/10</span>
-        </div>
-        <div class="flex justify-between items-center py-1">
-          <span>Lecture 2 (Data Cleaning)</span>
-          <span id="breakdownLec2" class="font-bold text-blue-600">0/10</span>
-        </div>
-        <div class="flex justify-between items-center py-1">
-          <span>Lecture 3 (Kaggle & ML Fundamentals)</span>
-          <span id="breakdownLec3" class="font-bold text-blue-600">0/10</span>
-        </div>
-        <div class="flex justify-between items-center py-1">
-          <span>Lecture 4 (Machine Learning Core)</span>
-          <span id="breakdownLec4" class="font-bold text-blue-600">0/10</span>
-        </div>
-      </div>
-
-      <div class="flex flex-col sm:flex-row gap-3 pt-2">
-        <button id="reviewAnswersBtn" class="flex-1 py-2.5 rounded-xl border border-slate-300 dark:border-zinc-700 font-semibold text-xs text-slate-700 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800 transition">
-          Review All Answers
-        </button>
-        <button id="retakeBtn" class="flex-1 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 font-bold text-xs text-white shadow transition">
-          Retake / New Test
-        </button>
-      </div>
-
-    </div>
+  <!-- Modal / Floating Notification Toast -->
+  <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 z-50 pointer-events-none text-xs sm:text-sm font-semibold">
+    <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+    <span id="toastMsg">تم تنفيذ الإجراء بنجاح</span>
   </div>
 
-  <!-- JAVASCRIPT DATA AND ENGINE -->
+  <!-- Questions Database & Engine -->
   <script>
-    // EXACT 40 QUESTIONS DATASET (10 questions per lecture verbatim)
-    const RAW_QUESTIONS = [
-      // === LECTURE 1: Fundamentals & Data Collection (Q1 - Q10) ===
+    // 40 Exam Questions (8 questions per PDF)
+    // Directly crafted from the uploaded NUSC Lecture Slides (Prof. Ahmad Besheer)
+    const questionsDB = [
+      /* ==================== PDF 1: Number Systems (Q1 - Q8) ==================== */
       {
         id: 1,
-        lecture: 1,
-        lecTitle: "Lecture 1: Fundamentals & Data Collection",
-        question: "Which three main disciplines intersect to define the core field of Data Science?",
-        options: {
-          a: "Hardware engineering, network switching, and optical physics",
-          b: "Mathematics & Statistics, Specialized Programming/Computing, and Domain Knowledge",
-          c: "Graphic design, video editing, and technical support",
-          d: "Accounting, legal compliance, and web hosting"
-        },
-        correct: "b",
-        explanation: "As stated in the lecture notes, Data Science combines math/statistics, specialized computing/programming, and specific domain expertise to extract actionable insights from data.",
-        arabicHint: "ما هي المجالات الثلاثة الرئيسية التي تتقاطع لتحديد مجال علم البيانات الأساسي؟ (الرياضيات والإحصاء، البرمجة المتخصصة/الحوسبة، والخبرة في مجال التخصص والمعرفة الوظيفية)."
+        pdf: 'pdf1',
+        type: 'mcq',
+        question: "What is the decimal equivalent of the binary number (101101)₂?",
+        options: ["41", "43", "45", "47"],
+        correct: 2, // 45
+        hint: {
+          arQuestion: "ما هي القيمة العشرية للرقم الثنائي (101101)₂؟",
+          arOptions: [
+            "A) 41",
+            "B) 43",
+            "C) 45 (الإجابة الصحيحة)",
+            "D) 47"
+          ],
+          arAnswer: "C) 45",
+          arExplanation: "الحساب من اليمين لليسار: 1×1 + 0×2 + 1×4 + 1×8 + 0×16 + 1×32 = 1 + 4 + 8 + 32 = 45. (نصاً من مثال المحاضرة)."
+        }
       },
       {
         id: 2,
-        lecture: 1,
-        lecTitle: "Lecture 1: Fundamentals & Data Collection",
-        question: "What is the initial, most critical step in the Data Science workflow before analyzing or visualizing data?",
-        options: {
-          a: "Model Evaluation",
-          b: "Data Collection",
-          c: "Dashboard Deployment",
-          d: "Feature Scaling"
-        },
-        correct: "b",
-        explanation: "Data Collection is the systematic gathering of raw information from sources like databases, sensors, or surveys. It provides the essential groundwork for all subsequent cleaning, analysis, and decision-making.",
-        arabicHint: "ما هي الخطوة الأولى والأكثر أهمية في مسار عمل علم البيانات قبل التحليل أو العرض المرئي؟ (جمع البيانات - Data Collection)."
+        pdf: 'pdf1',
+        type: 'mcq',
+        question: "The binary number (1101 1010)₂ is represented in compact hexadecimal format as:",
+        options: ["(DA)₁₆", "(CB)₁₆", "(EA)₁₆", "(D8)₁₆"],
+        correct: 0, // DA
+        hint: {
+          arQuestion: "العدد الثنائي (1101 1010)₂ يُكتب بالنظام الست عشري على صورة:",
+          arOptions: [
+            "A) (DA)₁₆ (الإجابة الصحيحة)",
+            "B) (CB)₁₆",
+            "C) (EA)₁₆",
+            "D) (D8)₁₆"
+          ],
+          arAnswer: "A) (DA)₁₆",
+          arExplanation: "نقسم العدد إلى مجموعات رباعية: 1101 تمثل 13 أي D، و1010 تمثل 10 أي A، فالناتج DA."
+        }
       },
       {
         id: 3,
-        lecture: 1,
-        lecTitle: "Lecture 1: Fundamentals & Data Collection",
-        question: "In a statistical enquiry, who is an \"Enumerator\"?",
-        options: {
-          a: "The person from whom information is collected",
-          b: "A person hired to assist the investigator by gathering data from respondents",
-          c: "The automated database server storing raw text",
-          d: "The lead data science manager approving project budgets"
-        },
-        correct: "b",
-        explanation: "In data collection terminology, an Investigator conducts the enquiry, a Respondent provides the answers, and Enumerators are assistants who help collect data directly from respondents.",
-        arabicHint: "في الاستقصاء الإحصائي، من هو \"العدّاد / المقابل الميداني (Enumerator)\"؟ (هو شخص يتم تعيينه لمساعدة الباحث في النزول وجمع البيانات من المستجيبين)."
+        pdf: 'pdf1',
+        type: 'mcq',
+        question: "How is the 1's complement of a binary number obtained?",
+        options: [
+          "By adding 1 to the binary number",
+          "By replacing all 0s with 1s and 1s with 0s",
+          "By shifting bits to the left",
+          "By converting it into hexadecimal"
+        ],
+        correct: 1,
+        hint: {
+          arQuestion: "كيف يتم إيجاد المتمم الأحادي (1's complement) لأي عدد ثنائي؟",
+          arOptions: [
+            "A) بإضافة 1 إلى الرقم الثنائي",
+            "B) بقلب كل 0 إلى 1 وكل 1 إلى 0 (الإجابة الصحيحة)",
+            "C) بإزاحة الخانات لليسار",
+            "D) بتحويله إلى نظام سداسي عشر"
+          ],
+          arAnswer: "B) بقلب الأصفار إلى واحدات والواحدات إلى أصفار",
+          arExplanation: "المتمم الأحادي يتم ببساطة بعكس كل خانة بت (Inverting all bits)."
+        }
       },
       {
         id: 4,
-        lecture: 1,
-        lecTitle: "Lecture 1: Fundamentals & Data Collection",
-        question: "What is the difference between Primary Data and Secondary Data?",
-        options: {
-          a: "Primary data is numerical, while secondary data is text-based",
-          b: "Primary data is collected first-hand for a specific inquiry, while secondary data is already collected and published by others",
-          c: "Primary data comes from web scrapers, while secondary data comes from hardware sensors",
-          d: "Secondary data is always more accurate than primary data"
-        },
-        correct: "b",
-        explanation: "Primary data is gathered directly by the investigator (e.g., surveys, interviews). Secondary data refers to pre-existing data gathered by external entities (e.g., government publications, trade journals).",
-        arabicHint: "ما الفرق الأساسي بين البيانات الأولية (Primary Data) والبيانات الثانوية (Secondary Data)؟ (الأولية تُجمع للمرة الأولى مباشرة من المصدر لأجل البحث، بينما الثانوية جُمعت ونُشرت مسبقاً من قِبل جهات أو باحثين آخرين)."
+        pdf: 'pdf1',
+        type: 'tf',
+        question: "Physical quantities in the real world (such as temperature, pressure, and velocity) are analogue in nature.",
+        options: ["True", "False"],
+        correct: 0, // True
+        hint: {
+          arQuestion: "الكميات الفيزيائية في العالم الحقيقي (مثل الحرارة، الضغط، والسرعة) هي كميات تناظرية (Analogue) بطبيعتها.",
+          arOptions: [
+            "A) True (صح) (الإجابة الصحيحة)",
+            "B) False (خطأ)"
+          ],
+          arAnswer: "True (صح)",
+          arExplanation: "كما ذُكر في المحاضرة نصاً: 'The real world is analogue. Most physical quantities are analogue in nature'."
+        }
       },
       {
         id: 5,
-        lecture: 1,
-        lecTitle: "Lecture 1: Fundamentals & Data Collection",
-        question: "Which of the following is a primary data collection method that involves manipulating variables in a controlled environment?",
-        options: {
-          a: "Indirect Personal Investigation",
-          b: "Published Government Reports",
-          c: "Experiments",
-          d: "Questionnaire Mailing Method"
-        },
-        correct: "c",
-        explanation: "The experimental method explicitly manipulates independent variables in controlled conditions to observe cause-and-effect relationships firsthand.",
-        arabicHint: "أي مما يلي طريقة لجمع البيانات الأولية تتضمن التلاعب بالمتغيرات المستقلة في بيئة مسيطر عليها لاكتشاف علاقة السبب والنتيجة؟ (التجارب - Experiments)."
+        pdf: 'pdf1',
+        type: 'mcq',
+        question: "A machine with 64 KB of memory requires 65,536 addresses. In hexadecimal, these addresses range from:",
+        options: ["0000 to EEEE", "0000 to FFFF", "0001 to FFFF", "1000 to 9999"],
+        correct: 1, // 0000 to FFFF
+        hint: {
+          arQuestion: "جهاز يحتوي على ذاكرة 64 كيلوبايت يحتاج 65,536 عنواناً؛ في النظام الست عشري تُمثل هذه العناوين من:",
+          arOptions: [
+            "A) 0000 إلى EEEE",
+            "B) 0000 إلى FFFF (الإجابة الصحيحة)",
+            "C) 0001 إلى FFFF",
+            "D) 1000 إلى 9999"
+          ],
+          arAnswer: "B) 0000 to FFFF",
+          arExplanation: "65536 عنوان تبدأ من 0 حتى 65535، ومكافئ 65535 في الست عشري هو FFFF، لذا العناوين من 0000 إلى FFFF."
+        }
       },
       {
         id: 6,
-        lecture: 1,
-        lecTitle: "Lecture 1: Fundamentals & Data Collection",
-        question: "Which method of primary data collection involves systematically watching and recording behaviors as they naturally occur?",
-        options: {
-          a: "Observations",
-          b: "Questionnaires",
-          c: "Enumerator Interviews",
-          d: "Trade Journal Publications"
-        },
-        correct: "a",
-        explanation: "The Observation method gathers primary data by monitoring and recording real-world actions, behaviors, or events in their natural setting without direct intervention.",
-        arabicHint: "أي طريقة لجمع البيانات الأولية تتضمن مراقبة وتسجيل السلوكيات والأحداث بشكل منظم أثناء حدوثها الطبيعي دون تدخل؟ (الملاحظة - Observations)."
+        pdf: 'pdf1',
+        type: 'mcq',
+        question: "In computer memory, a floating-point number is split into three main parts:",
+        options: [
+          "Base, Radix, and Power",
+          "Sign, Mantissa, and Exponent",
+          "Integer, Fraction, and Carry",
+          "Bit, Byte, and Word"
+        ],
+        correct: 1, // Sign, Mantissa, and Exponent
+        hint: {
+          arQuestion: "في ذاكرة الحاسوب، ينقسم الرقم ذو النقطة العائمة (Floating Point) إلى ثلاثة أجزاء رئيسية هي:",
+          arOptions: [
+            "A) الأساس، الرادكس، والقوة",
+            "B) الإشارة (Sign)، الجزء المميز (Mantissa)، والأس (Exponent) (الإجابة الصحيحة)",
+            "C) العدد الصحيح، الكسر، والحمل",
+            "D) بت، بايت، وكلمة"
+          ],
+          arAnswer: "B) Sign, Mantissa, and Exponent",
+          arExplanation: "هذا هو المعيار القياسي لتمثيل الـ Floating-Point في الذاكرة (IEEE format)."
+        }
       },
       {
         id: 7,
-        lecture: 1,
-        lecTitle: "Lecture 1: Fundamentals & Data Collection",
-        question: "Government publications, research institute papers, and trade association journals are examples of what?",
-        options: {
-          a: "Direct Personal Investigation",
-          b: "Published Secondary Data Sources",
-          c: "Unpublished Primary Data",
-          d: "Real-time Sensor Data Streams"
-        },
-        correct: "b",
-        explanation: "Pre-existing records made available by public bodies, academic institutions, or industry trade groups represent published secondary data sources.",
-        arabicHint: "تقارير الحكومة، وأبحاث المعاهد الأكاديمية، ومجلات الاتحادات التجارية تعتبر أمثلة على ماذا؟ (مصادر بيانات ثانوية منشورة - Published Secondary Data Sources)."
+        pdf: 'pdf1',
+        type: 'tf',
+        question: "Digital systems have higher noise immunity and are easier to design compared to analogue systems.",
+        options: ["True", "False"],
+        correct: 0, // True
+        hint: {
+          arQuestion: "تتميز الأنظمة الرقمية بمناعة أعلى ضد الضوضاء (Noise Immunity) وسهولة أكبر في التصميم مقارنة بالأنظمة التناظرية.",
+          arOptions: [
+            "A) True (صح) (الإجابة الصحيحة)",
+            "B) False (خطأ)"
+          ],
+          arAnswer: "True (صح)",
+          arExplanation: "مذكورة في مقارنة Analogue vs Digital: من مزايا الأنظمة الرقمية higher noise immunity وeasier to design."
+        }
       },
       {
         id: 8,
-        lecture: 1,
-        lecTitle: "Lecture 1: Fundamentals & Data Collection",
-        question: "Which skill set is essential for a data scientist to clean, transform, and prepare raw datasets for structured analysis?",
-        options: {
-          a: "Cloud Server Routing",
-          b: "Data Wrangling",
-          c: "Front-end UI Animation",
-          d: "Graphic Vector Illustration"
-        },
-        correct: "b",
-        explanation: "Data Wrangling (or Data Munging) involves inspecting, cleaning, transforming, and restructuring raw data into an organized format suitable for downstream analytics.",
-        arabicHint: "ما المهارة الأساسية لعالم البيانات لتنظيف وتحويل وتجهيز البيانات الخام غير المنظمة لتصبح جاهزة للتحليل؟ (معالجة وتنظيف البيانات - Data Wrangling)."
+        pdf: 'pdf1',
+        type: 'mcq',
+        question: "What is the primary electronic circuit used to convert real-world continuous signals into discrete digital signals?",
+        options: [
+          "DAC (Digital-to-Analog Converter)",
+          "ADC (Analog-to-Digital Converter)",
+          "Logic Inverter",
+          "Full Subtractor"
+        ],
+        correct: 1, // ADC
+        hint: {
+          arQuestion: "ما هي الدائرة الإلكترونية الأساسية المستخدمة لتحويل الإشارات التناظرية المستمرة إلى إشارات رقمية متقطعة؟",
+          arOptions: [
+            "A) DAC (محول رقمي لتناظري)",
+            "B) ADC (محول تناظري لرقمي) (الإجابة الصحيحة)",
+            "C) عاكس منطقي",
+            "D) طارح كامل"
+          ],
+          arAnswer: "B) ADC (Analog-to-Digital Converter)",
+          arExplanation: "الـ ADC هو المسؤول عن أخذ الإشارة التناظرية وعمل Sampling وQuantization لتحويلها لأصفار ووحايد."
+        }
       },
+
+      /* ==================== PDF 2: Logic Gates (Q9 - Q16) ==================== */
       {
         id: 9,
-        lecture: 1,
-        lecTitle: "Lecture 1: Fundamentals & Data Collection",
-        question: "Why are non-technical skills like critical thinking and communication vital for Data Scientists?",
-        options: {
-          a: "They replace the need for programming skills in Python or R",
-          b: "They enable data scientists to analyze findings objectively and communicate technical insights clearly to decision-makers",
-          c: "They allow data scientists to build hardware servers manually",
-          d: "They are required to obtain government data licenses"
-        },
-        correct: "b",
-        explanation: "Analytical insights carry value only if they can be translated into strategic business actions. Critical thinking guides sound analysis, while communication bridges technical outputs and business stakeholders.",
-        arabicHint: "لماذا تعد المهارات غير التقنية (مثل التفكير النقدي والتواصل) حيوية لعالم البيانات؟ (لأنها تمكنه من تفسير النتائج بحيادية وربط الرؤى المعقدة بأصحاب القرار الإداري بوضوح)."
+        pdf: 'pdf2',
+        type: 'mcq',
+        question: "When a BJT transistor is used as an inverter switch and is driven into 'Saturation' (Vin ≈ 5V), the output voltage (Vout) is approximately:",
+        options: ["5 V (HIGH)", "0 V (LOW)", "2.5 V", "Undefined"],
+        correct: 1, // 0 V
+        hint: {
+          arQuestion: "عند استخدام الترانزستور كمفتاح عاكس (Inverter) وكان في وضع التشبع 'Saturation' بجهد دخل 5V، يكون جهد الخرج (Vout) تقريباً:",
+          arOptions: [
+            "A) 5 V (عالي)",
+            "B) 0 V (منخفض) (الإجابة الصحيحة)",
+            "C) 2.5 V",
+            "D) غير محدد"
+          ],
+          arAnswer: "B) 0 V (LOW)",
+          arExplanation: "في وضع التشبع (Saturation)، يتصرف الترانزستور كمفتاح مغلق فيصل الخرج بالأرضي فيكون Vout ≈ 0 V."
+        }
       },
       {
         id: 10,
-        lecture: 1,
-        lecTitle: "Lecture 1: Fundamentals & Data Collection",
-        question: "Which big data frameworks mentioned in the lecture are specifically designed to process large-scale datasets efficiently?",
-        options: {
-          a: "Hadoop and Spark",
-          b: "HTML and CSS",
-          c: "Bluetooth and NFC",
-          d: "Gnutella and Napster"
-        },
-        correct: "a",
-        explanation: "Apache Hadoop and Apache Spark are distributed computing frameworks created to process and analyze massive Big Data volumes across computer clusters.",
-        arabicHint: "أي من أطر عمل البيانات الضخمة (Big Data Frameworks) المذكورة صُممت لمعالجة مجموعات البيانات الهائلة عبر أجهزة موزعة بكفاءة؟ (Hadoop و Spark)."
+        pdf: 'pdf2',
+        type: 'mcq',
+        question: "The output of an AND gate is HIGH (1) only when:",
+        options: [
+          "At least one input is HIGH",
+          "All of its inputs are HIGH",
+          "All of its inputs are LOW",
+          "The number of 1s at inputs is odd"
+        ],
+        correct: 1, // All HIGH
+        hint: {
+          arQuestion: "يكون خرج بوابة AND مساوياً للمستوى العالي HIGH (1) فقط عندما يكون:",
+          arOptions: [
+            "A) دخل واحد على الأقل HIGH",
+            "B) جميع المدخلات في الحالة العالية HIGH (الإجابة الصحيحة)",
+            "C) جميع المدخلات LOW",
+            "D) عدد الواحدات فردياً"
+          ],
+          arAnswer: "B) All of its inputs are HIGH",
+          arExplanation: "بوابة AND لا تُعطي 1 إلا إذا كانت جميع المدخلات معاً 1 (Y = A . B)."
+        }
       },
-
-      // === LECTURE 2: Data Cleaning & Preprocessing (Q11 - Q20) ===
       {
         id: 11,
-        lecture: 2,
-        lecTitle: "Lecture 2: Data Cleaning & Preprocessing",
-        question: "What is Data Cleaning in the context of data science and preprocessing?",
-        options: {
-          a: "The process of training machine learning models on unorganized data",
-          b: "The process of detecting and correcting errors in raw data to prepare it for effective analysis",
-          c: "Collecting raw data from internet scrapers and storing it in databases",
-          d: "Converting clean numerical data into raw visual charts"
-        },
-        correct: "b",
-        explanation: "Data cleaning is a foundational preprocessing step that identifies incomplete, noisy, or corrupt records and corrects errors so the dataset is ready for statistical analysis and machine learning.",
-        arabicHint: "ما هو تنظيف البيانات (Data Cleaning) في سياق علم البيانات والمعالجة القبلية؟ (عملية اكتشاف وتصحيح وإصلاح الأخطاء في البيانات الخام لتجهيزها للتحليل)."
+        pdf: 'pdf2',
+        type: 'mcq',
+        question: "The output of a 2-input OR gate is LOW (0) only when:",
+        options: [
+          "Both inputs are LOW (0, 0)",
+          "Both inputs are HIGH (1, 1)",
+          "One input is LOW and one is HIGH",
+          "Inputs are unequal"
+        ],
+        correct: 0, // Both LOW
+        hint: {
+          arQuestion: "يكون خرج بوابة OR ذات المدخلين مساوياً للمستوى المنخفض (0) فقط في حالة:",
+          arOptions: [
+            "A) كلا المدخلين منخفضان (0, 0) (الإجابة الصحيحة)",
+            "B) كلا المدخلين عاليان (1, 1)",
+            "C) أحد المدخلين 0 والآخر 1",
+            "D) المدخلان غير متساويين"
+          ],
+          arAnswer: "A) Both inputs are LOW (0, 0)",
+          arExplanation: "خرج بوابة OR يظل HIGH إذا وُجد أي 1، والحالة الوحيدة ليكون 0 هي أن يكون كل الدخل 0."
+        }
       },
       {
         id: 12,
-        lecture: 2,
-        lecTitle: "Lecture 2: Data Cleaning & Preprocessing",
-        question: "What is a major consequence of leaving missing values unhandled in a dataset?",
-        options: {
-          a: "It increases the physical storage capacity of the server",
-          b: "It can introduce bias into the analysis and reduce statistical power",
-          c: "It automatically speeds up machine learning model training times",
-          d: "It converts text fields into numerical data formats"
-        },
-        correct: "b",
-        explanation: "Incomplete records with missing values skew statistical distributions, reduce model precision, and lead to biased analytical outcomes if left unmanaged.",
-        arabicHint: "ما هي النتيجة الخطيرة لترك القيم المفقودة (Missing Values) دون علاج في البيانات؟ (قد تسبب تحيزاً وتشويهاً في النتائج وتقلل من القوة الإحصائية للنموذج)."
+        pdf: 'pdf2',
+        type: 'mcq',
+        question: "For a 2-input XOR gate, what is the output if inputs are A = 1 and B = 1?",
+        options: ["1", "0", "Floating", "High Impedance"],
+        correct: 1, // 0
+        hint: {
+          arQuestion: "لبوابة XOR ذات المدخلين، ما هي قيمة الخرج إذا كان المدخلان A = 1 و B = 1؟",
+          arOptions: [
+            "A) 1",
+            "B) 0 (الإجابة الصحيحة)",
+            "C) عائم",
+            "D) ممانعة عالية"
+          ],
+          arAnswer: "B) 0",
+          arExplanation: "بوابة XOR تعطي 0 عند تطابق المدخلين (1,1 أو 0,0) وتعطي 1 عند اختلافهما."
+        }
       },
       {
         id: 13,
-        lecture: 2,
-        lecTitle: "Lecture 2: Data Cleaning & Preprocessing",
-        question: "Which data anomaly occurs when identical observations appear multiple times in a dataset?",
-        options: {
-          a: "Outliers",
-          b: "Duplicate records",
-          c: "Incorrect data types",
-          d: "Structural format errors"
-        },
-        correct: "b",
-        explanation: "Duplicate records occur when repeated entries are logged, which overrepresents certain observations and skews statistical summaries and machine learning training results.",
-        arabicHint: "أي مشكلة أو خلل في البيانات يصف تكرار نفس السجل أو الملاحظة عدة مرات؟ (السجلات المكررة - Duplicate records)."
+        pdf: 'pdf2',
+        type: 'tf',
+        question: "A NOT gate is also called an inverter because it has one input and inverts the logic state.",
+        options: ["True", "False"],
+        correct: 0, // True
+        hint: {
+          arQuestion: "تُسمى بوابة NOT أيضاً بالعاكس (Inverter) لأن لها مدخلاً واحداً وتقوم بعكس الحالة المنطقية.",
+          arOptions: [
+            "A) True (صح) (الإجابة الصحيحة)",
+            "B) False (خطأ)"
+          ],
+          arAnswer: "True (صح)",
+          arExplanation: "بوابة NOT تحول الـ 0 إلى 1، والـ 1 إلى 0 وتملك مدخلاً واحداً ومخرجاً واحداً."
+        }
       },
       {
         id: 14,
-        lecture: 2,
-        lecTitle: "Lecture 2: Data Cleaning & Preprocessing",
-        question: "What potential issue arises when a date or numeric field contains text values (incorrect data type)?",
-        options: {
-          a: "It automatically improves Exploratory Data Analysis (EDA)",
-          b: "It causes calculation errors and analysis failures during processing",
-          c: "It generates automatic synthetic duplicate records",
-          d: "It converts the column into a target label"
-        },
-        correct: "b",
-        explanation: "Mismatched data types (e.g., text strings stored in numeric score columns) prevent mathematical operations and cause errors when algorithms execute numerical operations.",
-        arabicHint: "ما المشكلة التي تنشأ عندما يحتوي حقل رقمي أو تاريخ على نصوص (نوع بيانات خاطئ Incorrect Data Type)؟ (يؤدي إلى أخطاء حسابية وتوقف البرامج عن إجراء العمليات)."
+        pdf: 'pdf2',
+        type: 'mcq',
+        question: "For a multiple-input EX-OR logic function, the output is logic '1' whenever:",
+        options: [
+          "The number of 1s in the input sequence is even",
+          "The number of 1s in the input sequence is odd",
+          "All inputs are 1s",
+          "All inputs are 0s"
+        ],
+        correct: 1, // odd number of 1s
+        hint: {
+          arQuestion: "في دالة EX-OR متعددة المداخل، يكون الخرج مساوياً '1' عندما:",
+          arOptions: [
+            "A) يكون عدد الواحدات في الدخل زوجياً",
+            "B) يكون عدد الواحدات في الدخل فردياً (الإجابة الصحيحة)",
+            "C) تكون كل المداخل 1",
+            "D) تكون كل المداخل 0"
+          ],
+          arAnswer: "B) The number of 1s in the input sequence is odd",
+          arExplanation: "قاعدة أساسية من سلايدات المادة: 'The output of a multiple-input EX-OR is logic 1 when the number of 1s in the input sequence is odd'."
+        }
       },
       {
         id: 15,
-        lecture: 2,
-        lecTitle: "Lecture 2: Data Cleaning & Preprocessing",
-        question: "What is the FIRST step in the 6-step Data Cleaning Process?",
-        options: {
-          a: "Profile and audit the dataset",
-          b: "Remove irrelevant observations and fields",
-          c: "Handle missing values with a clear policy",
-          d: "Validate and document the cleaned dataset"
-        },
-        correct: "a",
-        explanation: "The standard data cleaning lifecycle begins by profiling and auditing the raw dataset (assessing missing values, duplicate rows, data types, and formatting consistency) before modifying data.",
-        arabicHint: "ما هي أول خطوة في عملية تنظيف البيانات المكونة من 6 خطوات؟ (فحص وتدقيق البيانات الخام وتقييم حالتها - Profile and audit the dataset)."
+        pdf: 'pdf2',
+        type: 'tf',
+        question: "If an input signal of '1' passes through two consecutive NOT gates in series, the final output will be '1'.",
+        options: ["True", "False"],
+        correct: 0, // True
+        hint: {
+          arQuestion: "إذا مر الدخل '1' عبر بوابتي NOT متتاليتين على التوالي، فإن الخرج النهائي سيكون '1'.",
+          arOptions: [
+            "A) True (صح) (الإجابة الصحيحة)",
+            "B) False (خطأ)"
+          ],
+          arAnswer: "True (صح)",
+          arExplanation: "العاكس الأول يحول 1 إلى 0، ثم العاكس الثاني يعيد الـ 0 إلى 1 (Double Inversion: (A')' = A)."
+        }
       },
       {
         id: 16,
-        lecture: 2,
-        lecTitle: "Lecture 2: Data Cleaning & Preprocessing",
-        question: "Which techniques can be used to identify duplicate records in a DataFrame?",
-        options: {
-          a: "Linear regression and decision trees",
-          b: "Sorting, grouping, or hashing",
-          c: "Principal Component Analysis (PCA)",
-          d: "K-Means clustering and reinforcement policies"
-        },
-        correct: "b",
-        explanation: "As highlighted in the lecture, identifying duplicate rows is performed systematically by sorting key columns, grouping identical field values, or calculating cryptographic/hash values per row.",
-        arabicHint: "ما هي الأساليب الشائعة للتعرف على السجلات المكررة داخل DataFrame؟ (الترتيب، التجميع، أو دوال التجزئة - Sorting, grouping, or hashing)."
+        pdf: 'pdf2',
+        type: 'mcq',
+        question: "To implement a 4-input AND gate using only 2-input AND gates, how many 2-input AND gates are required?",
+        options: ["2", "3", "4", "5"],
+        correct: 1, // 3 gates
+        hint: {
+          arQuestion: "لتنفيذ بوابة AND ذات 4 مداخل باستخدام بوابات AND ثنائية المدخل فقط، كم بوابة نحتاج؟",
+          arOptions: [
+            "A) 2",
+            "B) 3 (الإجابة الصحيحة)",
+            "C) 4",
+            "D) 5"
+          ],
+          arAnswer: "B) 3",
+          arExplanation: "كما موضح بالرسم في المحاضرة: البوابة الأولى تدمج A,B والثانية تدمج الناتج مع C والثالثة تدمج الناتج مع D فيكون المجموع 3 بوابات."
+        }
       },
+
+      /* ==================== PDF 3: Specs & Arithmetic (Q17 - Q24) ==================== */
       {
         id: 17,
-        lecture: 2,
-        lecTitle: "Lecture 2: Data Cleaning & Preprocessing",
-        question: "What is statistical Imputation in data cleaning?",
-        options: {
-          a: "Deleting entire rows that contain any blank entries",
-          b: "Filling in missing values using statistical metrics such as mean, median, or mode",
-          c: "Converting categorical text values into binary 1s and 0s",
-          d: "Exporting the dataset to external cloud servers"
-        },
-        correct: "b",
-        explanation: "Imputation is the process of replacing missing values with substituted estimates, such as using the column mean/median for numerical variables or mode/placeholder (e.g., \"Unknown\") for categorical variables.",
-        arabicHint: "ما هو التعويض الإحصائي (Imputation) في تنظيف البيانات؟ (ملء واستبدال القيم الفارغة والمفقودة بتقديرات مثل المتوسط أو الوسيط أو المنوال)."
+        pdf: 'pdf3',
+        type: 'mcq',
+        question: "The maximum number of parallel inputs that a single logic gate's output can reliably drive is defined as:",
+        options: ["Fan-in", "Fan-out", "Propagation Delay", "Noise Margin"],
+        correct: 1, // Fan-out
+        hint: {
+          arQuestion: "أقصى عدد من المداخل المتوازية التي يستطيع مخرج بوابة منطقية واحدة تغذيتها بكفاءة يُعرف بـ:",
+          arOptions: [
+            "A) Fan-in",
+            "B) Fan-out (الإجابة الصحيحة)",
+            "C) تأخير الانتشار (Propagation Delay)",
+            "D) هامش الضوضاء (Noise Margin)"
+          ],
+          arAnswer: "B) Fan-out",
+          arExplanation: "تعريف الـ Fan-Out نصاً: 'The maximum number of parallel inputs that a single logic gate's output can reliably drive'."
+        }
       },
       {
         id: 18,
-        lecture: 2,
-        lecTitle: "Lecture 2: Data Cleaning & Preprocessing",
-        question: "Which advanced machine learning algorithms can be applied to estimate and impute missing dataset values?",
-        options: {
-          a: "K-Nearest Neighbors (KNN), Regression, or Decision Trees",
-          b: "Bluetooth PAN protocols and Metro switches",
-          c: "Unstructured Gnutella overlay networks",
-          d: "Hash ring load balancers"
-        },
-        correct: "a",
-        explanation: "Beyond simple mean/median imputation, advanced techniques use predictive ML models (like KNN or Regression) to predict a row's missing value based on its other known feature values.",
-        arabicHint: "أي من خوارزميات تعلم الآلة المتقدمة يمكن استخدامها للتنبؤ بالقيم المفقودة وتعويضها؟ (KNN أو الانحدار أو أشجار القرار)."
+        pdf: 'pdf3',
+        type: 'mcq',
+        question: "What is the typical propagation delay unit of measurement for digital logic gates?",
+        options: ["Seconds (s)", "Milliseconds (ms)", "Nanoseconds (ns)", "Microseconds (μs)"],
+        correct: 2, // ns
+        hint: {
+          arQuestion: "ما هي وحدة القياس الشائعة لتأخير الانتشار (Propagation Delay) في البوابات المنطقية؟",
+          arOptions: [
+            "A) ثواني (s)",
+            "B) ميلي ثانية (ms)",
+            "C) نانو ثانية (ns) (الإجابة الصحيحة)",
+            "D) ميكرو ثانية (μs)"
+          ],
+          arAnswer: "C) Nanoseconds (ns)",
+          arExplanation: "يُقاس تأخير الانتشار عادة بالنانو ثانية (ns) وكلما قل كان أسرع."
+        }
       },
       {
         id: 19,
-        lecture: 2,
-        lecTitle: "Lecture 2: Data Cleaning & Preprocessing",
-        question: "In a table containing student exam scores, an unexpected score value of 1000 in a 0-100 scale represents what type of anomaly?",
-        options: {
-          a: "Imputed mean value",
-          b: "An Outlier / Extreme incorrect value",
-          c: "A duplicate record",
-          d: "A missing categorical label"
-        },
-        correct: "b",
-        explanation: "Values that fall well outside expected boundaries or normal distribution ranges are outliers/anomalies that distort statistical measures (like averages) and degrade machine learning performance.",
-        arabicHint: "في درجات الطلاب التي تتراوح بين 0 و 100، وجود درجة بقيمة 1000 يعتبر مثالاً على ماذا؟ (قيمة شاذة متطرفة أو خاطئة - Outlier)."
+        pdf: 'pdf3',
+        type: 'tf',
+        question: "CMOS logic gates generally consume much less power than TTL logic gates.",
+        options: ["True", "False"],
+        correct: 0, // True
+        hint: {
+          arQuestion: "بوابات تقنية CMOS تستهلك عادة طاقة أقل بكثير مقارنة ببوابات تقنية TTL.",
+          arOptions: [
+            "A) True (صح) (الإجابة الصحيحة)",
+            "B) False (خطأ)"
+          ],
+          arAnswer: "True (صح)",
+          arExplanation: "ميزة CMOS الأساسية هي استهلاك قليل جداً للطاقة (Low Power Use)، بينما TTL يستهلك طاقة أعلى وتنتج حرارة."
+        }
       },
       {
         id: 20,
-        lecture: 2,
-        lecTitle: "Lecture 2: Data Cleaning & Preprocessing",
-        question: "Why is the final step of the Data Cleaning process (Validate and Document) critical?",
-        options: {
-          a: "It automatically deletes the raw data files permanently",
-          b: "It ensures dataset integrity, maintains reproducibility, and records all modifications made to the raw data",
-          c: "It converts 2-tier architecture into 3-tier architecture",
-          d: "It forces the data scientist to manually re-enter missing names"
-        },
-        correct: "b",
-        explanation: "Documenting and validating changes ensures data transparency, allows other team members to reproduce the preprocessing pipeline, and verifies that cleaning operations did not introduce unintended bias.",
-        arabicHint: "لماذا تعد الخطوة الأخيرة في تنظيف البيانات (التحقق والتوثيق) في غاية الأهمية؟ (لضمان سلامة البيانات وإمكانية تكرار العمليات وتوثيق التغييرات دون تحيز)."
+        pdf: 'pdf3',
+        type: 'mcq',
+        question: "In binary addition, what is the result of 1 + 1?",
+        options: [
+          "Sum = 0 with a Carry of 1",
+          "Sum = 1 with a Carry of 0",
+          "Sum = 1 with a Carry of 1",
+          "Sum = 2 with a Carry of 0"
+        ],
+        correct: 0, // Sum 0, Carry 1
+        hint: {
+          arQuestion: "في الجمع الثنائي، ما هو ناتج جمع 1 + 1؟",
+          arOptions: [
+            "A) المجموع = 0 مع حمل 1 (Sum = 0, Carry = 1) (الإجابة الصحيحة)",
+            "B) المجموع = 1 مع حمل 0",
+            "C) المجموع = 1 مع حمل 1",
+            "D) المجموع = 2 مع حمل 0"
+          ],
+          arAnswer: "A) Sum = 0 with a Carry of '1'",
+          arExplanation: "قاعدة أساسية: 1 + 1 = 10₂ أي المجموع صفر والحمل واحد إلى الخانة التالية."
+        }
       },
-
-      // === LECTURE 3: Kaggle & ML Fundamentals (Q21 - Q30) ===
       {
         id: 21,
-        lecture: 3,
-        lecTitle: "Lecture 3: Kaggle & ML Fundamentals",
-        question: "What is Kaggle primarily used for in the field of Data Science and AI?",
-        options: {
-          a: "Hosting domain name registrations and web servers",
-          b: "Crowdsourced benchmarks, AI competitions, community datasets, and shared code notebooks",
-          c: "Designing hardware graphics processing units (GPUs)",
-          d: "Writing traditional desktop software compilers"
-        },
-        correct: "b",
-        explanation: "Kaggle is an online platform for data scientists and ML practitioners that provides real-world datasets, competitive benchmarks, community discussions, and cloud Jupyter Notebook environments.",
-        arabicHint: "ما هو الغرض الأساسي لمنصة Kaggle في مجال علم البيانات والذكاء الاصطناعي؟ (المسابقات التنافسية، مشاركة مجموعات البيانات، والأكواد عبر بيئات Jupyter)."
+        pdf: 'pdf3',
+        type: 'mcq',
+        question: "In binary subtraction, performing the operation 0 - 1 results in:",
+        options: [
+          "Difference = 0 with no borrow",
+          "Difference = 1 with a borrow of 1",
+          "Difference = 1 with no borrow",
+          "Difference = -1 without borrow"
+        ],
+        correct: 1, // Diff 1, borrow 1
+        hint: {
+          arQuestion: "في الطرح الثنائي، عند إجراء العملية 0 - 1 يكون الناتج:",
+          arOptions: [
+            "A) الفرق = 0 بدون استلاف",
+            "B) الفرق = 1 مع استلاف 1 (Borrow) من الخانة المجاورة (الإجابة الصحيحة)",
+            "C) الفرق = 1 بدون استلاف",
+            "D) الفرق = -1 بدون استلاف"
+          ],
+          arAnswer: "B) Difference = 1 with a borrow of 1",
+          arExplanation: "عند طرح 1 من 0 يجب الاستلاف من الخانة اليسرى فيصبح الصفر (10₂ = 2)، ثم 2 - 1 = 1 مع وجود استلاف."
+        }
       },
       {
         id: 22,
-        lecture: 3,
-        lecTitle: "Lecture 3: Kaggle & ML Fundamentals",
-        question: "Which main tab on Kaggle do data scientists use to discover public datasets like the \"Water Potability Dataset\"?",
-        options: {
-          a: "Competitions",
-          b: "Datasets",
-          c: "Models",
-          d: "Discussions"
-        },
-        correct: "b",
-        explanation: "The Datasets tab on Kaggle allows users to search, filter by date/relevance, download, and analyze structured and unstructured datasets created by the community.",
-        arabicHint: "ما هو التبويب الرئيسي على موقع Kaggle الذي يستخدمه المطورون لاكتشاف وتحميل مجموعات البيانات المجتمعية؟ (Datasets)."
+        pdf: 'pdf3',
+        type: 'mcq',
+        question: "The amount of unwanted voltage noise a logic circuit can tolerate before changing states incorrectly is known as:",
+        options: ["Fan-in", "Noise Margin", "Power Dissipation", "Operating Frequency"],
+        correct: 1, // Noise Margin
+        hint: {
+          arQuestion: "مقدار جهد الضوضاء غير المرغوب فيه الذي يمكن للدائرة تحمله دون تغيير حالتها المنطقية خطأً هو:",
+          arOptions: [
+            "A) Fan-in",
+            "B) هامش الضوضاء (Noise Margin) (الإجابة الصحيحة)",
+            "C) تبديد القدرة",
+            "D) تردد التشغيل"
+          ],
+          arAnswer: "B) Noise Margin",
+          arExplanation: "هذا هو التعريف الرسمي لهامش الضوضاء (Noise Margin): كلما زاد كانت الدائرة أكثر موثوقية."
+        }
       },
       {
         id: 23,
-        lecture: 3,
-        lecTitle: "Lecture 3: Kaggle & ML Fundamentals",
-        question: "What is a \"Feature\" in Machine Learning?",
-        options: {
-          a: "The final output answer that the model tries to predict",
-          b: "An individual measurable property, characteristic, or attribute used as an input variable for predictions",
-          c: "A hardware memory component inside graphics cards",
-          d: "The error rate calculated after model evaluation"
-        },
-        correct: "b",
-        explanation: "Features are independent input variables (attributes) representing quantifiable properties of the observed phenomenon (e.g., house size, number of bedrooms, zip code).",
-        arabicHint: "ما هي الـ \"Feature\" (الميزة / السمة) في تعلم الآلة؟ (خاصية أو متغير دخل قابل للقياس يُستخدم كمدخل لتوقع النتائج)."
+        pdf: 'pdf3',
+        type: 'tf',
+        question: "Binary multiplication can be implemented in digital systems using the 'Repeated Left-Shift and Add' algorithm.",
+        options: ["True", "False"],
+        correct: 0, // True
+        hint: {
+          arQuestion: "يمكن تنفيذ عملية الضرب الثنائي في الأنظمة الرقمية باستخدام خوارزمية 'الإزاحة لليسار مع الجمع' (Shift and Add).",
+          arOptions: [
+            "A) True (صح) (الإجابة الصحيحة)",
+            "B) False (خطأ)"
+          ],
+          arAnswer: "True (صح)",
+          arExplanation: "موجودة نصاً في سلايدات المحاضرة الثالثة: 'Repeated Left-Shift and Add Algorithm'."
+        }
       },
       {
         id: 24,
-        lecture: 3,
-        lecTitle: "Lecture 3: Kaggle & ML Fundamentals",
-        question: "In a dataset used to predict house prices with columns [Size, Beds, Baths, Zip, Price], which column serves as the Label?",
-        options: {
-          a: "Size",
-          b: "Beds & Baths",
-          c: "Zip",
-          d: "Price"
-        },
-        correct: "d",
-        explanation: "The Label is the dependent target variable that the model is trained to predict. Here, Size, Beds, Baths, and Zip are input features, while Price is the target output label.",
-        arabicHint: "في جدول لتوقع أسعار المنازل بالأعمدة [المساحة، الغرف، الحمامات، الرمز البريدي، السعر]، أي حقل يمثل الـ Label (الهدف المطلوب توقعه)؟ (Price - السعر)."
+        pdf: 'pdf3',
+        type: 'mcq',
+        question: "When adding three bits (1 + 1 + 1) in a binary adder, the outputs are:",
+        options: [
+          "Sum = 0, Carry = 1",
+          "Sum = 1, Carry = 1",
+          "Sum = 1, Carry = 0",
+          "Sum = 0, Carry = 0"
+        ],
+        correct: 1, // Sum 1, Carry 1
+        hint: {
+          arQuestion: "عند جمع ثلاثة واحدات (1 + 1 + 1) في جامع ثنائي، تكون المخرجات:",
+          arOptions: [
+            "A) المجموع = 0، الحمل = 1",
+            "B) المجموع = 1، الحمل = 1 (Sum = 1, Carry = 1) (الإجابة الصحيحة)",
+            "C) المجموع = 1، الحمل = 0",
+            "D) المجموع = 0، الحمل = 0"
+          ],
+          arAnswer: "B) Sum = 1, Carry = 1",
+          arExplanation: "1 + 1 + 1 = 3 بالعشري، ومكافئها الثنائي هو 11₂ أي Sum = 1 و Carry = 1."
+        }
       },
+
+      /* ==================== PDF 4: Boolean Algebra (Q25 - Q32) ==================== */
       {
         id: 25,
-        lecture: 3,
-        lecTitle: "Lecture 3: Kaggle & ML Fundamentals",
-        question: "Which characteristic is true regarding Machine Learning Features?",
-        options: {
-          a: "They must always be numerical; text or categorical data cannot be features",
-          b: "They are measurable properties that can be numerical, categorical, or text-based",
-          c: "They are always dependent on the model's predicted output label",
-          d: "A dataset can contain only one feature column"
-        },
-        correct: "b",
-        explanation: "Features come in diverse formats: numerical (e.g., age, height, square footage), categorical (e.g., gender, color), or text-based (e.g., customer reviews, email text).",
-        arabicHint: "ما الخاصية الصحيحة حول سمات وميزات تعلم الآلة (Features)؟ (أنها خصائص قابلة للقياس ويمكن أن تأتي في شكل أرقام أو فئات أو نصوص)."
+        pdf: 'pdf4',
+        type: 'mcq',
+        question: "According to the Boolean Idempotent Law, the expression X + X equals:",
+        options: ["2X", "1", "X", "0"],
+        correct: 2, // X
+        hint: {
+          arQuestion: "وفقاً لقانون التساوي الذاتي (Idempotent Law) في الجبر البوليني، فإن التعبير X + X يساوي:",
+          arOptions: [
+            "A) 2X",
+            "B) 1",
+            "C) X (الإجابة الصحيحة)",
+            "D) 0"
+          ],
+          arAnswer: "C) X",
+          arExplanation: "في الجبر البوليني: X + X = X وكذلك X . X = X (Theorem 3)."
+        }
       },
       {
         id: 26,
-        lecture: 3,
-        lecTitle: "Lecture 3: Kaggle & ML Fundamentals",
-        question: "What is a \"Label\" also commonly referred to as in Supervised Machine Learning?",
-        options: {
-          a: "Target variable or Dependent variable",
-          b: "Independent predictor or Feature attribute",
-          c: "Hyperparameter or Loss optimizer",
-          d: "Unsupervised cluster centroid"
-        },
-        correct: "a",
-        explanation: "A label is the known outcome or target variable that depends on input features and is learned by the algorithm during supervised training.",
-        arabicHint: "بماذا يُعرف الـ \"Label\" أيضاً في التعلم الخاضع للإشراف (Supervised Learning)؟ (المتغير التابع أو المستهدف - Target or Dependent Variable)."
+        pdf: 'pdf4',
+        type: 'mcq',
+        question: "According to the Complementation Law in Boolean algebra, X · X̄ equals:",
+        options: ["1", "0", "X", "X̄"],
+        correct: 1, // 0
+        hint: {
+          arQuestion: "وفقاً لقانون المتمم في الجبر البوليني، فإن حاصل ضرب المتغير في متممه X · X̄ يساوي:",
+          arOptions: [
+            "A) 1",
+            "B) 0 (الإجابة الصحيحة)",
+            "C) X",
+            "D) X̄"
+          ],
+          arAnswer: "B) 0",
+          arExplanation: "لأن أحد القيمتين حتماً ستكون 0، وحاصل ضرب أي شيء في 0 يساوي 0 دائماً."
+        }
       },
       {
         id: 27,
-        lecture: 3,
-        lecTitle: "Lecture 3: Kaggle & ML Fundamentals",
-        question: "What is the primary goal of a Classification model in Machine Learning?",
-        options: {
-          a: "To estimate a continuous numerical quantity along a scale",
-          b: "To assign input data to a predefined discrete category or class",
-          c: "To reduce the number of feature dimensions in an unlabeled dataset",
-          d: "To calculate the physical cost of cloud servers"
-        },
-        correct: "b",
-        explanation: "Classification algorithms predict discrete class labels or categories (e.g., classifying images into \"CAT\" vs. \"DOG\", or emails into \"Spam\" vs. \"Not Spam\").",
-        arabicHint: "ما هو الهدف الأساسي لنموذج التصنيف (Classification) في تعلم الآلة؟ (توزيع وتصنيف البيانات المدخلة إلى فئات أو أصناف محددة مسبقاً)."
+        pdf: 'pdf4',
+        type: 'mcq',
+        question: "The second distributive law in Boolean algebra states that X + Y·Z is equivalent to:",
+        options: [
+          "(X + Y) · (X + Z)",
+          "X·Y + X·Z",
+          "(X · Y) + Z",
+          "X + Y + Z"
+        ],
+        correct: 0, // (X+Y).(X+Z)
+        hint: {
+          arQuestion: "ينص قانون التوزيع الثاني في الجبر البوليني على أن X + Y·Z يكافئ:",
+          arOptions: [
+            "A) (X + Y) · (X + Z) (الإجابة الصحيحة)",
+            "B) X·Y + X·Z",
+            "C) (X · Y) + Z",
+            "D) X + Y + Z"
+          ],
+          arAnswer: "A) (X + Y) · (X + Z)",
+          arExplanation: "هذا القانون البوليني المميز (Theorem 7b) يوزع عملية الجمع (+) على الضرب (·)."
+        }
       },
       {
         id: 28,
-        lecture: 3,
-        lecTitle: "Lecture 3: Kaggle & ML Fundamentals",
-        question: "Which prediction task is an example of a Regression problem?",
-        options: {
-          a: "Filtering whether an incoming email is Spam or Ham",
-          b: "Diagnosing an X-ray as Malignant or Benign",
-          c: "Estimating house price ($450k) based on square footage",
-          d: "Identifying whether a customer image shows a Cat or a Dog"
-        },
-        correct: "c",
-        explanation: "Regression models predict continuous numerical values (quantities) along a numerical spectrum, such as predicting monetary value ($450,000) based on size.",
-        arabicHint: "أي من المهام التالية تعتبر مسألة انحدار (Regression)؟ (تقدير قيمة وسعر المنزل كقيمة رقمية مستمرة بناءً على المساحة بالمتر المربع)."
+        pdf: 'pdf4',
+        type: 'tf',
+        question: "To obtain the dual of a Boolean expression, we replace all ANDs with ORs, ORs with ANDs, 0s with 1s, and 1s with 0s, leaving literals unchanged.",
+        options: ["True", "False"],
+        correct: 0, // True
+        hint: {
+          arQuestion: "للحصول على التعبير المزدوج (Dual) لتعبير بوليني، نقوم باستبدال الضرب بجمع، والجمع بضرب، و 0 بـ 1، و 1 بـ 0، مع بقاء الرموز كما هي دون نفي.",
+          arOptions: [
+            "A) True (صح) (الإجابة الصحيحة)",
+            "B) False (خطأ)"
+          ],
+          arAnswer: "True (صح)",
+          arExplanation: "تعريف الـ Duality نصاً من المحاضرة: نغير العمليات والثوابت فقط وتبقى المتغيرات كما هي بدون متمم."
+        }
       },
       {
         id: 29,
-        lecture: 3,
-        lecTitle: "Lecture 3: Kaggle & ML Fundamentals",
-        question: "In a spam classifier that checks email text, what are the features and labels?",
-        options: {
-          a: "Features: Presence of keywords, email length, sender address; Label: Spam or Not Spam",
-          b: "Features: Spam status; Label: Length of email and keywords",
-          c: "Features: Target house price; Label: Number of bedrooms",
-          d: "Features: Unlabeled text files; Label: K-Means cluster count"
-        },
-        correct: "a",
-        explanation: "The characteristics of the email (words used, sender, length) act as input predictors (features), while the classification outcome (Spam / Not Spam) is the target label.",
-        arabicHint: "في نظام فلترة البريد المزعج (Spam Filter)، ما هي الميزات (Features) وما هو الـ (Label)؟ (الميزات: الكلمات وطول الإيميل وعنوان المرسل؛ الهدف: تحديد هل هو مزعج أم لا)."
+        pdf: 'pdf4',
+        type: 'mcq',
+        question: "By applying the Absorption (Redundancy) Law, what is the simplified form of X + X·Y?",
+        options: ["Y", "X", "X + Y", "1"],
+        correct: 1, // X
+        hint: {
+          arQuestion: "بتطبيق قانون الامتصاص (Absorption Law)، ما هو التبسيط النهائي للتعبير X + X·Y؟",
+          arOptions: [
+            "A) Y",
+            "B) X (الإجابة الصحيحة)",
+            "C) X + Y",
+            "D) 1"
+          ],
+          arAnswer: "B) X",
+          arExplanation: "X + X·Y = X(1 + Y) = X(1) = X. الحد الأصغر يمتص الحد الأكبر."
+        }
       },
       {
         id: 30,
-        lecture: 3,
-        lecTitle: "Lecture 3: Kaggle & ML Fundamentals",
-        question: "How do Classification and Regression differ regarding their target labels?",
-        options: {
-          a: "Classification targets continuous numbers; Regression targets discrete categories",
-          b: "Classification targets discrete categorical classes; Regression targets continuous numerical values",
-          c: "Both Classification and Regression target identical categorical labels",
-          d: "Classification requires unlabeled data; Regression requires reinforcement policies"
-        },
-        correct: "b",
-        explanation: "As summarized in the lecture, the distinction lies in label type: Classification predicts a discrete category/class, whereas Regression estimates a continuous quantity along a continuum.",
-        arabicHint: "كيف يختلف التصنيف (Classification) عن الانحدار (Regression) من حيث طبيعة الهدف المتوقع؟ (التصنيف يتنبأ بفئات منفصلة ومحددة، بينما الانحدار يتنبأ بقيم وأرقام عددية متصلة)."
+        pdf: 'pdf4',
+        type: 'mcq',
+        question: "Simplify the Boolean expression: (A + B·C) · (A + B·C)' :",
+        options: ["1", "0", "A", "B·C"],
+        correct: 1, // 0
+        hint: {
+          arQuestion: "بسط التعبير البوليني التالي: (A + B·C) · (A + B·C)' ؟",
+          arOptions: [
+            "A) 1",
+            "B) 0 (الإجابة الصحيحة)",
+            "C) A",
+            "D) B·C"
+          ],
+          arAnswer: "B) 0",
+          arExplanation: "باعتبار (A + B·C) متغير واحد كـ Y، فيكون التعبير Y · Y' = 0 دائماً (Complementation law)."
+        }
       },
-
-      // === LECTURE 4: Machine Learning Fundamentals (Q31 - Q40) ===
       {
         id: 31,
-        lecture: 4,
-        lecTitle: "Lecture 4: Machine Learning Core",
-        question: "What is the relationship between Artificial Intelligence (AI), Machine Learning (ML), and Deep Learning (DL)?",
-        options: {
-          a: "AI and Deep Learning are subsets of Machine Learning",
-          b: "Deep Learning is a subset of Machine Learning, and both are subsets of Artificial Intelligence",
-          c: "Machine Learning is a subset of Deep Learning, which operates independently of AI",
-          d: "AI, ML, and DL are completely separate disciplines with no overlap"
-        },
-        correct: "b",
-        explanation: "AI is the broad overarching field of creating smart machines. Machine Learning is a subset of AI that learns patterns from data, and Deep Learning is a specialized subset of ML using artificial neural networks.",
-        arabicHint: "ما العلاقة بين الذكاء الاصطناعي (AI)، وتعلم الآلة (ML)، والتعلم العميق (DL)؟ (التعلم العميق جزء من تعلم الآلة، وكلاهما فرع من الذكاء الاصطناعي العام)."
+        pdf: 'pdf4',
+        type: 'tf',
+        question: "According to Boolean postulates, 1 + (Any complex Boolean expression) always equals 1.",
+        options: ["True", "False"],
+        correct: 0, // True
+        hint: {
+          arQuestion: "وفقاً لمسلمات الجبر البوليني، فإن 1 + (أي تعبير بوليني معقد) يساوي دائماً 1.",
+          arOptions: [
+            "A) True (صح) (الإجابة الصحيحة)",
+            "B) False (خطأ)"
+          ],
+          arAnswer: "True (صح)",
+          arExplanation: "قاعدة أساسية: 1 + X = 1 لأي قيمة لـ X."
+        }
       },
       {
         id: 32,
-        lecture: 4,
-        lecTitle: "Lecture 4: Machine Learning Core",
-        question: "How does traditional computer programming differ fundamentally from Machine Learning?",
-        options: {
-          a: "Traditional programming uses data to generate equations; ML uses explicit rules",
-          b: "Traditional programming accepts Input + Rules/Equations to produce Output, whereas ML accepts Input + Output to learn the Equation/Rules",
-          c: "Traditional programming does not require human developers",
-          d: "Machine Learning cannot produce numerical outputs"
-        },
-        correct: "b",
-        explanation: "In traditional software engineering, humans manually write rules for inputs to calculate outputs. In Machine Learning, algorithms ingest input data paired with output results to infer the underlying rules or equations automatically.",
-        arabicHint: "كيف تختلف البرمجة التقليدية جذرياً عن تعلم الآلة؟ (البرمجة التقليدية تأخذ مدخلات + قواعد مكتوبة لتعطي نتائج، بينما تعلم الآلة يأخذ مدخلات + مخرجات ليتعلم هو القواعد والمعادلات)."
+        pdf: 'pdf4',
+        type: 'mcq',
+        question: "According to the Consensus Theorem, the expression X·Y + X̄·Z + Y·Z simplifies to:",
+        options: ["X·Y + X̄·Z", "Y·Z", "X + Z", "X·Y·Z"],
+        correct: 0, // X.Y + X'.Z
+        hint: {
+          arQuestion: "وفقاً لنظرية التوافق (Consensus Theorem)، التعبير X·Y + X̄·Z + Y·Z يتبسط إلى:",
+          arOptions: [
+            "A) X·Y + X̄·Z (الإجابة الصحيحة)",
+            "B) Y·Z",
+            "C) X + Z",
+            "D) X·Y·Z"
+          ],
+          arAnswer: "A) X·Y + X̄·Z",
+          arExplanation: "الحد Y·Z هو الحد الزائد (Redundant term) في نظرية التوافق ويمكن حذفه مباشرة."
+        }
       },
+
+      /* ==================== PDF 5: Combinational Logic & MUX (Q33 - Q40) ==================== */
       {
         id: 33,
-        lecture: 4,
-        lecTitle: "Lecture 4: Machine Learning Core",
-        question: "According to Tom Mitchell's (1997) formal definition, a machine learns if its performance measure (P) on task (T) improves with what?",
-        options: {
-          a: "Additional CPU speed",
-          b: "Experience (E)",
-          c: "Human manual rule rewrites",
-          d: "Hardware memory expansion"
-        },
-        correct: "b",
-        explanation: "Mitchell defined ML as: \"A computer program is said to learn from experience E with respect to some task T and performance measure P, if its performance on T, as measured by P, improves with experience E.\"",
-        arabicHint: "وفقاً لتعريف توم ميتشل (Tom Mitchell) الشهير عام 1997، متى يقال أن برنامج الحاسوب يتعلم؟ (إذا تحسن مقياس أدائه P على المهمة T بفضل الخبرة والتجربة E)."
+        pdf: 'pdf5',
+        type: 'mcq',
+        question: "Which two gates are known as 'Universal Gates' because each can implement any Boolean function alone?",
+        options: [
+          "AND and OR",
+          "NAND and NOR",
+          "XOR and XNOR",
+          "NOT and AND"
+        ],
+        correct: 1, // NAND and NOR
+        hint: {
+          arQuestion: "أي بوابتين تُعرفان بـ 'البوابات الشاملة' (Universal Gates) لأن أياً منهما بمفردها قادرة على بناء أي دائرة منطقية؟",
+          arOptions: [
+            "A) AND و OR",
+            "B) NAND و NOR (الإجابة الصحيحة)",
+            "C) XOR و XNOR",
+            "D) NOT و AND"
+          ],
+          arAnswer: "B) NAND and NOR",
+          arExplanation: "بوابات NAND و NOR تسمى Universal لأنها تكفي وحدها لتمثيل كل البوابات الأخرى (NOT, AND, OR)."
+        }
       },
       {
         id: 34,
-        lecture: 4,
-        lecTitle: "Lecture 4: Machine Learning Core",
-        question: "Why is a Machine Learning approach superior to traditional programming for complex tasks like spam filtering?",
-        options: {
-          a: "Traditional programs require too much hard drive storage space",
-          b: "ML filters automatically adapt to new patterns (e.g., \"For U\") without developers manually writing endless new rules",
-          c: "Traditional programs cannot process text data",
-          d: "ML models do not require evaluation or error analysis"
-        },
-        correct: "b",
-        explanation: "Spammers constantly modify tactics to bypass static rules. An ML spam filter automatically detects emerging word patterns in user-flagged spam and updates its predictive model without manual code modifications.",
-        arabicHint: "لماذا يتفوق تعلم الآلة على البرمجة التقليدية في المشاكل المعقدة مثل تصفية البريد المزعج؟ (لأنه يتعلم ويتكيف تلقائياً مع الكلمات والحيل الجديدة دون الحاجة لكتابة كود وقواعد يدوية لا نهائية)."
+        pdf: 'pdf5',
+        type: 'mcq',
+        question: "In a Combinational logic circuit, the output at any time depends on:",
+        options: [
+          "Present inputs only",
+          "Present inputs and past states stored in memory",
+          "The clock cycle frequency only",
+          "The power supply voltage only"
+        ],
+        correct: 0, // Present inputs only
+        hint: {
+          arQuestion: "في الدوائر التوافقية (Combinational circuits)، يعتمد الخرج في أي لحظة على:",
+          arOptions: [
+            "A) توليفة المدخلات الحالية فقط (Present inputs only) (الإجابة الصحيحة)",
+            "B) المدخلات الحالية والحالات السابقة المحفوظة في الذاكرة",
+            "C) تردد نبضات الساعة فقط",
+            "D) جهد مصدر التغذية فقط"
+          ],
+          arAnswer: "A) Present inputs only",
+          arExplanation: "الدوائر التوافقية لا تحتوي على ذاكرة، لذا خرجها يعتمد فقط على الدخل اللحظي الحاضر."
+        }
       },
       {
         id: 35,
-        lecture: 4,
-        lecTitle: "Lecture 4: Machine Learning Core",
-        question: "What characterises Supervised Machine Learning?",
-        options: {
-          a: "The training dataset fed to the algorithm includes target solutions called labels",
-          b: "The algorithm must find hidden structures in completely unlabeled data",
-          c: "The system learns strictly through trial-and-error rewards and penalties",
-          d: "The model requires no initial training dataset"
-        },
-        correct: "a",
-        explanation: "Supervised learning algorithms are trained using labeled datasets where each example includes both input features (predictors) and the expected output answer (label).",
-        arabicHint: "ما الذي يميز التعلم الخاضع للإشراف (Supervised Machine Learning)؟ (أن بيانات التدريب تكون مزودة بالإجابات والحلول المستهدفة وتسمى Labels)."
+        pdf: 'pdf5',
+        type: 'mcq',
+        question: "A Half-Adder circuit adds two bits and produces which two outputs?",
+        options: [
+          "SUM and BORROW",
+          "SUM and CARRY",
+          "DIFFERENCE and BORROW",
+          "ENABLE and STROBE"
+        ],
+        correct: 1, // SUM and CARRY
+        hint: {
+          arQuestion: "دائرة الجامع النصفي (Half-Adder) تجمع خانتين ثنائيتين وتنتج مخرجين هما:",
+          arOptions: [
+            "A) المجموع والاستلاف (SUM & BORROW)",
+            "B) المجموع والحمل (SUM & CARRY) (الإجابة الصحيحة)",
+            "C) الفرق والاستلاف (DIFFERENCE & BORROW)",
+            "D) التمكين والوميض"
+          ],
+          arAnswer: "B) SUM and CARRY",
+          arExplanation: "الجامع النصفي يعطي مخرجين: SUM (من بوابة XOR) و CARRY (من بوابة AND)."
+        }
       },
       {
         id: 36,
-        lecture: 4,
-        lecTitle: "Lecture 4: Machine Learning Core",
-        question: "What is the main difference between Classification and Regression in supervised learning?",
-        options: {
-          a: "Classification predicts continuous numeric values, while Regression predicts discrete categories",
-          b: "Classification predicts discrete categories/classes, while Regression predicts continuous numerical target values",
-          c: "Classification is unsupervised, while Regression is supervised",
-          d: "Classification uses neural networks, while Regression relies solely on decision trees"
-        },
-        correct: "b",
-        explanation: "Classification tasks assign data to categories (e.g., Spam vs. Ham, Cat vs. Dog), whereas Regression tasks predict numerical values along a continuous scale (e.g., predicting car prices or blood pressure).",
-        arabicHint: "ما الفرق الجوهري بين التصنيف (Classification) والانحدار (Regression)؟ (التصنيف يتنبأ بفئات وتصنيفات منفصلة، بينما الانحدار يتنبأ بقيم رقمية وكميات متصلة)."
+        pdf: 'pdf5',
+        type: 'mcq',
+        question: "In a Half-Subtractor, the Borrow output (Bo) expression for inputs A (minuend) and B (subtrahend) is:",
+        options: [
+          "Bo = A · B",
+          "Bo = Ā · B",
+          "Bo = A · B̄",
+          "Bo = A ⊕ B"
+        ],
+        correct: 1, // A' . B
+        hint: {
+          arQuestion: "في الطارح النصفي (Half-Subtractor)، معادلة مخرج الاستلاف (Bo) للمدخلين A و B هي:",
+          arOptions: [
+            "A) Bo = A · B",
+            "B) Bo = Ā · B (الإجابة الصحيحة)",
+            "C) Bo = A · B̄",
+            "D) Bo = A ⊕ B"
+          ],
+          arAnswer: "B) Bo = Ā · B",
+          arExplanation: "نستلف فقط عندما يكون A=0 و B=1، ولذا المعادلة هي Bo = Ā · B."
+        }
       },
       {
         id: 37,
-        lecture: 4,
-        lecTitle: "Lecture 4: Machine Learning Core",
-        question: "Which of the following algorithms is an example of Unsupervised Machine Learning used for grouping similar data points?",
-        options: {
-          a: "Linear Regression",
-          b: "Support Vector Machines (SVM)",
-          c: "K-Means Clustering",
-          d: "Logistic Regression"
-        },
-        correct: "c",
-        explanation: "K-Means is a classic clustering algorithm in unsupervised learning that groups unlabeled data into distinct clusters based on feature similarity without human intervention.",
-        arabicHint: "أي من الخوارزميات التالية مثال على التعلم غير الخاضع للإشراف (Unsupervised) والمستخدم لتجميع النقاط المتشابهة في عناقيد؟ (K-Means Clustering)."
+        pdf: 'pdf5',
+        type: 'mcq',
+        question: "A 4-to-1 Multiplexer (MUX) has 4 data input lines. How many select lines does it require?",
+        options: ["1", "2", "3", "4"],
+        correct: 1, // 2
+        hint: {
+          arQuestion: "المجمع (Multiplexer 4-to-1) يمتلك 4 خطوط دخل بيانات. كم عدد خطوط الاختيار (Select lines) التي يحتاجها؟",
+          arOptions: [
+            "A) 1",
+            "B) 2 (الإجابة الصحيحة)",
+            "C) 3",
+            "D) 4"
+          ],
+          arAnswer: "B) 2",
+          arExplanation: "القاعدة: 2ⁿ = عدد المداخل. هنا 2² = 4، إذن عدد خطوط الاختيار n = 2 (وهما S₀ و S₁)."
+        }
       },
       {
         id: 38,
-        lecture: 4,
-        lecTitle: "Lecture 4: Machine Learning Core",
-        question: "How does Google Photos demonstrate Semi-Supervised Machine Learning when tagging family photos?",
-        options: {
-          a: "It uses pure supervised learning requiring manual tagging for every photo",
-          b: "It uses unsupervised clustering to group similar faces, then needs just one label per person from the user to identify everyone",
-          c: "It automatically generates fictional names for all detected people",
-          d: "It operates entirely through reinforcement learning penalties"
-        },
-        correct: "b",
-        explanation: "Semi-supervised systems combine a large volume of unlabeled data with a small amount of labeled data. Google Photos clusters face images automatically (unsupervised) and then applies user-provided names (supervised labels) across entire face groups.",
-        arabicHint: "كيف يمثل تطبيق صور جوجل (Google Photos) التعلم شبه الإشرافي (Semi-Supervised)؟ (يجمع صور الوجوه المتشابهة تلقائياً بدون إشراف، ثم يطلب تسمية واحدة من المستخدم لربط كل الصور بالشخص)."
+        pdf: 'pdf5',
+        type: 'mcq',
+        question: "How many select lines are required for an 8-to-1 Multiplexer?",
+        options: ["2", "3", "4", "8"],
+        correct: 1, // 3
+        hint: {
+          arQuestion: "كم عدد خطوط الاختيار اللازمة للمجمع 8-to-1 MUX؟",
+          arOptions: [
+            "A) 2",
+            "B) 3 (الإجابة الصحيحة)",
+            "C) 4",
+            "D) 8"
+          ],
+          arAnswer: "B) 3",
+          arExplanation: "2³ = 8، لذا يلزم 3 خطوط اختيار (A, B, C) لاختيار أحد المداخل الثمانية D₀ إلى D₇."
+        }
       },
       {
         id: 39,
-        lecture: 4,
-        lecTitle: "Lecture 4: Machine Learning Core",
-        question: "In Reinforcement Learning, what is the strategy that an agent learns to maximize its rewards over time called?",
-        options: {
-          a: "Predictor",
-          b: "Policy",
-          c: "Attribute",
-          d: "Cluster"
-        },
-        correct: "b",
-        explanation: "In Reinforcement Learning, an agent interacts with an environment and learns a \"policy,\" which dictates the best action to choose in any given situation to accumulate maximum rewards over time.",
-        arabicHint: "في التعلم المعزز (Reinforcement Learning)، ماذا تسمى الاستراتيجية أو الخطة التي يتعلمها الوكيل (Agent) لتعظيم مكافآته عبر الوقت؟ (السياسة - Policy)."
+        pdf: 'pdf5',
+        type: 'tf',
+        question: "A demultiplexer (DEMUX) takes a single input data line and routes it to one of 2ⁿ output lines based on the select lines.",
+        options: ["True", "False"],
+        correct: 0, // True
+        hint: {
+          arQuestion: "الموزع (Demultiplexer) يأخذ خط دخل بيانات واحد ويوجهه إلى أحد خطوط الخرج المتعددة (2ⁿ) بالاعتماد على خطوط الاختيار.",
+          arOptions: [
+            "A) True (صح) (الإجابة الصحيحة)",
+            "B) False (خطأ)"
+          ],
+          arAnswer: "True (صح)",
+          arExplanation: "هذا هو التعريف الدقيق للـ DEMUX، وهو عكس عمل الـ Multiplexer تماماً."
+        }
       },
       {
         id: 40,
-        lecture: 4,
-        lecTitle: "Lecture 4: Machine Learning Core",
-        question: "Which technique is used in Unsupervised Machine Learning to compress high-dimensional feature spaces while preserving essential data relationships?",
-        options: {
-          a: "Principal Component Analysis (PCA) / Dimensionality Reduction",
-          b: "Logistic Regression",
-          c: "Decision Tree Classification",
-          d: "Reinforcement Policy Gradients"
-        },
-        correct: "a",
-        explanation: "Dimensionality reduction techniques like PCA and t-SNE are unsupervised methods that reduce the number of features/dimensions in a dataset while preserving key structural information and patterns.",
-        arabicHint: "ما التقنية غير الخاضعة للإشراف المستخدمة لتقليص وضغط فضاء الميزات متعدد الأبعاد مع الحفاظ على العلاقات الجوهرية للبيانات؟ (PCA / Dimensionality Reduction)."
+        pdf: 'pdf5',
+        type: 'tf',
+        question: "Sequential logic circuits differ from combinational circuits because sequential circuits contain memory elements (like flip-flops).",
+        options: ["True", "False"],
+        correct: 0, // True
+        hint: {
+          arQuestion: "تختلف الدوائر التتابعية (Sequential circuits) عن الدوائر التوافقية باحتوائها على عناصر ذاكرة (مثل الـ Flip-Flops).",
+          arOptions: [
+            "A) True (صح) (الإجابة الصحيحة)",
+            "B) False (خطأ)"
+          ],
+          arAnswer: "True (صح)",
+          arExplanation: "صحيح، وجود الـ Flip-flops يعطي الدوائر التتابعية القدرة على تذكر الحالات السابقة وتعتمد مخرجاتها على الماضي والحاضر."
+        }
       }
     ];
 
-    // STATE VARIABLES
-    let questions = JSON.parse(JSON.stringify(RAW_QUESTIONS));
-    let activeIndex = 0; // index in current displayed list
-    let userAnswers = {}; // map of qId -> 'a' | 'b' | 'c' | 'd'
-    let flaggedQuestions = new Set();
-    let currentFilter = 'all'; // 'all', '1', '2', '3', '4'
-    let examMode = false; // false: practice (immediate feedback & hints), true: exam simulation
-    let examSubmitted = false;
-    let timerInterval = null;
-    let secondsRemaining = 40 * 60; // 40 minutes
+    // Meta-information for tabs
+    const tabsMeta = {
+      pdf1: {
+        badge: 'PDF 1',
+        title: 'Number Systems, Binary/Hex Conversions & Signal Types',
+        desc: '8 أسئلة ميدتيرم أساسية حول التحويلات بين الأنظمة، المكمل، وإشارات التناظرية والرقمية.'
+      },
+      pdf2: {
+        badge: 'PDF 2',
+        title: 'Basic Logic Gates & Transistor Switching',
+        desc: '8 أسئلة مباشرة على بوابات AND, OR, NOT, XOR وجداول الصواب وسلوك الترانزستور كمفتاح.'
+      },
+      pdf3: {
+        badge: 'PDF 3',
+        title: 'Logic Specifications & Binary Arithmetic Rules',
+        desc: '8 أسئلة على خصائص البوابات (Fan-in, Fan-out, Noise margin, TTL/CMOS) وقواعد الجمع والطرح.'
+      },
+      pdf4: {
+        badge: 'PDF 4',
+        title: 'Boolean Algebra Postulates, Laws & Simplification',
+        desc: '8 أسئلة معيارية على قوانين الجبر البوليني، التوزيع، الامتصاص، المتمم، ونظرية التوافق.'
+      },
+      pdf5: {
+        badge: 'PDF 5',
+        title: 'Combinational Circuits, Adders & Multiplexers',
+        desc: '8 أسئلة تشمل الجامع والطرح النصفي والكامل، بوابات Universal، والـ MUX و الـ DEMUX.'
+      },
+      all: {
+        badge: 'All 40 Qs',
+        title: 'Full Midterm Simulation (جميع الأسئلة الـ 40 مجمعة)',
+        desc: 'محاكاة كاملة للاختبار تضم جميع أجزاء المنهج الـ 5 (40 سؤالاً مع إمكانية التسليم والمراجعة الشاملة).'
+      }
+    };
 
-    // DOM ELEMENTS
-    const qBadgeLecture = document.getElementById('badgeLecture');
-    const qBadgeNum = document.getElementById('badgeQNum');
-    const qText = document.getElementById('questionText');
-    const qArabicHint = document.getElementById('arabicHintContent');
-    const toggleArabicBtn = document.getElementById('toggleArabicBtn');
-    const hintToggleArrow = document.getElementById('hintToggleArrow');
-    const optionsContainer = document.getElementById('optionsContainer');
-    const explanationBox = document.getElementById('explanationBox');
-    const explanationText = document.getElementById('explanationText');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const flagBtn = document.getElementById('flagBtn');
-    const flagIcon = document.getElementById('flagIcon');
-    const clearChoiceBtn = document.getElementById('clearChoiceBtn');
-    const currentQDisplay = document.getElementById('currentQDisplay');
-    const totalQDisplay = document.getElementById('totalQDisplay');
-    const progressPercent = document.getElementById('progressPercent');
-    const progressBarFill = document.getElementById('progressBarFill');
-    const paletteGrid = document.getElementById('paletteGrid');
-    const statAnsweredCount = document.getElementById('statAnsweredCount');
-    const statFlaggedCount = document.getElementById('statFlaggedCount');
-    const filteredCountBadge = document.getElementById('filteredCountBadge');
-    const finishExamBtn = document.getElementById('finishExamBtn');
-    const shuffleBtn = document.getElementById('shuffleBtn');
-    const examModeToggleBtn = document.getElementById('examModeToggleBtn');
-    const modeLabel = document.getElementById('modeLabel');
-    const examTimerBadge = document.getElementById('examTimerBadge');
-    const timerDisplay = document.getElementById('timerDisplay');
-    const themeToggleBtn = document.getElementById('themeToggleBtn');
-    const sunIcon = document.getElementById('sunIcon');
-    const moonIcon = document.getElementById('moonIcon');
+    // User State Storage
+    // Map of answers: { [questionId]: selectedOptionIndex }
+    let userAnswers = {};
+    // Section submission states: { pdf1: boolean, pdf2: boolean, ..., all: boolean }
+    let sectionSubmitted = {
+      pdf1: false,
+      pdf2: false,
+      pdf3: false,
+      pdf4: false,
+      pdf5: false,
+      all: false
+    };
 
-    // Modals
-    const resultModal = document.getElementById('resultModal');
-    const closeModalBtn = document.getElementById('closeModalBtn');
-    const reviewAnswersBtn = document.getElementById('reviewAnswersBtn');
-    const retakeBtn = document.getElementById('retakeBtn');
-    const resCorrect = document.getElementById('resCorrect');
-    const resWrong = document.getElementById('resWrong');
-    const resScore = document.getElementById('resScore');
-    const breakdownLec1 = document.getElementById('breakdownLec1');
-    const breakdownLec2 = document.getElementById('breakdownLec2');
-    const breakdownLec3 = document.getElementById('breakdownLec3');
-    const breakdownLec4 = document.getElementById('breakdownLec4');
+    let activeTab = 'pdf1';
+    let isShuffled = false;
 
-    // Filter helper
+    // Helper: show toast message
+    function showToast(msg, isSuccess = true) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      const toastIcon = document.getElementById('toastIcon');
+
+      toastMsg.textContent = msg;
+      toastIcon.className = isSuccess 
+        ? 'fa-solid fa-circle-check text-emerald-400 text-base' 
+        : 'fa-solid fa-circle-exclamation text-amber-400 text-base';
+
+      toast.classList.remove('opacity-0', 'translate-y-20');
+      toast.classList.add('opacity-100', 'translate-y-0');
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-20');
+        toast.classList.remove('opacity-100', 'translate-y-0');
+      }, 2500);
+    }
+
+    // Get active list of questions based on current tab
     function getFilteredQuestions() {
-      if (currentFilter === 'all') return questions;
-      return questions.filter(q => q.lecture.toString() === currentFilter);
+      let list = [];
+      if (activeTab === 'all') {
+        list = [...questionsDB];
+      } else {
+        list = questionsDB.filter(q => q.pdf === activeTab);
+      }
+      return list;
     }
 
-    // INIT
-    function init() {
-      setupTheme();
-      renderPalette();
-      loadQuestion(0);
-      setupEventListeners();
-    }
+    // Render Question Cards
+    function renderQuestions() {
+      const container = document.getElementById('questionsContainer');
+      const questions = getFilteredQuestions();
+      const isSub = sectionSubmitted[activeTab];
 
-    // THEME SETUP
-    function setupTheme() {
-      // Default light mode
-      if (localStorage.getItem('theme') === 'dark') {
-        document.documentElement.classList.add('dark');
-        sunIcon.classList.remove('hidden');
-        moonIcon.classList.add('hidden');
-      } else {
-        document.documentElement.classList.remove('dark');
-        sunIcon.classList.add('hidden');
-        moonIcon.classList.remove('hidden');
-      }
-    }
+      container.innerHTML = '';
 
-    themeToggleBtn.addEventListener('click', () => {
-      const isDark = document.documentElement.classList.toggle('dark');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-      if (isDark) {
-        sunIcon.classList.remove('hidden');
-        moonIcon.classList.add('hidden');
-      } else {
-        sunIcon.classList.add('hidden');
-        moonIcon.classList.remove('hidden');
-      }
-    });
-
-    // LOAD & RENDER QUESTION
-    function loadQuestion(index) {
-      const filtered = getFilteredQuestions();
-      if (!filtered.length) return;
-
-      if (index < 0) index = 0;
-      if (index >= filtered.length) index = filtered.length - 1;
-      activeIndex = index;
-
-      const q = filtered[activeIndex];
-      const hasAnswered = userAnswers[q.id] !== undefined;
-      const isFlagged = flaggedQuestions.has(q.id);
-
-      // Header info
-      qBadgeLecture.textContent = `Lecture ${q.lecture}`;
-      qBadgeNum.textContent = `Q${q.id}`;
-      qText.textContent = q.question;
-      qArabicHint.textContent = q.arabicHint;
-
-      // Reset Arabic toggle state (collapsed by default)
-      qArabicHint.classList.add('hidden');
-      hintToggleArrow.textContent = '▼ إظهار';
-
-      // Update flag appearance
-      if (isFlagged) {
-        flagIcon.classList.add('text-amber-500', 'fill-amber-500');
-        flagIcon.classList.remove('text-slate-400');
-        flagBtn.classList.add('bg-amber-50', 'border-amber-300', 'dark:bg-amber-950/40', 'dark:border-amber-800');
-      } else {
-        flagIcon.classList.remove('text-amber-500', 'fill-amber-500');
-        flagIcon.classList.add('text-slate-400');
-        flagBtn.classList.remove('bg-amber-50', 'border-amber-300', 'dark:bg-amber-950/40', 'dark:border-amber-800');
+      if (questions.length === 0) {
+        container.innerHTML = `<div class="p-8 text-center text-slate-400">لا توجد أسئلة حالياً.</div>`;
+        return;
       }
 
-      // Render Options
-      optionsContainer.innerHTML = '';
-      const letters = ['a', 'b', 'c', 'd'];
+      questions.forEach((q, index) => {
+        const questionNumber = index + 1;
+        const userAnswer = userAnswers[q.id];
+        const isAnswered = userAnswer !== undefined;
 
-      letters.forEach(letter => {
-        const optionText = q.options[letter];
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = `w-full text-left p-4 rounded-xl border flex items-start gap-3 transition cursor-pointer select-none relative group`;
+        // Card container
+        const card = document.createElement('div');
+        card.id = `qcard-${q.id}`;
+        card.className = "bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/90 shadow-sm transition-all duration-200";
 
-        const isSelected = userAnswers[q.id] === letter;
-        const showResult = (examSubmitted || (!examMode && hasAnswered));
-        const isCorrectOption = (letter === q.correct);
-
-        if (showResult) {
-          if (isCorrectOption) {
-            btn.className += ' bg-emerald-50 dark:bg-emerald-950/40 border-emerald-500 dark:border-emerald-500 text-emerald-900 dark:text-emerald-100 font-medium';
-          } else if (isSelected && !isCorrectOption) {
-            btn.className += ' bg-rose-50 dark:bg-rose-950/40 border-rose-500 dark:border-rose-500 text-rose-900 dark:text-rose-100';
+        // Status highlight if submitted
+        if (isSub) {
+          if (userAnswer === q.correct) {
+            card.classList.add('border-emerald-300', 'bg-emerald-50/20');
           } else {
-            btn.className += ' bg-slate-50/50 dark:bg-zinc-800/40 border-slate-200 dark:border-zinc-800 opacity-60 text-slate-500 dark:text-zinc-400';
-          }
-        } else {
-          if (isSelected) {
-            btn.className += ' bg-blue-50 dark:bg-blue-950/50 border-blue-600 dark:border-blue-500 text-blue-950 dark:text-blue-100 font-semibold ring-2 ring-blue-500/20';
-          } else {
-            btn.className += ' bg-white dark:bg-zinc-800/70 border-slate-200 dark:border-zinc-700/80 hover:border-blue-400 dark:hover:border-blue-600 hover:bg-blue-50/20 text-slate-800 dark:text-zinc-200';
+            card.classList.add('border-rose-300', 'bg-rose-50/20');
           }
         }
 
-        // Letter pill
-        let pillClass = 'w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs shrink-0 uppercase transition';
-        if (showResult) {
-          if (isCorrectOption) pillClass += ' bg-emerald-600 text-white';
-          else if (isSelected) pillClass += ' bg-rose-600 text-white';
-          else pillClass += ' bg-slate-200 dark:bg-zinc-700 text-slate-700 dark:text-zinc-300';
-        } else {
-          if (isSelected) pillClass += ' bg-blue-600 text-white shadow-sm';
-          else pillClass += ' bg-slate-100 dark:bg-zinc-700 text-slate-600 dark:text-zinc-300 group-hover:bg-blue-100 group-hover:text-blue-700 dark:group-hover:bg-zinc-600';
-        }
+        // Question header
+        let html = `
+          <div class="flex items-start justify-between gap-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-sm">
+                Q${questionNumber}
+              </span>
+              <span class="text-xs uppercase font-extrabold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600">
+                ${q.type === 'tf' ? 'True / False' : 'Multiple Choice'}
+              </span>
+              <span class="text-xs font-semibold text-slate-400">
+                [${q.pdf.toUpperCase()}]
+              </span>
+            </div>
 
-        btn.innerHTML = `
-          <span class="${pillClass}">${letter}</span>
-          <span class="text-xs sm:text-sm leading-relaxed pt-0.5 flex-1">${optionText}</span>
-          ${showResult && isCorrectOption ? `
-            <svg class="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 self-center" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-          ` : ''}
-          ${showResult && isSelected && !isCorrectOption ? `
-            <svg class="w-5 h-5 text-rose-500 dark:text-rose-400 shrink-0 self-center" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
-          ` : ''}
+            <!-- Hint Trigger Button -->
+            <button onclick="toggleHint(${q.id})" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs transition border border-indigo-200" title="اضغط لترجمة السؤال والخيارات ومعرفة الإجابة">
+              <i class="fa-solid fa-lightbulb text-amber-500"></i>
+              <span>Hint / ترجمة ومساعدة</span>
+            </button>
+          </div>
+
+          <!-- English Question Text -->
+          <h4 class="ltr-content text-base sm:text-lg font-semibold text-slate-800 mb-5 leading-snug">
+            ${q.question}
+          </h4>
+
+          <!-- Options Grid -->
+          <div class="space-y-2.5 ltr-content">
         `;
 
-        btn.addEventListener('click', () => {
-          if (examSubmitted) return; // locked after submission
-          userAnswers[q.id] = letter;
-          loadQuestion(activeIndex);
-          renderPalette();
-          updateStats();
+        // Render each option
+        q.options.forEach((opt, optIdx) => {
+          const isSelected = userAnswer === optIdx;
+          let optStyle = "bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200";
+          let badgeColor = "bg-slate-200 text-slate-700";
+          let iconHtml = "";
+
+          if (isSub) {
+            // After submission highlight
+            if (optIdx === q.correct) {
+              optStyle = "bg-emerald-100/80 border-emerald-500 text-emerald-950 font-semibold ring-2 ring-emerald-500/20";
+              badgeColor = "bg-emerald-600 text-white";
+              iconHtml = `<i class="fa-solid fa-circle-check text-emerald-600 ml-auto"></i>`;
+            } else if (isSelected && optIdx !== q.correct) {
+              optStyle = "bg-rose-100/80 border-rose-500 text-rose-950 ring-2 ring-rose-500/20";
+              badgeColor = "bg-rose-600 text-white";
+              iconHtml = `<i class="fa-solid fa-circle-xmark text-rose-600 ml-auto"></i>`;
+            } else {
+              optStyle = "bg-slate-50 text-slate-400 border-slate-200 opacity-60";
+            }
+          } else {
+            // Normal interactive state
+            if (isSelected) {
+              optStyle = "bg-indigo-50 border-indigo-600 text-indigo-950 font-medium ring-2 ring-indigo-500/30";
+              badgeColor = "bg-indigo-600 text-white";
+            }
+          }
+
+          const optLetter = String.fromCharCode(65 + optIdx); // A, B, C, D
+
+          html += `
+            <div 
+              onclick="selectAnswer(${q.id}, ${optIdx})" 
+              class="flex items-center gap-3 p-3 sm:p-3.5 rounded-xl border text-sm transition cursor-pointer ${optStyle}"
+            >
+              <span class="w-6 h-6 rounded-md ${badgeColor} font-bold text-xs flex items-center justify-center shrink-0">
+                ${q.type === 'tf' ? (optIdx === 0 ? 'T' : 'F') : optLetter}
+              </span>
+              <span class="flex-1">${opt}</span>
+              ${iconHtml}
+            </div>
+          `;
         });
 
-        optionsContainer.appendChild(btn);
-      });
+        html += `</div>`;
 
-      // Clear selection button state
-      if (hasAnswered && !examSubmitted) {
-        clearChoiceBtn.classList.remove('hidden');
-      } else {
-        clearChoiceBtn.classList.add('hidden');
-      }
+        // Hint Card (Hidden by default, expandable)
+        html += `
+          <div id="hint-box-${q.id}" class="hidden mt-5 p-4 rounded-xl bg-amber-50/90 border border-amber-200/90 text-slate-800 transition-all rtl-content">
+            <div class="flex items-center gap-2 mb-2 pb-2 border-b border-amber-200 text-amber-900 font-bold text-xs">
+              <i class="fa-solid fa-circle-info text-amber-600"></i>
+              <span>ترجمة السؤال ومساعد الحل البيداغوجي:</span>
+            </div>
 
-      // Explanation handling
-      if ((!examMode && hasAnswered) || examSubmitted) {
-        explanationBox.classList.remove('hidden');
-        explanationText.textContent = q.explanation;
-      } else {
-        explanationBox.classList.add('hidden');
-      }
+            <!-- Arabic Question Translation -->
+            <div class="mb-3">
+              <span class="block text-xs font-bold text-slate-500 mb-0.5">السؤال باللغة العربية:</span>
+              <p class="text-sm font-semibold text-slate-900">${q.hint.arQuestion}</p>
+            </div>
 
-      // Prev / Next button states
-      prevBtn.disabled = activeIndex === 0;
-      nextBtn.innerHTML = (activeIndex === filtered.length - 1) 
-        ? `Submit Review <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`
-        : `Next <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>`;
+            <!-- Arabic Options Translation -->
+            <div class="mb-3">
+              <span class="block text-xs font-bold text-slate-500 mb-1">الخيارات مترجمة:</span>
+              <div class="space-y-1 bg-white/70 p-2.5 rounded-lg border border-amber-100 text-xs">
+                ${q.hint.arOptions.map(opt => `<div class="py-0.5 text-slate-700">${opt}</div>`).join('')}
+              </div>
+            </div>
 
-      // Progress & Indicator
-      currentQDisplay.textContent = (activeIndex + 1);
-      totalQDisplay.textContent = filtered.length;
-      updateStats();
-    }
-
-    // RENDER NAVIGATION PALETTE
-    function renderPalette() {
-      const filtered = getFilteredQuestions();
-      filteredCountBadge.textContent = `${filtered.length} questions`;
-      paletteGrid.innerHTML = '';
-
-      filtered.forEach((q, idx) => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        const isCurrent = idx === activeIndex;
-        const isAnswered = userAnswers[q.id] !== undefined;
-        const isFlagged = flaggedQuestions.has(q.id);
-
-        let baseClasses = "h-9 rounded-lg font-bold text-xs flex items-center justify-center transition relative";
-
-        if (isCurrent) {
-          baseClasses += " bg-blue-600 text-white ring-2 ring-blue-500 ring-offset-2 dark:ring-offset-zinc-900 shadow-md";
-        } else if (examSubmitted) {
-          // In exam submitted state, show green/red directly
-          if (userAnswers[q.id] === q.correct) {
-            baseClasses += " bg-emerald-500 text-white";
-          } else {
-            baseClasses += " bg-rose-500 text-white";
-          }
-        } else if (isAnswered) {
-          baseClasses += " bg-emerald-500 text-white hover:bg-emerald-600";
-        } else {
-          baseClasses += " bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200 dark:hover:bg-zinc-700";
-        }
-
-        // Flag indicator dot
-        btn.className = baseClasses;
-        btn.innerHTML = `
-          <span>${idx + 1}</span>
-          ${isFlagged ? `<span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-500 border border-white dark:border-zinc-900"></span>` : ''}
+            <!-- Correct Answer & Rationale -->
+            <div class="bg-emerald-50 p-2.5 rounded-lg border border-emerald-200 text-xs text-emerald-950">
+              <div class="font-extrabold text-emerald-800 flex items-center gap-1.5 mb-1">
+                <i class="fa-solid fa-circle-check text-emerald-600"></i>
+                <span>الإجابة النموذجية: ${q.hint.arAnswer}</span>
+              </div>
+              <p class="text-slate-600 leading-relaxed font-normal">${q.hint.arExplanation}</p>
+            </div>
+          </div>
         `;
 
-        btn.title = `Jump to Q${q.id} (Lec ${q.lecture})`;
-        btn.addEventListener('click', () => {
-          loadQuestion(idx);
-          renderPalette();
-        });
-
-        paletteGrid.appendChild(btn);
+        card.innerHTML = html;
+        container.appendChild(card);
       });
+
+      updateResultBox();
     }
 
-    // UPDATE STATS & PROGRESS BAR
-    function updateStats() {
+    // Option Selection Logic
+    window.selectAnswer = function(questionId, optIndex) {
+      if (sectionSubmitted[activeTab]) {
+        showToast("لقد قمت بتسليم هذا القسم بالفعل. اضغط 'إعادة المحاولة' للتعديل.", false);
+        return;
+      }
+      userAnswers[questionId] = optIndex;
+      renderQuestions();
+    };
+
+    // Toggle Hint Card
+    window.toggleHint = function(questionId) {
+      const hintBox = document.getElementById(`hint-box-${questionId}`);
+      if (!hintBox) return;
+      hintBox.classList.toggle('hidden');
+    };
+
+    // Update Result Summary Box
+    function updateResultBox() {
+      const resultBox = document.getElementById('resultBox');
+      const isSub = sectionSubmitted[activeTab];
+
+      if (!isSub) {
+        resultBox.classList.add('hidden');
+        return;
+      }
+
+      const questions = getFilteredQuestions();
       const total = questions.length;
-      const answeredCount = Object.keys(userAnswers).length;
-      const flaggedCount = flaggedQuestions.size;
-
-      statAnsweredCount.textContent = answeredCount;
-      statFlaggedCount.textContent = flaggedCount;
-
-      const pct = Math.round((answeredCount / total) * 100);
-      progressPercent.textContent = `${pct}%`;
-      progressBarFill.style.width = `${pct}%`;
-    }
-
-    // EVENT LISTENERS
-    function setupEventListeners() {
-      // Arabic toggle
-      toggleArabicBtn.addEventListener('click', () => {
-        const isHidden = qArabicHint.classList.contains('hidden');
-        if (isHidden) {
-          qArabicHint.classList.remove('hidden');
-          hintToggleArrow.textContent = '▲ إخفاء';
-        } else {
-          qArabicHint.classList.add('hidden');
-          hintToggleArrow.textContent = '▼ إظهار';
-        }
-      });
-
-      // Clear choice
-      clearChoiceBtn.addEventListener('click', () => {
-        const filtered = getFilteredQuestions();
-        const currentQ = filtered[activeIndex];
-        if (currentQ && userAnswers[currentQ.id]) {
-          delete userAnswers[currentQ.id];
-          loadQuestion(activeIndex);
-          renderPalette();
-          updateStats();
-        }
-      });
-
-      // Navigation Buttons
-      prevBtn.addEventListener('click', () => {
-        if (activeIndex > 0) {
-          loadQuestion(activeIndex - 1);
-          renderPalette();
-        }
-      });
-
-      nextBtn.addEventListener('click', () => {
-        const filtered = getFilteredQuestions();
-        if (activeIndex < filtered.length - 1) {
-          loadQuestion(activeIndex + 1);
-          renderPalette();
-        } else {
-          // On last question, open finish prompt
-          showResultsModal();
-        }
-      });
-
-      // Flag for review
-      flagBtn.addEventListener('click', () => {
-        const filtered = getFilteredQuestions();
-        const currentQ = filtered[activeIndex];
-        if (!currentQ) return;
-
-        if (flaggedQuestions.has(currentQ.id)) {
-          flaggedQuestions.delete(currentQ.id);
-        } else {
-          flaggedQuestions.add(currentQ.id);
-        }
-        loadQuestion(activeIndex);
-        renderPalette();
-        updateStats();
-      });
-
-      // Filter tabs
-      document.querySelectorAll('.lecture-filter-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          document.querySelectorAll('.lecture-filter-btn').forEach(b => {
-            b.classList.remove('bg-blue-600', 'text-white', 'shadow-sm');
-            b.classList.add('text-slate-600', 'dark:text-zinc-300', 'hover:bg-slate-100', 'dark:hover:bg-zinc-800');
-          });
-          e.currentTarget.classList.add('bg-blue-600', 'text-white', 'shadow-sm');
-          e.currentTarget.classList.remove('text-slate-600', 'dark:text-zinc-300', 'hover:bg-slate-100', 'dark:hover:bg-zinc-800');
-
-          currentFilter = e.currentTarget.getAttribute('data-filter');
-          activeIndex = 0;
-          loadQuestion(0);
-          renderPalette();
-        });
-      });
-
-      // Shuffle Questions button
-      shuffleBtn.addEventListener('click', () => {
-        // Fisher-Yates shuffle
-        for (let i = questions.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [questions[i], questions[j]] = [questions[j], questions[i]];
-        }
-        activeIndex = 0;
-        loadQuestion(0);
-        renderPalette();
-
-        // Brief flash toast effect on shuffle
-        shuffleBtn.classList.add('ring-2', 'ring-blue-500');
-        setTimeout(() => shuffleBtn.classList.remove('ring-2', 'ring-blue-500'), 500);
-      });
-
-      // Practice / Exam Mode toggle
-      examModeToggleBtn.addEventListener('click', () => {
-        examMode = !examMode;
-        if (examMode) {
-          modeLabel.textContent = "Exam Simulation";
-          examModeToggleBtn.classList.replace('text-blue-700', 'text-amber-700');
-          examModeToggleBtn.classList.replace('border-blue-200', 'border-amber-300');
-          examTimerBadge.classList.remove('hidden');
-          examTimerBadge.classList.add('flex');
-          startTimer();
-        } else {
-          modeLabel.textContent = "Practice Mode";
-          examModeToggleBtn.classList.replace('text-amber-700', 'text-blue-700');
-          examModeToggleBtn.classList.replace('border-amber-300', 'border-blue-200');
-          examTimerBadge.classList.add('hidden');
-          examTimerBadge.classList.remove('flex');
-          clearInterval(timerInterval);
-        }
-        loadQuestion(activeIndex);
-      });
-
-      // Submit exam
-      finishExamBtn.addEventListener('click', () => {
-        showResultsModal();
-      });
-
-      // Modal Controls
-      closeModalBtn.addEventListener('click', () => {
-        resultModal.classList.add('hidden');
-        resultModal.classList.remove('flex');
-      });
-
-      reviewAnswersBtn.addEventListener('click', () => {
-        examSubmitted = true;
-        examMode = false; // allow immediate viewing of explanation
-        resultModal.classList.add('hidden');
-        resultModal.classList.remove('flex');
-        loadQuestion(0);
-        renderPalette();
-      });
-
-      retakeBtn.addEventListener('click', () => {
-        userAnswers = {};
-        flaggedQuestions.clear();
-        examSubmitted = false;
-        secondsRemaining = 40 * 60;
-        resultModal.classList.add('hidden');
-        resultModal.classList.remove('flex');
-        loadQuestion(0);
-        renderPalette();
-        updateStats();
-      });
-    }
-
-    // TIMER LOGIC
-    function startTimer() {
-      clearInterval(timerInterval);
-      timerInterval = setInterval(() => {
-        secondsRemaining--;
-        if (secondsRemaining <= 0) {
-          clearInterval(timerInterval);
-          showResultsModal();
-        }
-        const m = Math.floor(secondsRemaining / 60);
-        const s = secondsRemaining % 60;
-        timerDisplay.textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-      }, 1000);
-    }
-
-    // SHOW FINAL SCORE BREAKDOWN
-    function showResultsModal() {
-      examSubmitted = true;
-      clearInterval(timerInterval);
-
-      let correct = 0;
-      let wrong = 0;
-      const lecStats = { 1: { c: 0, t: 10 }, 2: { c: 0, t: 10 }, 3: { c: 0, t: 10 }, 4: { c: 0, t: 10 } };
+      let score = 0;
 
       questions.forEach(q => {
-        const userChoice = userAnswers[q.id];
-        if (userChoice === q.correct) {
-          correct++;
-          if (lecStats[q.lecture]) lecStats[q.lecture].c++;
-        } else {
-          wrong++;
+        if (userAnswers[q.id] === q.correct) {
+          score++;
         }
       });
 
-      const total = questions.length;
-      const scorePct = Math.round((correct / total) * 100);
+      const percent = Math.round((score / total) * 100);
+      const isPassed = percent >= 50;
 
-      resCorrect.textContent = correct;
-      resWrong.textContent = wrong;
-      resScore.textContent = `${scorePct}%`;
+      resultBox.classList.remove('hidden');
+      resultBox.className = isPassed 
+        ? "rounded-2xl p-5 mb-6 border bg-emerald-50 border-emerald-200 text-emerald-900"
+        : "rounded-2xl p-5 mb-6 border bg-rose-50 border-rose-200 text-rose-900";
 
-      breakdownLec1.textContent = `${lecStats[1].c}/10 (${Math.round((lecStats[1].c/10)*100)}%)`;
-      breakdownLec2.textContent = `${lecStats[2].c}/10 (${Math.round((lecStats[2].c/10)*100)}%)`;
-      breakdownLec3.textContent = `${lecStats[3].c}/10 (${Math.round((lecStats[3].c/10)*100)}%)`;
-      breakdownLec4.textContent = `${lecStats[4].c}/10 (${Math.round((lecStats[4].c/10)*100)}%)`;
+      const icon = document.getElementById('resultIcon');
+      icon.className = isPassed 
+        ? "w-12 h-12 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-xl font-bold shadow-md shadow-emerald-500/20"
+        : "w-12 h-12 rounded-xl bg-rose-600 text-white flex items-center justify-center text-xl font-bold shadow-md shadow-rose-500/20";
+      icon.innerHTML = isPassed ? `<i class="fa-solid fa-trophy"></i>` : `<i class="fa-solid fa-triangle-exclamation"></i>`;
 
-      resultModal.classList.remove('hidden');
-      resultModal.classList.add('flex');
-      renderPalette();
-      loadQuestion(activeIndex);
+      document.getElementById('resultHeading').textContent = isPassed 
+        ? "ممتاز! أداء قوي واستيعاب ممتاز لأسئلة المحاضرة" 
+        : "تحتاج إلى مراجعة بعض المفاهيم الخاصة بهذا الملف";
+
+      document.getElementById('resultText').textContent = isPassed
+        ? `أجبت على ${score} من أصل ${total} أسئلة بشكل صحيح. يمكنك مراجعة الأسئلة الخاطئة بالأسفل واستخدام زر المساعدة.`
+        : `أجبت على ${score} من أصل ${total} أسئلة. راجع الملاحظات والترجمة لكل سؤال لتثبيت المعلومة.`;
+
+      document.getElementById('resultScore').textContent = `${score} / ${total}`;
+      document.getElementById('resultPercent').textContent = `${percent}%`;
     }
 
-    // RUN ON LOAD
-    window.addEventListener('DOMContentLoaded', init);
+    // Submit Active Section
+    function submitActiveSection() {
+      const questions = getFilteredQuestions();
+      const answeredCount = questions.filter(q => userAnswers[q.id] !== undefined).length;
+
+      if (answeredCount === 0) {
+        showToast("يرجى اختيار إجابة واحدة على الأقل قبل التسليم!", false);
+        return;
+      }
+
+      sectionSubmitted[activeTab] = true;
+      renderQuestions();
+      showToast("تم تصحيح القسم بنجاح! راجع درجاتك بالأعلى", true);
+
+      // Scroll smoothly to top of results
+      window.scrollTo({ top: 120, behavior: 'smooth' });
+    }
+
+    // Retake / Reset Active Section Only
+    function retakeActiveSection() {
+      const questions = getFilteredQuestions();
+      questions.forEach(q => {
+        delete userAnswers[q.id];
+      });
+      sectionSubmitted[activeTab] = false;
+      renderQuestions();
+      showToast("تمت إعادة تعيين هذا الملف فقط، يمكنك الإجابة من جديد", true);
+    }
+
+    // Shuffle Array In-Place
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+    }
+
+    // Shuffle feature
+    function triggerShuffle() {
+      shuffleArray(questionsDB);
+      isShuffled = true;
+      renderQuestions();
+      showToast("تمت لخبطة ترتيب الأسئلة بنجاح!", true);
+    }
+
+    // Tab Switching Logic
+    function switchTab(tabKey) {
+      activeTab = tabKey;
+
+      // Update Tab Styles
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        const isCurrent = btn.dataset.tab === tabKey;
+        if (isCurrent) {
+          btn.className = "tab-btn px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center gap-2 whitespace-nowrap bg-indigo-600 text-white shadow-md shadow-indigo-600/30";
+        } else {
+          btn.className = "tab-btn px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center gap-2 whitespace-nowrap bg-white text-slate-700 hover:bg-slate-100 border border-slate-200";
+        }
+      });
+
+      // Update Section Header Meta
+      const meta = tabsMeta[tabKey];
+      document.getElementById('activeBadge').textContent = meta.badge;
+      document.getElementById('activeTitle').textContent = meta.title;
+      document.getElementById('activeDesc').textContent = meta.desc;
+
+      renderQuestions();
+    }
+
+    // Event Listeners Initialization
+    document.addEventListener('DOMContentLoaded', () => {
+      // Tab click events
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          switchTab(btn.dataset.tab);
+        });
+      });
+
+      // Section submit buttons
+      document.getElementById('submitSectionBtn').addEventListener('click', submitActiveSection);
+      document.getElementById('bottomSubmitBtn').addEventListener('click', submitActiveSection);
+
+      // Section retake button
+      document.getElementById('retakeSectionBtn').addEventListener('click', retakeActiveSection);
+
+      // Shuffle Button
+      document.getElementById('shuffleBtn').addEventListener('click', triggerShuffle);
+
+      // Theme toggle (light/dark simulator)
+      document.getElementById('themeToggleBtn').addEventListener('click', () => {
+        showToast("الوضع الافتراضي الأكاديمي المريح مفعل لضمان أعلى وضوح في القراءة والامتحانات.", true);
+      });
+
+      // Initial Render
+      renderQuestions();
+    });
   </script>
 </body>
 </html>
