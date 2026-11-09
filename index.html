@@ -114,8 +114,8 @@
         
         <!-- Live Global Status -->
         <div class="flex flex-wrap gap-4 text-xs font-medium text-slate-300 pt-2 border-t border-indigo-700/50">
-          <div><i class="fa-solid fa-list-check text-indigo-400 ml-1"></i> إجمالي الأسئلة: <span class="font-bold text-white">40 سؤال</span></div>
-          <div><i class="fa-solid fa-folder-open text-emerald-400 ml-1"></i> التقسيم: <span class="font-bold text-white">5 محاضرات (8 أسئلة لكل ملف)</span></div>
+          <div><i class="fa-solid fa-list-check text-indigo-400 ml-1"></i> إجمالي الأسئلة: <span class="font-bold text-white">200 سؤال (40 لكل ملف)</span></div>
+          <div><i class="fa-solid fa-folder-open text-emerald-400 ml-1"></i> التقسيم: <span class="font-bold text-white">5 ملفات (40 سؤالاً لكل PDF)</span></div>
           <div><i class="fa-solid fa-language text-amber-400 ml-1"></i> الدعم: <span class="font-bold text-white">ترجمة وشرح فوري لكل سؤال</span></div>
         </div>
       </div>
@@ -126,22 +126,22 @@
     <!-- Navigation Tabs (PDF 1 to 5 + All Questions) -->
     <div class="flex items-center gap-2 overflow-x-auto pb-3 mb-6 no-scrollbar">
       <button class="tab-btn px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center gap-2 whitespace-nowrap bg-indigo-600 text-white shadow-md shadow-indigo-600/30" data-tab="pdf1">
-        <i class="fa-regular fa-file-pdf"></i> PDF 1: Number Systems
+        <i class="fa-regular fa-file-pdf"></i> PDF 1 (40 Qs)
       </button>
       <button class="tab-btn px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center gap-2 whitespace-nowrap bg-white text-slate-700 hover:bg-slate-100 border border-slate-200" data-tab="pdf2">
-        <i class="fa-regular fa-file-pdf"></i> PDF 2: Logic Gates
+        <i class="fa-regular fa-file-pdf"></i> PDF 2 (40 Qs)
       </button>
       <button class="tab-btn px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center gap-2 whitespace-nowrap bg-white text-slate-700 hover:bg-slate-100 border border-slate-200" data-tab="pdf3">
-        <i class="fa-regular fa-file-pdf"></i> PDF 3: Specs & Arithmetic
+        <i class="fa-regular fa-file-pdf"></i> PDF 3 (40 Qs)
       </button>
       <button class="tab-btn px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center gap-2 whitespace-nowrap bg-white text-slate-700 hover:bg-slate-100 border border-slate-200" data-tab="pdf4">
-        <i class="fa-regular fa-file-pdf"></i> PDF 4: Boolean Algebra
+        <i class="fa-regular fa-file-pdf"></i> PDF 4 (40 Qs)
       </button>
       <button class="tab-btn px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center gap-2 whitespace-nowrap bg-white text-slate-700 hover:bg-slate-100 border border-slate-200" data-tab="pdf5">
-        <i class="fa-regular fa-file-pdf"></i> PDF 5: Combinational Logic
+        <i class="fa-regular fa-file-pdf"></i> PDF 5 (40 Qs)
       </button>
       <button class="tab-btn px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center gap-2 whitespace-nowrap bg-white text-indigo-700 hover:bg-indigo-50 border border-indigo-200 font-extrabold" data-tab="all">
-        <i class="fa-solid fa-layer-group"></i> كل الأسئلة معاً (40 Qs)
+        <i class="fa-solid fa-layer-group"></i> كل الأسئلة معاً (200 Qs)
       </button>
     </div>
 
@@ -221,868 +221,279 @@
 
   <!-- Questions Database & Engine -->
   <script>
-    // 40 Exam Questions (8 questions per PDF)
-    // Directly crafted from the uploaded NUSC Lecture Slides (Prof. Ahmad Besheer)
-    const questionsDB = [
-      /* ==================== PDF 1: Number Systems (Q1 - Q8) ==================== */
-      {
-        id: 1,
-        pdf: 'pdf1',
-        type: 'mcq',
-        question: "What is the decimal equivalent of the binary number (101101)₂?",
-        options: ["41", "43", "45", "47"],
-        correct: 2, // 45
-        hint: {
-          arQuestion: "ما هي القيمة العشرية للرقم الثنائي (101101)₂؟",
-          arOptions: [
-            "A) 41",
-            "B) 43",
-            "C) 45 (الإجابة الصحيحة)",
-            "D) 47"
-          ],
-          arAnswer: "C) 45",
-          arExplanation: "الحساب من اليمين لليسار: 1×1 + 0×2 + 1×4 + 1×8 + 0×16 + 1×32 = 1 + 4 + 8 + 32 = 45. (نصاً من مثال المحاضرة)."
-        }
-      },
-      {
-        id: 2,
-        pdf: 'pdf1',
-        type: 'mcq',
-        question: "The binary number (1101 1010)₂ is represented in compact hexadecimal format as:",
-        options: ["(DA)₁₆", "(CB)₁₆", "(EA)₁₆", "(D8)₁₆"],
-        correct: 0, // DA
-        hint: {
-          arQuestion: "العدد الثنائي (1101 1010)₂ يُكتب بالنظام الست عشري على صورة:",
-          arOptions: [
-            "A) (DA)₁₆ (الإجابة الصحيحة)",
-            "B) (CB)₁₆",
-            "C) (EA)₁₆",
-            "D) (D8)₁₆"
-          ],
-          arAnswer: "A) (DA)₁₆",
-          arExplanation: "نقسم العدد إلى مجموعات رباعية: 1101 تمثل 13 أي D، و1010 تمثل 10 أي A، فالناتج DA."
-        }
-      },
-      {
-        id: 3,
-        pdf: 'pdf1',
-        type: 'mcq',
-        question: "How is the 1's complement of a binary number obtained?",
-        options: [
-          "By adding 1 to the binary number",
-          "By replacing all 0s with 1s and 1s with 0s",
-          "By shifting bits to the left",
-          "By converting it into hexadecimal"
-        ],
-        correct: 1,
-        hint: {
-          arQuestion: "كيف يتم إيجاد المتمم الأحادي (1's complement) لأي عدد ثنائي؟",
-          arOptions: [
-            "A) بإضافة 1 إلى الرقم الثنائي",
-            "B) بقلب كل 0 إلى 1 وكل 1 إلى 0 (الإجابة الصحيحة)",
-            "C) بإزاحة الخانات لليسار",
-            "D) بتحويله إلى نظام سداسي عشر"
-          ],
-          arAnswer: "B) بقلب الأصفار إلى واحدات والواحدات إلى أصفار",
-          arExplanation: "المتمم الأحادي يتم ببساطة بعكس كل خانة بت (Inverting all bits)."
-        }
-      },
-      {
-        id: 4,
-        pdf: 'pdf1',
-        type: 'tf',
-        question: "Physical quantities in the real world (such as temperature, pressure, and velocity) are analogue in nature.",
-        options: ["True", "False"],
-        correct: 0, // True
-        hint: {
-          arQuestion: "الكميات الفيزيائية في العالم الحقيقي (مثل الحرارة، الضغط، والسرعة) هي كميات تناظرية (Analogue) بطبيعتها.",
-          arOptions: [
-            "A) True (صح) (الإجابة الصحيحة)",
-            "B) False (خطأ)"
-          ],
-          arAnswer: "True (صح)",
-          arExplanation: "كما ذُكر في المحاضرة نصاً: 'The real world is analogue. Most physical quantities are analogue in nature'."
-        }
-      },
-      {
-        id: 5,
-        pdf: 'pdf1',
-        type: 'mcq',
-        question: "A machine with 64 KB of memory requires 65,536 addresses. In hexadecimal, these addresses range from:",
-        options: ["0000 to EEEE", "0000 to FFFF", "0001 to FFFF", "1000 to 9999"],
-        correct: 1, // 0000 to FFFF
-        hint: {
-          arQuestion: "جهاز يحتوي على ذاكرة 64 كيلوبايت يحتاج 65,536 عنواناً؛ في النظام الست عشري تُمثل هذه العناوين من:",
-          arOptions: [
-            "A) 0000 إلى EEEE",
-            "B) 0000 إلى FFFF (الإجابة الصحيحة)",
-            "C) 0001 إلى FFFF",
-            "D) 1000 إلى 9999"
-          ],
-          arAnswer: "B) 0000 to FFFF",
-          arExplanation: "65536 عنوان تبدأ من 0 حتى 65535، ومكافئ 65535 في الست عشري هو FFFF، لذا العناوين من 0000 إلى FFFF."
-        }
-      },
-      {
-        id: 6,
-        pdf: 'pdf1',
-        type: 'mcq',
-        question: "In computer memory, a floating-point number is split into three main parts:",
-        options: [
-          "Base, Radix, and Power",
-          "Sign, Mantissa, and Exponent",
-          "Integer, Fraction, and Carry",
-          "Bit, Byte, and Word"
-        ],
-        correct: 1, // Sign, Mantissa, and Exponent
-        hint: {
-          arQuestion: "في ذاكرة الحاسوب، ينقسم الرقم ذو النقطة العائمة (Floating Point) إلى ثلاثة أجزاء رئيسية هي:",
-          arOptions: [
-            "A) الأساس، الرادكس، والقوة",
-            "B) الإشارة (Sign)، الجزء المميز (Mantissa)، والأس (Exponent) (الإجابة الصحيحة)",
-            "C) العدد الصحيح، الكسر، والحمل",
-            "D) بت، بايت، وكلمة"
-          ],
-          arAnswer: "B) Sign, Mantissa, and Exponent",
-          arExplanation: "هذا هو المعيار القياسي لتمثيل الـ Floating-Point في الذاكرة (IEEE format)."
-        }
-      },
-      {
-        id: 7,
-        pdf: 'pdf1',
-        type: 'tf',
-        question: "Digital systems have higher noise immunity and are easier to design compared to analogue systems.",
-        options: ["True", "False"],
-        correct: 0, // True
-        hint: {
-          arQuestion: "تتميز الأنظمة الرقمية بمناعة أعلى ضد الضوضاء (Noise Immunity) وسهولة أكبر في التصميم مقارنة بالأنظمة التناظرية.",
-          arOptions: [
-            "A) True (صح) (الإجابة الصحيحة)",
-            "B) False (خطأ)"
-          ],
-          arAnswer: "True (صح)",
-          arExplanation: "مذكورة في مقارنة Analogue vs Digital: من مزايا الأنظمة الرقمية higher noise immunity وeasier to design."
-        }
-      },
-      {
-        id: 8,
-        pdf: 'pdf1',
-        type: 'mcq',
-        question: "What is the primary electronic circuit used to convert real-world continuous signals into discrete digital signals?",
-        options: [
-          "DAC (Digital-to-Analog Converter)",
-          "ADC (Analog-to-Digital Converter)",
-          "Logic Inverter",
-          "Full Subtractor"
-        ],
-        correct: 1, // ADC
-        hint: {
-          arQuestion: "ما هي الدائرة الإلكترونية الأساسية المستخدمة لتحويل الإشارات التناظرية المستمرة إلى إشارات رقمية متقطعة؟",
-          arOptions: [
-            "A) DAC (محول رقمي لتناظري)",
-            "B) ADC (محول تناظري لرقمي) (الإجابة الصحيحة)",
-            "C) عاكس منطقي",
-            "D) طارح كامل"
-          ],
-          arAnswer: "B) ADC (Analog-to-Digital Converter)",
-          arExplanation: "الـ ADC هو المسؤول عن أخذ الإشارة التناظرية وعمل Sampling وQuantization لتحويلها لأصفار ووحايد."
-        }
-      },
+    // 200 Questions (40 Questions strictly generated per PDF)
+    // Structured to provide clear, standard Midterm examinations
+    const rawDB = {
+      pdf1: [
+        { q: "What is the decimal equivalent of the binary number (101101)₂?", o: ["41", "43", "45", "47"], c: 2, t: "mcq", arQ: "ما هي القيمة العشرية للرقم الثنائي (101101)₂؟", arO: ["A) 41", "B) 43", "C) 45", "D) 47"], exp: "32 + 8 + 4 + 1 = 45." },
+        { q: "Convert (1101 1010)₂ into its compact hexadecimal equivalent:", o: ["(DA)₁₆", "(CB)₁₆", "(EA)₁₆", "(D8)₁₆"], c: 0, t: "mcq", arQ: "حول العدد الثنائي (1101 1010)₂ للست عشري:", arO: ["A) DA", "B) CB", "C) EA", "D) D8"], exp: "1101 = D و 1010 = A ينتج DA." },
+        { q: "How is the 1's complement of a binary number obtained?", o: ["Adding 1 to the MSB", "Complementing all bits (replacing 0s with 1s and 1s with 0s)", "Shifting bits left by one position", "Dividing the binary number by 2"], c: 1, t: "mcq", arQ: "كيف يتم الحصول على المتمم الأحادي (1's complement)؟", arO: ["A) إضافة 1 لأعلى بت", "B) قلب جميع الخانات (0 تصبح 1 و 1 تصبح 0)", "C) إزاحة الخانات لليسار", "D) القسمة على 2"], exp: "بقلب كل 0 إلى 1 وكل 1 إلى 0." },
+        { q: "Physical quantities in the real world (such as temperature, pressure, and velocity) are analogue in nature.", o: ["True", "False"], c: 0, t: "tf", arQ: "الكميات الفيزيائية في العالم الحقيقي هي كميات تناظرية بطبيعتها.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نصاً من السلايدات: 'The real world is analogue'." },
+        { q: "A 64K memory machine has 65,536 addresses. In hexadecimal, these range from:", o: ["0000 to EEEE", "0000 to FFFF", "0001 to FFFF", "1000 to 9999"], c: 1, t: "mcq", arQ: "جهاز بذاكرة 64K يحتاج 65536 عنواناً، في النظام الست عشري تُمثل من:", arO: ["A) 0000 إلى EEEE", "B) 0000 إلى FFFF", "C) 0001 إلى FFFF", "D) 1000 إلى 9999"], exp: "من 0 إلى 65535 تمثل بـ 0000 إلى FFFF." },
+        { q: "In computer memory, a floating-point number is partitioned into three parts: sign, mantissa, and exponent.", o: ["True", "False"], c: 0, t: "tf", arQ: "في ذاكرة الحاسب ينقسم الرقم العائم إلى 3 أجزاء: الإشارة، والمانتيسا، والأس.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "هذا تقسيم معيار IEEE للأعداد العائمة." },
+        { q: "What is the primary circuit used to convert continuous analog signals into discrete digital signals?", o: ["DAC", "ADC", "Inverter", "Subtractor"], c: 1, t: "mcq", arQ: "ما هي الدائرة التي تحول الإشارات التناظرية المستمرة إلى رقمية متقطعة؟", arO: ["A) DAC", "B) ADC", "C) عاكس", "D) طارح"], exp: "ADC (Analog to Digital Converter)." },
+        { q: "Digital systems offer higher noise immunity and easier IC fabrication than analog systems.", o: ["True", "False"], c: 0, t: "tf", arQ: "الأنظمة الرقمية تتميز بمناعة أعلى للضوضاء وسهولة تصنيع على دوائر متكاملة.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "من أهم مميزات الأنظمة الرقمية." },
+        { q: "The octal number system is a radix-8 system with digits ranging from:", o: ["0 to 8", "0 to 7", "1 to 8", "0 to 9"], c: 1, t: "mcq", arQ: "النظام الثماني هو نظام أساسه 8 وتتراوح أرقامه من:", arO: ["A) 0 إلى 8", "B) 0 إلى 7", "C) 1 إلى 8", "D) 0 إلى 9"], exp: "الأرقام من 0 إلى 7 فقط." },
+        { q: "What is the decimal equivalent of the octal number (137)₈?", o: ["90", "95", "100", "111"], c: 1, t: "mcq", arQ: "ما هي القيمة العشرية للرقم الثماني (137)₈؟", arO: ["A) 90", "B) 95", "C) 100", "D) 111"], exp: "1×64 + 3×8 + 7×1 = 64 + 24 + 7 = 95." },
+        { q: "In the hexadecimal system, the letter 'E' corresponds to decimal:", o: ["12", "13", "14", "15"], c: 2, t: "mcq", arQ: "في النظام الست عشري، يقابل الحرف 'E' في العشري الرقم:", arO: ["A) 12", "B) 13", "C) 14", "D) 15"], exp: "A=10, B=11, C=12, D=13, E=14, F=15." },
+        { q: "A 'Byte' is a collection of:", o: ["4 bits", "8 bits", "16 bits", "32 bits"], c: 1, t: "mcq", arQ: "البايت (Byte) يتكون من:", arO: ["A) 4 بت", "B) 8 بت", "C) 16 بت", "D) 32 بت"], exp: "البايت = 8 بت." },
+        { q: "The smallest unit of digital information is the bit (binary digit).", o: ["True", "False"], c: 0, t: "tf", arQ: "أصغر وحدة للمعلومات الرقمية هي البت (bit).", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "البت هو أصغر وحدة ويحمل 0 أو 1." },
+        { q: "Convert decimal 13 into binary:", o: ["1101", "1011", "1110", "1100"], c: 0, t: "mcq", arQ: "تحويل الرقم 13 العشري إلى ثنائي هو:", arO: ["A) 1101", "B) 1011", "C) 1110", "D) 1100"], exp: "8 + 4 + 1 = 13 أي 1101₂." },
+        { q: "The 2's complement of a binary number is obtained by adding 1 to its 1's complement.", o: ["True", "False"], c: 0, t: "tf", arQ: "يتم الحصول على المتمم الثنائي بإضافة 1 إلى المتمم الأحادي.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "قاعدة: 2's comp = 1's comp + 1." },
+        { q: "Convert decimal 0.375 into binary fraction:", o: [".011", ".101", ".110", ".001"], c: 0, t: "mcq", arQ: "تحويل الكسر العشري 0.375 إلى ثنائي هو:", arO: ["A) .011", "B) .101", "C) .110", "D) .001"], exp: "0.375 × 2 = 0.75 (0) ثم 0.75×2=1.5 (1) ثم 0.5×2=1.0 (1) فيكون .011." },
+        { q: "The decimal number system is a radix-10 system.", o: ["True", "False"], c: 0, t: "tf", arQ: "النظام العشري هو نظام أساسه 10.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نعم، أساسه 10 وأرقامه من 0 إلى 9." },
+        { q: "To convert a binary number to hexadecimal, bits are grouped into sets of:", o: ["2 bits", "3 bits", "4 bits", "8 bits"], c: 2, t: "mcq", arQ: "للتحويل من ثنائي إلى ست عشري، تُقسم الخانات إلى مجموعات من:", arO: ["A) 2 بت", "B) 3 بت", "C) 4 بت", "D) 8 بت"], exp: "كل 4 خانات ثنائية تكافئ خانة ست عشرية واحدة." },
+        { q: "The hex number (3A)₁₆ is equal to decimal:", o: ["56", "58", "60", "62"], c: 1, t: "mcq", arQ: "الرقم الست عشري (3A)₁₆ يكافئ بالعشري:", arO: ["A) 56", "B) 58", "C) 60", "D) 62"], exp: "3×16 + 10 = 48 + 10 = 58." },
+        { q: "To convert a binary number to octal, bits are grouped into sets of 3 bits.", o: ["True", "False"], c: 0, t: "tf", arQ: "للتحويل من ثنائي إلى ثماني تُقسم البتات لمجموعات من 3 خانات.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "لأن 2³ = 8 فكل 3 خانات تعطي رقماً ثمانياً." },
+        { q: "The 1's complement of (10010110)₂ is:", o: ["(01101001)₂", "(01101010)₂", "(11101001)₂", "(00010110)₂"], c: 0, t: "mcq", arQ: "المتمم الأحادي للرقم (10010110)₂ هو:", arO: ["A) 01101001", "B) 01101010", "C) 11101001", "D) 00010110"], exp: "نعكس كل بت: 01101001." },
+        { q: "The two's complement system is the most common method of representing signed numbers in computers.", o: ["True", "False"], c: 0, t: "tf", arQ: "نظام المتمم الثنائي هو الطريقة الأكثر شيوعاً لتمثيل الأرقام ذات الإشارة في الحواسيب.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نصاً من السلايدات: 'two's complement (most common)'." },
+        { q: "What is (1111)₂ in decimal?", o: ["13", "14", "15", "16"], c: 2, t: "mcq", arQ: "العدد الثنائي (1111)₂ يكافئ بالعشري:", arO: ["A) 13", "B) 14", "C) 15", "D) 16"], exp: "8 + 4 + 2 + 1 = 15." },
+        { q: "The weight of the first bit to the left of the binary point is 2⁰ = 1.", o: ["True", "False"], c: 0, t: "tf", arQ: "وزن الخانة الأولى يسار العلامة الثنائية هو 2⁰ = 1.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، الخانات تتصاعد 2⁰، 2¹، 2²... إلخ." },
+        { q: "The weight of the first digit to the right of the binary point is:", o: ["2⁻¹ (0.5)", "2⁻² (0.25)", "2¹ (2)", "2⁰ (1)"], c: 0, t: "mcq", arQ: "وزن أول خانة يمين العلامة الثنائية هو:", arO: ["A) 2⁻¹ = 0.5", "B) 2⁻² = 0.25", "C) 2¹ = 2", "D) 2⁰ = 1"], exp: "أول كسر ثنائي هو 2⁻¹ = 0.5." },
+        { q: "In floating point representation, the binary point is fixed at the extreme right.", o: ["True", "False"], c: 1, t: "tf", arQ: "في تمثيل النقطة العائمة، العلامة الثنائية ثابتة دائماً في أقصى اليمين.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "خطأ، العلامة تتحرك (تطفو - float) وفقاً للأس." },
+        { q: "A 4-bit binary group is commonly referred to as a:", o: ["Nibble", "Byte", "Word", "Double Word"], c: 0, t: "mcq", arQ: "مجموعة الـ 4 بتات تسمى عادة:", arO: ["A) Nibble", "B) Byte", "C) Word", "D) Double Word"], exp: "4 بت = Nibble." },
+        { q: "Convert decimal 82 to hexadecimal:", o: ["(52)₁₆", "(5A)₁₆", "(42)₁₆", "(62)₁₆"], c: 0, t: "mcq", arQ: "تحويل الرقم 82 العشري إلى ست عشري:", arO: ["A) 52", "B) 5A", "C) 42", "D) 62"], exp: "82 ÷ 16 = 5 والباقي 2، فيكون 52." },
+        { q: "Analogue quantities can have an infinite number of possible values between two extremes.", o: ["True", "False"], c: 0, t: "tf", arQ: "الكميات التناظرية يمكن أن تأخذ عدداً لا نهائياً من القيم بين حدين.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، لأنها إشارات مستمرة (continuous)." },
+        { q: "What is the binary equivalent of hexadecimal digit 'F'?", o: ["1110", "1111", "1001", "1100"], c: 1, t: "mcq", arQ: "المكافئ الثنائي للرمز الست عشري 'F' هو:", arO: ["A) 1110", "B) 1111", "C) 1001", "D) 1100"], exp: "F = 15 = 1111₂." },
+        { q: "In IEEE single precision format, how many bits are allocated for the mantissa?", o: ["8 bits", "16 bits", "23 bits", "32 bits"], c: 2, t: "mcq", arQ: "في معيار IEEE أحادي الدقة، كم عدد البتات المخصصة للمانتيسا (Mantissa)؟", arO: ["A) 8 بت", "B) 16 بت", "C) 23 بت", "D) 32 بت"], exp: "1 بت للإشارة + 8 بت للأس + 23 بت للمانتيسا = 32 بت إجمالي." },
+        { q: "Hexadecimal numbers provide a condensed way of representing long binary strings.", o: ["True", "False"], c: 0, t: "tf", arQ: "يوفر النظام الست عشري طريقة مدمجة لتمثيل الأرقام الثنائية الطويلة.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نعم، كل 4 خانات ثنائية تختصر في خانة واحدة." },
+        { q: "Convert binary (100)₂ to decimal:", o: ["2", "4", "6", "8"], c: 1, t: "mcq", arQ: "تحويل الرقم الثنائي (100)₂ إلى عشري:", arO: ["A) 2", "B) 4", "C) 6", "D) 8"], exp: "1×4 + 0×2 + 0×1 = 4." },
+        { q: "The base (radix) of the binary system is 2.", o: ["True", "False"], c: 0, t: "tf", arQ: "أساس النظام الثنائي هو 2.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، له خانتان فقط 0 و 1." },
+        { q: "What is the 8-bit two's complement of decimal -5 as shown in the notes?", o: ["11111011", "11111010", "00000101", "10000101"], c: 0, t: "mcq", arQ: "ما هو المتمم الثنائي ذو 8 بتات للرقم 5- كما بالسلايدات؟", arO: ["A) 11111011", "B) 11111010", "C) 00000101", "D) 10000101"], exp: "+5 = 00000101، بقلبها: 11111010 ثم إضافة 1: 11111011." },
+        { q: "A Digital-to-Analog Converter (DAC) is used after digital processing to restore an analog signal.", o: ["True", "False"], c: 0, t: "tf", arQ: "يُستخدم محول DAC بعد المعالجة الرقمية لإعادة توليد إشارة تناظرية.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نعم، يتبعه فلتر لتنعيم الإشارة." },
+        { q: "Convert decimal 10 to hexadecimal:", o: ["A", "B", "C", "D"], c: 0, t: "mcq", arQ: "تحويل الرقم 10 العشري للست عشري هو:", arO: ["A) A", "B) B", "C) C", "D) D"], exp: "10 يقابله الحرف A." },
+        { q: "In binary, 10₂ equals decimal 2.", o: ["True", "False"], c: 0, t: "tf", arQ: "في النظام الثنائي، 10₂ يساوي الرقم 2 في العشري.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "1×2 + 0×1 = 2." },
+        { q: "Which number system uses digits from 0 to 9 along with letters A through F?", o: ["Octal", "Hexadecimal", "Decimal", "Binary"], c: 1, t: "mcq", arQ: "أي نظام أرقام يستخدم الخانات من 0 لـ 9 بالإضافة للحروف من A إلى F؟", arO: ["A) الثماني", "B) الست عشري", "C) العشري", "D) الثنائي"], exp: "Hexadecimal (أساس 16)." },
+        { q: "In 8-bit two's complement format, a leading '1' at the most significant bit indicates a negative number.", o: ["True", "False"], c: 0, t: "tf", arQ: "في نظام المتمم الثنائي، وجود 1 في أقصى خانة يسار (MSB) يعني أن الرقم سالب.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، خانة الإشارة 1 تعني سالباً و 0 تعني موجباً." }
+      ],
+      pdf2: [
+        { q: "When a BJT transistor operates in 'Saturation' with Vin ≈ 5V, its output voltage Vout is approximately:", o: ["5 V (HIGH)", "0 V (LOW)", "2.5 V", "Infinite"], c: 1, t: "mcq", arQ: "عندما يعمل الترانزستور في وضع التشبع و Vin=5V، يكون جهد الخرج تقريباً:", arO: ["A) 5V", "B) 0V", "C) 2.5V", "D) لا نهائي"], exp: "في التشبع يتصل الخرج بالأرضي فيكون Vout ≈ 0V." },
+        { q: "When a BJT transistor is in 'Cutoff' with Vin = 0V, its output voltage Vout is approximately:", o: ["0 V", "5 V (HIGH)", "1 V", "-5 V"], c: 1, t: "mcq", arQ: "عندما يكون الترانزستور في وضع القطع (Cutoff) مع دخل 0V، يكون جهد الخرج:", arO: ["A) 0V", "B) 5V", "C) 1V", "D) -5V"], exp: "في القطع ينفصل المسار للأرضي فيرتفع الخرج إلى 5V." },
+        { q: "The output of an AND gate is HIGH (1) only when all of its inputs are HIGH.", o: ["True", "False"], c: 0, t: "tf", arQ: "خرج بوابة AND يكون 1 فقط إذا كانت جميع مدخلاتها 1.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "قاعدة بوابة AND: Y = A · B." },
+        { q: "The output of a 2-input OR gate is LOW (0) only when:", o: ["Both inputs are 0", "Both inputs are 1", "One input is 1 and other is 0", "Any input is 1"], c: 0, t: "mcq", arQ: "خرج بوابة OR ذات المدخلين يكون 0 فقط عندما يكون:", arO: ["A) كلا المدخلين 0", "B) كلا المدخلين 1", "C) أحد المدخلين 1", "D) أي مدخل 1"], exp: "خرج OR لا يكون صفراً إلا إذا كان كل الدخل صفراً." },
+        { q: "A NOT gate is also known as an Inverter.", o: ["True", "False"], c: 0, t: "tf", arQ: "تسمى بوابة NOT أيضاً بالعاكس (Inverter).", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "لأنها تعكس حالة الدخل." },
+        { q: "For a 2-input XOR gate, what is the output if inputs are A = 1 and B = 1?", o: ["1", "0", "Floating", "High-Z"], c: 1, t: "mcq", arQ: "لبوابة XOR، ما هو الخرج إذا كان المدخلان A=1 و B=1؟", arO: ["A) 1", "B) 0", "C) عائم", "D) ممانعة عالية"], exp: "بوابة XOR تعطي 0 عند تطابق المدخلين." },
+        { q: "For a 2-input XOR gate, what is the output if inputs are A = 1 and B = 0?", o: ["0", "1", "High-Z", "Undefined"], c: 1, t: "mcq", arQ: "لبوابة XOR، ما هو الخرج إذا كان المدخلان A=1 و B=0؟", arO: ["A) 0", "B) 1", "C) ممانعة عالية", "D) غير محدد"], exp: "بوابة XOR تعطي 1 عند اختلاف المدخلين." },
+        { q: "In digital logic, True = ON = 1 and False = OFF = 0.", o: ["True", "False"], c: 0, t: "tf", arQ: "في المنطق الرقمي: True = ON = 1 و False = OFF = 0.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "هذا هو التوافق الأساسي للمستويات المنطقية." },
+        { q: "How many 2-input AND gates are required to implement a 4-input AND gate?", o: ["2", "3", "4", "5"], c: 1, t: "mcq", arQ: "كم بوابة AND ثنائية نحتاج لبناء بوابة AND ذات 4 مداخل؟", arO: ["A) 2", "B) 3", "C) 4", "D) 5"], exp: "3 بوابات كما ورد تفصيلاً في سلايدات المحاضرة." },
+        { q: "How many 2-input OR gates are required to implement a 4-input OR gate?", o: ["2", "3", "4", "6"], c: 1, t: "mcq", arQ: "كم بوابة OR ثنائية نحتاج لبناء بوابة OR ذات 4 مداخل؟", arO: ["A) 2", "B) 3", "C) 4", "D) 6"], exp: "3 بوابات إما متتالية أو بشكل شجرة هرمية." },
+        { q: "The output of a multiple-input XOR gate is logic '1' if the number of 1s in the inputs is odd.", o: ["True", "False"], c: 0, t: "tf", arQ: "خرج بوابة XOR متعددة المداخل يكون 1 إذا كان عدد الواحدات في الدخل فردياً.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نصاً من السلايدات: 'output is 1 when number of 1s is odd'." },
+        { q: "If an input signal '0' passes through two cascaded NOT gates, the final output will be:", o: ["0", "1", "High-Z", "Oscillating"], c: 0, t: "mcq", arQ: "إذا مر الدخل 0 عبر بوابتي NOT متتاليتين، يكون الخرج:", arO: ["A) 0", "B) 1", "C) ممانعة عالية", "D) متذبذب"], exp: "العاكس الأول يعطي 1 والثاني يعيده إلى 0." },
+        { q: "A truth table depicts a logic gate's output response for all possible input combinations.", o: ["True", "False"], c: 0, t: "tf", arQ: "جدول الصواب (Truth table) يوضح استجابة خرج البوابة لجميع احتمالات الدخل.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "هذا هو الغرض الأساسي لجدول الصواب." },
+        { q: "Which gate performs the logic operation Y = A + B?", o: ["AND", "OR", "XOR", "NOT"], c: 1, t: "mcq", arQ: "أي بوابة تنفذ العملية المنطقية Y = A + B؟", arO: ["A) AND", "B) OR", "C) XOR", "D) NOT"], exp: "الرمز '+' يمثل عملية OR المنطقية." },
+        { q: "Which gate performs the logic operation Y = A · B?", o: ["AND", "OR", "XOR", "NAND"], c: 0, t: "mcq", arQ: "أي بوابة تنفذ العملية المنطقية Y = A · B؟", arO: ["A) AND", "B) OR", "C) XOR", "D) NAND"], exp: "الرمز '·' يمثل عملية AND المنطقية." },
+        { q: "The symbol ⊕ represents which logic gate operation?", o: ["AND", "OR", "XOR", "NOT"], c: 2, t: "mcq", arQ: "الرمز ⊕ يمثل عملية أي بوابة منطقية؟", arO: ["A) AND", "B) OR", "C) XOR", "D) NOT"], exp: "Y = A ⊕ B هي صيغة بوابة XOR." },
+        { q: "A NOT gate has two inputs and one output.", o: ["True", "False"], c: 1, t: "tf", arQ: "بوابة NOT تمتلك مدخلين ومخرجاً واحداً.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "خطأ، بوابة NOT لها مدخل واحد فقط." },
+        { q: "For a 3-input AND gate, how many total input combinations exist in its truth table?", o: ["4", "6", "8", "16"], c: 2, t: "mcq", arQ: "لبوابة AND ذات 3 مداخل، كم عدد التوليفات المحتملة في جدول الصواب؟", arO: ["A) 4", "B) 6", "C) 8", "D) 16"], exp: "2³ = 8 توليفات (من 000 إلى 111)." },
+        { q: "For a 3-input AND gate, how many input combinations produce an output of '1'?", o: ["1", "3", "4", "7"], c: 0, t: "mcq", arQ: "لبوابة AND ذات 3 مداخل، كم حالة دخل تعطي خرجاً يساوي 1؟", arO: ["A) حالة واحدة فقط", "B) 3 حالات", "C) 4 حالات", "D) 7 حالات"], exp: "حالة واحدة فقط عندما تكون كل المداخل (1, 1, 1)." },
+        { q: "For a 3-input OR gate, how many input combinations produce an output of '0'?", o: ["1", "3", "7", "8"], c: 0, t: "mcq", arQ: "لبوابة OR ذات 3 مداخل، كم حالة دخل تعطي خرجاً يساوي 0؟", arO: ["A) حالة واحدة فقط", "B) 3 حالات", "C) 7 حالات", "D) 8 حالات"], exp: "حالة واحدة فقط عندما تكون كل المداخل (0, 0, 0)." },
+        { q: "If A = 1 and B = 0, what is the output of an AND gate?", o: ["0", "1", "2", "Undefined"], c: 0, t: "mcq", arQ: "إذا كان A=1 و B=0، ما هو خرج بوابة AND؟", arO: ["A) 0", "B) 1", "C) 2", "D) غير محدد"], exp: "1 · 0 = 0." },
+        { q: "If A = 0 and B = 1, what is the output of an OR gate?", o: ["0", "1", "High-Z", "Undefined"], c: 1, t: "mcq", arQ: "إذا كان A=0 و B=1، ما هو خرج بوابة OR؟", arO: ["A) 0", "B) 1", "C) ممانعة عالية", "D) غير محدد"], exp: "0 + 1 = 1." },
+        { q: "Logic gates can be interconnected so that the output of one gate serves as an input to another.", o: ["True", "False"], c: 0, t: "tf", arQ: "يمكن ربط البوابات بحيث يكون خرج بوابة مدخلاً لأخرى.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، ويسمى ذلك بالـ Cascading أو Stacking." },
+        { q: "Consider a circuit: input A passes through a NOT gate, then ANDed with input B. If A=1 and B=1, the final output is:", o: ["0", "1", "High-Z", "Undefined"], c: 0, t: "mcq", arQ: "الدخل A يمر بنفي ثم يُضرب مع B بـ AND؛ إذا كان A=1 و B=1 فالخرج هو:", arO: ["A) 0", "B) 1", "C) ممانعة عالية", "D) غير محدد"], exp: "A=1 نفيها 0، ثم 0 AND 1 يعطي 0 (نصاً من السلايد 25)." },
+        { q: "Consider circuit: A=1 and B=1 into AND gate gives X. C=1 and D=0 into OR gate gives Y. If X and Y are fed to an XOR gate, the output is:", o: ["0", "1", "High-Z", "Undefined"], c: 0, t: "mcq", arQ: "بوابة AND مدخلها 1 و 1 تعطي X=1، وبوابة OR مدخلها 1 و 0 تعطي Y=1؛ دخلا على XOR فالناتج هو:", arO: ["A) 0", "B) 1", "C) ممانعة عالية", "D) غير محدد"], exp: "X=1 و Y=1، وبوابة 1 XOR 1 تعطي 0 (سلايد 26)." },
+        { q: "The term 'Exclusive-OR' means the output is 1 if either input is 1, but NOT both.", o: ["True", "False"], c: 0, t: "tf", arQ: "المقصود بـ Exclusive-OR أن الخرج يكون 1 إذا كان أحد المدخلين 1 وليس كلاهما.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "هذا هو المعنى الحرفي لـ Exclusive OR." },
+        { q: "Logic gates are manufactured physically inside Integrated Circuit (IC) chips.", o: ["True", "False"], c: 0, t: "tf", arQ: "تُصنع البوابات المنطقية مادياً داخل رقائق الدوائر المتكاملة (ICs).", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، وتأتي بحزم مختلفة مثل DIP." },
+        { q: "A 4-input EX-OR gate with inputs (0, 0, 1, 1) produces an output of:", o: ["0", "1", "High-Z", "Undefined"], c: 0, t: "mcq", arQ: "بوابة XOR ذات 4 مداخل عليها الدخل (0, 0, 1, 1) تعطي خرجاً يساوي:", arO: ["A) 0", "B) 1", "C) ممانعة عالية", "D) غير محدد"], exp: "عدد الواحدات هو 2 (زوجي)، إذن الخرج 0 (من جدول صفحة 22)." },
+        { q: "A 4-input EX-OR gate with inputs (1, 0, 0, 0) produces an output of:", o: ["0", "1", "High-Z", "Undefined"], c: 1, t: "mcq", arQ: "بوابة XOR ذات 4 مداخل عليها الدخل (1, 0, 0, 0) تعطي خرجاً:", arO: ["A) 0", "B) 1", "C) ممانعة عالية", "D) غير محدد"], exp: "عدد الواحدات فردي (واحد فقط)، إذن الخرج 1." },
+        { q: "An all-zeros input (0, 0, 0, 0) fed to an EX-OR gate produces an output of '0'.", o: ["True", "False"], c: 0, t: "tf", arQ: "إدخال أصفار كاملة على بوابة XOR ينتج خرجاً مقداره 0.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نعم، لأن عدد الواحدات صفر (زوجي)." },
+        { q: "Can logic gates process continuous audio signals directly without conversion?", o: ["Yes, naturally", "No, they only work on binary levels (0 and 1)", "Only if the voltage is 12V", "Only in analog computers"], c: 1, t: "mcq", arQ: "هل تستطيع البوابات المنطقية معالجة إشارات الصوت التناظرية مباشرة دون تحويل؟", arO: ["A) نعم طبيعياً", "B) لا، تعمل فقط على المستويات الثنائية (0 و 1)", "C) فقط بجهد 12V", "D) فقط بالحواسيب التناظرية"], exp: "البوابات الرقمية تفهم فقط 0 و 1." },
+        { q: "In digital circuits, 0 V typically represents logic level 0 (LOW).", o: ["True", "False"], c: 0, t: "tf", arQ: "في الدوائر الرقمية، 0V يمثل عادة المستوى المنطقي 0 (LOW).", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، 0V = Low = 0." },
+        { q: "In 5V digital circuits, +5 V typically represents logic level 1 (HIGH).", o: ["True", "False"], c: 0, t: "tf", arQ: "في دوائر 5V، يمثل الجهد 5V المستوى المنطقي 1 (HIGH).", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، 5V = High = 1." },
+        { q: "If A = 0 and B = 0, what is the output of an OR gate?", o: ["0", "1", "2", "Floating"], c: 0, t: "mcq", arQ: "إذا كان A=0 و B=0، ما هو خرج بوابة OR؟", arO: ["A) 0", "B) 1", "C) 2", "D) عائم"], exp: "0 + 0 = 0." },
+        { q: "If A = 1 and B = 1, what is the output of an OR gate?", o: ["0", "1", "2", "Floating"], c: 1, t: "mcq", arQ: "إذا كان A=1 و B=1، ما هو خرج بوابة OR؟", arO: ["A) 0", "B) 1", "C) 2", "D) عائم"], exp: "1 + 1 = 1 في المنطق البوليني." },
+        { q: "The mathematical expression for a 3-input AND gate is:", o: ["Y = A + B + C", "Y = A · B · C", "Y = A ⊕ B ⊕ C", "Y = (A · B)'"], c: 1, t: "mcq", arQ: "التعبير الرياضي لبوابة AND ذات 3 مداخل هو:", arO: ["A) Y = A + B + C", "B) Y = A · B · C", "C) Y = A ⊕ B ⊕ C", "D) Y = (A · B)'"], exp: "Y = A · B · C." },
+        { q: "The mathematical expression for a 3-input OR gate is:", o: ["Y = A · B · C", "Y = A + B + C", "Y = (A + B)'", "Y = A ⊕ B"], c: 1, t: "mcq", arQ: "التعبير الرياضي لبوابة OR ذات 3 مداخل هو:", arO: ["A) Y = A · B · C", "B) Y = A + B + C", "C) Y = (A + B)'", "D) Y = A ⊕ B"], exp: "Y = A + B + C." },
+        { q: "Is it possible to implement Y = A + B + C + D using three 2-input OR gates?", o: ["Yes", "No", "Only with TTL gates", "Only with inverters"], c: 0, t: "mcq", arQ: "هل يمكن تنفيذ Y = A+B+C+D بثلاث بوابات OR ثنائية؟", arO: ["A) نعم", "B) لا", "C) فقط بـ TTL", "D) فقط بالعاكسات"], exp: "نعم، كما شرح بالتفصيل في السلايد رقم 19." },
+        { q: "An AND gate can be thought of as series switches, while an OR gate can be thought of as parallel switches.", o: ["True", "False"], c: 0, t: "tf", arQ: "يمكن تشبيه بوابة AND بمفاتيح على التوالي، وبوابة OR بمفاتيح على التوازي.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، لأن التوالي يتطلب عمل الاثنين معاً، بينما التوازي يكفي أحدهما." },
+        { q: "If A = 1, the complement Ā is equal to 0.", o: ["True", "False"], c: 0, t: "tf", arQ: "إذا كان A=1، فإن المتمم Ā يساوي 0.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نفي الـ 1 هو 0 دائماً." }
+      ],
+      pdf3: [
+        { q: "What is defined as the maximum number of inputs connected to a single logic gate?", o: ["Fan-in", "Fan-out", "Noise margin", "Propagation delay"], c: 0, t: "mcq", arQ: "ما هو التعريف لأقصى عدد من المداخل المتصلة ببوابة منطقية واحدة؟", arO: ["A) Fan-in", "B) Fan-out", "C) هامش الضوضاء", "D) تأخير الانتشار"], exp: "Fan-In هو عدد مداخل البوابة." },
+        { q: "What is defined as the maximum number of parallel inputs a gate's output can reliably drive?", o: ["Fan-in", "Fan-out", "Power dissipation", "Duty cycle"], c: 1, t: "mcq", arQ: "ما هو أقصى عدد من المداخل التي يمكن لمخرج بوابة تشغيلها بكفاءة؟", arO: ["A) Fan-in", "B) Fan-out", "C) تبديد القدرة", "D) دورة التشغيل"], exp: "Fan-Out هو قدرة الخرج على القيادة." },
+        { q: "The typical fan-out for standard TTL logic gates is:", o: ["1 to 2", "5 to 10", "50 to 100", "Unlimited"], c: 1, t: "mcq", arQ: "قيمة الـ Fan-out المعتادة لبوابات TTL هي:", arO: ["A) 1 إلى 2", "B) 5 إلى 10", "C) 50 إلى 100", "D) غير محدودة"], exp: "مذكورة نصاً بالجدول: 5 to 10 for TTL." },
+        { q: "Which logic family generally consumes less power and is preferred for battery-powered devices?", o: ["TTL", "CMOS", "RTL", "ECL"], c: 1, t: "mcq", arQ: "أي عائلة منطقية تستهلك طاقة أقل ومفضلة للأجهزة المحمولة؟", arO: ["A) TTL", "B) CMOS", "C) RTL", "D) ECL"], exp: "CMOS تستهلك طاقة ضئيلة جداً." },
+        { q: "Propagation delay is typically measured in which unit?", o: ["Seconds (s)", "Milliseconds (ms)", "Nanoseconds (ns)", "Kilohertz (kHz)"], c: 2, t: "mcq", arQ: "يقاس تأخير الانتشار (Propagation delay) عادة بوحدة:", arO: ["A) ثواني", "B) ميلي ثانية", "C) نانو ثانية (ns)", "D) كيلو هرتز"], exp: "يقاس بالنانو ثانية (ns)." },
+        { q: "A lower propagation delay means a faster logic gate.", o: ["True", "False"], c: 0, t: "tf", arQ: "انخفاض زمن تأخير الانتشار يعني أن البوابة المنطقية أسرع.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نصاً: 'lower delay = faster gate'." },
+        { q: "Noise margin is the amount of unwanted noise voltage a circuit can tolerate without incorrect switching.", o: ["True", "False"], c: 0, t: "tf", arQ: "هامش الضوضاء هو مقدار جهد الضوضاء الذي تتحمله الدائرة دون حدوث خطأ في التبديل.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "هذا هو التعريف الدقيق للـ Noise Margin." },
+        { q: "What is the standard operating temperature range for commercial logic ICs?", o: ["-40°C to +125°C", "0°C to 70°C", "-100°C to 0°C", "100°C to 200°C"], c: 1, t: "mcq", arQ: "ما هو مدى درجة الحرارة القياسي للدوائر المنطقية التجارية؟", arO: ["A) -40 إلى 125", "B) 0°C إلى 70°C", "C) -100 إلى 0", "D) 100 إلى 200"], exp: "Standard: 0°C to 70°C, Industrial: -40°C to +125°C." },
+        { q: "In binary addition, 0 + 0 equals:", o: ["0", "1", "10", "Undefined"], c: 0, t: "mcq", arQ: "في الجمع الثنائي: 0 + 0 يساوي:", arO: ["A) 0", "B) 1", "C) 10", "D) غير محدد"], exp: "0 + 0 = 0." },
+        { q: "In binary addition, 1 + 0 equals:", o: ["0", "1", "10", "Undefined"], c: 1, t: "mcq", arQ: "في الجمع الثنائي: 1 + 0 يساوي:", arO: ["A) 0", "B) 1", "C) 10", "D) غير محدد"], exp: "1 + 0 = 1." },
+        { q: "In binary addition, 1 + 1 equals:", o: ["0 with Carry = 1", "1 with Carry = 0", "1 with Carry = 1", "2 with Carry = 0"], c: 0, t: "mcq", arQ: "في الجمع الثنائي، 1 + 1 ينتج:", arO: ["A) 0 مع حمل 1", "B) 1 مع حمل 0", "C) 1 مع حمل 1", "D) 2 مع حمل 0"], exp: "1 + 1 = 10₂ (Sum 0, Carry 1)." },
+        { q: "In binary addition of three bits, 1 + 1 + 1 produces:", o: ["Sum = 0, Carry = 1", "Sum = 1, Carry = 1", "Sum = 1, Carry = 0", "Sum = 0, Carry = 0"], c: 1, t: "mcq", arQ: "عند جمع 3 بتات (1 + 1 + 1) يكون الناتج:", arO: ["A) Sum=0, Carry=1", "B) Sum=1, Carry=1", "C) Sum=1, Carry=0", "D) Sum=0, Carry=0"], exp: "1 + 1 + 1 = 3 بالعشري أي 11₂ (Sum 1, Carry 1)." },
+        { q: "In binary subtraction, 1 - 0 equals:", o: ["0", "1", "0 with borrow 1", "Undefined"], c: 1, t: "mcq", arQ: "في الطرح الثنائي: 1 - 0 يساوي:", arO: ["A) 0", "B) 1", "C) 0 مع استلاف 1", "D) غير محدد"], exp: "1 - 0 = 1." },
+        { q: "In binary subtraction, 1 - 1 equals:", o: ["0", "1", "10", "Borrow 1"], c: 0, t: "mcq", arQ: "في الطرح الثنائي: 1 - 1 يساوي:", arO: ["A) 0", "B) 1", "C) 10", "D) استلاف 1"], exp: "1 - 1 = 0." },
+        { q: "In binary subtraction, 0 - 1 produces a difference of 1 with a borrow of 1 from the next bit.", o: ["True", "False"], c: 0, t: "tf", arQ: "في الطرح الثنائي: 0 - 1 ينتج فرقاً 1 مع استلاف 1 من الخانة التالية.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "قاعدة أساسية في الطرح الثنائي." },
+        { q: "What is the decimal equivalent of the binary subtraction (1100)₂ - (1001)₂?", o: ["1", "2", "3", "4"], c: 2, t: "mcq", arQ: "ما هو الناتج العشري للعملية الثنائية (1100)₂ - (1001)₂؟", arO: ["A) 1", "B) 2", "C) 3", "D) 4"], exp: "1100₂ = 12، و 1001₂ = 9؛ 12 - 9 = 3 (0011₂)." },
+        { q: "Binary multiplication can be performed using repeated addition and shift operations.", o: ["True", "False"], c: 0, t: "tf", arQ: "يمكن إجراء الضرب الثنائي عبر عمليات الجمع المتكرر والإزاحة.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، خوارزمية Shift and Add." },
+        { q: "In binary multiplication, 1 × 0 equals:", o: ["0", "1", "10", "Undefined"], c: 0, t: "mcq", arQ: "في الضرب الثنائي: 1 × 0 يساوي:", arO: ["A) 0", "B) 1", "C) 10", "D) غير محدد"], exp: "أي عدد في صفر يساوي صفراً." },
+        { q: "In binary multiplication, 1 × 1 equals:", o: ["0", "1", "2", "10"], c: 1, t: "mcq", arQ: "في الضرب الثنائي: 1 × 1 يساوي:", arO: ["A) 0", "B) 1", "C) 2", "D) 10"], exp: "1 × 1 = 1." },
+        { q: "For a TTL gate, the standard HIGH logic level voltage range is typically:", o: ["0 to 0.8 V", "2.0 to 5.0 V", "-5 to 0 V", "10 to 15 V"], c: 1, t: "mcq", arQ: "لبوابات TTL، نطاق جهد المستوى العالي HIGH هو:", arO: ["A) 0 إلى 0.8 V", "B) 2.0 إلى 5.0 V", "C) -5 إلى 0 V", "D) 10 إلى 15 V"], exp: "جدول المواصفات: TTL High من 2V إلى 5V." },
+        { q: "For a TTL gate, the standard LOW logic level voltage range is typically:", o: ["0 to 0.8 V", "2.0 to 5.0 V", "3.5 to 5.0 V", "-1 to 0 V"], c: 0, t: "mcq", arQ: "لبوابات TTL، نطاق جهد المستوى المنخفض LOW هو:", arO: ["A) 0 إلى 0.8 V", "B) 2.0 إلى 5.0 V", "C) 3.5 إلى 5.0 V", "D) -1 إلى 0 V"], exp: "جدول المواصفات: TTL Low من 0 إلى 0.8V." },
+        { q: "Power dissipation in logic gates is commonly measured in milliwatts (mW).", o: ["True", "False"], c: 0, t: "tf", arQ: "يُقاس تبديد القدرة في البوابات المنطقية عادة بالميلي واط (mW).", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نعم، يقاس بالـ mW." },
+        { q: "Higher noise margin indicates a more reliable and noise-immune logic gate.", o: ["True", "False"], c: 0, t: "tf", arQ: "هامش الضوضاء الأعلى يدل على بوابة أكثر موثوقية ومناعة ضد الضوضاء.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نصاً: 'Higher noise margin = more reliable operation'." },
+        { q: "One disadvantage of digital logic gates is that they are limited to binary states (0s and 1s).", o: ["True", "False"], c: 0, t: "tf", arQ: "من عيوب البوابات المنطقية أنها محدودة بالحالات الثنائية (0 و 1) ولا تتعامل مع التناظري مباشرة.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "مذكورة ضمن عيوب البوابات المنطقية بالسلايد 4." },
+        { q: "In larger binary addition, the carry generated from one column is added to the next higher significant column.", o: ["True", "False"], c: 0, t: "tf", arQ: "في الجمع الثنائي متعدد الخانات، يُرحل الحمل للخانة التالية الأعلى أهمية.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "هذه آلية الجمع الموضعية في النظام الثنائي." },
+        { q: "Multiply binary (101)₂ by (10)₂:", o: ["(1010)₂", "(1100)₂", "(1000)₂", "(1110)₂"], c: 0, t: "mcq", arQ: "حاصل ضرب (101)₂ في (10)₂ هو:", arO: ["A) 1010", "B) 1100", "C) 1000", "D) 1110"], exp: "5 × 2 = 10 بالعشري، ومكافئها الثنائي هو 1010₂." },
+        { q: "When borrowing in binary subtraction from an adjacent column, the borrowed value equals 2 (written as 10₂).", o: ["True", "False"], c: 0, t: "tf", arQ: "عند الاستلاف في الطرح الثنائي من الخانة المجاورة، تكون قيمة المستلف 2 (تكتب 10₂).", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "لأن أساس النظام هو 2 فالاستلاف يساوي 2." },
+        { q: "TTL logic gates consume more power and generate more heat than CMOS gates.", o: ["True", "False"], c: 0, t: "tf", arQ: "تستهلك بوابات TTL طاقة أكبر وتولد حرارة أعلى من بوابات CMOS.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نصاً في سلايد العيوب والمقارنات." },
+        { q: "Which logic parameter indicates how many gate inputs can be connected to one single input pin?", o: ["Fan-in", "Propagation delay", "Operating frequency", "Vcc"], c: 0, t: "mcq", arQ: "أي معيار يمثل عدد المداخل المتصلة بالبوابة؟", arO: ["A) Fan-in", "B) تأخير الانتشار", "C) تردد التشغيل", "D) Vcc"], exp: "Fan-in." },
+        { q: "Add binary numbers (1010)₂ + (0101)₂:", o: ["(1111)₂", "(10000)₂", "(1110)₂", "(1011)₂"], c: 0, t: "mcq", arQ: "ناتج جمع (1010)₂ + (0101)₂ هو:", arO: ["A) 1111", "B) 10000", "C) 1110", "D) 1011"], exp: "10 + 5 = 15 = 1111₂." },
+        { q: "Subtract binary numbers (111)₂ - (010)₂:", o: ["(101)₂", "(100)₂", "(110)₂", "(011)₂"], c: 0, t: "mcq", arQ: "ناتج طرح (111)₂ - (010)₂ هو:", arO: ["A) 101", "B) 100", "C) 110", "D) 011"], exp: "7 - 2 = 5 = 101₂." },
+        { q: "The multiplication of (23)₁₀ by (6)₁₀ in binary yields (138)₁₀, represented as:", o: ["(10001010)₂", "(10011010)₂", "(11001010)₂", "(10001100)₂"], c: 0, t: "mcq", arQ: "ضرب 23 في 6 يعطي 138، وتمثيله الثنائي هو:", arO: ["A) 10001010", "B) 10011010", "C) 11001010", "D) 10001100"], exp: "128 + 8 + 2 = 138 أي 10001010₂ (مثال سلايد 8)." },
+        { q: "CMOS logic gates typically operate with higher noise margins compared to TTL gates.", o: ["True", "False"], c: 0, t: "tf", arQ: "بوابات CMOS تعمل عادة بهامش ضوضاء أعلى مقارنة بـ TTL.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، لأن تأرجح الجهد فيها أكبر." },
+        { q: "Extreme temperatures can degrade the switching speed and reliability of logic gates.", o: ["True", "False"], c: 0, t: "tf", arQ: "درجات الحرارة القصوى قد تؤثر سلباً على سرعة التبديل وموثوقية البوابات المنطقية.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نصاً: 'Temperature Sensitive: Extreme temperatures can affect switching speed'." },
+        { q: "In binary addition, adding 0 + 1 results in:", o: ["0 with Carry 0", "1 with Carry 0", "1 with Carry 1", "0 with Carry 1"], c: 1, t: "mcq", arQ: "في الجمع الثنائي: 0 + 1 ينتج:", arO: ["A) 0 مع حمل 0", "B) 1 مع حمل 0", "C) 1 مع حمل 1", "D) 0 مع حمل 1"], exp: "المجموع 1 والحمل صفر." },
+        { q: "In 3-bit binary addition (A, B, Cin), if inputs are A=1, B=1, Cin=0, then:", o: ["Sum = 0, Cout = 1", "Sum = 1, Cout = 0", "Sum = 1, Cout = 1", "Sum = 0, Cout = 0"], c: 0, t: "mcq", arQ: "إذا كان A=1 و B=1 و Cin=0، فإن:", arO: ["A) Sum=0, Cout=1", "B) Sum=1, Cout=0", "C) Sum=1, Cout=1", "D) Sum=0, Cout=0"], exp: "1 + 1 + 0 = 2 بالعشري أي 10₂ (Sum=0, Cout=1)." },
+        { q: "In 3-bit binary subtraction, if Minuend=0, Subtrahend=1, Bin=0, then Difference=1 and Bout=1.", o: ["True", "False"], c: 0, t: "tf", arQ: "في الطرح بـ 3 بتات: إذا كان المطروح منه 0 والمطروح 1 والاستلاف السابق 0، فإن الفرق=1 والاستلاف=1.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "من جدول الطرح الثنائي رقم 3.2 بالمحاضرة." },
+        { q: "Logic circuits containing thousands of gates can be integrated on a tiny silicon chip.", o: ["True", "False"], c: 0, t: "tf", arQ: "يمكن دمج آلاف البوابات المنطقية على شريحة سيليكون صغيرة واحدة.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "هذه ميزة تصنيع الـ Integrated Circuits (ICs)." },
+        { q: "Lower power dissipation in a logic gate is preferable because it generates less heat.", o: ["True", "False"], c: 0, t: "tf", arQ: "انخفاض تبديد القدرة مفضل لأنه يقلل من تولد الحرارة.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، 'lower dissipation = more efficient'." },
+        { q: "Is binary multiplication essentially repetitive addition with appropriate shifts?", o: ["Yes", "No", "Only for signed numbers", "Only in analog systems"], c: 0, t: "mcq", arQ: "هل الضرب الثنائي هو في جوهره جمع متكرر مع إزاحة؟", arO: ["A) نعم", "B) لا", "C) فقط للأرقام ذات الإشارة", "D) فقط في التناظري"], exp: "نعم، Repeated Left-Shift and Add." }
+      ],
+      pdf4: [
+        { q: "According to Boolean algebra postulates, 1 · 1 equals:", o: ["0", "1", "2", "Undefined"], c: 1, t: "mcq", arQ: "وفقاً لمسلمات الجبر البوليني: 1 · 1 يساوي:", arO: ["A) 0", "B) 1", "C) 2", "D) غير محدد"], exp: "1 · 1 = 1." },
+        { q: "According to Boolean algebra postulates, 0 + 0 equals:", o: ["0", "1", "00", "Undefined"], c: 0, t: "mcq", arQ: "وفقاً لمسلمات الجبر البوليني: 0 + 0 يساوي:", arO: ["A) 0", "B) 1", "C) 00", "D) غير محدد"], exp: "0 + 0 = 0." },
+        { q: "The complement of 1 (1̄) is equal to 0, and the complement of 0 (0̄) is equal to 1.", o: ["True", "False"], c: 0, t: "tf", arQ: "متمم 1 هو 0، ومتمم 0 هو 1.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "مسلمة أساسية: 1̄ = 0 و 0̄ = 1." },
+        { q: "Theorem 1 states that 0 · X equals:", o: ["X", "0", "1", "X̄"], c: 1, t: "mcq", arQ: "النظرية 1 تنص على أن 0 · X يساوي:", arO: ["A) X", "B) 0", "C) 1", "D) X̄"], exp: "حاصل ضرب أي متغير في 0 يعطي 0." },
+        { q: "Theorem 1 states that 1 + X equals:", o: ["X", "1", "0", "1+X"], c: 1, t: "mcq", arQ: "النظرية 1 تنص على أن 1 + X يساوي:", arO: ["A) X", "B) 1", "C) 0", "D) 1+X"], exp: "1 + أي تعبير بوليني = 1 دائماً." },
+        { q: "Theorem 2 states that 1 · X equals:", o: ["1", "0", "X", "X̄"], c: 2, t: "mcq", arQ: "النظرية 2 تنص على أن 1 · X يساوي:", arO: ["A) 1", "B) 0", "C) X", "D) X̄"], exp: "1 هو العنصر المحايد في عملية الضرب." },
+        { q: "Theorem 2 states that 0 + X equals:", o: ["0", "1", "X", "X̄"], c: 2, t: "mcq", arQ: "النظرية 2 تنص على أن 0 + X يساوي:", arO: ["A) 0", "B) 1", "C) X", "D) X̄"], exp: "0 هو العنصر المحايد في عملية الجمع البوليني." },
+        { q: "The Idempotent law states that X · X · X = X and X + X + X = X.", o: ["True", "False"], c: 0, t: "tf", arQ: "ينص قانون التساوي الذاتي (Idempotent) على أن X·X = X و X+X = X.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "قانون التساوي الذاتي (Theorem 3)." },
+        { q: "According to the Complementation Law, X · X̄ equals:", o: ["1", "0", "X", "Undefined"], c: 1, t: "mcq", arQ: "وفقاً لقانون المتمم: X · X̄ يساوي:", arO: ["A) 1", "B) 0", "C) X", "D) غير محدد"], exp: "حاصل ضرب المتغير في متممه يساوي 0 دائماً." },
+        { q: "According to the Complementation Law, X + X̄ equals:", o: ["1", "0", "X", "2X"], c: 0, t: "mcq", arQ: "وفقاً لقانون المتمم: X + X̄ يساوي:", arO: ["A) 1", "B) 0", "C) X", "D) 2X"], exp: "جمع المتغير مع متممه يساوي 1 دائماً." },
+        { q: "The Commutative Law states that X + Y = Y + X and X · Y = Y · X.", o: ["True", "False"], c: 0, t: "tf", arQ: "ينص قانون الإبدال على أن X+Y = Y+X و X·Y = Y·X.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "ترتيب المتغيرات لا يغير النتيجة." },
+        { q: "The Associative Law states that X + (Y + Z) = (X + Y) + Z.", o: ["True", "False"], c: 0, t: "tf", arQ: "ينص قانون التجميع على أن X + (Y + Z) = (X + Y) + Z.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، قانون التجميع في الجمع والضرب." },
+        { q: "According to the first Distributive Law, X · (Y + Z) expands to:", o: ["X·Y + X·Z", "X + Y·Z", "(X+Y)·Z", "X·Y·Z"], c: 0, t: "mcq", arQ: "وفقاً لقانون التوزيع الأول: X · (Y + Z) يساوي:", arO: ["A) X·Y + X·Z", "B) X + Y·Z", "C) (X+Y)·Z", "D) X·Y·Z"], exp: "توزيع الضرب على الجمع: X·Y + X·Z." },
+        { q: "The second Distributive Law states that X + Y·Z equals:", o: ["(X + Y) · (X + Z)", "X·Y + X·Z", "X + Y + Z", "(X·Y) + Z"], c: 0, t: "mcq", arQ: "قانون التوزيع الثاني: X + Y·Z يساوي:", arO: ["A) (X + Y) · (X + Z)", "B) X·Y + X·Z", "C) X + Y + Z", "D) (X·Y) + Z"], exp: "توزيع الجمع على الضرب البوليني." },
+        { q: "To find the DUAL of a Boolean expression, we change all '+' to '·', '·' to '+', 0 to 1, 1 to 0, leaving literals unchanged.", o: ["True", "False"], c: 0, t: "tf", arQ: "لإيجاد المزدوج (Dual)، نستبدل + بـ · و · بـ + و 0 بـ 1 و 1 بـ 0 مع بقاء الرموز كما هي.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "هذا هو التعريف الدقيق للـ Dual." },
+        { q: "What is the dual of the expression A·B̄ + B·C̄?", o: ["(A + B̄) · (B + C̄)", "Ā·B + B̄·C", "(Ā + B) · (B̄ + C)", "A·B + B·C"], c: 0, t: "mcq", arQ: "ما هو المزدوج (Dual) للتعبير A·B̄ + B·C̄؟", arO: ["A) (A + B̄) · (B + C̄)", "B) Ā·B + B̄·C", "C) (Ā + B) · (B̄ + C)", "D) A·B + B·C"], exp: "نستبدل الضرب بجمع والجمع بضرب ونترك الحروف كما هي." },
+        { q: "According to Theorem 8, X·Y + X·Ȳ simplifies to:", o: ["X", "Y", "1", "0"], c: 0, t: "mcq", arQ: "وفقاً للنظرية 8: X·Y + X·Ȳ يتبسط إلى:", arO: ["A) X", "B) Y", "C) 1", "D) 0"], exp: "X(Y + Ȳ) = X(1) = X." },
+        { q: "According to Theorem 8 dual, (X + Y) · (X + Ȳ) simplifies to:", o: ["X", "Y", "0", "1"], c: 0, t: "mcq", arQ: "وفقاً للنظرية 8: (X + Y) · (X + Ȳ) يساوي:", arO: ["A) X", "B) Y", "C) 0", "D) 1"], exp: "X + Y·Ȳ = X + 0 = X." },
+        { q: "Simplify the expression: (X + Ȳ) · Y :", o: ["X·Y", "Y", "X", "0"], c: 0, t: "mcq", arQ: "بسط التعبير: (X + Ȳ) · Y :", arO: ["A) X·Y", "B) Y", "C) X", "D) 0"], exp: "X·Y + Ȳ·Y = X·Y + 0 = X·Y (Theorem 9a)." },
+        { q: "Simplify the expression: X·Ȳ + Y :", o: ["X + Y", "X·Y", "Y", "X"], c: 0, t: "mcq", arQ: "بسط التعبير: X·Ȳ + Y :", arO: ["A) X + Y", "B) X·Y", "C) Y", "D) X"], exp: "(X + Y)(Ȳ + Y) = (X + Y)(1) = X + Y (Theorem 9b)." },
+        { q: "The Absorption Law states that X + X·Y simplifies to:", o: ["X", "Y", "X + Y", "1"], c: 0, t: "mcq", arQ: "ينص قانون الامتصاص على أن X + X·Y يتبسط إلى:", arO: ["A) X", "B) Y", "C) X + Y", "D) 1"], exp: "X(1 + Y) = X(1) = X." },
+        { q: "The dual of the Absorption Law states that X · (X + Y) simplifies to:", o: ["X", "Y", "X·Y", "0"], c: 0, t: "mcq", arQ: "مزدوج قانون الامتصاص X · (X + Y) يتبسط إلى:", arO: ["A) X", "B) Y", "C) X·Y", "D) 0"], exp: "X·X + X·Y = X + X·Y = X." },
+        { q: "In Boolean algebra, each occurrence of a variable or its complement is called a:", o: ["Literal", "Term", "Byte", "Karnaugh"], c: 0, t: "mcq", arQ: "في الجبر البوليني، كل ظهور لمتغير أو متممه يسمى:", arO: ["A) Literal", "B) Term", "C) Byte", "D) Karnaugh"], exp: "تعريف الـ Literal نصاً بالسلايد رقم 3." },
+        { q: "An expression formed by literals and operations at one level is defined as a 'Term'.", o: ["True", "False"], c: 0, t: "tf", arQ: "التعبير المكون من literals وعمليات عند مستوى واحد يسمى Term.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "تعريف الـ Term بالسلايد رقم 3." },
+        { q: "Simplify: (A·B + C·D) · [(Ā + B̄) · (C̄ + D̄)] :", o: ["0", "1", "A·B", "C·D"], c: 0, t: "mcq", arQ: "بسط التعبير: (A·B + C·D) مضروباً في متممه:", arO: ["A) 0", "B) 1", "C) A·B", "D) C·D"], exp: "بما أن القوس الثاني هو متمم القوس الأول، فإن X · X̄ = 0 (مثال 6.2)." },
+        { q: "According to the Consensus Theorem, X·Y + X̄·Z + Y·Z simplifies to:", o: ["X·Y + X̄·Z", "Y·Z", "X + Z", "X·Y·Z"], c: 0, t: "mcq", arQ: "وفقاً لنظرية التوافق (Consensus Theorem)، التعبير X·Y + X̄·Z + Y·Z يتبسط إلى:", arO: ["A) X·Y + X̄·Z", "B) Y·Z", "C) X + Z", "D) X·Y·Z"], exp: "الحد Y·Z هو الحد الزائد (Redundant) ويحذف." },
+        { q: "In the Consensus Theorem, the term Y·Z is considered redundant and can be omitted.", o: ["True", "False"], c: 0, t: "tf", arQ: "في نظرية التوافق، يُعتبر الحد Y·Z زائداً (Redundant) ويمكن حذفه.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، هذه هي فكرة النظرية." },
+        { q: "Simplify: [1 + L·M + L·M̄ + L̄·M] :", o: ["1", "0", "L", "M"], c: 0, t: "mcq", arQ: "بسط التعبير: [1 + L·M + L·M̄ + L̄·M] :", arO: ["A) 1", "B) 0", "C) L", "D) M"], exp: "1 + أي مقدار بوليني = 1 دائماً (مثال 6.3)." },
+        { q: "Simplify: Z·X + Z·X̄·Y :", o: ["Z·X + Z·Y", "Z", "X·Y", "0"], c: 0, t: "mcq", arQ: "بسط: Z·X + Z·X̄·Y :", arO: ["A) Z·X + Z·Y", "B) Z", "C) X·Y", "D) 0"], exp: "Z(X + X̄·Y) = Z(X + Y) = Z·X + Z·Y (Theorem 11a)." },
+        { q: "Simplify: A + A·B̄ + A·B̄·C̄ + A·B̄·C :", o: ["A", "B", "C", "1"], c: 0, t: "mcq", arQ: "بسط: A + A·B̄ + A·B̄·C̄ + A·B̄·C :", arO: ["A) A", "B) B", "C) C", "D) 1"], exp: "بما أن الحد الأصغر A موجود، فإنه يمتص جميع الحدود الأكبر (قانون الامتصاص) والناتج A." },
+        { q: "De Morgan's theorem states that (A + B)' equals A' · B'.", o: ["True", "False"], c: 0, t: "tf", arQ: "تنص نظرية ديمورجان على أن نفي (A + B) يساوي A' · B'.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح: (A + B)' = A' · B'." },
+        { q: "De Morgan's theorem states that (A · B)' equals A' + B'.", o: ["True", "False"], c: 0, t: "tf", arQ: "تنص نظرية ديمورجان على أن نفي (A · B) يساوي A' + B'.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح: (A · B)' = A' + B'." },
+        { q: "Simplify: Ā·B̄ + Ā·B + A·B̄ + A·B :", o: ["1", "0", "A", "B"], c: 0, t: "mcq", arQ: "بسط: Ā·B̄ + Ā·B + A·B̄ + A·B :", arO: ["A) 1", "B) 0", "C) A", "D) B"], exp: "Ā(B̄+B) + A(B̄+B) = Ā(1) + A(1) = Ā + A = 1 (سلايد 8)." },
+        { q: "The double complement of any variable (Ā̄) is equal to A.", o: ["True", "False"], c: 0, t: "tf", arQ: "النفي المزدوج لأي متغير (Ā̄) يساوي المتغير نفسه A.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نفي النفي إثبات: (A')' = A." },
+        { q: "Is the dual of an expression identical to its complement?", o: ["No, dual leaves literals uncomplemented", "Yes, they are identical", "Only if variables are 0", "Only for 2 variables"], c: 0, t: "mcq", arQ: "هل المزدوج (Dual) مطابق للمتمم (Complement)؟", arO: ["A) لا، المزدوج يترك المتغيرات دون نفي", "B) نعم متطابقان", "C) فقط إذا كانت المتغيرات صفر", "D) فقط لمتغيرين"], exp: "المزدوج يعكس العمليات فقط دون نفي الحروف." },
+        { q: "How many literals are present in the expression: Ā + A·B + A·C̄ + Ā·B·C ?", o: ["8 literals", "4 literals", "3 literals", "10 literals"], c: 0, t: "mcq", arQ: "كم عدد الـ Literals في التعبير Ā + A·B + A·C̄ + Ā·B·C ؟", arO: ["A) 8 literals", "B) 4 literals", "C) 3 literals", "D) 10 literals"], exp: "كل ظهور لمتغير يحسب: 1 + 2 + 2 + 3 = 8 (نصاً بالسلايد 3)." },
+        { q: "How many variables are present in the expression: Ā + A·B + A·C̄ + Ā·B·C ?", o: ["3 variables (A, B, C)", "8 variables", "4 variables", "2 variables"], c: 0, t: "mcq", arQ: "كم عدد المتغيرات (Variables) في التعبير السابق؟", arO: ["A) 3 متغيرات (A, B, C)", "B) 8 متغيرات", "C) 4 متغيرات", "D) متغيران"], exp: "المتغيرات الفريدة هي 3 فقط: A و B و C." },
+        { q: "According to Boolean postulates, 0 · 0 equals 0.", o: ["True", "False"], c: 0, t: "tf", arQ: "وفقاً للمسلمات: 0 · 0 = 0.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح." },
+        { q: "Simplify: (A + B) · (A + B̄) :", o: ["A", "B", "1", "0"], c: 0, t: "mcq", arQ: "بسط التعبير: (A + B) · (A + B̄) :", arO: ["A) A", "B) B", "C) 1", "D) 0"], exp: "A + B·B̄ = A + 0 = A." },
+        { q: "Boolean algebra simplification leads to circuits with fewer gates and shorter propagation delays.", o: ["True", "False"], c: 0, t: "tf", arQ: "تبسيط الجبر البوليني يؤدي لدوائر بعدد بوابات أقل وزمن تأخير أقصر.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، هذا هو الهدف الهندسي من التبسيط." }
+      ],
+      pdf5: [
+        { q: "Which two gates are known as 'Universal Gates' because each can implement any logic function?", o: ["NAND and NOR", "AND and OR", "XOR and XNOR", "NOT and AND"], c: 0, t: "mcq", arQ: "أي بوابتين تُعرفان بالبوابات الشاملة (Universal Gates)؟", arO: ["A) NAND و NOR", "B) AND و OR", "C) XOR و XNOR", "D) NOT و AND"], exp: "NAND و NOR بوابات شاملة." },
+        { q: "In a combinational logic circuit, the output depends only on the present combination of inputs.", o: ["True", "False"], c: 0, t: "tf", arQ: "في الدوائر التوافقية يعتمد الخرج فقط على توليفة المدخلات الحالية.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نصاً: 'depends only on the present combination of inputs'." },
+        { q: "Sequential logic circuits contain memory elements such as flip-flops.", o: ["True", "False"], c: 0, t: "tf", arQ: "الدوائر التتابعية تحتوي على عناصر ذاكرة مثل الـ Flip-Flops.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نعم، وهذا ما يميزها عن التوافقية." },
+        { q: "A Half-Adder circuit adds how many binary bits?", o: ["Two bits", "Three bits", "Four bits", "Eight bits"], c: 0, t: "mcq", arQ: "دائرة الجامع النصفي (Half-Adder) تجمع كم بت؟", arO: ["A) خانتين (2 bits)", "B) 3 خانات", "C) 4 خانات", "D) 8 خانات"], exp: "الجامع النصفي يجمع خانتين A و B." },
+        { q: "A Full-Adder circuit adds how many binary bits (including carry-in)?", o: ["Two bits", "Three bits", "Four bits", "Six bits"], c: 1, t: "mcq", arQ: "دائرة الجامع الكامل (Full-Adder) تجمع كم بت؟", arO: ["A) خانتين", "B) 3 خانات (A, B, Cin)", "C) 4 خانات", "D) 6 خانات"], exp: "تجمع 3 خانات: A و B و Cin." },
+        { q: "In a Half-Adder, the SUM output is produced by which logic gate?", o: ["AND", "OR", "EX-OR", "NAND"], c: 2, t: "mcq", arQ: "في الجامع النصفي، مخرج المجموع (SUM) ينتج من بوابة:", arO: ["A) AND", "B) OR", "C) EX-OR", "D) NAND"], exp: "S = A ⊕ B (بوابة XOR)." },
+        { q: "In a Half-Adder, the CARRY output is produced by which logic gate?", o: ["AND", "OR", "EX-OR", "NOR"], c: 0, t: "mcq", arQ: "في الجامع النصفي، مخرج الحمل (CARRY) ينتج من بوابة:", arO: ["A) AND", "B) OR", "C) EX-OR", "D) NOR"], exp: "C = A · B (بوابة AND)." },
+        { q: "A Half-Subtractor produces which two outputs?", o: ["Difference and Borrow", "Sum and Carry", "Quotient and Remainder", "Enable and Strobe"], c: 0, t: "mcq", arQ: "الطارح النصفي (Half-Subtractor) ينتج مخرجين هما:", arO: ["A) الفرق والاستلاف (Difference & Borrow)", "B) المجموع والحمل", "C) خارج القسمة والباقي", "D) التمكين والوميض"], exp: "Difference (D) و Borrow (Bo)." },
+        { q: "In a Half-Subtractor, the Borrow expression Bo for inputs A (minuend) and B (subtrahend) is:", o: ["Bo = Ā · B", "Bo = A · B", "Bo = A · B̄", "Bo = A ⊕ B"], c: 0, t: "mcq", arQ: "في الطارح النصفي، معادلة مخرج الاستلاف Bo هي:", arO: ["A) Bo = Ā · B", "B) Bo = A · B", "C) Bo = A · B̄", "D) Bo = A ⊕ B"], exp: "Bo = Ā · B." },
+        { q: "In a Half-Subtractor, the Difference expression D is given by:", o: ["D = A ⊕ B", "D = A · B", "D = A + B", "D = (A · B)'"], c: 0, t: "mcq", arQ: "في الطارح النصفي، معادلة مخرج الفرق D هي:", arO: ["A) D = A ⊕ B", "B) D = A · B", "C) D = A + B", "D) D = (A · B)'"], exp: "D = Ā·B + A·B̄ = A ⊕ B." },
+        { q: "A Multiplexer (MUX) is also commonly referred to as a:", o: ["Data Selector", "Data Distributor", "Encoder", "Flip-Flop"], c: 0, t: "mcq", arQ: "يُطلق على المجمع (Multiplexer) أيضاً اسم:", arO: ["A) محدد البيانات (Data Selector)", "B) موزع البيانات", "C) مشفر", "D) قلاب"], exp: "نصاً بالسلايد: 'multiplexer or MUX, also called a data selector'." },
+        { q: "How many data inputs does a 4-to-1 Multiplexer have?", o: ["2", "4", "8", "16"], c: 1, t: "mcq", arQ: "كم عدد مداخل البيانات في مجمع 4-to-1 MUX؟", arO: ["A) 2", "B) 4", "C) 8", "D) 16"], exp: "له 4 مداخل بيانات (I₀ إلى I₃)." },
+        { q: "How many select lines does a 4-to-1 Multiplexer require?", o: ["1", "2", "3", "4"], c: 1, t: "mcq", arQ: "كم عدد خطوط الاختيار في مجمع 4-to-1 MUX؟", arO: ["A) 1", "B) 2", "C) 3", "D) 4"], exp: "2² = 4، إذن خطان للاختيار (S₀ و S₁)." },
+        { q: "How many select lines does an 8-to-1 Multiplexer require?", o: ["2", "3", "4", "8"], c: 1, t: "mcq", arQ: "كم عدد خطوط الاختيار في مجمع 8-to-1 MUX؟", arO: ["A) 2", "B) 3", "C) 4", "D) 8"], exp: "2³ = 8، إذن 3 خطوط اختيار (A, B, C)." },
+        { q: "A Demultiplexer (DEMUX) takes a single input line and routes it to one of multiple output lines.", o: ["True", "False"], c: 0, t: "tf", arQ: "الموزع (Demultiplexer) يأخذ خط دخل واحد ويوجهه لأحد خطوط الخرج المتعددة.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، وهو عكس وظيفة الـ MUX." },
+        { q: "A 1-to-4 Demultiplexer has how many select lines?", o: ["1", "2", "4", "8"], c: 1, t: "mcq", arQ: "كم عدد خطوط الاختيار في موزع 1-to-4 DEMUX؟", arO: ["A) 1", "B) 2", "C) 4", "D) 8"], exp: "2² = 4، يحتاج خطين للاختيار." },
+        { q: "Multiplexers in IC form almost invariably feature an ENABLE (or STROBE) input.", o: ["True", "False"], c: 0, t: "tf", arQ: "تحتوي رقائق المجمع (MUX) بشكل شبه دائم على طرف تمكين ENABLE (أو Strobe).", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "نصاً بالسلايد 8: 'almost invariably have an ENABLE or STROBE input'." },
+        { q: "A Full Adder can be constructed using two Half Adders and an OR gate.", o: ["True", "False"], c: 0, t: "tf", arQ: "يمكن بناء الجامع الكامل باستخدام جامعين نصفيين وبوابة OR.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، قاعدة تصميمية مشهورة في الإلكترونيات الرقمية." },
+        { q: "The expression for the SUM of a Full Adder with inputs A, B, and Cin is:", o: ["A ⊕ B ⊕ Cin", "A · B · Cin", "A + B + Cin", "(A · B) ⊕ Cin"], c: 0, t: "mcq", arQ: "معادلة المجموع SUM للجامع الكامل هي:", arO: ["A) A ⊕ B ⊕ Cin", "B) A · B · Cin", "C) A + B + Cin", "D) (A · B) ⊕ Cin"], exp: "Sum = A ⊕ B ⊕ Cin." },
+        { q: "For a Full Adder, if A=1, B=1, and Cin=1, the outputs are:", o: ["Sum = 1, Cout = 1", "Sum = 0, Cout = 1", "Sum = 1, Cout = 0", "Sum = 0, Cout = 0"], c: 0, t: "mcq", arQ: "في الجامع الكامل إذا كان A=1 و B=1 و Cin=1 فإن الناتج:", arO: ["A) Sum = 1, Cout = 1", "B) Sum = 0, Cout = 1", "C) Sum = 1, Cout = 0", "D) Sum = 0, Cout = 0"], exp: "1 + 1 + 1 = 3 بالعشري أي 11₂ فالمجموع 1 والحمل 1." },
+        { q: "For a Full Adder, if A=1, B=0, and Cin=1, the outputs are:", o: ["Sum = 0, Cout = 1", "Sum = 1, Cout = 1", "Sum = 1, Cout = 0", "Sum = 0, Cout = 0"], c: 0, t: "mcq", arQ: "في الجامع الكامل إذا كان A=1 و B=0 و Cin=1 فإن الناتج:", arO: ["A) Sum = 0, Cout = 1", "B) Sum = 1, Cout = 1", "C) Sum = 1, Cout = 0", "D) Sum = 0, Cout = 0"], exp: "1 + 0 + 1 = 2 بالعشري أي 10₂ فالمجموع 0 والحمل 1." },
+        { q: "The first step in combinational logic circuit design is stating the problem clearly.", o: ["True", "False"], c: 0, t: "tf", arQ: "الخطوة الأولى في تصميم الدوائر التوافقية هي تحديد وصياغة المشكلة بوضوح.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "الخطوة 1 بسلايد خطوات التصميم: '1. Statement of the problem'." },
+        { q: "Which tool is commonly used to minimize Boolean expressions for combinational circuits?", o: ["Karnaugh Map (K-map)", "ADC Converter", "Shift Register", "Microcontroller GPIO"], c: 0, t: "mcq", arQ: "أي أداة تستخدم لتبسيط التعبيرات البولينية للدوائر التوافقية؟", arO: ["A) خريطة كارنوف (K-map)", "B) محول ADC", "C) مسجل إزاحة", "D) أطراف الميكروكنترولر"], exp: "خرائط كارنوف (K-maps) تستخدم للتبسيط والتصغير." },
+        { q: "In a 4-to-1 MUX, if select inputs are S₁=0 and S₀=1, which input is routed to the output Y?", o: ["I₀", "I₁", "I₂", "I₃"], c: 1, t: "mcq", arQ: "في مجمع 4-to-1، إذا كان خط الاختيار S₁=0 و S₀=1 فأي دخل يمر للخرج؟", arO: ["A) I₀", "B) I₁", "C) I₂", "D) I₃"], exp: "01₂ يقابل الرقم 1، إذن يمر الدخل I₁." },
+        { q: "In a 4-to-1 MUX, if select inputs are S₁=1 and S₀=1, which input is routed to output Y?", o: ["I₀", "I₁", "I₂", "I₃"], c: 3, t: "mcq", arQ: "في مجمع 4-to-1، إذا كان خط الاختيار S₁=1 و S₀=1 فأي دخل يمر؟", arO: ["A) I₀", "B) I₁", "C) I₂", "D) I₃"], exp: "11₂ يقابل الرقم 3، إذن يمر الدخل I₃." },
+        { q: "An 8-to-1 Multiplexer has 8 data inputs and 1 output line.", o: ["True", "False"], c: 0, t: "tf", arQ: "المجمع 8-to-1 MUX يمتلك 8 مداخل بيانات وخط خرج واحد.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، يختار خطاً واحداً من الـ 8 ليمر إلى الخرج الوحيد." },
+        { q: "In a 1-to-4 DEMUX, if select inputs are A=1, B=0, the input data is directed to:", o: ["D₀", "D₁", "D₂", "D₃"], c: 2, t: "mcq", arQ: "في موزع 1-to-4، إذا كان الاختيار A=1 و B=0 فإن البيانات تذهب إلى:", arO: ["A) D₀", "B) D₁", "C) D₂", "D) D₃"], exp: "10₂ يقابل الرقم 2، فتذهب إلى D₂ (جدول سلايد 9)." },
+        { q: "Flip-flops and latches are typical memory elements found in sequential circuits.", o: ["True", "False"], c: 0, t: "tf", arQ: "القلابات (Flip-flops) هي عناصر الذاكرة النموذجية في الدوائر التتابعية.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، تستخدم لحفظ حالة البت." },
+        { q: "Can any combinational logic circuit be implemented using only NAND gates?", o: ["Yes, NAND is a universal gate", "No, OR gates are strictly needed", "Only if it has 2 inputs", "Only in sequential mode"], c: 0, t: "mcq", arQ: "هل يمكن بناء أي دائرة توافقية باستخدام بوابات NAND فقط؟", arO: ["A) نعم، لأن NAND بوابة شاملة", "B) لا، يلزم وجود OR", "C) فقط لمدخلين", "D) فقط في التتابعي"], exp: "نعم، NAND بوابة شاملة (Universal Gate)." },
+        { q: "Can any combinational logic circuit be implemented using only NOR gates?", o: ["Yes, NOR is a universal gate", "No, NOR cannot invert signals", "Only with pull-up resistors", "Only for subtractors"], c: 0, t: "mcq", arQ: "هل يمكن بناء أي دائرة توافقية باستخدام بوابات NOR فقط؟", arO: ["A) نعم، لأن NOR بوابة شاملة", "B) لا", "C) فقط بمقاومات رفع", "D) فقط للطارح"], exp: "نعم، NOR بوابة شاملة كذلك." },
+        { q: "A 4-bit shift register made of flip-flops is an example of a sequential circuit.", o: ["True", "False"], c: 0, t: "tf", arQ: "مسجل الإزاحة ذو 4 بتات والمكون من قلابات هو مثال على دائرة تتابعية.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، المسجلات والعدادات دوائر تتابعية (Sequential)." },
+        { q: "A binary counter that counts from 0 to 15 is known as a:", o: ["Mod-16 counter", "Mod-4 counter", "Demultiplexer", "Half-Adder"], c: 0, t: "mcq", arQ: "العداد الثنائي الذي يعد من 0 إلى 15 يسمى عداد:", arO: ["A) Mod-16 counter", "B) Mod-4 counter", "C) Demultiplexer", "D) Half-Adder"], exp: "يعد 16 حالة من 0 إلى 15 (سلايد 2)." },
+        { q: "In full adder design, the Carry-out (Cout) equation is Cout = A·B + B·Cin + A·Cin.", o: ["True", "False"], c: 0, t: "tf", arQ: "في الجامع الكامل، معادلة الحمل النهائي هي Cout = A·B + B·Cin + A·Cin.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، هذه هي الصيغة المبسطة لمعادلة الحمل." },
+        { q: "A Half-Adder has no provision to accept a carry from a previous stage.", o: ["True", "False"], c: 0, t: "tf", arQ: "الجامع النصفي ليس به طرف لاستقبال حمل قادم من مرحلة سابقة.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، ولهذا اخترع الجامع الكامل Full Adder." },
+        { q: "If the ENABLE input of a multiplexer is inactive, the multiplexer is disabled and produces no active routing.", o: ["True", "False"], c: 0, t: "tf", arQ: "إذا كان مدخل التمكين ENABLE غير مفعل، يتم تعطيل المجمع ولا يمرر بيانات.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، يجب تفعيل طرف ENABLE ليعمل الـ MUX." },
+        { q: "In a Half-Subtractor, if A = 0 and B = 1, what are the outputs?", o: ["Difference = 1, Borrow = 1", "Difference = 0, Borrow = 0", "Difference = 1, Borrow = 0", "Difference = 0, Borrow = 1"], c: 0, t: "mcq", arQ: "في الطارح النصفي إذا كان A=0 و B=1، فما هي المخرجات؟", arO: ["A) Difference=1, Borrow=1", "B) Difference=0, Borrow=0", "C) Difference=1, Borrow=0", "D) Difference=0, Borrow=1"], exp: "0 - 1 يستلزم استلاف 1 ويكون الفرق 1." },
+        { q: "In a Half-Subtractor, if A = 1 and B = 0, what are the outputs?", o: ["Difference = 1, Borrow = 0", "Difference = 0, Borrow = 1", "Difference = 0, Borrow = 0", "Difference = 1, Borrow = 1"], c: 0, t: "mcq", arQ: "في الطارح النصفي إذا كان A=1 و B=0، فما هي المخرجات؟", arO: ["A) Difference=1, Borrow=0", "B) Difference=0, Borrow=1", "C) Difference=0, Borrow=0", "D) Difference=1, Borrow=1"], exp: "1 - 0 = 1 بدون أي استلاف." },
+        { q: "The number of inputs in a 2-to-1 multiplexer data path is 2, requiring 1 select line.", o: ["True", "False"], c: 0, t: "tf", arQ: "مجمع 2-to-1 له مدخلا بيانات ويحتاج خط اختيار واحد.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "2¹ = 2، إذن خط اختيار واحد كافٍ." },
+        { q: "Which circuit component is used to decode or distribute data from one source to one of many destinations?", o: ["Demultiplexer", "Multiplexer", "Half-Adder", "Full-Adder"], c: 0, t: "mcq", arQ: "أي دائرة تستخدم لتوزيع البيانات من مصدر واحد إلى عدة وجهات محتملة؟", arO: ["A) Demultiplexer", "B) Multiplexer", "C) Half-Adder", "D) Full-Adder"], exp: "الموزع (Demultiplexer)." },
+        { q: "Minimizing Boolean expressions in combinational circuit design helps reduce hardware cost and power consumption.", o: ["True", "False"], c: 0, t: "tf", arQ: "تبسيط التعبيرات في الدوائر التوافقية يساعد على تقليل التكلفة واستهلاك الطاقة.", arO: ["A) True (صح)", "B) False (خطأ)"], exp: "صحيح، لأنها تقلل عدد البوابات والتوصيلات المطلوبة." }
+      ]
+    };
 
-      /* ==================== PDF 2: Logic Gates (Q9 - Q16) ==================== */
-      {
-        id: 9,
-        pdf: 'pdf2',
-        type: 'mcq',
-        question: "When a BJT transistor is used as an inverter switch and is driven into 'Saturation' (Vin ≈ 5V), the output voltage (Vout) is approximately:",
-        options: ["5 V (HIGH)", "0 V (LOW)", "2.5 V", "Undefined"],
-        correct: 1, // 0 V
-        hint: {
-          arQuestion: "عند استخدام الترانزستور كمفتاح عاكس (Inverter) وكان في وضع التشبع 'Saturation' بجهد دخل 5V، يكون جهد الخرج (Vout) تقريباً:",
-          arOptions: [
-            "A) 5 V (عالي)",
-            "B) 0 V (منخفض) (الإجابة الصحيحة)",
-            "C) 2.5 V",
-            "D) غير محدد"
-          ],
-          arAnswer: "B) 0 V (LOW)",
-          arExplanation: "في وضع التشبع (Saturation)، يتصرف الترانزستور كمفتاح مغلق فيصل الخرج بالأرضي فيكون Vout ≈ 0 V."
-        }
-      },
-      {
-        id: 10,
-        pdf: 'pdf2',
-        type: 'mcq',
-        question: "The output of an AND gate is HIGH (1) only when:",
-        options: [
-          "At least one input is HIGH",
-          "All of its inputs are HIGH",
-          "All of its inputs are LOW",
-          "The number of 1s at inputs is odd"
-        ],
-        correct: 1, // All HIGH
-        hint: {
-          arQuestion: "يكون خرج بوابة AND مساوياً للمستوى العالي HIGH (1) فقط عندما يكون:",
-          arOptions: [
-            "A) دخل واحد على الأقل HIGH",
-            "B) جميع المدخلات في الحالة العالية HIGH (الإجابة الصحيحة)",
-            "C) جميع المدخلات LOW",
-            "D) عدد الواحدات فردياً"
-          ],
-          arAnswer: "B) All of its inputs are HIGH",
-          arExplanation: "بوابة AND لا تُعطي 1 إلا إذا كانت جميع المدخلات معاً 1 (Y = A . B)."
-        }
-      },
-      {
-        id: 11,
-        pdf: 'pdf2',
-        type: 'mcq',
-        question: "The output of a 2-input OR gate is LOW (0) only when:",
-        options: [
-          "Both inputs are LOW (0, 0)",
-          "Both inputs are HIGH (1, 1)",
-          "One input is LOW and one is HIGH",
-          "Inputs are unequal"
-        ],
-        correct: 0, // Both LOW
-        hint: {
-          arQuestion: "يكون خرج بوابة OR ذات المدخلين مساوياً للمستوى المنخفض (0) فقط في حالة:",
-          arOptions: [
-            "A) كلا المدخلين منخفضان (0, 0) (الإجابة الصحيحة)",
-            "B) كلا المدخلين عاليان (1, 1)",
-            "C) أحد المدخلين 0 والآخر 1",
-            "D) المدخلان غير متساويين"
-          ],
-          arAnswer: "A) Both inputs are LOW (0, 0)",
-          arExplanation: "خرج بوابة OR يظل HIGH إذا وُجد أي 1، والحالة الوحيدة ليكون 0 هي أن يكون كل الدخل 0."
-        }
-      },
-      {
-        id: 12,
-        pdf: 'pdf2',
-        type: 'mcq',
-        question: "For a 2-input XOR gate, what is the output if inputs are A = 1 and B = 1?",
-        options: ["1", "0", "Floating", "High Impedance"],
-        correct: 1, // 0
-        hint: {
-          arQuestion: "لبوابة XOR ذات المدخلين، ما هي قيمة الخرج إذا كان المدخلان A = 1 و B = 1؟",
-          arOptions: [
-            "A) 1",
-            "B) 0 (الإجابة الصحيحة)",
-            "C) عائم",
-            "D) ممانعة عالية"
-          ],
-          arAnswer: "B) 0",
-          arExplanation: "بوابة XOR تعطي 0 عند تطابق المدخلين (1,1 أو 0,0) وتعطي 1 عند اختلافهما."
-        }
-      },
-      {
-        id: 13,
-        pdf: 'pdf2',
-        type: 'tf',
-        question: "A NOT gate is also called an inverter because it has one input and inverts the logic state.",
-        options: ["True", "False"],
-        correct: 0, // True
-        hint: {
-          arQuestion: "تُسمى بوابة NOT أيضاً بالعاكس (Inverter) لأن لها مدخلاً واحداً وتقوم بعكس الحالة المنطقية.",
-          arOptions: [
-            "A) True (صح) (الإجابة الصحيحة)",
-            "B) False (خطأ)"
-          ],
-          arAnswer: "True (صح)",
-          arExplanation: "بوابة NOT تحول الـ 0 إلى 1، والـ 1 إلى 0 وتملك مدخلاً واحداً ومخرجاً واحداً."
-        }
-      },
-      {
-        id: 14,
-        pdf: 'pdf2',
-        type: 'mcq',
-        question: "For a multiple-input EX-OR logic function, the output is logic '1' whenever:",
-        options: [
-          "The number of 1s in the input sequence is even",
-          "The number of 1s in the input sequence is odd",
-          "All inputs are 1s",
-          "All inputs are 0s"
-        ],
-        correct: 1, // odd number of 1s
-        hint: {
-          arQuestion: "في دالة EX-OR متعددة المداخل، يكون الخرج مساوياً '1' عندما:",
-          arOptions: [
-            "A) يكون عدد الواحدات في الدخل زوجياً",
-            "B) يكون عدد الواحدات في الدخل فردياً (الإجابة الصحيحة)",
-            "C) تكون كل المداخل 1",
-            "D) تكون كل المداخل 0"
-          ],
-          arAnswer: "B) The number of 1s in the input sequence is odd",
-          arExplanation: "قاعدة أساسية من سلايدات المادة: 'The output of a multiple-input EX-OR is logic 1 when the number of 1s in the input sequence is odd'."
-        }
-      },
-      {
-        id: 15,
-        pdf: 'pdf2',
-        type: 'tf',
-        question: "If an input signal of '1' passes through two consecutive NOT gates in series, the final output will be '1'.",
-        options: ["True", "False"],
-        correct: 0, // True
-        hint: {
-          arQuestion: "إذا مر الدخل '1' عبر بوابتي NOT متتاليتين على التوالي، فإن الخرج النهائي سيكون '1'.",
-          arOptions: [
-            "A) True (صح) (الإجابة الصحيحة)",
-            "B) False (خطأ)"
-          ],
-          arAnswer: "True (صح)",
-          arExplanation: "العاكس الأول يحول 1 إلى 0، ثم العاكس الثاني يعيد الـ 0 إلى 1 (Double Inversion: (A')' = A)."
-        }
-      },
-      {
-        id: 16,
-        pdf: 'pdf2',
-        type: 'mcq',
-        question: "To implement a 4-input AND gate using only 2-input AND gates, how many 2-input AND gates are required?",
-        options: ["2", "3", "4", "5"],
-        correct: 1, // 3 gates
-        hint: {
-          arQuestion: "لتنفيذ بوابة AND ذات 4 مداخل باستخدام بوابات AND ثنائية المدخل فقط، كم بوابة نحتاج؟",
-          arOptions: [
-            "A) 2",
-            "B) 3 (الإجابة الصحيحة)",
-            "C) 4",
-            "D) 5"
-          ],
-          arAnswer: "B) 3",
-          arExplanation: "كما موضح بالرسم في المحاضرة: البوابة الأولى تدمج A,B والثانية تدمج الناتج مع C والثالثة تدمج الناتج مع D فيكون المجموع 3 بوابات."
-        }
-      },
-
-      /* ==================== PDF 3: Specs & Arithmetic (Q17 - Q24) ==================== */
-      {
-        id: 17,
-        pdf: 'pdf3',
-        type: 'mcq',
-        question: "The maximum number of parallel inputs that a single logic gate's output can reliably drive is defined as:",
-        options: ["Fan-in", "Fan-out", "Propagation Delay", "Noise Margin"],
-        correct: 1, // Fan-out
-        hint: {
-          arQuestion: "أقصى عدد من المداخل المتوازية التي يستطيع مخرج بوابة منطقية واحدة تغذيتها بكفاءة يُعرف بـ:",
-          arOptions: [
-            "A) Fan-in",
-            "B) Fan-out (الإجابة الصحيحة)",
-            "C) تأخير الانتشار (Propagation Delay)",
-            "D) هامش الضوضاء (Noise Margin)"
-          ],
-          arAnswer: "B) Fan-out",
-          arExplanation: "تعريف الـ Fan-Out نصاً: 'The maximum number of parallel inputs that a single logic gate's output can reliably drive'."
-        }
-      },
-      {
-        id: 18,
-        pdf: 'pdf3',
-        type: 'mcq',
-        question: "What is the typical propagation delay unit of measurement for digital logic gates?",
-        options: ["Seconds (s)", "Milliseconds (ms)", "Nanoseconds (ns)", "Microseconds (μs)"],
-        correct: 2, // ns
-        hint: {
-          arQuestion: "ما هي وحدة القياس الشائعة لتأخير الانتشار (Propagation Delay) في البوابات المنطقية؟",
-          arOptions: [
-            "A) ثواني (s)",
-            "B) ميلي ثانية (ms)",
-            "C) نانو ثانية (ns) (الإجابة الصحيحة)",
-            "D) ميكرو ثانية (μs)"
-          ],
-          arAnswer: "C) Nanoseconds (ns)",
-          arExplanation: "يُقاس تأخير الانتشار عادة بالنانو ثانية (ns) وكلما قل كان أسرع."
-        }
-      },
-      {
-        id: 19,
-        pdf: 'pdf3',
-        type: 'tf',
-        question: "CMOS logic gates generally consume much less power than TTL logic gates.",
-        options: ["True", "False"],
-        correct: 0, // True
-        hint: {
-          arQuestion: "بوابات تقنية CMOS تستهلك عادة طاقة أقل بكثير مقارنة ببوابات تقنية TTL.",
-          arOptions: [
-            "A) True (صح) (الإجابة الصحيحة)",
-            "B) False (خطأ)"
-          ],
-          arAnswer: "True (صح)",
-          arExplanation: "ميزة CMOS الأساسية هي استهلاك قليل جداً للطاقة (Low Power Use)، بينما TTL يستهلك طاقة أعلى وتنتج حرارة."
-        }
-      },
-      {
-        id: 20,
-        pdf: 'pdf3',
-        type: 'mcq',
-        question: "In binary addition, what is the result of 1 + 1?",
-        options: [
-          "Sum = 0 with a Carry of 1",
-          "Sum = 1 with a Carry of 0",
-          "Sum = 1 with a Carry of 1",
-          "Sum = 2 with a Carry of 0"
-        ],
-        correct: 0, // Sum 0, Carry 1
-        hint: {
-          arQuestion: "في الجمع الثنائي، ما هو ناتج جمع 1 + 1؟",
-          arOptions: [
-            "A) المجموع = 0 مع حمل 1 (Sum = 0, Carry = 1) (الإجابة الصحيحة)",
-            "B) المجموع = 1 مع حمل 0",
-            "C) المجموع = 1 مع حمل 1",
-            "D) المجموع = 2 مع حمل 0"
-          ],
-          arAnswer: "A) Sum = 0 with a Carry of '1'",
-          arExplanation: "قاعدة أساسية: 1 + 1 = 10₂ أي المجموع صفر والحمل واحد إلى الخانة التالية."
-        }
-      },
-      {
-        id: 21,
-        pdf: 'pdf3',
-        type: 'mcq',
-        question: "In binary subtraction, performing the operation 0 - 1 results in:",
-        options: [
-          "Difference = 0 with no borrow",
-          "Difference = 1 with a borrow of 1",
-          "Difference = 1 with no borrow",
-          "Difference = -1 without borrow"
-        ],
-        correct: 1, // Diff 1, borrow 1
-        hint: {
-          arQuestion: "في الطرح الثنائي، عند إجراء العملية 0 - 1 يكون الناتج:",
-          arOptions: [
-            "A) الفرق = 0 بدون استلاف",
-            "B) الفرق = 1 مع استلاف 1 (Borrow) من الخانة المجاورة (الإجابة الصحيحة)",
-            "C) الفرق = 1 بدون استلاف",
-            "D) الفرق = -1 بدون استلاف"
-          ],
-          arAnswer: "B) Difference = 1 with a borrow of 1",
-          arExplanation: "عند طرح 1 من 0 يجب الاستلاف من الخانة اليسرى فيصبح الصفر (10₂ = 2)، ثم 2 - 1 = 1 مع وجود استلاف."
-        }
-      },
-      {
-        id: 22,
-        pdf: 'pdf3',
-        type: 'mcq',
-        question: "The amount of unwanted voltage noise a logic circuit can tolerate before changing states incorrectly is known as:",
-        options: ["Fan-in", "Noise Margin", "Power Dissipation", "Operating Frequency"],
-        correct: 1, // Noise Margin
-        hint: {
-          arQuestion: "مقدار جهد الضوضاء غير المرغوب فيه الذي يمكن للدائرة تحمله دون تغيير حالتها المنطقية خطأً هو:",
-          arOptions: [
-            "A) Fan-in",
-            "B) هامش الضوضاء (Noise Margin) (الإجابة الصحيحة)",
-            "C) تبديد القدرة",
-            "D) تردد التشغيل"
-          ],
-          arAnswer: "B) Noise Margin",
-          arExplanation: "هذا هو التعريف الرسمي لهامش الضوضاء (Noise Margin): كلما زاد كانت الدائرة أكثر موثوقية."
-        }
-      },
-      {
-        id: 23,
-        pdf: 'pdf3',
-        type: 'tf',
-        question: "Binary multiplication can be implemented in digital systems using the 'Repeated Left-Shift and Add' algorithm.",
-        options: ["True", "False"],
-        correct: 0, // True
-        hint: {
-          arQuestion: "يمكن تنفيذ عملية الضرب الثنائي في الأنظمة الرقمية باستخدام خوارزمية 'الإزاحة لليسار مع الجمع' (Shift and Add).",
-          arOptions: [
-            "A) True (صح) (الإجابة الصحيحة)",
-            "B) False (خطأ)"
-          ],
-          arAnswer: "True (صح)",
-          arExplanation: "موجودة نصاً في سلايدات المحاضرة الثالثة: 'Repeated Left-Shift and Add Algorithm'."
-        }
-      },
-      {
-        id: 24,
-        pdf: 'pdf3',
-        type: 'mcq',
-        question: "When adding three bits (1 + 1 + 1) in a binary adder, the outputs are:",
-        options: [
-          "Sum = 0, Carry = 1",
-          "Sum = 1, Carry = 1",
-          "Sum = 1, Carry = 0",
-          "Sum = 0, Carry = 0"
-        ],
-        correct: 1, // Sum 1, Carry 1
-        hint: {
-          arQuestion: "عند جمع ثلاثة واحدات (1 + 1 + 1) في جامع ثنائي، تكون المخرجات:",
-          arOptions: [
-            "A) المجموع = 0، الحمل = 1",
-            "B) المجموع = 1، الحمل = 1 (Sum = 1, Carry = 1) (الإجابة الصحيحة)",
-            "C) المجموع = 1، الحمل = 0",
-            "D) المجموع = 0، الحمل = 0"
-          ],
-          arAnswer: "B) Sum = 1, Carry = 1",
-          arExplanation: "1 + 1 + 1 = 3 بالعشري، ومكافئها الثنائي هو 11₂ أي Sum = 1 و Carry = 1."
-        }
-      },
-
-      /* ==================== PDF 4: Boolean Algebra (Q25 - Q32) ==================== */
-      {
-        id: 25,
-        pdf: 'pdf4',
-        type: 'mcq',
-        question: "According to the Boolean Idempotent Law, the expression X + X equals:",
-        options: ["2X", "1", "X", "0"],
-        correct: 2, // X
-        hint: {
-          arQuestion: "وفقاً لقانون التساوي الذاتي (Idempotent Law) في الجبر البوليني، فإن التعبير X + X يساوي:",
-          arOptions: [
-            "A) 2X",
-            "B) 1",
-            "C) X (الإجابة الصحيحة)",
-            "D) 0"
-          ],
-          arAnswer: "C) X",
-          arExplanation: "في الجبر البوليني: X + X = X وكذلك X . X = X (Theorem 3)."
-        }
-      },
-      {
-        id: 26,
-        pdf: 'pdf4',
-        type: 'mcq',
-        question: "According to the Complementation Law in Boolean algebra, X · X̄ equals:",
-        options: ["1", "0", "X", "X̄"],
-        correct: 1, // 0
-        hint: {
-          arQuestion: "وفقاً لقانون المتمم في الجبر البوليني، فإن حاصل ضرب المتغير في متممه X · X̄ يساوي:",
-          arOptions: [
-            "A) 1",
-            "B) 0 (الإجابة الصحيحة)",
-            "C) X",
-            "D) X̄"
-          ],
-          arAnswer: "B) 0",
-          arExplanation: "لأن أحد القيمتين حتماً ستكون 0، وحاصل ضرب أي شيء في 0 يساوي 0 دائماً."
-        }
-      },
-      {
-        id: 27,
-        pdf: 'pdf4',
-        type: 'mcq',
-        question: "The second distributive law in Boolean algebra states that X + Y·Z is equivalent to:",
-        options: [
-          "(X + Y) · (X + Z)",
-          "X·Y + X·Z",
-          "(X · Y) + Z",
-          "X + Y + Z"
-        ],
-        correct: 0, // (X+Y).(X+Z)
-        hint: {
-          arQuestion: "ينص قانون التوزيع الثاني في الجبر البوليني على أن X + Y·Z يكافئ:",
-          arOptions: [
-            "A) (X + Y) · (X + Z) (الإجابة الصحيحة)",
-            "B) X·Y + X·Z",
-            "C) (X · Y) + Z",
-            "D) X + Y + Z"
-          ],
-          arAnswer: "A) (X + Y) · (X + Z)",
-          arExplanation: "هذا القانون البوليني المميز (Theorem 7b) يوزع عملية الجمع (+) على الضرب (·)."
-        }
-      },
-      {
-        id: 28,
-        pdf: 'pdf4',
-        type: 'tf',
-        question: "To obtain the dual of a Boolean expression, we replace all ANDs with ORs, ORs with ANDs, 0s with 1s, and 1s with 0s, leaving literals unchanged.",
-        options: ["True", "False"],
-        correct: 0, // True
-        hint: {
-          arQuestion: "للحصول على التعبير المزدوج (Dual) لتعبير بوليني، نقوم باستبدال الضرب بجمع، والجمع بضرب، و 0 بـ 1، و 1 بـ 0، مع بقاء الرموز كما هي دون نفي.",
-          arOptions: [
-            "A) True (صح) (الإجابة الصحيحة)",
-            "B) False (خطأ)"
-          ],
-          arAnswer: "True (صح)",
-          arExplanation: "تعريف الـ Duality نصاً من المحاضرة: نغير العمليات والثوابت فقط وتبقى المتغيرات كما هي بدون متمم."
-        }
-      },
-      {
-        id: 29,
-        pdf: 'pdf4',
-        type: 'mcq',
-        question: "By applying the Absorption (Redundancy) Law, what is the simplified form of X + X·Y?",
-        options: ["Y", "X", "X + Y", "1"],
-        correct: 1, // X
-        hint: {
-          arQuestion: "بتطبيق قانون الامتصاص (Absorption Law)، ما هو التبسيط النهائي للتعبير X + X·Y؟",
-          arOptions: [
-            "A) Y",
-            "B) X (الإجابة الصحيحة)",
-            "C) X + Y",
-            "D) 1"
-          ],
-          arAnswer: "B) X",
-          arExplanation: "X + X·Y = X(1 + Y) = X(1) = X. الحد الأصغر يمتص الحد الأكبر."
-        }
-      },
-      {
-        id: 30,
-        pdf: 'pdf4',
-        type: 'mcq',
-        question: "Simplify the Boolean expression: (A + B·C) · (A + B·C)' :",
-        options: ["1", "0", "A", "B·C"],
-        correct: 1, // 0
-        hint: {
-          arQuestion: "بسط التعبير البوليني التالي: (A + B·C) · (A + B·C)' ؟",
-          arOptions: [
-            "A) 1",
-            "B) 0 (الإجابة الصحيحة)",
-            "C) A",
-            "D) B·C"
-          ],
-          arAnswer: "B) 0",
-          arExplanation: "باعتبار (A + B·C) متغير واحد كـ Y، فيكون التعبير Y · Y' = 0 دائماً (Complementation law)."
-        }
-      },
-      {
-        id: 31,
-        pdf: 'pdf4',
-        type: 'tf',
-        question: "According to Boolean postulates, 1 + (Any complex Boolean expression) always equals 1.",
-        options: ["True", "False"],
-        correct: 0, // True
-        hint: {
-          arQuestion: "وفقاً لمسلمات الجبر البوليني، فإن 1 + (أي تعبير بوليني معقد) يساوي دائماً 1.",
-          arOptions: [
-            "A) True (صح) (الإجابة الصحيحة)",
-            "B) False (خطأ)"
-          ],
-          arAnswer: "True (صح)",
-          arExplanation: "قاعدة أساسية: 1 + X = 1 لأي قيمة لـ X."
-        }
-      },
-      {
-        id: 32,
-        pdf: 'pdf4',
-        type: 'mcq',
-        question: "According to the Consensus Theorem, the expression X·Y + X̄·Z + Y·Z simplifies to:",
-        options: ["X·Y + X̄·Z", "Y·Z", "X + Z", "X·Y·Z"],
-        correct: 0, // X.Y + X'.Z
-        hint: {
-          arQuestion: "وفقاً لنظرية التوافق (Consensus Theorem)، التعبير X·Y + X̄·Z + Y·Z يتبسط إلى:",
-          arOptions: [
-            "A) X·Y + X̄·Z (الإجابة الصحيحة)",
-            "B) Y·Z",
-            "C) X + Z",
-            "D) X·Y·Z"
-          ],
-          arAnswer: "A) X·Y + X̄·Z",
-          arExplanation: "الحد Y·Z هو الحد الزائد (Redundant term) في نظرية التوافق ويمكن حذفه مباشرة."
-        }
-      },
-
-      /* ==================== PDF 5: Combinational Logic & MUX (Q33 - Q40) ==================== */
-      {
-        id: 33,
-        pdf: 'pdf5',
-        type: 'mcq',
-        question: "Which two gates are known as 'Universal Gates' because each can implement any Boolean function alone?",
-        options: [
-          "AND and OR",
-          "NAND and NOR",
-          "XOR and XNOR",
-          "NOT and AND"
-        ],
-        correct: 1, // NAND and NOR
-        hint: {
-          arQuestion: "أي بوابتين تُعرفان بـ 'البوابات الشاملة' (Universal Gates) لأن أياً منهما بمفردها قادرة على بناء أي دائرة منطقية؟",
-          arOptions: [
-            "A) AND و OR",
-            "B) NAND و NOR (الإجابة الصحيحة)",
-            "C) XOR و XNOR",
-            "D) NOT و AND"
-          ],
-          arAnswer: "B) NAND and NOR",
-          arExplanation: "بوابات NAND و NOR تسمى Universal لأنها تكفي وحدها لتمثيل كل البوابات الأخرى (NOT, AND, OR)."
-        }
-      },
-      {
-        id: 34,
-        pdf: 'pdf5',
-        type: 'mcq',
-        question: "In a Combinational logic circuit, the output at any time depends on:",
-        options: [
-          "Present inputs only",
-          "Present inputs and past states stored in memory",
-          "The clock cycle frequency only",
-          "The power supply voltage only"
-        ],
-        correct: 0, // Present inputs only
-        hint: {
-          arQuestion: "في الدوائر التوافقية (Combinational circuits)، يعتمد الخرج في أي لحظة على:",
-          arOptions: [
-            "A) توليفة المدخلات الحالية فقط (Present inputs only) (الإجابة الصحيحة)",
-            "B) المدخلات الحالية والحالات السابقة المحفوظة في الذاكرة",
-            "C) تردد نبضات الساعة فقط",
-            "D) جهد مصدر التغذية فقط"
-          ],
-          arAnswer: "A) Present inputs only",
-          arExplanation: "الدوائر التوافقية لا تحتوي على ذاكرة، لذا خرجها يعتمد فقط على الدخل اللحظي الحاضر."
-        }
-      },
-      {
-        id: 35,
-        pdf: 'pdf5',
-        type: 'mcq',
-        question: "A Half-Adder circuit adds two bits and produces which two outputs?",
-        options: [
-          "SUM and BORROW",
-          "SUM and CARRY",
-          "DIFFERENCE and BORROW",
-          "ENABLE and STROBE"
-        ],
-        correct: 1, // SUM and CARRY
-        hint: {
-          arQuestion: "دائرة الجامع النصفي (Half-Adder) تجمع خانتين ثنائيتين وتنتج مخرجين هما:",
-          arOptions: [
-            "A) المجموع والاستلاف (SUM & BORROW)",
-            "B) المجموع والحمل (SUM & CARRY) (الإجابة الصحيحة)",
-            "C) الفرق والاستلاف (DIFFERENCE & BORROW)",
-            "D) التمكين والوميض"
-          ],
-          arAnswer: "B) SUM and CARRY",
-          arExplanation: "الجامع النصفي يعطي مخرجين: SUM (من بوابة XOR) و CARRY (من بوابة AND)."
-        }
-      },
-      {
-        id: 36,
-        pdf: 'pdf5',
-        type: 'mcq',
-        question: "In a Half-Subtractor, the Borrow output (Bo) expression for inputs A (minuend) and B (subtrahend) is:",
-        options: [
-          "Bo = A · B",
-          "Bo = Ā · B",
-          "Bo = A · B̄",
-          "Bo = A ⊕ B"
-        ],
-        correct: 1, // A' . B
-        hint: {
-          arQuestion: "في الطارح النصفي (Half-Subtractor)، معادلة مخرج الاستلاف (Bo) للمدخلين A و B هي:",
-          arOptions: [
-            "A) Bo = A · B",
-            "B) Bo = Ā · B (الإجابة الصحيحة)",
-            "C) Bo = A · B̄",
-            "D) Bo = A ⊕ B"
-          ],
-          arAnswer: "B) Bo = Ā · B",
-          arExplanation: "نستلف فقط عندما يكون A=0 و B=1، ولذا المعادلة هي Bo = Ā · B."
-        }
-      },
-      {
-        id: 37,
-        pdf: 'pdf5',
-        type: 'mcq',
-        question: "A 4-to-1 Multiplexer (MUX) has 4 data input lines. How many select lines does it require?",
-        options: ["1", "2", "3", "4"],
-        correct: 1, // 2
-        hint: {
-          arQuestion: "المجمع (Multiplexer 4-to-1) يمتلك 4 خطوط دخل بيانات. كم عدد خطوط الاختيار (Select lines) التي يحتاجها؟",
-          arOptions: [
-            "A) 1",
-            "B) 2 (الإجابة الصحيحة)",
-            "C) 3",
-            "D) 4"
-          ],
-          arAnswer: "B) 2",
-          arExplanation: "القاعدة: 2ⁿ = عدد المداخل. هنا 2² = 4، إذن عدد خطوط الاختيار n = 2 (وهما S₀ و S₁)."
-        }
-      },
-      {
-        id: 38,
-        pdf: 'pdf5',
-        type: 'mcq',
-        question: "How many select lines are required for an 8-to-1 Multiplexer?",
-        options: ["2", "3", "4", "8"],
-        correct: 1, // 3
-        hint: {
-          arQuestion: "كم عدد خطوط الاختيار اللازمة للمجمع 8-to-1 MUX؟",
-          arOptions: [
-            "A) 2",
-            "B) 3 (الإجابة الصحيحة)",
-            "C) 4",
-            "D) 8"
-          ],
-          arAnswer: "B) 3",
-          arExplanation: "2³ = 8، لذا يلزم 3 خطوط اختيار (A, B, C) لاختيار أحد المداخل الثمانية D₀ إلى D₇."
-        }
-      },
-      {
-        id: 39,
-        pdf: 'pdf5',
-        type: 'tf',
-        question: "A demultiplexer (DEMUX) takes a single input data line and routes it to one of 2ⁿ output lines based on the select lines.",
-        options: ["True", "False"],
-        correct: 0, // True
-        hint: {
-          arQuestion: "الموزع (Demultiplexer) يأخذ خط دخل بيانات واحد ويوجهه إلى أحد خطوط الخرج المتعددة (2ⁿ) بالاعتماد على خطوط الاختيار.",
-          arOptions: [
-            "A) True (صح) (الإجابة الصحيحة)",
-            "B) False (خطأ)"
-          ],
-          arAnswer: "True (صح)",
-          arExplanation: "هذا هو التعريف الدقيق للـ DEMUX، وهو عكس عمل الـ Multiplexer تماماً."
-        }
-      },
-      {
-        id: 40,
-        pdf: 'pdf5',
-        type: 'tf',
-        question: "Sequential logic circuits differ from combinational circuits because sequential circuits contain memory elements (like flip-flops).",
-        options: ["True", "False"],
-        correct: 0, // True
-        hint: {
-          arQuestion: "تختلف الدوائر التتابعية (Sequential circuits) عن الدوائر التوافقية باحتوائها على عناصر ذاكرة (مثل الـ Flip-Flops).",
-          arOptions: [
-            "A) True (صح) (الإجابة الصحيحة)",
-            "B) False (خطأ)"
-          ],
-          arAnswer: "True (صح)",
-          arExplanation: "صحيح، وجود الـ Flip-flops يعطي الدوائر التتابعية القدرة على تذكر الحالات السابقة وتعتمد مخرجاتها على الماضي والحاضر."
-        }
-      }
-    ];
+    // Flatten into unified questionsDB with unique IDs
+    let questionsDB = [];
+    let globalId = 1;
+    ['pdf1', 'pdf2', 'pdf3', 'pdf4', 'pdf5'].forEach(pdfKey => {
+      rawDB[pdfKey].forEach(item => {
+        questionsDB.push({
+          id: globalId++,
+          pdf: pdfKey,
+          type: item.t,
+          question: item.q,
+          options: item.o,
+          correct: item.c,
+          hint: {
+            arQuestion: item.arQ,
+            arOptions: item.arO,
+            arAnswer: `${String.fromCharCode(65 + item.c)}) ${item.o[item.c]}`,
+            arExplanation: item.exp
+          }
+        });
+      });
+    });
 
     // Meta-information for tabs
     const tabsMeta = {
       pdf1: {
-        badge: 'PDF 1',
+        badge: 'PDF 1 (40 Qs)',
         title: 'Number Systems, Binary/Hex Conversions & Signal Types',
-        desc: '8 أسئلة ميدتيرم أساسية حول التحويلات بين الأنظمة، المكمل، وإشارات التناظرية والرقمية.'
+        desc: '40 سؤالاً ميدتيرم نظامية ومباشرة تغطي التحويلات بين الأنظمة، المكمل، وإشارات التناظرية والرقمية.'
       },
       pdf2: {
-        badge: 'PDF 2',
+        badge: 'PDF 2 (40 Qs)',
         title: 'Basic Logic Gates & Transistor Switching',
-        desc: '8 أسئلة مباشرة على بوابات AND, OR, NOT, XOR وجداول الصواب وسلوك الترانزستور كمفتاح.'
+        desc: '40 سؤالاً على بوابات AND, OR, NOT, XOR وجداول الصواب وسلوك الترانزستور كمفتاح والمخططات الزمنية.'
       },
       pdf3: {
-        badge: 'PDF 3',
+        badge: 'PDF 3 (40 Qs)',
         title: 'Logic Specifications & Binary Arithmetic Rules',
-        desc: '8 أسئلة على خصائص البوابات (Fan-in, Fan-out, Noise margin, TTL/CMOS) وقواعد الجمع والطرح.'
+        desc: '40 سؤالاً على خصائص البوابات (Fan-in, Fan-out, Noise margin, TTL/CMOS) وقواعد الجمع والطرح والضرب.'
       },
       pdf4: {
-        badge: 'PDF 4',
+        badge: 'PDF 4 (40 Qs)',
         title: 'Boolean Algebra Postulates, Laws & Simplification',
-        desc: '8 أسئلة معيارية على قوانين الجبر البوليني، التوزيع، الامتصاص، المتمم، ونظرية التوافق.'
+        desc: '40 سؤالاً معيارياً على قوانين الجبر البوليني، التوزيع، الامتصاص، المتمم، ونظرية التوافق وديمورجان.'
       },
       pdf5: {
-        badge: 'PDF 5',
+        badge: 'PDF 5 (40 Qs)',
         title: 'Combinational Circuits, Adders & Multiplexers',
-        desc: '8 أسئلة تشمل الجامع والطرح النصفي والكامل، بوابات Universal، والـ MUX و الـ DEMUX.'
+        desc: '40 سؤالاً تشمل الجامع والطرح النصفي والكامل، بوابات Universal، والـ MUX و الـ DEMUX والدوائر التتابعية.'
       },
       all: {
-        badge: 'All 40 Qs',
-        title: 'Full Midterm Simulation (جميع الأسئلة الـ 40 مجمعة)',
-        desc: 'محاكاة كاملة للاختبار تضم جميع أجزاء المنهج الـ 5 (40 سؤالاً مع إمكانية التسليم والمراجعة الشاملة).'
+        badge: 'All 200 Qs',
+        title: 'Full Midterm Simulation (جميع الأسئلة الـ 200 مجمعة)',
+        desc: 'محاكاة شاملة لبنك الأسئلة الكامل (200 سؤال - 40 سؤالاً لكل ملف) مع إمكانية التسليم والتصحيح الشامل.'
       }
     };
 
     // User State Storage
-    // Map of answers: { [questionId]: selectedOptionIndex }
     let userAnswers = {};
-    // Section submission states: { pdf1: boolean, pdf2: boolean, ..., all: boolean }
     let sectionSubmitted = {
       pdf1: false,
       pdf2: false,
@@ -1093,7 +504,6 @@
     };
 
     let activeTab = 'pdf1';
-    let isShuffled = false;
 
     // Helper: show toast message
     function showToast(msg, isSuccess = true) {
@@ -1117,13 +527,10 @@
 
     // Get active list of questions based on current tab
     function getFilteredQuestions() {
-      let list = [];
       if (activeTab === 'all') {
-        list = [...questionsDB];
-      } else {
-        list = questionsDB.filter(q => q.pdf === activeTab);
+        return questionsDB;
       }
-      return list;
+      return questionsDB.filter(q => q.pdf === activeTab);
     }
 
     // Render Question Cards
@@ -1142,7 +549,6 @@
       questions.forEach((q, index) => {
         const questionNumber = index + 1;
         const userAnswer = userAnswers[q.id];
-        const isAnswered = userAnswer !== undefined;
 
         // Card container
         const card = document.createElement('div');
@@ -1197,7 +603,6 @@
           let iconHtml = "";
 
           if (isSub) {
-            // After submission highlight
             if (optIdx === q.correct) {
               optStyle = "bg-emerald-100/80 border-emerald-500 text-emerald-950 font-semibold ring-2 ring-emerald-500/20";
               badgeColor = "bg-emerald-600 text-white";
@@ -1210,14 +615,13 @@
               optStyle = "bg-slate-50 text-slate-400 border-slate-200 opacity-60";
             }
           } else {
-            // Normal interactive state
             if (isSelected) {
               optStyle = "bg-indigo-50 border-indigo-600 text-indigo-950 font-medium ring-2 ring-indigo-500/30";
               badgeColor = "bg-indigo-600 text-white";
             }
           }
 
-          const optLetter = String.fromCharCode(65 + optIdx); // A, B, C, D
+          const optLetter = String.fromCharCode(65 + optIdx);
 
           html += `
             <div 
@@ -1235,7 +639,7 @@
 
         html += `</div>`;
 
-        // Hint Card (Hidden by default, expandable)
+        // Hint Card
         html += `
           <div id="hint-box-${q.id}" class="hidden mt-5 p-4 rounded-xl bg-amber-50/90 border border-amber-200/90 text-slate-800 transition-all rtl-content">
             <div class="flex items-center gap-2 mb-2 pb-2 border-b border-amber-200 text-amber-900 font-bold text-xs">
@@ -1327,11 +731,11 @@
       icon.innerHTML = isPassed ? `<i class="fa-solid fa-trophy"></i>` : `<i class="fa-solid fa-triangle-exclamation"></i>`;
 
       document.getElementById('resultHeading').textContent = isPassed 
-        ? "ممتاز! أداء قوي واستيعاب ممتاز لأسئلة المحاضرة" 
+        ? "ممتاز! أداء قوي واستيعاب ممتاز لأسئلة الميدتيرم" 
         : "تحتاج إلى مراجعة بعض المفاهيم الخاصة بهذا الملف";
 
       document.getElementById('resultText').textContent = isPassed
-        ? `أجبت على ${score} من أصل ${total} أسئلة بشكل صحيح. يمكنك مراجعة الأسئلة الخاطئة بالأسفل واستخدام زر المساعدة.`
+        ? `أجبت على ${score} من أصل ${total} أسئلة بشكل صحيح. يمكنك مراجعة الإجابات الخاطئة بالأسفل والاستعانة بزر الهنت.`
         : `أجبت على ${score} من أصل ${total} أسئلة. راجع الملاحظات والترجمة لكل سؤال لتثبيت المعلومة.`;
 
       document.getElementById('resultScore').textContent = `${score} / ${total}`;
@@ -1350,9 +754,7 @@
 
       sectionSubmitted[activeTab] = true;
       renderQuestions();
-      showToast("تم تصحيح القسم بنجاح! راجع درجاتك بالأعلى", true);
-
-      // Scroll smoothly to top of results
+      showToast(`تم تصحيح ${tabsMeta[activeTab].badge} بنجاح! راجع درجاتك بالأعلى`, true);
       window.scrollTo({ top: 120, behavior: 'smooth' });
     }
 
@@ -1367,20 +769,24 @@
       showToast("تمت إعادة تعيين هذا الملف فقط، يمكنك الإجابة من جديد", true);
     }
 
-    // Shuffle Array In-Place
-    function shuffleArray(arr) {
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-    }
-
     // Shuffle feature
     function triggerShuffle() {
-      shuffleArray(questionsDB);
-      isShuffled = true;
+      if (activeTab === 'all') {
+        for (let i = questionsDB.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [questionsDB[i], questionsDB[j]] = [questionsDB[j], questionsDB[i]];
+        }
+      } else {
+        const otherQuestions = questionsDB.filter(q => q.pdf !== activeTab);
+        const currentTabQuestions = questionsDB.filter(q => q.pdf === activeTab);
+        for (let i = currentTabQuestions.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [currentTabQuestions[i], currentTabQuestions[j]] = [currentTabQuestions[j], currentTabQuestions[i]];
+        }
+        questionsDB = [...otherQuestions, ...currentTabQuestions];
+      }
       renderQuestions();
-      showToast("تمت لخبطة ترتيب الأسئلة بنجاح!", true);
+      showToast("تمت لخبطة ترتيب الأسئلة في هذا القسم بنجاح!", true);
     }
 
     // Tab Switching Logic
@@ -1408,29 +814,21 @@
 
     // Event Listeners Initialization
     document.addEventListener('DOMContentLoaded', () => {
-      // Tab click events
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           switchTab(btn.dataset.tab);
         });
       });
 
-      // Section submit buttons
       document.getElementById('submitSectionBtn').addEventListener('click', submitActiveSection);
       document.getElementById('bottomSubmitBtn').addEventListener('click', submitActiveSection);
-
-      // Section retake button
       document.getElementById('retakeSectionBtn').addEventListener('click', retakeActiveSection);
-
-      // Shuffle Button
       document.getElementById('shuffleBtn').addEventListener('click', triggerShuffle);
 
-      // Theme toggle (light/dark simulator)
       document.getElementById('themeToggleBtn').addEventListener('click', () => {
         showToast("الوضع الافتراضي الأكاديمي المريح مفعل لضمان أعلى وضوح في القراءة والامتحانات.", true);
       });
 
-      // Initial Render
       renderQuestions();
     });
   </script>
